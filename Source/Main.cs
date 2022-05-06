@@ -49,7 +49,7 @@ namespace Rimionship
 
 		public static void ExecuteCall()
 		{
-			var channel = new Channel("localhost:50051", ChannelCredentials.Insecure);
+			var channel = new Channel("localhost:5000", ChannelCredentials.Insecure);
 			var client = new GreeterClient(channel);
 			var request = new HelloRequest
 			{
