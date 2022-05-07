@@ -25,8 +25,8 @@ namespace Rimionship
 	public class Authentication
 	{
 		private const string twitchAuthUrl = "https://id.twitch.tv/oauth2/authorize";
-		private const string twitchClientId = "0gshgkcti3g7rlyr2g7mw503w40fkd";
-		private const string twitchClientSecret = "ybkrfy12pw9p3mp8jt0f7vq9q5pnv5";
+		private const string twitchClientId = "";
+		private const string twitchClientSecret = "";
 		private const string twitchRedirectUrl = "http://localhost:8080/";
 		private string twitchAuthStateVerify;
 
