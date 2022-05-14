@@ -174,7 +174,7 @@ namespace Rimionship
 			}));
 		}
 
-		IEnumerator GetRequest(string url, WWWForm form, Action<UnityWebRequest> callback)
+		static IEnumerator GetRequest(string url, WWWForm form, Action<UnityWebRequest> callback)
 		{
 			using UnityWebRequest request = UnityWebRequest.Post(url, form);
 			yield return request.SendWebRequest();

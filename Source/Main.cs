@@ -1,11 +1,11 @@
-﻿using Grpc.Core;
+﻿using Brrainz;
+using Grpc.Core;
 using HarmonyLib;
 using Helloworld;
 using System;
 using System.IO;
 using System.Reflection;
 using Verse;
-using static Helloworld.Greeter;
 
 namespace Rimionship
 {
@@ -33,7 +33,6 @@ namespace Rimionship
 	{
 		public static string rootDir;
 		public static string[] dependencies = { "Google.Protobuf", "Grpc.Core", "System.Interactive.Async" };
-		public static string crosspromotion = "CrossPromotion";
 		public static string api = "API";
 
 		public RimionshipMod(ModContentPack content) : base(content)
@@ -43,31 +42,38 @@ namespace Rimionship
 			var harmony = new Harmony("net.pardeike.rimworld.mod.rimionship");
 			harmony.PatchAll();
 
+			CrossPromotion.Install(76561197973010050);
+
 			LoadAPI();
 			ExecuteCall();
 		}
 
 		public static void ExecuteCall()
 		{
-			var channel = new Channel("localhost:5000", ChannelCredentials.Insecure);
-			var client = new GreeterClient(channel);
-			var request = new HelloRequest
+			var caRoots = File.ReadAllText(Path.Combine(rootDir, "Resources", "ca.pem"));
+			var credentials = new SslCredentials(caRoots);
+			var channel = new Channel("localserver.local:5001", credentials);
+			var client = new Greeter.GreeterClient(channel);
+
+			var request = new HelloRequest { Name = "Andreas Pardeike" };
+			try
 			{
-				Name = "Andreas Pardeike"
-			};
-			var response = client.SayHello(request);
-			Log.Warning("GreeterClient received response: " + response.Message);
+				var response = client.SayHello(request);
+				Log.Warning("GreeterClient received response: " + response.Message);
+			}
+			catch (RpcException e)
+			{
+				Console.WriteLine("GreeterClient received error: " + e);
+			}
+
 			channel.ShutdownAsync().Wait();
 		}
 
 		public static void LoadAPI()
 		{
 			AppDomain.CurrentDomain.AssemblyResolve += ResolveEventHandler;
-
 			foreach (var lib in dependencies) LoadDll(lib);
-			LoadDll(crosspromotion);
 			LoadDll(api);
-
 			AppDomain.CurrentDomain.AssemblyResolve -= ResolveEventHandler;
 		}
 
