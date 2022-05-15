@@ -49,6 +49,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="System.Memory" Version="4.5.4" />
 		<PackageReference Include="TaskPubliciser" Version="1.0.3" />
 	</ItemGroup>
 
@@ -98,7 +99,11 @@
 			copy /Y "%OUTDIR%\grpc_csharp_ext.x64.dll" "%LIBDIR%\grpc_csharp_ext.dll"
 			copy /Y "%OUTDIR%\libgrpc_csharp_ext.x64.dylib" "%LIBDIR%\libgrpc_csharp_ext.dylib"
 			copy /Y "%OUTDIR%\libgrpc_csharp_ext.x64.so" "%LIBDIR%\libgrpc_csharp_ext.so"
+			copy /Y "%OUTDIR%\System.Buffer.dll" "%LIBDIR%"
 			copy /Y "%OUTDIR%\System.Interactive.Async.dll" "%LIBDIR%"
+			copy /Y "%OUTDIR%\System.Memory.dll" "%LIBDIR%"
+			copy /Y "%OUTDIR%\System.Numerics.Vectors.dll" "%LIBDIR%"
+			copy /Y "%OUTDIR%\System.Runtime.CompilerServices.Unsafe.dll" "%LIBDIR%"
 			copy /Y "%OUTDIR%\CrossPromotion.dll" "$(MSBuildProjectDirectory)\..\Assemblies\"
 			copy /Y "%OUTDIR%\$(AssemblyName).dll" "$(MSBuildProjectDirectory)\..\Assemblies\"
 			where ModBuilder 2&gt; nul | find /i "ModBuilder.exe"

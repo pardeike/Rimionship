@@ -1,7 +1,7 @@
-﻿using Brrainz;
+﻿using Api;
+using Brrainz;
 using Grpc.Core;
 using HarmonyLib;
-using Helloworld;
 using System;
 using System.IO;
 using System.Reflection;
@@ -32,7 +32,7 @@ namespace Rimionship
 	class RimionshipMod : Mod
 	{
 		public static string rootDir;
-		public static string[] dependencies = { "Google.Protobuf", "Grpc.Core", "System.Interactive.Async" };
+		public static string[] dependencies = { "System.Memory", "System.Numerics.Vectors", "System.Runtime.CompilerServices.Unsafe", "System.Interactive.Async", "Google.Protobuf", "Grpc.Core" };
 		public static string api = "API";
 
 		public RimionshipMod(ModContentPack content) : base(content)
@@ -53,17 +53,18 @@ namespace Rimionship
 			var caRoots = File.ReadAllText(Path.Combine(rootDir, "Resources", "ca.pem"));
 			var credentials = new SslCredentials(caRoots);
 			var channel = new Channel("localserver.local:5001", credentials);
-			var client = new Greeter.GreeterClient(channel);
+			var client = new API.APIClient(channel);
 
-			var request = new HelloRequest { Name = "Andreas Pardeike" };
+			var request = new HelloRequest();
 			try
 			{
-				var response = client.SayHello(request);
-				Log.Warning("GreeterClient received response: " + response.Message);
+				var response = client.Hello(request);
+				var transactionId = response.Id;
+				Log.Warning($"Our transaction ID is {transactionId}");
 			}
 			catch (RpcException e)
 			{
-				Console.WriteLine("GreeterClient received error: " + e);
+				Log.Warning("GreeterClient received error: " + e);
 			}
 
 			channel.ShutdownAsync().Wait();
@@ -80,7 +81,14 @@ namespace Rimionship
 		public static void LoadDll(string name)
 		{
 			var path = Path.Combine(rootDir, "Libs", $"{name}.dll");
-			_ = Assembly.LoadFrom(path);
+			try
+			{
+				_ = Assembly.LoadFrom(path);
+			}
+			catch
+			{
+				Log.Warning($"Loading {name} failed");
+			}
 		}
 
 		public static Assembly ResolveEventHandler(object sender, ResolveEventArgs args)
