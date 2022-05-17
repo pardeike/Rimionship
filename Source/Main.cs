@@ -29,6 +29,12 @@ namespace Rimionship
 	}
 	*/
 
+	public static class State
+	{
+		public static API.APIClient client;
+		public static string id;
+	}
+
 	[StaticConstructorOnStartup]
 	class RimionshipMod : Mod
 	{
@@ -46,29 +52,38 @@ namespace Rimionship
 			CrossPromotion.Install(76561197973010050);
 
 			LoadAPI();
-			ExecuteCall();
+			CreateClient();
+			CreateModId();
 		}
 
-		public static void ExecuteCall()
+		public static void CreateClient()
 		{
 			var caRoots = File.ReadAllText(Path.Combine(rootDir, "Resources", "ca.pem"));
 			var credentials = new SslCredentials(caRoots);
 			var channel = new Channel("localserver.local:5001", credentials);
-			var client = new API.APIClient(channel);
+			State.client = new API.APIClient(channel);
+		}
 
-			var request = new HelloRequest();
-			try
+		public static void CreateModId()
+		{
+			var id = PlayerPrefs.GetString("rimionship-id");
+			if ((id ?? "") == "")
 			{
-				var response = client.Hello(request);
-				var url = $"https://localserver.local:5001?id={response.Id}";
-				LongEventHandler.ExecuteWhenFinished(() => Application.OpenURL(url));
+				var request = new HelloRequest();
+				try
+				{
+					id = State.client.Hello(request).Id;
+					PlayerPrefs.SetString("rimionship-id", id);
+					var url = $"https://localserver.local:5001?id={id}";
+					LongEventHandler.ExecuteWhenFinished(() => Application.OpenURL(url));
+				}
+				catch (RpcException e)
+				{
+					Log.Warning("gRPC error: " + e);
+				}
 			}
-			catch (RpcException e)
-			{
-				Log.Warning("GreeterClient received error: " + e);
-			}
-
-			channel.ShutdownAsync().Wait();
+			Log.Warning($"id {id}");
+			State.id = id;
 		}
 
 		public static void LoadAPI()
