@@ -5,6 +5,7 @@ using HarmonyLib;
 using System;
 using System.IO;
 using System.Reflection;
+using UnityEngine;
 using Verse;
 
 namespace Rimionship
@@ -59,8 +60,8 @@ namespace Rimionship
 			try
 			{
 				var response = client.Hello(request);
-				var transactionId = response.Id;
-				Log.Warning($"Our transaction ID is {transactionId}");
+				var url = $"https://localserver.local:5001?id={response.Id}";
+				LongEventHandler.ExecuteWhenFinished(() => Application.OpenURL(url));
 			}
 			catch (RpcException e)
 			{
