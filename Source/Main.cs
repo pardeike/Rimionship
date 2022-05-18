@@ -60,29 +60,27 @@ namespace Rimionship
 		{
 			var caRoots = File.ReadAllText(Path.Combine(rootDir, "Resources", "ca.pem"));
 			var credentials = new SslCredentials(caRoots);
-			var channel = new Channel("localserver.local:5001", credentials);
+			var channel = new Channel("mod.rimionship.com:443", credentials);
 			State.client = new API.APIClient(channel);
 		}
 
 		public static void CreateModId()
 		{
-			var id = PlayerPrefs.GetString("rimionship-id");
-			if ((id ?? "") == "")
+			var id = PlayerPrefs.GetString("rimionship-id") ?? "";
+			var oldId = id;
+			var request = new HelloRequest() { Id = id };
+			try
 			{
-				var request = new HelloRequest();
-				try
-				{
-					id = State.client.Hello(request).Id;
-					PlayerPrefs.SetString("rimionship-id", id);
-					var url = $"https://localserver.local:5001?id={id}";
+				id = State.client.Hello(request).Id;
+				PlayerPrefs.SetString("rimionship-id", id);
+				var url = $"https://mod.rimionship.com?id={id}";
+				if (oldId != id)
 					LongEventHandler.ExecuteWhenFinished(() => Application.OpenURL(url));
-				}
-				catch (RpcException e)
-				{
-					Log.Warning("gRPC error: " + e);
-				}
 			}
-			Log.Warning($"id {id}");
+			catch (RpcException e)
+			{
+				Log.Error("gRPC error: " + e);
+			}
 			State.id = id;
 		}
 

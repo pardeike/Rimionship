@@ -24,13 +24,14 @@ namespace Api {
     static ApiReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChBQcm90b3MvYXBpLnByb3RvEgNhcGkiDgoMSGVsbG9SZXF1ZXN0IhgKCkhl",
-            "bGxvUmVwbHkSCgoCaWQYASABKAkyNAoDQVBJEi0KBUhlbGxvEhEuYXBpLkhl",
-            "bGxvUmVxdWVzdBoPLmFwaS5IZWxsb1JlcGx5IgBiBnByb3RvMw=="));
+            "ChBQcm90b3MvYXBpLnByb3RvEgNhcGkiGgoMSGVsbG9SZXF1ZXN0EgoKAmlk",
+            "GAEgASgJIhgKCkhlbGxvUmVwbHkSCgoCaWQYASABKAkyNAoDQVBJEi0KBUhl",
+            "bGxvEhEuYXBpLkhlbGxvUmVxdWVzdBoPLmFwaS5IZWxsb1JlcGx5IgBiBnBy",
+            "b3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.HelloRequest), global::Api.HelloRequest.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Api.HelloRequest), global::Api.HelloRequest.Parser, new[]{ "Id" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Api.HelloReply), global::Api.HelloReply.Parser, new[]{ "Id" }, null, null, null)
           }));
     }
@@ -63,12 +64,24 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public HelloRequest(HelloRequest other) : this() {
+      id_ = other.id_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public HelloRequest Clone() {
       return new HelloRequest(this);
+    }
+
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private string id_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Id {
+      get { return id_; }
+      set {
+        id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -84,12 +97,14 @@ namespace Api {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (Id != other.Id) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
+      if (Id.Length != 0) hash ^= Id.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -103,6 +118,10 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+      if (Id.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Id);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -111,6 +130,9 @@ namespace Api {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      if (Id.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -121,6 +143,9 @@ namespace Api {
     public void MergeFrom(HelloRequest other) {
       if (other == null) {
         return;
+      }
+      if (other.Id.Length != 0) {
+        Id = other.Id;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -133,6 +158,10 @@ namespace Api {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
+          case 10: {
+            Id = input.ReadString();
+            break;
+          }
         }
       }
     }
