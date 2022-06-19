@@ -81,4 +81,42 @@ namespace Rimionship
 			return list.AsEnumerable();
 		}
 	}
+
+	// add bad traits to new pawns
+	//
+	[HarmonyPatch(typeof(PawnGenerator), nameof(PawnGenerator.GenerateTraits))]
+	class PawnGenerator_GenerateTraits_Patch
+	{
+		static readonly ForcedTrait[] forcedTraits =
+		{
+			new ForcedTrait { def = TraitTools.Neurotic },
+			new ForcedTrait { def = TraitDefOf.Pyromaniac },
+			new ForcedTrait { def = TraitDefOf.Wimp },
+			new ForcedTrait { def = TraitDefOf.SpeedOffset, useMin = true },
+			new ForcedTrait { def = TraitDefOf.NaturalMood, useMin = true },
+			new ForcedTrait { def = TraitDefOf.Nerves, useMin = true },
+			new ForcedTrait { def = TraitDefOf.Industriousness, useMin = true },
+			new ForcedTrait { def = TraitDefOf.PsychicSensitivity },
+		};
+
+		static void Postfix(PawnGenerationRequest request, Pawn pawn)
+		{
+			try
+			{
+				var forcedTrait = forcedTraits.RandomElement();
+
+				var traitDef = forcedTrait.def;
+				var degree = forcedTrait.useMin ? traitDef.degreeDatas.Min(d => d.degree) : traitDef.degreeDatas.Max(d => d.degree);
+
+				if (request.IsValid(traitDef, degree, pawn))
+				{
+					pawn.ForceTrait(traitDef, degree);
+					pawn.RemoveBestTrait();
+				}
+			}
+			finally
+			{
+			}
+		}
+	}
 }
