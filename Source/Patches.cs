@@ -1,11 +1,16 @@
 ﻿using HarmonyLib;
 using RimWorld;
 using Steamworks;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
+using UnityEngine;
 using Verse;
 using Verse.Steam;
+using static HarmonyLib.Code;
 
 namespace Rimionship
 {
@@ -82,41 +87,67 @@ namespace Rimionship
 		}
 	}
 
-	// add bad traits to new pawns
+	// add fully custom weighted traits to new pawns
 	//
 	[HarmonyPatch(typeof(PawnGenerator), nameof(PawnGenerator.GenerateTraits))]
 	class PawnGenerator_GenerateTraits_Patch
 	{
-		static readonly ForcedTrait[] forcedTraits =
+		static bool IsDisplayClassConstructor(CodeInstruction c) => c.opcode == Newobj.opcode && c.operand is ConstructorInfo constructor && constructor.DeclaringType.Name.StartsWith("<>c__DisplayClass");
+
+		static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator gen)
 		{
-			new ForcedTrait { def = TraitTools.Neurotic },
-			new ForcedTrait { def = TraitDefOf.Pyromaniac },
-			new ForcedTrait { def = TraitDefOf.Wimp },
-			new ForcedTrait { def = TraitDefOf.SpeedOffset, useMin = true },
-			new ForcedTrait { def = TraitDefOf.NaturalMood, useMin = true },
-			new ForcedTrait { def = TraitDefOf.Nerves, useMin = true },
-			new ForcedTrait { def = TraitDefOf.Industriousness, useMin = true },
-			new ForcedTrait { def = TraitDefOf.PsychicSensitivity },
-		};
+			var matcher = new CodeMatcher(instructions, gen)
+				.MatchStartForward(
+					new CodeMatch(IsDisplayClassConstructor),
+					Stloc[name: "displayclass"]
+				);
 
-		static void Postfix(PawnGenerationRequest request, Pawn pawn)
-		{
-			try
-			{
-				var forcedTrait = forcedTraits.RandomElement();
+			var local_displayclass = matcher.NamedMatch("displayclass").operand as LocalBuilder;
 
-				var traitDef = forcedTrait.def;
-				var degree = forcedTrait.useMin ? traitDef.degreeDatas.Min(d => d.degree) : traitDef.degreeDatas.Max(d => d.degree);
+			matcher = matcher.MatchEndForward(
+					new CodeMatch(c => c.IsLdloc(), "weightSelector"),
+					new CodeMatch(operand: SymbolExtensions.GetMethodInfo(() => GenCollection.RandomElementByWeight<TraitDef>(default, default))),
+					Stfld[name: "newTraitDef"] // we will start inserting just before this code
+				);
 
-				if (request.IsValid(traitDef, degree, pawn))
-				{
-					pawn.ForceTrait(traitDef, degree);
-					pawn.RemoveBestTrait();
-				}
-			}
-			finally
-			{
-			}
+			var local_weightSelector = matcher.NamedMatch("weightSelector").operand as LocalBuilder;
+			var field_newTraitDef = matcher.NamedMatch("newTraitDef").operand as FieldInfo;
+
+			var local_TraitScore = gen.DeclareLocal(typeof(TraitScore));
+
+			matcher = matcher
+				.Insert(
+					Ldloc[operand: local_weightSelector],
+					CodeInstruction.CallClosure<Func<TraitDef, Func<TraitDef, float>, TraitScore>>((TraitDef _, Func<TraitDef, float> weightFunction) =>
+					{
+						var s = 20 * RimionshipMod.settings.scaleFactor;
+						var a = s * RimionshipMod.settings.badTraitSuppression;
+						var b = s * RimionshipMod.settings.goodTraitSuppression;
+						return TraitTools.sortedTraits.RandomElementByWeight(ts =>
+						{
+							var x = ts.badScore;
+							return weightFunction(ts.def) * Mathf.Min(1f / (a * x + 1f), 1f / (b * (1f - x) + 1f));
+						});
+					}),
+					Dup,
+					Stloc[operand: local_TraitScore],
+					Ldfld[operand: AccessTools.DeclaredField(typeof(TraitScore), nameof(TraitScore.def))]
+				)
+				.MatchStartForward(
+					Ldloc[operand: local_displayclass, name: "start"],
+					Ldfld[operand: field_newTraitDef],
+					new CodeMatch(operand: SymbolExtensions.GetMethodInfo(() => PawnGenerator.RandomTraitDegree(default)))
+				);
+
+			var labels = matcher.NamedMatch("start").labels.ToArray();
+
+			return matcher
+				.RemoveInstructions(3)
+				.Insert(
+					Ldloc[operand: local_TraitScore].WithLabels(labels),
+					Ldfld[operand: AccessTools.DeclaredField(typeof(TraitScore), nameof(TraitScore.degree))]
+				)
+				.InstructionEnumeration();
 		}
 	}
 }

@@ -10,8 +10,7 @@ using Verse;
 
 namespace Rimionship
 {
-	/*
-	[HarmonyPatch(typeof(UIRoot_Entry), nameof(UIRoot_Entry.Init))]
+	/*[HarmonyPatch(typeof(UIRoot_Entry), nameof(UIRoot_Entry.Init))]
 	static class UIRoot_Entry_Init_Patch
 	{
 		static void Postfix()
@@ -26,8 +25,27 @@ namespace Rimionship
 		{
 			Log.Error($"TOKEN: {token}");
 		}
-	}
-	*/
+	}*/
+
+	/*[HarmonyPatch(typeof(TraitSet), nameof(TraitSet.GainTrait))]
+	static class TraitSet_GainTrait_Patch
+	{
+		static void Postfix(TraitSet __instance, Trait trait)
+		{
+			Log.Warning($"{__instance.pawn.LabelShortCap} gained trait {trait.def.defName} with {trait.degree}");
+		}
+	}*/
+
+	/*[HarmonyPatch(typeof(PawnGenerator), nameof(PawnGenerator.GeneratePawn))]
+	[HarmonyPatch(new[] { typeof(PawnGenerationRequest) })]
+	static class PawnGenerator_GeneratePawn_Patch
+	{
+		static void Prefix(PawnGenerationRequest request)
+		{
+			Log.TryOpenLogWindow();
+			Log.Warning($"Generate pawn ({request.KindDef.defName}) for faction {request.Faction.name} {(request.MustBeCapableOfViolence ? "(must do violence)" : "")}) {(request.AllowAddictions ? "(allow addictions)" : "")}) {(request.ForcedTraits != null ? $"(forced: {request.ForcedTraits.Join(t => t.defName)})" : "")}) {(request.ProhibitedTraits != null ? $"(prohibited: {request.ProhibitedTraits.Join(t => t.defName)})" : "")})");
+		}
+	}*/
 
 	public static class State
 	{
@@ -38,12 +56,14 @@ namespace Rimionship
 	[StaticConstructorOnStartup]
 	class RimionshipMod : Mod
 	{
+		public static Settings settings;
 		public static string rootDir;
 		public static string[] dependencies = { "System.Memory", "System.Numerics.Vectors", "System.Runtime.CompilerServices.Unsafe", "System.Interactive.Async", "Google.Protobuf", "Grpc.Core" };
 		public static string api = "API";
 
 		public RimionshipMod(ModContentPack content) : base(content)
 		{
+			settings = GetSettings<Settings>();
 			rootDir = content.RootDir;
 
 			var harmony = new Harmony("net.pardeike.rimworld.mod.rimionship");
@@ -54,6 +74,16 @@ namespace Rimionship
 			LoadAPI();
 			CreateClient();
 			CreateModId();
+		}
+
+		public override void DoSettingsWindowContents(Rect inRect)
+		{
+			settings.DoWindowContents(inRect);
+		}
+
+		public override string SettingsCategory()
+		{
+			return "Rimionship";
 		}
 
 		public static void CreateClient()
