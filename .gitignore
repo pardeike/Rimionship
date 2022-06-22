@@ -245,4 +245,5 @@ ModelManifest.xml
 /Originals/Rimionship/Assets/AssetBundlesWin
 /Originals/Rimionship/Assets/AssetBundlesMac
 /Originals/Rimionship/Assets/AssetBundlesLinux
-/Originals/Rimionship/Library/PackageCache
+/Originals/Rimionship/Library/*Cache
+/Originals/Rimionship/Temp/UnityLockfile
