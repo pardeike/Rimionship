@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>SacrifiesSpot</defName>
+		<label>sacrifiesspot</label>
+		<description>Hier werden Kolonisten dem Blutgott geopfert.</description>
+		<thingClass>Rimionship.SacrifiesSpot</thingClass>
+		<graphicData>
+			<texPath>SacrifiesSpot</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawSize>(3,3)</drawSize>
+		</graphicData>
+		<altitudeLayer>FloorEmplacement</altitudeLayer>
+		<statBases>
+			<WorkToBuild>0</WorkToBuild>
+			<WorkTableWorkSpeedFactor>0.5</WorkTableWorkSpeedFactor>
+		</statBases>
+		<scatterableOnMapGen>false</scatterableOnMapGen>
+		<useHitPoints>false</useHitPoints>
+		<size>(3,3)</size>
+		<designationCategory>Structure</designationCategory>
+		<passability>Standable</passability>
+		<hasInteractionCell>True</hasInteractionCell>
+		<surfaceType>Item</surfaceType>
+		<building>
+			<isInert>true</isInert>
+			<claimable>false</claimable>
+			<canPlaceOverImpassablePlant>false</canPlaceOverImpassablePlant>
+			<ai_chillDestination>false</ai_chillDestination>
+			<ai_neverTrashThis>true</ai_neverTrashThis>
+			<artificialForMeditationPurposes>false</artificialForMeditationPurposes>
+			<canPlaceOverWall>false</canPlaceOverWall>
+			<repairable>false</repairable>
+			<deconstructible>false</deconstructible>
+		</building>
+		<inspectorTabs>
+		</inspectorTabs>
+		<placeWorkers>
+			<li>Rimionship.PlaceWorker_SacrifiesSpot</li>
+		</placeWorkers>
+	</ThingDef>
+
+</Defs>

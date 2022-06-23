@@ -150,4 +150,34 @@ namespace Rimionship
 				.InstructionEnumeration();
 		}
 	}
+
+	// add a gizmo for our sacrifies spot
+	//
+	[HarmonyPatch(typeof(GizmoGridDrawer))]
+	[HarmonyPatch(nameof(GizmoGridDrawer.DrawGizmoGrid))]
+	static class GizmoGridDrawer_DrawGizmoGrid_Patch
+	{
+		static Command_Action CreateDeleteResurrectionPortal(SacrifiesSpot spot)
+		{
+			var h = (spot.created + GenDate.TicksPerDay - Find.TickManager.TicksGame + GenDate.TicksPerHour - 1) / GenDate.TicksPerHour;
+			var hours = $"{h} Stunde" + (h != 1 ? "n" : "");
+			return new Command_Action
+			{
+				defaultLabel = "Entfernen",
+				icon = ContentFinder<Texture2D>.Get("RemoveSacrifiesSpot", true),
+				disabled = h > 0,
+				disabledReason = "Du musst noch " + hours + " warten bis du den Spot entfernen kannst",
+				defaultDesc = "Entfernt den Blutgottspot damit er woanders wieder aufgebaut werden kann",
+				order = -20f,
+				action = () => spot.Destroy()
+			};
+		}
+
+		[HarmonyPriority(Priority.First)]
+		public static void Prefix(ref IEnumerable<Gizmo> gizmos)
+		{
+			if (Find.Selector.SelectedObjects.FirstOrDefault() is not SacrifiesSpot spot) return;
+			gizmos = new List<Gizmo>() { CreateDeleteResurrectionPortal(spot) }.AsEnumerable();
+		}
+	}
 }
