@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<JobDef>
+		<defName>GettingSacrificed</defName>
+		<driverClass>Rimionship.JobDriver_GettingSacrificed</driverClass>
+		<reportString>waiting to get sacrificed.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+	</JobDef>
+
+	<JobDef>
+		<defName>SacrificeColonist</defName>
+		<driverClass>Rimionship.JobDriver_SacrificeColonist</driverClass>
+		<reportString>sacrificing TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+	</JobDef>
+
+	<JobDef>
+		<defName>WatchSacrification</defName>
+		<driverClass>Rimionship.JobDriver_WatchSacrification</driverClass>
+		<reportString>Watching sacrification of TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+	</JobDef>
+
+</Defs>

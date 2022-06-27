@@ -2,25 +2,25 @@
 <Defs>
 
 	<ThingDef ParentName="BuildingBase">
-		<defName>SacrifiesSpot</defName>
-		<label>sacrifiesspot</label>
+		<defName>SacrificationSpot</defName>
+		<label>scarification spot</label>
 		<description>Hier werden Kolonisten dem Blutgott geopfert.</description>
-		<thingClass>Rimionship.SacrifiesSpot</thingClass>
+		<thingClass>Rimionship.SacrificationSpot</thingClass>
 		<graphicData>
-			<texPath>SacrifiesSpot</texPath>
+			<texPath>SacrificationSpot</texPath>
 			<graphicClass>Graphic_Multi</graphicClass>
 			<drawSize>(3,3)</drawSize>
 		</graphicData>
 		<altitudeLayer>FloorEmplacement</altitudeLayer>
 		<statBases>
 			<WorkToBuild>0</WorkToBuild>
-			<WorkTableWorkSpeedFactor>0.5</WorkTableWorkSpeedFactor>
 		</statBases>
 		<scatterableOnMapGen>false</scatterableOnMapGen>
 		<useHitPoints>false</useHitPoints>
 		<size>(3,3)</size>
 		<designationCategory>Structure</designationCategory>
 		<passability>Standable</passability>
+		<destroyable>False</destroyable>
 		<hasInteractionCell>True</hasInteractionCell>
 		<surfaceType>Item</surfaceType>
 		<building>
@@ -33,12 +33,20 @@
 			<canPlaceOverWall>false</canPlaceOverWall>
 			<repairable>false</repairable>
 			<deconstructible>false</deconstructible>
+			<expandHomeArea>False</expandHomeArea>
+			<canBuildNonEdificesUnder>False</canBuildNonEdificesUnder>
 		</building>
+		<ritualFocus>
+			<spectateDistance>2</spectateDistance>
+			<allowedSpectateSides>All</allowedSpectateSides>
+		</ritualFocus>
 		<inspectorTabs>
 		</inspectorTabs>
 		<placeWorkers>
-			<li>Rimionship.PlaceWorker_SacrifiesSpot</li>
+			<li>Rimionship.PlaceWorker_SacrificationSpot</li>
 		</placeWorkers>
+		<drawPlaceWorkersWhileSelected>True</drawPlaceWorkersWhileSelected>
+		<tickerType>Normal</tickerType>
 	</ThingDef>
 
 </Defs>

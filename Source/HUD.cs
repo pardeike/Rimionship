@@ -5,6 +5,16 @@ namespace Rimionship
 {
 	public static class HUD
 	{
+		public static void SetName(string name)
+		{
+			Assets.name.text = name.ToUpper();
+		}
+
+		public static void SetScore(long score)
+		{
+			Assets.score.text = score.DotFormatted();
+		}
+
 		public static void SetPlacement(int place)
 		{
 			Assets.placement.text = $"#{place}";
@@ -18,7 +28,7 @@ namespace Rimionship
 
 		public static void SetPlacements(params string[] placements)
 		{
-			Assets.placements.text = placements.Join(null, "\n");
+			Assets.placements.text = placements.Join(p => p.ToUpper(), "\n");
 		}
 
 		public static void SetScores(params long[] scores)

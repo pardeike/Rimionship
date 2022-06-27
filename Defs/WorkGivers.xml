@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<WorkGiverDef>
+		<defName>GettingSacrificed</defName>
+		<label>getting sacrificed</label>
+		<giverClass>Rimionship.WorkGiver_GettingSacrificed</giverClass>
+		<workType>BasicWorker</workType>
+		<scanThings>False</scanThings>
+		<verb>getting sacrificed</verb>
+		<gerund>getting sacrificed</gerund>
+		<canBeDoneWhileDrafted>true</canBeDoneWhileDrafted>
+	</WorkGiverDef>
+
+	<WorkGiverDef>
+		<defName>SacrificeColonist</defName>
+		<label>sacrifice colonist</label>
+		<giverClass>Rimionship.WorkGiver_SacrificeColonist</giverClass>
+		<workType>BasicWorker</workType>
+		<scanThings>False</scanThings>
+		<verb>sacrifice colonist</verb>
+		<gerund>sacrificing colonist</gerund>
+		<canBeDoneWhileDrafted>true</canBeDoneWhileDrafted>
+	</WorkGiverDef>
+
+	<WorkGiverDef>
+		<defName>WatchSacrification</defName>
+		<label>watch sacrification</label>
+		<giverClass>Rimionship.WorkGiver_WatchSacrification</giverClass>
+		<workType>BasicWorker</workType>
+		<scanThings>False</scanThings>
+		<verb>watch sacrification</verb>
+		<gerund>watching sacrification</gerund>
+		<canBeDoneWhileDrafted>true</canBeDoneWhileDrafted>
+	</WorkGiverDef>
+
+</Defs>

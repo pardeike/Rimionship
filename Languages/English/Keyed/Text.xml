@@ -1,4 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 	<LoadRimionshipMods>Load Rimionship Mods</LoadRimionshipMods>
+	<Remove>Remove</Remove>
+	<WaitToRemove>You can remove the blood god spot again in {0}</WaitToRemove>
+	<RemoveDesc>Removes the blood god spot so it can be placed somewhere else</RemoveDesc>
 </LanguageData>

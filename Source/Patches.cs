@@ -19,7 +19,7 @@ namespace Rimionship
 	[HarmonyPatch(typeof(OptionListingUtility), nameof(OptionListingUtility.DrawOptionListing))]
 	class OptionListingUtility_DrawOptionListing_Patch
 	{
-		static void Prefix(List<ListableOption> optList)
+		public static void Prefix(List<ListableOption> optList)
 		{
 			var label = "NewColony".Translate();
 			var option = optList.FirstOrDefault(opt => opt.label == label);
@@ -38,10 +38,24 @@ namespace Rimionship
 	[HarmonyPatch(typeof(Game), nameof(Game.FinalizeInit))]
 	class Game_FinalizeInit_Patch
 	{
-		static void Postfix()
+		public static void Postfix()
 		{
-			if (Find.TickManager.TicksGame > 5000) return;
+			if (Find.TickManager.TicksGame > 0) return;
 			Find.WindowStack.Add(new ConfigurePawns());
+		}
+	}
+
+	// update stuff when ui scale changes
+	//
+	[HarmonyPatch(typeof(Prefs), nameof(Prefs.UIScale), MethodType.Setter)]
+	class Prefs_UIScale_Setter_Patch
+	{
+		public static void Postfix()
+		{
+			if (Assets.runtimeHUD == null) return;
+			var info = Assets.runtimeHUD.transform.Find("Info");
+			if (info == null) return;
+			info.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -95 * Prefs.UIScale);
 		}
 	}
 
@@ -74,7 +88,7 @@ namespace Rimionship
 			ModsConfig.RecacheActiveMods();
 		}
 
-		static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instruction)
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instruction)
 		{
 			var from = SymbolExtensions.GetMethodInfo(() => ModsConfig.TrySortMods());
 			var to = SymbolExtensions.GetMethodInfo(() => LoadRimionshipMods());
@@ -94,7 +108,7 @@ namespace Rimionship
 	{
 		static bool IsDisplayClassConstructor(CodeInstruction c) => c.opcode == Newobj.opcode && c.operand is ConstructorInfo constructor && constructor.DeclaringType.Name.StartsWith("<>c__DisplayClass");
 
-		static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator gen)
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator gen)
 		{
 			var matcher = new CodeMatcher(instructions, gen)
 				.MatchStartForward(
@@ -151,32 +165,38 @@ namespace Rimionship
 		}
 	}
 
-	// add a gizmo for our sacrifies spot
+	// add a gizmo for our scarification spot
 	//
 	[HarmonyPatch(typeof(GizmoGridDrawer))]
 	[HarmonyPatch(nameof(GizmoGridDrawer.DrawGizmoGrid))]
 	static class GizmoGridDrawer_DrawGizmoGrid_Patch
 	{
-		static Command_Action CreateDeleteResurrectionPortal(SacrifiesSpot spot)
+		static Command_Action CreateDeleteResurrectionPortal(SacrificationSpot spot)
 		{
 			var h = (spot.created + GenDate.TicksPerDay - Find.TickManager.TicksGame + GenDate.TicksPerHour - 1) / GenDate.TicksPerHour;
 			var hours = $"{h} Stunde" + (h != 1 ? "n" : "");
 			return new Command_Action
 			{
-				defaultLabel = "Entfernen",
-				icon = ContentFinder<Texture2D>.Get("RemoveSacrifiesSpot", true),
+				defaultLabel = "Remove".Translate(),
+				icon = ContentFinder<Texture2D>.Get("RemoveSacrificationSpot", true),
 				disabled = h > 0,
-				disabledReason = "Du musst noch " + hours + " warten bis du den Spot entfernen kannst",
-				defaultDesc = "Entfernt den Blutgottspot damit er woanders wieder aufgebaut werden kann",
+				disabledReason = "WaitToRemove".Translate(hours),
+				defaultDesc = "RemoveDesc".Translate(),
 				order = -20f,
-				action = () => spot.Destroy()
+				action = () =>
+				{
+					var saved = Thing.allowDestroyNonDestroyable;
+					Thing.allowDestroyNonDestroyable = true;
+					spot.Destroy();
+					Thing.allowDestroyNonDestroyable = saved;
+				}
 			};
 		}
 
 		[HarmonyPriority(Priority.First)]
 		public static void Prefix(ref IEnumerable<Gizmo> gizmos)
 		{
-			if (Find.Selector.SelectedObjects.FirstOrDefault() is not SacrifiesSpot spot) return;
+			if (Find.Selector.SelectedObjects.FirstOrDefault() is not SacrificationSpot spot) return;
 			gizmos = new List<Gizmo>() { CreateDeleteResurrectionPortal(spot) }.AsEnumerable();
 		}
 	}

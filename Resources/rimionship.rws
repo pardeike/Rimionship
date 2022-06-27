@@ -147,7 +147,7 @@
 			</parts>
 		</scenario>
 		<tickManager>
-			<ticksGame>552</ticksGame>
+			<ticksGame>0</ticksGame>
 			<gameStartAbsTick>317500</gameStartAbsTick>
 			<startingYear>5500</startingYear>
 		</tickManager>

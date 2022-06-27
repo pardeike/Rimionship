@@ -1,4 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 	<LoadRimionshipMods>Rimionship Mods Laden</LoadRimionshipMods>
+	<Remove>Entfernen</Remove>
+	<WaitToRemove>Der Blutgottspot kann wieder in {0} entfernt werden</WaitToRemove>
+	<RemoveDesc>Entfernt den Blutgottspot damit er woanders wieder aufgebaut werden kann</RemoveDesc>
 </LanguageData>

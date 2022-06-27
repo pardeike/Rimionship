@@ -7,6 +7,13 @@ namespace Rimionship
 	[StaticConstructorOnStartup]
 	public static class Defs
 	{
-		public static ThingDef SacrifiesSpot;
+		public static ThingDef SacrificationSpot;
+
+		public static JobDef GettingSacrificed;
+		public static JobDef SacrificeColonist;
+		public static JobDef WatchSacrification;
+
+		public static SoundDef EvilChoir;
+		public static SoundDef Thunder;
 	}
 }
