@@ -37,15 +37,27 @@ namespace Rimionship
 
 		public override void MapComponentTick()
 		{
-			if (state != State.EndSuccess && state != State.EndFailure) return;
+			if (10.EveryNTick() == false) return;
 
-			sacrificer = null;
-			sacrifice = null;
-			state = State.Idle;
+			// reset game init data
+			if (map.mapPawns.ColonistCount > 0 && Find.GameInitData != null && Find.GameInitData.startingPawnCount != -1)
+			{
+				Find.GameInitData.startingAndOptionalPawns.Clear();
+				Find.GameInitData.startingPawnCount = -1;
+			}
 
-			if (state != State.EndSuccess) return;
+			// ritual ending
+			if (state == State.EndSuccess || state == State.EndFailure)
+			{
+				sacrificer = null;
+				sacrifice = null;
+				state = State.Idle;
 
-			// TODO successful sacrifice
+				if (state == State.EndSuccess)
+				{
+					// TODO successful sacrifice
+				}
+			}
 		}
 	}
 }

@@ -44,6 +44,7 @@ namespace Rimionship
 			{
 				Find.GameEnder.gameEnding = false;
 				Find.GameEnder.ticksToGameOver = -1;
+				Stats.ResetAll();
 				Find.WindowStack.Add(new ConfigurePawns());
 			}
 		}
@@ -188,6 +189,17 @@ namespace Rimionship
 				},
 				MenuOptionPriority.Low));
 			}
+		}
+	}
+
+	// make wealthwatcher update more often
+	//
+	[HarmonyPatch(typeof(WealthWatcher), nameof(WealthWatcher.RecountIfNeeded))]
+	class WealthWatcher_RecountIfNeeded_Patch
+	{
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+		{
+			return instructions.Manipulator(code => code.OperandIs(5000f), code => code.operand = GenDate.TicksPerHour / 2f);
 		}
 	}
 }

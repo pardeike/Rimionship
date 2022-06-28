@@ -1,6 +1,6 @@
 ﻿using RimWorld;
 using System;
-using System.Globalization;
+using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
@@ -8,11 +8,22 @@ namespace Rimionship
 {
 	public static class Tools
 	{
-		static readonly NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
+		public static bool EveryNTick(this int ticks, int offset = 0)
+		{
+			return (Find.TickManager.TicksGame + offset) % ticks == 0;
+		}
 
 		public static string DotFormatted(this long nr)
 		{
-			return nr.ToString("N", nfi);
+			if (nr == 0) return "0";
+			var parts = new List<string>();
+			while (nr > 0)
+			{
+				var part = (ushort)(nr % 1000);
+				parts.Insert(0, nr < 1000 ? part.ToString() : $"{part:D3}");
+				nr /= 1000;
+			}
+			return string.Join(".", parts.ToArray());
 		}
 
 		public static void EndOnDespawnedOrNull<T>(this T f, Action cleanupAction, params TargetIndex[] indices) where T : IJobEndable
@@ -72,6 +83,20 @@ namespace Rimionship
 			if (pawn.Downed) return false;
 			if (pawn.health.capacities.CapableOf(PawnCapacityDefOf.Moving) == false) return false;
 			return ReachabilityUtility.CanReach(pawn, spot, PathEndMode.OnCell, Danger.Deadly);
+		}
+
+		public static float RangedSpeed(ThingWithComps weapon, VerbProperties atkProps)
+		{
+			return atkProps.warmupTime
+				+ weapon.GetStatValue(StatDefOf.RangedWeapon_Cooldown)
+				+ (atkProps.burstShotCount - 1) * atkProps.ticksBetweenBurstShots / 60f;
+		}
+
+		public static float RangedDPSAverage(this ThingWithComps weapon)
+		{
+			var atkProps = (weapon.GetComp<CompEquippable>()).PrimaryVerb.verbProps;
+			var damage = atkProps.defaultProjectile == null ? 0 : atkProps.defaultProjectile.projectile.GetDamageAmount(weapon);
+			return (damage * atkProps.burstShotCount) / RangedSpeed(weapon, atkProps);
 		}
 	}
 }
