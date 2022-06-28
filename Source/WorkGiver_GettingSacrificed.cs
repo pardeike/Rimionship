@@ -11,11 +11,6 @@ namespace Rimionship
 			var map = pawn.Map;
 			var sacrification = map.GetComponent<Sacrification>();
 
-			//---
-			if (sacrification.state == Sacrification.State.Idle && SacrificationSpot.ForMap(map) != null)
-				sacrification.Start();
-			//---
-
 			if (sacrification.state != Sacrification.State.Gathering) return null;
 			if (pawn != sacrification.sacrifice) return null;
 

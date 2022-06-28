@@ -4,4 +4,8 @@
 	<Remove>Remove</Remove>
 	<WaitToRemove>You can remove the blood god spot again in {0}</WaitToRemove>
 	<RemoveDesc>Removes the blood god spot so it can be placed somewhere else</RemoveDesc>
+	<CancelDesc>Stop the ritual</CancelDesc>
+	<SacrificeMyself>Sacrifice myself to the blood god</SacrificeMyself>
+	<SacrificeColonist>Sacrifice {0} to the blood god</SacrificeColonist>
+	<NobodyCanSacrifice>Cannot find someone that is capable holding the ritual</NobodyCanSacrifice>
 </LanguageData>

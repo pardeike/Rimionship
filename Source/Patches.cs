@@ -40,8 +40,12 @@ namespace Rimionship
 	{
 		public static void Postfix()
 		{
-			if (Find.TickManager.TicksGame > 0) return;
-			Find.WindowStack.Add(new ConfigurePawns());
+			if (Find.TickManager.TicksGame == 0)
+			{
+				Find.GameEnder.gameEnding = false;
+				Find.GameEnder.ticksToGameOver = -1;
+				Find.WindowStack.Add(new ConfigurePawns());
+			}
 		}
 	}
 
@@ -50,13 +54,7 @@ namespace Rimionship
 	[HarmonyPatch(typeof(Prefs), nameof(Prefs.UIScale), MethodType.Setter)]
 	class Prefs_UIScale_Setter_Patch
 	{
-		public static void Postfix()
-		{
-			if (Assets.runtimeHUD == null) return;
-			var info = Assets.runtimeHUD.transform.Find("Info");
-			if (info == null) return;
-			info.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -95 * Prefs.UIScale);
-		}
+		public static void Postfix() => Assets.UIScaleChanged();
 	}
 
 	// replace Auto-sort mods button in mod configuration dialog with Load-default-rimionship
@@ -165,39 +163,31 @@ namespace Rimionship
 		}
 	}
 
-	// add a gizmo for our scarification spot
+	// add pawn-pawn actions to the floatmenu
 	//
-	[HarmonyPatch(typeof(GizmoGridDrawer))]
-	[HarmonyPatch(nameof(GizmoGridDrawer.DrawGizmoGrid))]
-	static class GizmoGridDrawer_DrawGizmoGrid_Patch
+	[HarmonyPatch(typeof(FloatMenuMakerMap), nameof(FloatMenuMakerMap.AddHumanlikeOrders))]
+	class FloatMenuMakerMap_AddHumanlikeOrders_Patch
 	{
-		static Command_Action CreateDeleteResurrectionPortal(SacrificationSpot spot)
+		public static void Postfix(Vector3 clickPos, Pawn pawn, List<FloatMenuOption> opts)
 		{
-			var h = (spot.created + GenDate.TicksPerDay - Find.TickManager.TicksGame + GenDate.TicksPerHour - 1) / GenDate.TicksPerHour;
-			var hours = $"{h} Stunde" + (h != 1 ? "n" : "");
-			return new Command_Action
-			{
-				defaultLabel = "Remove".Translate(),
-				icon = ContentFinder<Texture2D>.Get("RemoveSacrificationSpot", true),
-				disabled = h > 0,
-				disabledReason = "WaitToRemove".Translate(hours),
-				defaultDesc = "RemoveDesc".Translate(),
-				order = -20f,
-				action = () =>
-				{
-					var saved = Thing.allowDestroyNonDestroyable;
-					Thing.allowDestroyNonDestroyable = true;
-					spot.Destroy();
-					Thing.allowDestroyNonDestroyable = saved;
-				}
-			};
-		}
+			var map = pawn.Map;
+			if (map.ReadyForSacrification(out var spot, out var sacrification) == false) return;
+			if (spot.CanSacrifice(pawn) == false) return;
 
-		[HarmonyPriority(Priority.First)]
-		public static void Prefix(ref IEnumerable<Gizmo> gizmos)
-		{
-			if (Find.Selector.SelectedObjects.FirstOrDefault() is not SacrificationSpot spot) return;
-			gizmos = new List<Gizmo>() { CreateDeleteResurrectionPortal(spot) }.AsEnumerable();
+			using List<Thing>.Enumerator enumerator = IntVec3.FromVector3(clickPos).GetThingList(map).GetEnumerator();
+			while (enumerator.MoveNext())
+			{
+				if (enumerator.Current is not Pawn clickedPawn) continue;
+				if (spot.CanBeSacrificed(clickedPawn) == false) continue;
+
+				opts.Add(new FloatMenuOption("SacrificeColonist".Translate(clickedPawn.LabelShortCap), () =>
+				{
+					sacrification.sacrificer = pawn;
+					sacrification.sacrifice = clickedPawn;
+					sacrification.Start();
+				},
+				MenuOptionPriority.Low));
+			}
 		}
 	}
 }

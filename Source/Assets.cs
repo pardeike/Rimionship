@@ -22,6 +22,8 @@ namespace Rimionship
 		public static Animator statsAnimator;
 		public static Animator panelAnimator;
 
+		public static Texture2D CancelSpot = ContentFinder<Texture2D>.Get("CancelSpot", true);
+		public static Texture2D RemoveSpot = ContentFinder<Texture2D>.Get("RemoveSpot", true);
 		public static Texture2D Blood = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/Blood", true);
 		public static Texture2D Skull = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/Skull", true);
 		public static Texture2D Insult = ContentFinder<Texture2D>.Get("Things/Mote/SpeechSymbols/Insult", true);
@@ -58,6 +60,14 @@ namespace Rimionship
 			HUD.SetScores(2834095, 41000, 123);
 
 			HUD.SetPanelVisble(true);
+		}
+
+		public static void UIScaleChanged()
+		{
+			if (runtimeHUD == null) return;
+			var info = runtimeHUD.transform.Find("Info");
+			if (info == null) return;
+			info.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -95 * Prefs.UIScale);
 		}
 
 		static string GetModRootDirectory()

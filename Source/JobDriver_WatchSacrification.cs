@@ -103,7 +103,8 @@ namespace Rimionship
 
 		public override IEnumerable<Toil> MakeNewToils()
 		{
-			this.EndOnDespawnedOrNull(() => Map.GetComponent<Sacrification>().state = Sacrification.State.Ending, TargetIndex.A, TargetIndex.B, TargetIndex.C);
+			this.EndOnDespawnedOrNull(() => Map.GetComponent<Sacrification>().MarkFailed(), TargetIndex.A, TargetIndex.B, TargetIndex.C);
+			AddEndCondition(() => Map.GetComponent<Sacrification>().HasEnded() ? JobCondition.Incompletable : JobCondition.Ongoing);
 
 			yield return Toils_Goto.GotoCell(watchSpot, PathEndMode.OnCell);
 			yield return new Toil
@@ -113,7 +114,6 @@ namespace Rimionship
 				defaultCompleteMode = ToilCompleteMode.Never,
 				handlingFacing = true
 			};
-			AddEndCondition(() => Map.GetComponent<Sacrification>().state == Sacrification.State.Ending ? JobCondition.Incompletable : JobCondition.Ongoing);
 		}
 
 		public override object[] TaleParameters()

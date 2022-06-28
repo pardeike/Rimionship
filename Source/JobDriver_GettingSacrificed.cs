@@ -23,7 +23,8 @@ namespace Rimionship
 
 		public override IEnumerable<Toil> MakeNewToils()
 		{
-			this.EndOnDespawnedOrNull(() => Map.GetComponent<Sacrification>().state = Sacrification.State.Ending, TargetIndex.A, TargetIndex.B);
+			this.EndOnDespawnedOrNull(() => Map.GetComponent<Sacrification>().MarkFailed(), TargetIndex.A, TargetIndex.B);
+			AddEndCondition(() => Map.GetComponent<Sacrification>().HasEnded() ? JobCondition.Incompletable : JobCondition.Ongoing);
 
 			yield return Toils_Goto.GotoCell(TargetLocA, PathEndMode.OnCell);
 			yield return Toils_General.Do(() => Map.GetComponent<Sacrification>().state = Sacrification.State.Executing);

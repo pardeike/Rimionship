@@ -1,6 +1,4 @@
-﻿using RimWorld;
-using System.Linq;
-using Verse;
+﻿using Verse;
 
 namespace Rimionship
 {
@@ -11,44 +9,43 @@ namespace Rimionship
 			Idle,
 			Gathering,
 			Executing,
-			Ending
+			EndSuccess,
+			EndFailure
 		}
 
 		public State state;
 		public Pawn sacrifice;
 		public Pawn sacrificer;
 
-		public Sacrification(Map map) : base(map)
+		public Sacrification(Map map) : base(map) { }
+
+		public override void ExposeData()
 		{
+			base.ExposeData();
+			Scribe_Values.Look(ref state, "state");
+			Scribe_References.Look(ref sacrifice, "sacrifice");
+			Scribe_References.Look(ref sacrificer, "sacrificer");
 		}
 
-		public void Start()
+		public void Start() { state = State.Gathering; }
+		public void MarkFailed() { state = State.EndFailure; }
+		public void MakeSuccess() { state = State.EndSuccess; }
+
+		public bool IsRunning() => state == State.Gathering || state == State.Executing;
+		public bool IsNotRunning() => IsRunning() == false;
+		public bool HasEnded() => state == State.EndSuccess || state == State.EndFailure;
+
+		public override void MapComponentTick()
 		{
-			var playerFaction = Faction.OfPlayer;
-			sacrifice = map.mapPawns.AllPawnsSpawned
-				.Where(pawn => pawn.factionInt == playerFaction
-					&& pawn.RaceProps.Humanlike
-					&& pawn.IsSlave == false
-					&& pawn.IsPrisoner == false
-					&& pawn.InMentalState == false
-					&& pawn.Downed == false
-				)
-				.RandomElement();
+			if (state != State.EndSuccess && state != State.EndFailure) return;
 
-			sacrificer = map.mapPawns.AllPawnsSpawned
-				.Where(pawn => pawn.factionInt == playerFaction
-					&& pawn.RaceProps.Humanlike
-					&& pawn.IsSlave == false
-					&& pawn.IsPrisoner == false
-					&& pawn.InMentalState == false
-					&& pawn.Downed == false
+			sacrificer = null;
+			sacrifice = null;
+			state = State.Idle;
 
-					&& pawn != sacrifice
+			if (state != State.EndSuccess) return;
 
-				)
-				.RandomElement();
-
-			state = State.Gathering;
+			// TODO successful sacrifice
 		}
 	}
 }

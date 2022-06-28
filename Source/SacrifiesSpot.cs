@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using RimWorld;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -8,21 +10,30 @@ namespace Rimionship
 	public class SacrificationSpot : Building
 	{
 		public int created;
-		private GameObject effect;
+		int HoursLeftToRemovable() => created + GenDate.TicksPerDay - Find.TickManager.TicksGame;
 
+		// transient props
+		private GameObject effect;
 		private GameObject magic;
 		private Sustainer evilChoir;
-
 		private GameObject spotlightObject;
 		private Light spotlightLight;
-		private float intensity = 0f;
-		private float spotlightRamper = 0f;
-
 		private Light[] lights = System.Array.Empty<Light>();
+
+		private float intensity;
+		private float spotlightRamper;
 
 		public SacrificationSpot() : base()
 		{
 			created = Find.TickManager.TicksGame;
+		}
+
+		public override void ExposeData()
+		{
+			base.ExposeData();
+			Scribe_Values.Look(ref created, "created");
+			Scribe_Values.Look(ref intensity, "intensity");
+			Scribe_Values.Look(ref spotlightRamper, "spotlightRamper");
 		}
 
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
@@ -42,12 +53,23 @@ namespace Rimionship
 			lights = new Light[5];
 			for (var i = 0; i < lights.Length; i++)
 				lights[i] = effect.transform.Find($"Cylinder{i + 1}").Find("Point Light").GetComponent<Light>();
+
+			var sacrification = Map.GetComponent<Sacrification>();
+			if (sacrification != null && sacrification.state == Sacrification.State.Executing)
+			{
+				spotlightObject.SetActive(true);
+				StartEvilChoir();
+			}
 		}
 
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			Object.Destroy(effect);
 			effect = null;
+			magic = null;
+			evilChoir = null;
+			spotlightObject = null;
+			spotlightLight = null;
 			lights = System.Array.Empty<Light>();
 
 			base.DeSpawn(mode);
@@ -58,6 +80,82 @@ namespace Rimionship
 			// nothing to draw
 		}
 
+		public override IEnumerable<Gizmo> GetGizmos()
+		{
+			var ticks = HoursLeftToRemovable();
+			yield return new Command_Action
+			{
+				defaultLabel = "Remove".Translate(),
+				icon = Assets.RemoveSpot,
+				disabled = ticks > 0,
+				disabledReason = "WaitToRemove".Translate(ticks.ToStringTicksToPeriod(false, false, false, false)),
+				defaultDesc = "RemoveDesc".Translate(),
+				order = -20f,
+				action = () =>
+				{
+					var saved = allowDestroyNonDestroyable;
+					allowDestroyNonDestroyable = true;
+					Destroy();
+					allowDestroyNonDestroyable = saved;
+				}
+			};
+
+			if (Map.GetComponent<Sacrification>().IsRunning())
+				yield return new Command_Action
+				{
+					defaultLabel = "Cancel".Translate(),
+					icon = Assets.CancelSpot,
+					defaultDesc = "CancelDesc".Translate(),
+					order = -19f,
+					action = () => Map.GetComponent<Sacrification>().MarkFailed()
+				};
+		}
+
+		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn selPawn)
+		{
+			var map = selPawn.Map;
+			if (map.ReadyForSacrification(out var _, out var sacrification) == false) yield break;
+			if (this.CanBeSacrificed(selPawn) == false) yield break;
+
+			yield return new FloatMenuOption("SacrificeMyself".Translate(), () =>
+			{
+				var availableSacrifice = map.mapPawns.AllPawnsSpawned
+					.Where(pawn => pawn != selPawn && this.CanSacrifice(pawn))
+					.ToList();
+
+				sacrification.sacrificer = availableSacrifice.Any() ? availableSacrifice.RandomElement() : null;
+				sacrification.sacrifice = selPawn;
+
+				if (sacrification.sacrificer == null)
+					Messages.Message("NobodyCanSacrifice".Translate(), MessageTypeDefOf.RejectInput, false);
+				else
+					sacrification.Start();
+			},
+			MenuOptionPriority.VeryLow);
+		}
+
+		private void StartEvilChoir()
+		{
+			if (evilChoir != null) return;
+
+			var info = SoundInfo.InMap(this, MaintenanceType.PerTick);
+			evilChoir = Defs.EvilChoir.TrySpawnSustainer(info);
+
+			Find.MusicManagerPlay.disabled = true;
+			Find.MusicManagerPlay.audioSource?.Stop();
+		}
+
+		private void StopEvilChoir()
+		{
+			if (evilChoir == null) return;
+
+			evilChoir = null;
+
+			Find.MusicManagerPlay.disabled = false;
+			if (Find.MusicManagerPlay.gameObjectCreated)
+				Find.MusicManagerPlay.StartNewSong();
+		}
+
 		public override void Tick()
 		{
 			base.Tick();
@@ -66,7 +164,7 @@ namespace Rimionship
 			var sacrification = Map.GetComponent<Sacrification>();
 			if (sacrification == null) return;
 
-			var magicOn = sacrification.state == Sacrification.State.Gathering || sacrification.state == Sacrification.State.Executing;
+			var magicOn = sacrification.IsRunning();
 			if (magic.activeSelf != magicOn)
 				magic.SetActive(magicOn);
 
@@ -75,11 +173,7 @@ namespace Rimionship
 				if (spotlightRamper == 0)
 				{
 					spotlightObject.SetActive(true);
-					if (evilChoir == null)
-					{
-						var info = SoundInfo.InMap(this, MaintenanceType.PerTick);
-						evilChoir = Defs.EvilChoir.TrySpawnSustainer(info);
-					}
+					StartEvilChoir();
 				}
 				if (spotlightRamper < 1f) spotlightRamper += 0.01f;
 				intensity = spotlightRamper * (10 + 10 * Mathf.Sin(GenTicks.TicksGame / 60f));
@@ -99,7 +193,7 @@ namespace Rimionship
 					spotlightObject.SetActive(false);
 					spotlightRamper = 0f;
 					spotlightLight.intensity = 0f;
-					evilChoir = null;
+					StopEvilChoir();
 				}
 			}
 
@@ -114,12 +208,6 @@ namespace Rimionship
 		public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
 		{
 			absorbed = true;
-		}
-
-		public override void ExposeData()
-		{
-			base.ExposeData();
-			Scribe_Values.Look(ref created, "created");
 		}
 	}
 }

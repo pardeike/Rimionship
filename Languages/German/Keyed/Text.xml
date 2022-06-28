@@ -4,4 +4,8 @@
 	<Remove>Entfernen</Remove>
 	<WaitToRemove>Der Blutgottspot kann wieder in {0} entfernt werden</WaitToRemove>
 	<RemoveDesc>Entfernt den Blutgottspot damit er woanders wieder aufgebaut werden kann</RemoveDesc>
+	<CancelDesc>Ritual abbrechen</CancelDesc>
+	<SacrificeMyself>Opfere mich selbst für den Blutgott</SacrificeMyself>
+	<SacrificeColonist>Opfere {0} für den Blutgott</SacrificeColonist>
+	<NobodyCanSacrifice>Niemand hat die Möglichkeit das Ritual durchzuführen</NobodyCanSacrifice>
 </LanguageData>

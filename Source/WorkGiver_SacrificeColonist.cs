@@ -11,7 +11,6 @@ namespace Rimionship
 			var map = pawn.Map;
 			var sacrification = map.GetComponent<Sacrification>();
 			if (pawn != sacrification.sacrificer) return null;
-
 			if (sacrification.state != Sacrification.State.Executing) return null;
 
 			var spot = SacrificationSpot.ForMap(map);

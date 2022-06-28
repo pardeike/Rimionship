@@ -39,12 +39,13 @@ namespace Rimionship
 			if (!victim.Dead)
 				victim.Kill(new DamageInfo?(damageInfo), null);
 
-			SoundDefOf.Execute_Cut.PlayOneShot(victim);
+			// SoundDefOf.Execute_Cut.PlayOneShot(victim);
 		}
 
 		public override IEnumerable<Toil> MakeNewToils()
 		{
-			this.EndOnDespawnedOrNull(() => Map.GetComponent<Sacrification>().state = Sacrification.State.Ending, TargetIndex.A, TargetIndex.B);
+			this.EndOnDespawnedOrNull(() => Map.GetComponent<Sacrification>().MarkFailed(), TargetIndex.A, TargetIndex.B);
+			AddEndCondition(() => Map.GetComponent<Sacrification>().HasEnded() ? JobCondition.Incompletable : JobCondition.Ongoing);
 
 			yield return Toils_Goto.GotoCell(TargetThingA.Position + new IntVec3(1, 0, 0), PathEndMode.OnCell);
 			yield return new Toil
@@ -101,7 +102,7 @@ namespace Rimionship
 				FleckMaker.ThrowMetaIcon(TargetThingB.Position, TargetThingB.Map, FleckDefOf.PsycastAreaEffect);
 				ExecuteByRemovingHead(TargetA.Pawn);
 				ThoughtUtility.GiveThoughtsForPawnExecuted(TargetA.Pawn, pawn, PawnExecutionKind.GenericBrutal);
-				Map.GetComponent<Sacrification>().state = Sacrification.State.Ending;
+				Map.GetComponent<Sacrification>().MakeSuccess();
 			});
 		}
 	}

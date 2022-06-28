@@ -73,7 +73,7 @@ namespace Rimionship
 
 			LoadAPI();
 			CreateClient();
-			CreateModId();
+			// CreateModId(); TODO
 		}
 
 		public override void DoSettingsWindowContents(Rect inRect)
