@@ -1,6 +1,7 @@
 ﻿using RimWorld.Planet;
 using System;
 using System.Collections;
+using System.Diagnostics;
 using UnityEngine;
 using Verse;
 
@@ -15,7 +16,7 @@ namespace Rimionship
 		private int _chosenMap = 0;
 		public Map ChosenMap => Current.Game.maps[_chosenMap];
 
-		public long wealth;
+		public int wealth;
 		public int mapCount;
 		public int colonists;
 		public int colonistsNeedTending;
@@ -37,6 +38,15 @@ namespace Rimionship
 		public int fire;
 		public int conditions;
 		public int temperature;
+		public int numRaidsEnemy;
+		public int numThreatBigs;
+		public int colonistsKilled;
+		public int greatestPopulation;
+		public int inGameHours;
+
+		public float damageTakenPawns;
+		public float damageTakenThings;
+		public float damageDealt;
 
 		public Reporter(World world) : base(world)
 		{
@@ -48,6 +58,7 @@ namespace Rimionship
 
 			Scribe_Values.Look(ref _chosenMap, "chosenMap");
 			Scribe_Values.Look(ref wealth, "wealth");
+			Scribe_Values.Look(ref mapCount, "mapCount");
 			Scribe_Values.Look(ref colonists, "colonists");
 			Scribe_Values.Look(ref colonistsNeedTending, "colonistsNeedTending");
 			Scribe_Values.Look(ref medicalConditions, "medicalConditions");
@@ -67,6 +78,14 @@ namespace Rimionship
 			Scribe_Values.Look(ref fire, "fire");
 			Scribe_Values.Look(ref conditions, "conditions");
 			Scribe_Values.Look(ref temperature, "temperature");
+			Scribe_Values.Look(ref numRaidsEnemy, "numRaidsEnemy");
+			Scribe_Values.Look(ref numThreatBigs, "numThreatBigs");
+			Scribe_Values.Look(ref colonistsKilled, "colonistsKilled");
+			Scribe_Values.Look(ref greatestPopulation, "greatestPopulation");
+			Scribe_Values.Look(ref inGameHours, "inGameHours");
+			Scribe_Values.Look(ref damageTakenPawns, "damageTakenPawns");
+			Scribe_Values.Look(ref damageTakenThings, "damageTakenThings");
+			Scribe_Values.Look(ref damageDealt, "damageDealt");
 		}
 
 		public override void FinalizeInit()
@@ -92,7 +111,7 @@ namespace Rimionship
 		{
 			try
 			{
-				mapCount = Stats.MapCount();
+				mapCount = Stats.AllMaps();
 			}
 			catch (Exception ex)
 			{
@@ -118,7 +137,7 @@ namespace Rimionship
 		{
 			try
 			{
-				colonistsNeedTending = Stats.ColonistsNeedTending();
+				colonistsNeedTending = Stats.AllColonistsNeedTending();
 			}
 			catch (Exception ex)
 			{
@@ -127,11 +146,11 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateMedicalConditionsCount()
+		private IEnumerator UpdateMedicalConditions()
 		{
 			try
 			{
-				medicalConditions = Stats.MedicalConditionsCount();
+				medicalConditions = Stats.AllMedicalConditions();
 			}
 			catch (Exception ex)
 			{
@@ -385,7 +404,7 @@ namespace Rimionship
 		{
 			try
 			{
-				conditions = Stats.GameConditions();
+				conditions = Stats.AllGameConditions();
 			}
 			catch (Exception ex)
 			{
@@ -407,6 +426,39 @@ namespace Rimionship
 			yield return null;
 		}
 
+		private IEnumerator UpdateStoryWatcherInfos()
+		{
+			try
+			{
+				(
+					numRaidsEnemy,
+					numThreatBigs,
+					colonistsKilled,
+					greatestPopulation,
+					inGameHours
+
+				) = Stats.AllStoryInfos();
+			}
+			catch (Exception ex)
+			{
+				Log.Warning($"EX: {ex}");
+			}
+			yield return null;
+		}
+
+		public void HandleDamageTaken(Thing thing, float amount)
+		{
+			if (thing is Pawn pawn)
+				damageTakenPawns += amount;
+			else
+				damageTakenThings += amount;
+		}
+
+		public void HandleDamageDealt(float amount)
+		{
+			damageDealt += amount;
+		}
+
 		public IEnumerator Coroutine()
 		{
 			while (Current.ProgramState != ProgramState.Playing)
@@ -418,7 +470,7 @@ namespace Rimionship
 				yield return UpdateMaps();
 				yield return UpdateColonists();
 				yield return UpdateColonistsNeedTending();
-				yield return UpdateMedicalConditionsCount();
+				yield return UpdateMedicalConditions();
 				yield return UpdateEnemies();
 				yield return UpdateWildAnimals();
 				yield return UpdateTamedAnimals();
@@ -436,12 +488,21 @@ namespace Rimionship
 				yield return UpdateFire();
 				yield return UpdateConditions();
 				yield return UpdateTemperature();
+				yield return UpdateStoryWatcherInfos();
 
 				while (Time.realtimeSinceStartup < nextUpdate)
 					yield return null;
 				nextUpdate = Time.realtimeSinceStartup + updateInterval;
 
-				Log.Warning($"[{(int)nextUpdate}] ${wealth} maps:{mapCount} col:{colonists} tend:{colonistsNeedTending} med:{medicalConditions} wild:{wildAnimals} tame:{tamedAnimals} visitors:{visitors} prisoners:{prisoners} downed:{downedColonists} mental:{mentalColonists} rooms:{rooms} caravans:{caravans} dps:{weaponDps} el:{electricity} med:{medicine} food:{food} fire:{fire} cond:{conditions} temp:{temperature}");
+				if (Find.Storyteller.incidentQueue.queuedIncidents.Any())
+				{
+					var watch = Stopwatch.StartNew();
+					var q = Find.Storyteller.incidentQueue.queuedIncidents;
+					for (var i = 0; i < q.Count; i++)
+						Log.Warning($"{i + 1} [{q[i].fireTick - Find.TickManager.TicksGame} {q[i].retryDurationTicks} {q[i].triedToFire}] {q[i].firingInc}");
+				}
+
+				Log.Warning($"[{(int)nextUpdate}] ${wealth} maps:{mapCount} col:{colonists} tend:{colonistsNeedTending} med:{medicalConditions} wild:{wildAnimals} tame:{tamedAnimals} visitors:{visitors} prisoners:{prisoners} downed:{downedColonists} mental:{mentalColonists} rooms:{rooms} caravans:{caravans} dps:{weaponDps} el:{electricity} med:{medicine} food:{food} fire:{fire} cond:{conditions} temp:{temperature} raids:{numRaidsEnemy} threats:{numThreatBigs} killed:{colonistsKilled} pop:{greatestPopulation} hours:{inGameHours} dam-pawn:{damageTakenPawns} dam-thing:{damageTakenThings} dealt:{damageDealt}");
 				yield return null;
 			}
 		}

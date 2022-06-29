@@ -13,7 +13,7 @@ namespace Rimionship
 			return (Find.TickManager.TicksGame + offset) % ticks == 0;
 		}
 
-		public static string DotFormatted(this long nr)
+		public static string DotFormatted(this int nr)
 		{
 			if (nr == 0) return "0";
 			var parts = new List<string>();

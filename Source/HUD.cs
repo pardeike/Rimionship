@@ -10,7 +10,7 @@ namespace Rimionship
 			Assets.name.text = name.ToUpper();
 		}
 
-		public static void SetScore(long score)
+		public static void SetScore(int score)
 		{
 			Assets.score.text = score.DotFormatted();
 		}
@@ -31,7 +31,7 @@ namespace Rimionship
 			Assets.placements.text = placements.Join(p => p.ToUpper(), "\n");
 		}
 
-		public static void SetScores(params long[] scores)
+		public static void SetScores(params int[] scores)
 		{
 			Assets.scores.text = scores.Join(n => n.DotFormatted(), "\n");
 		}

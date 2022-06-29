@@ -17,14 +17,14 @@ namespace Rimionship
 			WealthWatcher.ResetStaticData();
 		}
 
-		public static long ColonyWealth(this Map map)
+		public static int ColonyWealth(this Map map)
 		{
 			if (map == null) return 0;
 			map.wealthWatcher.ForceRecount();
-			return (long)map.wealthWatcher.WealthTotal;
+			return (int)map.wealthWatcher.WealthTotal;
 		}
 
-		public static int MapCount()
+		public static int AllMaps()
 		{
 			return Find.Maps.Count(map => map.IsPlayerHome);
 		}
@@ -34,13 +34,13 @@ namespace Rimionship
 			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoLodgers.Count;
 		}
 
-		public static int ColonistsNeedTending()
+		public static int AllColonistsNeedTending()
 		{
 			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoLodgers
 				.Count(pawn => pawn.health.HasHediffsNeedingTendByPlayer(true));
 		}
 
-		public static int MedicalConditionsCount()
+		public static int AllMedicalConditions()
 		{
 			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoLodgers
 				.Sum(pawn =>
@@ -138,7 +138,7 @@ namespace Rimionship
 
 		public static int AllCaravans()
 		{
-			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive.Count;
+			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_Colonists.Count;
 		}
 
 		public static float AllWeaponDps_1()
@@ -232,7 +232,7 @@ namespace Rimionship
 			return total;
 		}
 
-		public static int GameConditions()
+		public static int AllGameConditions()
 		{
 			return Find.Maps
 				.Where(map => map.IsPlayerHome)
@@ -243,6 +243,17 @@ namespace Rimionship
 		{
 			if (map == null) return 0;
 			return (int)map.mapTemperature.OutdoorTemp;
+		}
+
+		public static (int, int, int, int, int) AllStoryInfos()
+		{
+			return (
+				Find.StoryWatcher.statsRecord.numRaidsEnemy,
+				Find.StoryWatcher.statsRecord.numThreatBigs,
+				Find.StoryWatcher.statsRecord.colonistsKilled,
+				Find.StoryWatcher.statsRecord.greatestPopulation,
+				GenDate.TicksGame / GenDate.TicksPerHour
+			);
 		}
 	}
 }

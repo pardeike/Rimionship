@@ -202,4 +202,78 @@ namespace Rimionship
 			return instructions.Manipulator(code => code.OperandIs(5000f), code => code.operand = GenDate.TicksPerHour / 2f);
 		}
 	}
+
+	// get damage to reporter
+	//
+	[HarmonyPatch(typeof(Thing), nameof(Thing.TakeDamage))]
+	class Thing_TakeDamage_Patch
+	{
+		static void PostApplyDamage(Thing thing, DamageInfo dinfo, float amount)
+		{
+			thing.PostApplyDamage(dinfo, amount);
+
+			if (dinfo.instigatorInt?.factionInt == Faction.OfPlayer)
+			{
+				var reporter = Current.Game.World.GetComponent<Reporter>();
+				reporter.HandleDamageDealt(amount);
+			}
+			else if (thing?.factionInt == Faction.OfPlayer)
+			{
+				var reporter = Current.Game.World.GetComponent<Reporter>();
+				reporter.HandleDamageTaken(thing, amount);
+			}
+		}
+
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+		{
+			var from = SymbolExtensions.GetMethodInfo(() => ((Thing)null).PostApplyDamage(default, default));
+			var to = SymbolExtensions.GetMethodInfo(() => PostApplyDamage(default, default, default));
+			return instructions.MethodReplacer(from, to);
+		}
+	}
+
+	// add incidents to queue (1 day delayed) instead of running them directly
+	//
+	[HarmonyPatch(typeof(Storyteller), nameof(Storyteller.StorytellerTick))]
+	class Storyteller_StorytellerTick_Patch
+	{
+		public static bool TryFire(Storyteller _, FiringIncident fi)
+		{
+			if (fi.def.Worker.CanFireNow(fi.parms))
+			{
+				var qi = new QueuedIncident(new FiringIncident(fi.def, fi.source, fi.parms), Find.TickManager.TicksGame + GenDate.TicksPerDay, 0);
+				var _unused = Find.Storyteller.incidentQueue.Add(qi);
+				return true;
+			}
+			return false;
+		}
+
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+		{
+			var from = SymbolExtensions.GetMethodInfo(() => ((Storyteller)null).TryFire(default));
+			var to = SymbolExtensions.GetMethodInfo(() => TryFire(default, default));
+			return instructions.MethodReplacer(from, to);
+		}
+	}
+	//
+	[HarmonyPatch(typeof(IncidentQueue), nameof(IncidentQueue.IncidentQueueTick))]
+	class IncidentQueue_IncidentQueueTick_Patch
+	{
+		public static bool TryFire(Storyteller _, FiringIncident fi)
+		{
+			if (fi?.def?.Worker?.TryExecute(fi.parms) ?? false)
+			{
+				fi.parms?.target?.StoryState?.Notify_IncidentFired(fi);
+				return true;
+			}
+			return false;
+		}
+
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+		{
+			var from = SymbolExtensions.GetMethodInfo(() => ((Storyteller)null).TryFire(default));
+			var to = SymbolExtensions.GetMethodInfo(() => TryFire(default, default));
+			return instructions.MethodReplacer(from, to);
+		}
+	}
 }
