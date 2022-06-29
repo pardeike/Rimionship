@@ -27,6 +27,14 @@ namespace Rimionship
 		public static Texture2D Blood = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/Blood", true);
 		public static Texture2D Skull = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/Skull", true);
 		public static Texture2D Insult = ContentFinder<Texture2D>.Get("Things/Mote/SpeechSymbols/Insult", true);
+		public static Texture2D[] Pentas = new[]
+		{
+			ContentFinder<Texture2D>.Get("Penta0", true),
+			ContentFinder<Texture2D>.Get("Penta1", true),
+			ContentFinder<Texture2D>.Get("Penta2", true),
+			ContentFinder<Texture2D>.Get("Penta3", true),
+			ContentFinder<Texture2D>.Get("Penta4", true)
+		};
 
 		static Assets()
 		{

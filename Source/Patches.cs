@@ -276,4 +276,15 @@ namespace Rimionship
 			return instructions.MethodReplacer(from, to);
 		}
 	}
+
+	// draw blood god scale
+	//
+	[HarmonyPatch(typeof(GlobalControlsUtility), nameof(GlobalControlsUtility.DoTimespeedControls))]
+	class GlobalControlsUtility_DoTimespeedControls_Patch
+	{
+		public static void Postfix(float leftX, ref float curBaseY)
+		{
+			BloodGod.Draw(leftX, ref curBaseY);
+		}
+	}
 }
