@@ -1,6 +1,7 @@
 ﻿using RimWorld;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Verse;
 using Verse.AI;
 
@@ -67,9 +68,9 @@ namespace Rimionship
 				&& pawn.InMentalState == false
 				&& pawn.Downed == false
 				&& pawn.WorkTagIsDisabled(WorkTags.Violent) == false
+				&& pawn.health.State == PawnHealthState.Mobile
 				&& pawn.health.capacities.CapableOf(PawnCapacityDefOf.Talking)
 				&& pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation)
-				&& pawn.health.capacities.CapableOf(PawnCapacityDefOf.Moving)
 				&& ReachabilityUtility.CanReach(pawn, spot, PathEndMode.OnCell, Danger.Deadly);
 		}
 
@@ -81,7 +82,7 @@ namespace Rimionship
 			if (pawn.IsPrisoner) return false;
 			if (pawn.InMentalState) return false;
 			if (pawn.Downed) return false;
-			if (pawn.health.capacities.CapableOf(PawnCapacityDefOf.Moving) == false) return false;
+			if (pawn.health.State != PawnHealthState.Mobile) return false;
 			return ReachabilityUtility.CanReach(pawn, spot, PathEndMode.OnCell, Danger.Deadly);
 		}
 
@@ -98,5 +99,8 @@ namespace Rimionship
 			var damage = atkProps.defaultProjectile == null ? 0 : atkProps.defaultProjectile.projectile.GetDamageAmount(weapon);
 			return (damage * atkProps.burstShotCount) / RangedSpeed(weapon, atkProps);
 		}
+
+		public static MentalBreakDef Def(this string defName) => DefDatabase<MentalBreakDef>.AllDefsListForReading.First(def => def.defName == defName);
+		public static IEnumerable<IncidentDef> AllIncidentDefs() => DefDatabase<IncidentDef>.AllDefsListForReading;
 	}
 }

@@ -9,4 +9,5 @@
 	<SacrificeColonist>Sacrifice {0} to the blood god</SacrificeColonist>
 	<NobodyCanSacrifice>Cannot find someone that is capable holding the ritual</NobodyCanSacrifice>
 	<BloodGodScaleHelp>Blood god dissatisfaction level. Once it reaches 100% bad things will happen to your colonists. Sacrifice a colonist at the blood god spot to satisfy the blood god.</BloodGodScaleHelp>
+	<ColonistBecomesDumber>{0} had a stroke and got dumber</ColonistBecomesDumber>
 </LanguageData>

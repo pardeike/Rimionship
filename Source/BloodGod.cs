@@ -1,6 +1,8 @@
-﻿using RimWorld;
+﻿using HarmonyLib;
+using RimWorld;
 using RimWorld.Planet;
 using System;
+using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -13,7 +15,7 @@ namespace Rimionship
 		static readonly Color scaleFG = new(227f / 255f, 38f / 255f, 38f / 255f);
 		static readonly SoundInfo onCameraPerTick = SoundInfo.OnCamera(MaintenanceType.PerTick);
 
-		static readonly int maxFreeColonistCount = 3;
+		static readonly int maxFreeColonistCount = 5;
 		static readonly int risingInterval = GenDate.TicksPerDay * 2;
 
 		static readonly int randomStartPauseMin = 140;
@@ -113,7 +115,7 @@ namespace Rimionship
 					break;
 
 				case State.Punishing:
-					if (PunishColonist())
+					if (CommencePunishment())
 						state = State.Pausing;
 					break;
 
@@ -135,12 +137,179 @@ namespace Rimionship
 			state = State.Idle;
 		}
 
-		public bool PunishColonist()
+		public static Pawn NonMentalColonist()
+		{
+			static float SkillWeight(SkillRecord skill) => skill.levelInt * (skill.passion == Passion.None ? 1f : skill.passion == Passion.Minor ? 1.5f : 2f);
+
+			var candidates = PawnsFinder
+				.AllMaps_FreeColonistsSpawned
+					.Where(pawn =>
+						pawn.InMentalState == false
+						&& pawn.Downed == false
+						&& pawn.IsPrisoner == false
+						&& pawn.IsSlave == false
+						&& pawn.health.State == PawnHealthState.Mobile)
+					.ToList();
+			if (candidates.Count == 0) return null;
+			return candidates.RandomElementByWeight(pawn => pawn.skills.skills.Sum(SkillWeight));
+		}
+
+		public static bool MakeGameCondition(GameConditionDef def, int duration)
+		{
+			if (Find.CurrentMap.GameConditionManager.ConditionIsActive(def))
+			{
+				Log.Warning($"# {def.defName} => false");
+				return false;
+			}
+			var gameCondition = GameConditionMaker.MakeCondition(def, -1);
+			gameCondition.Duration = duration;
+			Find.CurrentMap.GameConditionManager.RegisterCondition(gameCondition);
+			Log.Warning($"# {def.defName} => true");
+			return true;
+		}
+
+		public static bool MakeMentalBreak(string defName)
+		{
+			var pawn = NonMentalColonist();
+			if (pawn == null)
+			{
+				Log.Warning($"# MakeMentalBreak no colonist avail => false");
+				return false;
+			}
+			var result = defName.Def().Worker.TryStart(pawn, null, false);
+			Log.Warning($"# {pawn.LabelShortCap} {defName} => {result}");
+			return result;
+		}
+
+		public static bool MakeRandomHediffGiver()
+		{
+			var pawn = NonMentalColonist();
+			if (pawn == null)
+			{
+				Log.Warning($"# MakeRandomHediffGiver no colonist avail => false");
+				return false;
+			}
+			var hediffGiver = ThingDefOf.Human.race.hediffGiverSets
+				.SelectMany((HediffGiverSetDef set) => set.hediffGivers)
+				.RandomElement();
+			var result = hediffGiver.TryApply(pawn, null);
+			Log.Warning($"# {hediffGiver} => {result}");
+			return result;
+		}
+
+		public static bool MakeRandomDisease(bool isAnimal)
+		{
+			var category = isAnimal ? IncidentCategoryDefOf.DiseaseAnimal : IncidentCategoryDefOf.DiseaseHuman;
+			var incidentDef = Tools.AllIncidentDefs()
+				.Where(def => def.category == category)
+				.RandomElement();
+			var result = Find.Storyteller.TryFire(new FiringIncident(incidentDef, null));
+			Log.Warning($"# {incidentDef.defName} [{isAnimal}] => {result}");
+			return result;
+		}
+
+		public bool CommencePunishment()
 		{
 			Defs.Thunder.PlayOneShotOnCamera();
-			// TODO
-			Log.Error($"Punish level {punishLevel}");
-			return true; // success
+			switch (punishLevel)
+			{
+				case 1:
+					switch (Rand.RangeInclusive(1, 4))
+					{
+						case 1:
+							if (MakeGameCondition(GameConditionDefOf.Flashstorm, GenDate.TicksPerDay))
+								return true;
+							break;
+						case 2:
+							if (MakeGameCondition(GameConditionDefOf.PsychicDrone, GenDate.TicksPerDay))
+								return true;
+							break;
+						case 3:
+							if (MakeGameCondition(GameConditionDefOf.SolarFlare, GenDate.TicksPerDay))
+								return true;
+							break;
+						case 4:
+							if (MakeGameCondition(GameConditionDefOf.ToxicFallout, GenDate.TicksPerDay))
+								return true;
+							break;
+					}
+					break;
+				case 2:
+					switch (Rand.RangeInclusive(1, 3))
+					{
+						case 1:
+							if (MakeMentalBreak("Slaughterer"))
+								return true;
+							break;
+						case 2:
+							if (MakeMentalBreak("SocialFighting"))
+								return true;
+							break;
+						case 3:
+							if (MakeRandomDisease(true))
+								return true;
+							break;
+					}
+					break;
+				case 3:
+					switch (Rand.RangeInclusive(1, 3))
+					{
+						case 1:
+							if (MakeMentalBreak("Berserk"))
+								return true;
+							break;
+						case 2:
+							if (MakeRandomHediffGiver())
+								return true;
+							break;
+						case 3:
+							if (MakeMentalBreak("InsultingSpree"))
+								return true;
+							break;
+					}
+					break;
+				case 4:
+					switch (Rand.RangeInclusive(1, 3))
+					{
+						case 1:
+							if (MakeMentalBreak("SadisticRage"))
+								return true;
+							break;
+						case 2:
+							if (MakeMentalBreak("TargetedInsultingSpree"))
+								return true;
+							break;
+						case 3:
+							if (MakeRandomDisease(false))
+								return true;
+							break;
+					}
+					break;
+				case 5:
+					switch (Rand.RangeInclusive(1, 3))
+					{
+						case 1:
+							var looser = NonMentalColonist();
+							Log.Warning($"# ColonistBecomesDumber => {looser != null}");
+							if (looser != null)
+							{
+								looser.skills.skills.Do(skill => skill.levelInt /= 2);
+								Messages.Message("ColonistBecomesDumber".Translate(looser.LabelShortCap), MessageTypeDefOf.NegativeEvent);
+								return true;
+							}
+							break;
+						case 2:
+							if (MakeMentalBreak("MurderousRage"))
+								return true;
+							break;
+						case 3:
+							if (MakeMentalBreak("GiveUpExit"))
+								return true;
+							break;
+					}
+					break;
+			}
+			return false;
 		}
 
 		public static void Draw(float leftX, ref float curBaseY)
