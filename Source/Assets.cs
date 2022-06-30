@@ -33,7 +33,8 @@ namespace Rimionship
 			ContentFinder<Texture2D>.Get("Penta1", true),
 			ContentFinder<Texture2D>.Get("Penta2", true),
 			ContentFinder<Texture2D>.Get("Penta3", true),
-			ContentFinder<Texture2D>.Get("Penta4", true)
+			ContentFinder<Texture2D>.Get("Penta4", true),
+			ContentFinder<Texture2D>.Get("Penta5", true)
 		};
 
 		static Assets()

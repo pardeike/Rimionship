@@ -2,6 +2,74 @@
 <Defs>
 
 	<SoundDef>
+		<defName>Ambience</defName>
+		<sustain>True</sustain>
+		<context>MapOnly</context>
+		<maxSimultaneous>1</maxSimultaneous>
+		<priorityMode>PrioritizeNearest</priorityMode>
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>Ambience</clipPath>
+					</li>
+				</grains>
+				<paramMappings>
+					<li>
+						<inParam Class="SoundParamSource_External">
+							<inParamName>LerpFactor</inParamName>
+							<defaultValue>0</defaultValue>
+						</inParam>
+						<outParam Class="SoundParamTarget_Volume" />
+						<paramUpdateMode>Constant</paramUpdateMode>
+						<curve>
+							<points>
+								<li>
+									<loc>
+										<x>0</x>
+										<y>0</y>
+									</loc>
+								</li>
+								<li>
+									<loc>
+										<x>0.2</x>
+										<y>0.08</y>
+									</loc>
+								</li>
+								<li>
+									<loc>
+										<x>0.4</x>
+										<y>0.32</y>
+									</loc>
+								</li>
+								<li>
+									<loc>
+										<x>0.6</x>
+										<y>0.72</y>
+									</loc>
+								</li>
+								<li>
+									<loc>
+										<x>0.8</x>
+										<y>1.28</y>
+									</loc>
+								</li>
+								<li>
+									<loc>
+										<x>1</x>
+										<y>2</y>
+									</loc>
+								</li>
+							</points>
+						</curve>
+					</li>
+				</paramMappings>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
 		<defName>EvilChoir</defName>
 		<sustain>True</sustain>
 		<context>MapOnly</context>
@@ -19,14 +87,46 @@
 	</SoundDef>
 
 	<SoundDef>
-		<defName>Thunder</defName>
+		<defName>Execution</defName>
 		<context>MapOnly</context>
 		<maxSimultaneous>1</maxSimultaneous>
 		<subSounds>
 			<li>
 				<grains>
 					<li Class="AudioGrain_Clip">
+						<clipPath>Execution</clipPath>
+					</li>
+				</grains>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>Thunder</defName>
+		<context>MapOnly</context>
+		<maxSimultaneous>1</maxSimultaneous>
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>
+				<grains>
+					<li Class="AudioGrain_Clip">
 						<clipPath>Thunder</clipPath>
+					</li>
+				</grains>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>Bloodgod</defName>
+		<context>MapOnly</context>
+		<maxSimultaneous>1</maxSimultaneous>
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>
+				<grains>
+					<li Class="AudioGrain_Folder">
+						<clipFolderPath>Bloodgod</clipFolderPath>
 					</li>
 				</grains>
 			</li>

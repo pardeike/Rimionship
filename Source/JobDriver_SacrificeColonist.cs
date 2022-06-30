@@ -96,7 +96,7 @@ namespace Rimionship
 			yield return Toils_General.Wait(30);
 			yield return Toils_General.Do(() =>
 			{
-				Defs.Thunder.PlayOneShot(SoundInfo.InMap(TargetThingB));
+				Defs.Execution.PlayOneShot(SoundInfo.InMap(TargetThingB));
 				skull.Destroy(DestroyMode.Vanish);
 				skull = null;
 				FleckMaker.ThrowMetaIcon(TargetThingB.Position, TargetThingB.Map, FleckDefOf.PsycastAreaEffect);

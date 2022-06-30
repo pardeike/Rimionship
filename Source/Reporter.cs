@@ -502,7 +502,7 @@ namespace Rimionship
 						Log.Warning($"{i + 1} [{q[i].fireTick - Find.TickManager.TicksGame} {q[i].retryDurationTicks} {q[i].triedToFire}] {q[i].firingInc}");
 				}
 
-				Log.Warning($"[{(int)nextUpdate}] ${wealth} maps:{mapCount} col:{colonists} tend:{colonistsNeedTending} med:{medicalConditions} wild:{wildAnimals} tame:{tamedAnimals} visitors:{visitors} prisoners:{prisoners} downed:{downedColonists} mental:{mentalColonists} rooms:{rooms} caravans:{caravans} dps:{weaponDps} el:{electricity} med:{medicine} food:{food} fire:{fire} cond:{conditions} temp:{temperature} raids:{numRaidsEnemy} threats:{numThreatBigs} killed:{colonistsKilled} pop:{greatestPopulation} hours:{inGameHours} dam-pawn:{damageTakenPawns} dam-thing:{damageTakenThings} dealt:{damageDealt}");
+				// Log.Warning($"[{(int)nextUpdate}] ${wealth} maps:{mapCount} col:{colonists} tend:{colonistsNeedTending} med:{medicalConditions} wild:{wildAnimals} tame:{tamedAnimals} visitors:{visitors} prisoners:{prisoners} downed:{downedColonists} mental:{mentalColonists} rooms:{rooms} caravans:{caravans} dps:{weaponDps} el:{electricity} med:{medicine} food:{food} fire:{fire} cond:{conditions} temp:{temperature} raids:{numRaidsEnemy} threats:{numThreatBigs} killed:{colonistsKilled} pop:{greatestPopulation} hours:{inGameHours} dam-pawn:{damageTakenPawns} dam-thing:{damageTakenThings} dealt:{damageDealt}");
 				yield return null;
 			}
 		}

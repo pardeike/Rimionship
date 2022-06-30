@@ -55,7 +55,8 @@ namespace Rimionship
 
 				if (state == State.EndSuccess)
 				{
-					// TODO successful sacrifice
+					var bloodGod = Current.Game.World.GetComponent<BloodGod>();
+					bloodGod.Satisfy();
 				}
 			}
 		}
