@@ -111,7 +111,10 @@ namespace Rimionship
 
 				case State.Punishing:
 					if (CommencePunishment())
+					{
+						Defs.Thunder.PlayOneShotOnCamera();
 						state = State.Pausing;
+					}
 					break;
 
 				case State.Pausing:
@@ -134,7 +137,7 @@ namespace Rimionship
 			state = State.Idle;
 		}
 
-		public static Pawn NonMentalColonist()
+		public static Pawn NonMentalColonist(Pawn exclude = null)
 		{
 			static float SkillWeight(SkillRecord skill)
 				=> skill.levelInt * (
@@ -143,8 +146,8 @@ namespace Rimionship
 
 			var candidates = PawnsFinder
 				.AllMaps_FreeColonistsSpawned
-					.Where(pawn =>
-						pawn.InMentalState == false
+					.Where(pawn => pawn != exclude
+						&& pawn.InMentalState == false
 						&& pawn.Downed == false
 						&& pawn.IsPrisoner == false
 						&& pawn.IsSlave == false
@@ -168,7 +171,7 @@ namespace Rimionship
 			return true;
 		}
 
-		public static bool MakeMentalBreak(string defName)
+		public static bool MakeMentalBreak(MentalStateDef def)
 		{
 			var pawn = NonMentalColonist();
 			if (pawn == null)
@@ -176,9 +179,20 @@ namespace Rimionship
 				Log.Warning($"#{Instance.punishLevel} MakeMentalBreak no colonist avail => false");
 				return false;
 			}
-			var result = defName.Def().Worker.TryStart(pawn, null, false);
-			Log.Warning($"#{Instance.punishLevel} {pawn.LabelShortCap} {defName} => {result}");
-			return result;
+			var otherPawn = (Pawn)null;
+			if (def == MentalStateDefOf.SocialFighting)
+			{
+				otherPawn = NonMentalColonist(pawn);
+				if (otherPawn == null)
+				{
+					Log.Warning($"#{Instance.punishLevel} MakeMentalBreak no other colonist avail => false");
+					return false;
+				}
+			}
+			var res1 = pawn.mindState.mentalStateHandler.TryStartMentalState(def, null, true, false, otherPawn);
+			var res2 = otherPawn?.mindState.mentalStateHandler.TryStartMentalState(def, null, true, false, pawn) ?? true;
+			Log.Warning($"#{Instance.punishLevel} {pawn.LabelShortCap} {def.defName} => {res1} {res2}");
+			return res1 && res2;
 		}
 
 		public static bool MakeRandomHediffGiver()
@@ -203,14 +217,20 @@ namespace Rimionship
 			var incidentDef = Tools.AllIncidentDefs()
 				.Where(def => def.category == category)
 				.RandomElement();
-			var result = Find.Storyteller.TryFire(new FiringIncident(incidentDef, null));
+			var reporter = Current.Game.World.GetComponent<Reporter>();
+			var parms = new IncidentParms
+			{
+				target = reporter.ChosenMap,
+				faction = Faction.OfPlayer,
+				forced = true
+			};
+			var result = incidentDef.Worker.TryExecute(parms);
 			Log.Warning($"#{Instance.punishLevel} {incidentDef.defName} [{isAnimal}] => {result}");
 			return result;
 		}
 
 		public bool CommencePunishment()
 		{
-			Defs.Thunder.PlayOneShotOnCamera();
 			switch (punishLevel)
 			{
 				case 1:
@@ -238,11 +258,11 @@ namespace Rimionship
 					switch (Rand.RangeInclusive(1, 3))
 					{
 						case 1:
-							if (MakeMentalBreak("Slaughterer"))
+							if (MakeMentalBreak(Defs.Slaughterer))
 								return true;
 							break;
 						case 2:
-							if (MakeMentalBreak("SocialFighting"))
+							if (MakeMentalBreak(MentalStateDefOf.SocialFighting))
 								return true;
 							break;
 						case 3:
@@ -255,15 +275,15 @@ namespace Rimionship
 					switch (Rand.RangeInclusive(1, 3))
 					{
 						case 1:
-							if (MakeMentalBreak("Berserk"))
+							if (MakeMentalBreak(MentalStateDefOf.Berserk))
 								return true;
 							break;
 						case 2:
-							if (MakeRandomHediffGiver())
+							if (MakeRandomDisease(false))
 								return true;
 							break;
 						case 3:
-							if (MakeMentalBreak("InsultingSpree"))
+							if (MakeMentalBreak(Defs.InsultingSpree))
 								return true;
 							break;
 					}
@@ -272,15 +292,15 @@ namespace Rimionship
 					switch (Rand.RangeInclusive(1, 3))
 					{
 						case 1:
-							if (MakeMentalBreak("SadisticRage"))
+							if (MakeMentalBreak(Defs.SadisticRage))
 								return true;
 							break;
 						case 2:
-							if (MakeMentalBreak("TargetedInsultingSpree"))
+							if (MakeMentalBreak(Defs.TargetedInsultingSpree))
 								return true;
 							break;
 						case 3:
-							if (MakeRandomDisease(false))
+							if (MakeRandomHediffGiver())
 								return true;
 							break;
 					}
@@ -294,16 +314,16 @@ namespace Rimionship
 							if (looser != null)
 							{
 								looser.skills.skills.Do(skill => skill.levelInt /= 2);
-								Messages.Message("ColonistBecomesDumber".Translate(looser.LabelShortCap), MessageTypeDefOf.NegativeEvent);
+								_ = LetterMaker.MakeLetter("ColonistBecomesDumberTitle".Translate(), "ColonistBecomesDumberText".Translate(looser.LabelShortCap), LetterDefOf.NegativeEvent, looser);
 								return true;
 							}
 							break;
 						case 2:
-							if (MakeMentalBreak("MurderousRage"))
+							if (MakeMentalBreak(Defs.MurderousRage))
 								return true;
 							break;
 						case 3:
-							if (MakeMentalBreak("GiveUpExit"))
+							if (MakeMentalBreak(Defs.GiveUpExit))
 								return true;
 							break;
 					}

@@ -9,5 +9,6 @@
 	<SacrificeColonist>Opfere {0} für den Blutgott</SacrificeColonist>
 	<NobodyCanSacrifice>Niemand hat die Möglichkeit das Ritual durchzuführen</NobodyCanSacrifice>
 	<BloodGodScaleHelp>Unzufriedenheit des Blutgottes. Bei 100% passieren den Kolonisten schlimme Dinge. Opfere einen Kolonisten am Blutgottspot um den Blutgott zufrieden zu stellen.</BloodGodScaleHelp>
-	<ColonistBecomesDumber>{0} hatte einen Stroke und wurde dümmer</ColonistBecomesDumber>
+	<ColonistBecomesDumberTitle>{0} wurde dümmer</ColonistBecomesDumberTitle>
+	<ColonistBecomesDumberText>{0} hatte einen Hirnschaden und wurde dadurch dümmer</ColonistBecomesDumberText>
 </LanguageData>

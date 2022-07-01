@@ -1,7 +1,6 @@
 ﻿using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Verse;
 using Verse.AI;
 
@@ -100,7 +99,6 @@ namespace Rimionship
 			return (damage * atkProps.burstShotCount) / RangedSpeed(weapon, atkProps);
 		}
 
-		public static MentalBreakDef Def(this string defName) => DefDatabase<MentalBreakDef>.AllDefsListForReading.First(def => def.defName == defName);
 		public static IEnumerable<IncidentDef> AllIncidentDefs() => DefDatabase<IncidentDef>.AllDefsListForReading;
 	}
 }
