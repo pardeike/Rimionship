@@ -137,7 +137,7 @@ namespace Rimionship
 			state = State.Idle;
 		}
 
-		public static Pawn NonMentalColonist(Pawn exclude = null)
+		public static Pawn NonMentalColonist(bool withViolence, Pawn exclude = null)
 		{
 			static float SkillWeight(SkillRecord skill)
 				=> skill.levelInt * (
@@ -152,7 +152,7 @@ namespace Rimionship
 						&& pawn.IsPrisoner == false
 						&& pawn.IsSlave == false
 						&& pawn.health.State == PawnHealthState.Mobile
-						&& pawn.WorkTagIsDisabled(WorkTags.Violent) == false)
+						&& (withViolence == false || pawn.WorkTagIsDisabled(WorkTags.Violent) == false))
 					.ToList();
 			if (candidates.Count == 0) return null;
 			return candidates.RandomElementByWeight(pawn => pawn.skills.skills.Sum(SkillWeight));
@@ -172,9 +172,9 @@ namespace Rimionship
 			return true;
 		}
 
-		public static bool MakeMentalBreak(MentalStateDef def)
+		public static bool MakeMentalBreak(MentalStateDef def, bool isViolent)
 		{
-			var pawn = NonMentalColonist();
+			var pawn = NonMentalColonist(isViolent);
 			if (pawn == null)
 			{
 				Log.Warning($"#{Instance.punishLevel} MakeMentalBreak no colonist avail => false");
@@ -182,12 +182,13 @@ namespace Rimionship
 			}
 			if (def == MentalStateDefOf.SocialFighting)
 			{
-				var otherPawn = NonMentalColonist(pawn);
+				var otherPawn = NonMentalColonist(true, pawn);
 				if (otherPawn == null)
 				{
 					Log.Warning($"#{Instance.punishLevel} MakeMentalBreak no other colonist avail => false");
 					return false;
 				}
+				Log.Warning($"#{Instance.punishLevel} {pawn.LabelShortCap}-{otherPawn.LabelShortCap} {def.defName}");
 				pawn.interactions.StartSocialFight(otherPawn, "MessageSocialFight");
 				return true;
 			}
@@ -198,7 +199,7 @@ namespace Rimionship
 
 		public static bool MakeRandomHediffGiver()
 		{
-			var pawn = NonMentalColonist();
+			var pawn = NonMentalColonist(false);
 			if (pawn == null)
 			{
 				Log.Warning($"#{Instance.punishLevel} MakeRandomHediffGiver no colonist avail => false");
@@ -259,11 +260,11 @@ namespace Rimionship
 					switch (Rand.RangeInclusive(1, 3))
 					{
 						case 1:
-							if (MakeMentalBreak(Defs.Slaughterer))
+							if (MakeMentalBreak(Defs.Slaughterer, true))
 								return true;
 							break;
 						case 2:
-							if (MakeMentalBreak(MentalStateDefOf.SocialFighting))
+							if (MakeMentalBreak(MentalStateDefOf.SocialFighting, true))
 								return true;
 							break;
 						case 3:
@@ -276,7 +277,7 @@ namespace Rimionship
 					switch (Rand.RangeInclusive(1, 3))
 					{
 						case 1:
-							if (MakeMentalBreak(MentalStateDefOf.Berserk))
+							if (MakeMentalBreak(MentalStateDefOf.Berserk, true))
 								return true;
 							break;
 						case 2:
@@ -284,7 +285,7 @@ namespace Rimionship
 								return true;
 							break;
 						case 3:
-							if (MakeMentalBreak(Defs.InsultingSpree))
+							if (MakeMentalBreak(Defs.InsultingSpree, false))
 								return true;
 							break;
 					}
@@ -293,11 +294,11 @@ namespace Rimionship
 					switch (Rand.RangeInclusive(1, 3))
 					{
 						case 1:
-							if (MakeMentalBreak(Defs.SadisticRage))
+							if (MakeMentalBreak(Defs.SadisticRage, true))
 								return true;
 							break;
 						case 2:
-							if (MakeMentalBreak(Defs.TargetedInsultingSpree))
+							if (MakeMentalBreak(Defs.TargetedInsultingSpree, false))
 								return true;
 							break;
 						case 3:
@@ -310,21 +311,22 @@ namespace Rimionship
 					switch (Rand.RangeInclusive(1, 3))
 					{
 						case 1:
-							var looser = NonMentalColonist();
+							var looser = NonMentalColonist(false);
 							Log.Warning($"#{Instance.punishLevel} ColonistBecomesDumber => {looser != null}");
 							if (looser != null)
 							{
 								looser.skills.skills.Do(skill => skill.levelInt /= 2);
-								_ = LetterMaker.MakeLetter("ColonistBecomesDumberTitle".Translate(), "ColonistBecomesDumberText".Translate(looser.LabelShortCap), LetterDefOf.NegativeEvent, looser);
+								var letter = LetterMaker.MakeLetter("ColonistBecomesDumberTitle".Translate(looser.LabelShortCap), "ColonistBecomesDumberText".Translate(looser.LabelShortCap), LetterDefOf.NegativeEvent, looser);
+								Find.LetterStack.ReceiveLetter(letter, null);
 								return true;
 							}
 							break;
 						case 2:
-							if (MakeMentalBreak(Defs.MurderousRage))
+							if (MakeMentalBreak(Defs.MurderousRage, true))
 								return true;
 							break;
 						case 3:
-							if (MakeMentalBreak(Defs.GiveUpExit))
+							if (MakeMentalBreak(Defs.GiveUpExit, false))
 								return true;
 							break;
 					}

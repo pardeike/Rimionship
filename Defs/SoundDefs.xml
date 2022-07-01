@@ -124,6 +124,8 @@
 		<subSounds>
 			<li>
 				<onCamera>True</onCamera>
+				<volumeRange>100~100</volumeRange>
+				<sustainLoop>False</sustainLoop>
 				<grains>
 					<li Class="AudioGrain_Folder">
 						<clipFolderPath>Bloodgod</clipFolderPath>
