@@ -15,15 +15,6 @@ namespace Rimionship
 		static readonly Color scaleFG = new(227f / 255f, 38f / 255f, 38f / 255f);
 		static readonly SoundInfo onCameraPerTick = SoundInfo.OnCamera(MaintenanceType.PerTick);
 
-		static readonly int maxFreeColonistCount = 5;
-		static readonly int risingInterval = GenDate.TicksPerDay * 2;
-
-		static readonly int randomStartPauseMin = 140;
-		static readonly int randomStartPauseMax = 600;
-
-		static readonly int startPauseInterval = GenDate.TicksPerDay / 2;
-		static readonly int finalPauseInterval = GenDate.TicksPerHour * 2;
-
 		public enum State
 		{
 			Idle,
@@ -57,7 +48,7 @@ namespace Rimionship
 		{
 			if (state == State.Idle) return 0f;
 			if (state > State.Rising) return 1f;
-			return Mathf.Clamp01((Find.TickManager.TicksGame - startTicks) / (float)risingInterval);
+			return Mathf.Clamp01((Find.TickManager.TicksGame - startTicks) / (float)RimionshipMod.settings.risingInterval);
 		}
 
 		public override void WorldComponentTick()
@@ -83,13 +74,13 @@ namespace Rimionship
 
 			if (60.EveryNTick() == false) return;
 
-			if (Stats.AllColonists() <= maxFreeColonistCount)
+			if (Stats.AllColonists() <= RimionshipMod.settings.maxFreeColonistCount)
 				state = State.Idle;
 
 			switch (state)
 			{
 				case State.Idle:
-					if (Stats.AllColonists() > maxFreeColonistCount)
+					if (Stats.AllColonists() > RimionshipMod.settings.maxFreeColonistCount)
 					{
 						startTicks = Find.TickManager.TicksGame;
 						state = State.Rising;
@@ -97,9 +88,11 @@ namespace Rimionship
 					break;
 
 				case State.Rising:
-					if (Find.TickManager.TicksGame - startTicks > risingInterval)
+					if (Find.TickManager.TicksGame - startTicks > RimionshipMod.settings.risingInterval)
 					{
-						randomPause = Find.TickManager.TicksGame + Rand.Range(randomStartPauseMin, randomStartPauseMax);
+						var minPause = RimionshipMod.settings.randomStartPauseMin;
+						var maxPause = RimionshipMod.settings.randomStartPauseMax;
+						randomPause = Find.TickManager.TicksGame + Rand.Range(minPause, maxPause);
 						Defs.Bloodgod.PlayOneShotOnCamera();
 						punishLevel = 1;
 						state = State.Preparing;
@@ -120,7 +113,9 @@ namespace Rimionship
 					break;
 
 				case State.Pausing:
-					var interval = GenMath.LerpDoubleClamped(1, 5, startPauseInterval, finalPauseInterval, punishLevel);
+					var minInterval = RimionshipMod.settings.startPauseInterval;
+					var maxInterval = RimionshipMod.settings.finalPauseInterval;
+					var interval = GenMath.LerpDoubleClamped(1, 5, minInterval, maxInterval, punishLevel);
 					if (Find.TickManager.TicksGame - startTicks > interval)
 					{
 						startTicks = Find.TickManager.TicksGame;
@@ -139,7 +134,10 @@ namespace Rimionship
 
 		public static Pawn NonMentalColonist()
 		{
-			static float SkillWeight(SkillRecord skill) => skill.levelInt * (skill.passion == Passion.None ? 1f : skill.passion == Passion.Minor ? 1.5f : 2f);
+			static float SkillWeight(SkillRecord skill)
+				=> skill.levelInt * (
+					skill.passion == Passion.None ? 1f : skill.passion == Passion.Minor ? 1.5f : 2f
+				);
 
 			var candidates = PawnsFinder
 				.AllMaps_FreeColonistsSpawned
