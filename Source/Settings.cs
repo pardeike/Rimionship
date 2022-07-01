@@ -58,23 +58,23 @@ namespace Rimionship
 			_ = list.TextEntry("https://www.desmos.com/calculator/psoxn2lt1r");
 			list.Gap(12f);
 
-			_ = list.Label("Blood God Max Free Colonists");
+			_ = list.Label($"Blood God Max Free Colonists: {maxFreeColonistCount}");
 			maxFreeColonistCount = (int)list.Slider(maxFreeColonistCount, 1, 10);
 			list.Gap(12f);
 
-			_ = list.Label($"Rising Interval: {risingInterval.ToStringTicksToPeriod(true, true, false)}");
+			_ = list.Label($"Rising Interval: {risingInterval.ToStringTicksToPeriod()}");
 			risingInterval = (int)(GenDate.TicksPerHour * list.Slider(risingInterval / (float)GenDate.TicksPerHour, 0, 96));
 			list.Gap(12f);
 
-			_ = list.Label($"Pause Before Punishment Range: {randomStartPauseMin.ToStringTicksToPeriod(true, true, false)} - {randomStartPauseMax.ToStringTicksToPeriod(true, true, false)}");
+			_ = list.Label($"Pause Before Punishment Range: {randomStartPauseMin.ToStringTicksToPeriod()} - {randomStartPauseMax.ToStringTicksToPeriod()}");
 			randomStartPauseMin = (int)list.Slider(randomStartPauseMin, 0, 1200);
 			randomStartPauseMax = (int)list.Slider(randomStartPauseMax, 0, 1200);
 
-			_ = list.Label($"Punishment Interval Tier 1: {startPauseInterval.ToStringTicksToPeriod(true, true, false)}");
+			_ = list.Label($"Punishment Interval Tier 1: {startPauseInterval.ToStringTicksToPeriod()}");
 			startPauseInterval = (int)list.Slider(startPauseInterval, 0, 120000);
 			list.Gap(12f);
 
-			_ = list.Label($"Punishment Interval Tier 5: {finalPauseInterval.ToStringTicksToPeriod(true, true, false)}");
+			_ = list.Label($"Punishment Interval Tier 5: {finalPauseInterval.ToStringTicksToPeriod()}");
 			finalPauseInterval = (int)list.Slider(finalPauseInterval, 0, 15000);
 			list.Gap(12f);
 

@@ -11,6 +11,8 @@ namespace Rimionship
 {
 	public class BloodGod : WorldComponent
 	{
+		public static BloodGod Instance => Current.Game.World.GetComponent<BloodGod>();
+
 		static readonly Color scaleBG = new(1, 1, 1, 0.25f);
 		static readonly Color scaleFG = new(227f / 255f, 38f / 255f, 38f / 255f);
 		static readonly SoundInfo onCameraPerTick = SoundInfo.OnCamera(MaintenanceType.PerTick);
@@ -156,13 +158,13 @@ namespace Rimionship
 		{
 			if (Find.CurrentMap.GameConditionManager.ConditionIsActive(def))
 			{
-				Log.Warning($"# {def.defName} => false");
+				Log.Warning($"#{Instance.punishLevel} {def.defName} => false");
 				return false;
 			}
 			var gameCondition = GameConditionMaker.MakeCondition(def, -1);
 			gameCondition.Duration = duration;
 			Find.CurrentMap.GameConditionManager.RegisterCondition(gameCondition);
-			Log.Warning($"# {def.defName} => true");
+			Log.Warning($"#{Instance.punishLevel} {def.defName} => true");
 			return true;
 		}
 
@@ -171,11 +173,11 @@ namespace Rimionship
 			var pawn = NonMentalColonist();
 			if (pawn == null)
 			{
-				Log.Warning($"# MakeMentalBreak no colonist avail => false");
+				Log.Warning($"#{Instance.punishLevel} MakeMentalBreak no colonist avail => false");
 				return false;
 			}
 			var result = defName.Def().Worker.TryStart(pawn, null, false);
-			Log.Warning($"# {pawn.LabelShortCap} {defName} => {result}");
+			Log.Warning($"#{Instance.punishLevel} {pawn.LabelShortCap} {defName} => {result}");
 			return result;
 		}
 
@@ -184,14 +186,14 @@ namespace Rimionship
 			var pawn = NonMentalColonist();
 			if (pawn == null)
 			{
-				Log.Warning($"# MakeRandomHediffGiver no colonist avail => false");
+				Log.Warning($"#{Instance.punishLevel} MakeRandomHediffGiver no colonist avail => false");
 				return false;
 			}
 			var hediffGiver = ThingDefOf.Human.race.hediffGiverSets
 				.SelectMany((HediffGiverSetDef set) => set.hediffGivers)
 				.RandomElement();
 			var result = hediffGiver.TryApply(pawn, null);
-			Log.Warning($"# {hediffGiver} => {result}");
+			Log.Warning($"#{Instance.punishLevel} {hediffGiver} => {result}");
 			return result;
 		}
 
@@ -202,7 +204,7 @@ namespace Rimionship
 				.Where(def => def.category == category)
 				.RandomElement();
 			var result = Find.Storyteller.TryFire(new FiringIncident(incidentDef, null));
-			Log.Warning($"# {incidentDef.defName} [{isAnimal}] => {result}");
+			Log.Warning($"#{Instance.punishLevel} {incidentDef.defName} [{isAnimal}] => {result}");
 			return result;
 		}
 
@@ -288,7 +290,7 @@ namespace Rimionship
 					{
 						case 1:
 							var looser = NonMentalColonist();
-							Log.Warning($"# ColonistBecomesDumber => {looser != null}");
+							Log.Warning($"#{Instance.punishLevel} ColonistBecomesDumber => {looser != null}");
 							if (looser != null)
 							{
 								looser.skills.skills.Do(skill => skill.levelInt /= 2);
@@ -312,10 +314,8 @@ namespace Rimionship
 
 		public static void Draw(float leftX, ref float curBaseY)
 		{
-			var bloodGod = Current.Game.World.GetComponent<BloodGod>();
-
-			var f = bloodGod.RisingClamped01();
-			var n = bloodGod.state >= State.Rising ? (int)(1 + 4 * f) : 0;
+			var f = Instance.RisingClamped01();
+			var n = Instance.state >= State.Rising ? (int)(1 + 4 * f) : 0;
 			if (f > 0.9f)
 				n = (int)GenMath.LerpDoubleClamped(-0.9f, 0.9f, 0, 5, Mathf.Sin(Time.realtimeSinceStartup * 5));
 
