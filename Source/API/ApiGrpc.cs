@@ -13,14 +13,32 @@ namespace Api {
     static readonly string __ServiceName = "api.API";
 
     static readonly grpc::Marshaller<global::Api.HelloRequest> __Marshaller_api_HelloRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.HelloRequest.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::Api.HelloReply> __Marshaller_api_HelloReply = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.HelloReply.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Api.HelloResponse> __Marshaller_api_HelloResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.HelloResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Api.StatsRequest> __Marshaller_api_StatsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.StatsRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Api.StatsResponse> __Marshaller_api_StatsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.StatsResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Api.FutureEventsRequest> __Marshaller_api_FutureEventsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.FutureEventsRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Api.FutureEventsResponse> __Marshaller_api_FutureEventsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.FutureEventsResponse.Parser.ParseFrom);
 
-    static readonly grpc::Method<global::Api.HelloRequest, global::Api.HelloReply> __Method_Hello = new grpc::Method<global::Api.HelloRequest, global::Api.HelloReply>(
+    static readonly grpc::Method<global::Api.HelloRequest, global::Api.HelloResponse> __Method_Hello = new grpc::Method<global::Api.HelloRequest, global::Api.HelloResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "Hello",
         __Marshaller_api_HelloRequest,
-        __Marshaller_api_HelloReply);
+        __Marshaller_api_HelloResponse);
+
+    static readonly grpc::Method<global::Api.StatsRequest, global::Api.StatsResponse> __Method_Stats = new grpc::Method<global::Api.StatsRequest, global::Api.StatsResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "Stats",
+        __Marshaller_api_StatsRequest,
+        __Marshaller_api_StatsResponse);
+
+    static readonly grpc::Method<global::Api.FutureEventsRequest, global::Api.FutureEventsResponse> __Method_FutureEvents = new grpc::Method<global::Api.FutureEventsRequest, global::Api.FutureEventsResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "FutureEvents",
+        __Marshaller_api_FutureEventsRequest,
+        __Marshaller_api_FutureEventsResponse);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -31,7 +49,17 @@ namespace Api {
     /// <summary>Base class for server-side implementations of API</summary>
     public abstract partial class APIBase
     {
-      public virtual global::System.Threading.Tasks.Task<global::Api.HelloReply> Hello(global::Api.HelloRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Api.HelloResponse> Hello(global::Api.HelloRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::Api.StatsResponse> Stats(global::Api.StatsRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::Api.FutureEventsResponse> FutureEvents(global::Api.FutureEventsRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -61,21 +89,53 @@ namespace Api {
       {
       }
 
-      public virtual global::Api.HelloReply Hello(global::Api.HelloRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Api.HelloResponse Hello(global::Api.HelloRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return Hello(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual global::Api.HelloReply Hello(global::Api.HelloRequest request, grpc::CallOptions options)
+      public virtual global::Api.HelloResponse Hello(global::Api.HelloRequest request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_Hello, null, options, request);
       }
-      public virtual grpc::AsyncUnaryCall<global::Api.HelloReply> HelloAsync(global::Api.HelloRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Api.HelloResponse> HelloAsync(global::Api.HelloRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return HelloAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual grpc::AsyncUnaryCall<global::Api.HelloReply> HelloAsync(global::Api.HelloRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Api.HelloResponse> HelloAsync(global::Api.HelloRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_Hello, null, options, request);
+      }
+      public virtual global::Api.StatsResponse Stats(global::Api.StatsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return Stats(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::Api.StatsResponse Stats(global::Api.StatsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_Stats, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::Api.StatsResponse> StatsAsync(global::Api.StatsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return StatsAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::Api.StatsResponse> StatsAsync(global::Api.StatsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_Stats, null, options, request);
+      }
+      public virtual global::Api.FutureEventsResponse FutureEvents(global::Api.FutureEventsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return FutureEvents(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::Api.FutureEventsResponse FutureEvents(global::Api.FutureEventsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_FutureEvents, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::Api.FutureEventsResponse> FutureEventsAsync(global::Api.FutureEventsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return FutureEventsAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::Api.FutureEventsResponse> FutureEventsAsync(global::Api.FutureEventsRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_FutureEvents, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       protected override APIClient NewInstance(ClientBaseConfiguration configuration)
@@ -89,7 +149,9 @@ namespace Api {
     public static grpc::ServerServiceDefinition BindService(APIBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
-          .AddMethod(__Method_Hello, serviceImpl.Hello).Build();
+          .AddMethod(__Method_Hello, serviceImpl.Hello)
+          .AddMethod(__Method_Stats, serviceImpl.Stats)
+          .AddMethod(__Method_FutureEvents, serviceImpl.FutureEvents).Build();
     }
 
     /// <summary>Register service method implementations with a service binder. Useful when customizing the service binding logic.
@@ -99,6 +161,8 @@ namespace Api {
     public static void BindService(grpc::ServiceBinderBase serviceBinder, APIBase serviceImpl)
     {
       serviceBinder.AddMethod(__Method_Hello, serviceImpl.Hello);
+      serviceBinder.AddMethod(__Method_Stats, serviceImpl.Stats);
+      serviceBinder.AddMethod(__Method_FutureEvents, serviceImpl.FutureEvents);
     }
 
   }

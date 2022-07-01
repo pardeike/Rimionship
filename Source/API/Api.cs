@@ -25,14 +25,41 @@ namespace Api {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChBQcm90b3MvYXBpLnByb3RvEgNhcGkiGgoMSGVsbG9SZXF1ZXN0EgoKAmlk",
-            "GAEgASgJIhgKCkhlbGxvUmVwbHkSCgoCaWQYASABKAkyNAoDQVBJEi0KBUhl",
-            "bGxvEhEuYXBpLkhlbGxvUmVxdWVzdBoPLmFwaS5IZWxsb1JlcGx5IgBiBnBy",
-            "b3RvMw=="));
+            "GAEgASgJIhsKDUhlbGxvUmVzcG9uc2USCgoCaWQYASABKAki/QQKDFN0YXRz",
+            "UmVxdWVzdBIKCgJpZBgBIAEoCRIOCgZ3ZWFsdGgYAiABKAUSEAoIbWFwQ291",
+            "bnQYAyABKAUSEQoJY29sb25pc3RzGAQgASgFEhwKFGNvbG9uaXN0c05lZWRU",
+            "ZW5kaW5nGAUgASgFEhkKEW1lZGljYWxDb25kaXRpb25zGAYgASgFEg8KB2Vu",
+            "ZW1pZXMYByABKAUSEwoLd2lsZEFuaW1hbHMYCCABKAUSFAoMdGFtZWRBbmlt",
+            "YWxzGAkgASgFEhAKCHZpc2l0b3JzGAogASgFEhEKCXByaXNvbmVycxgLIAEo",
+            "BRIXCg9kb3duZWRDb2xvbmlzdHMYDCABKAUSFwoPbWVudGFsQ29sb25pc3Rz",
+            "GA0gASgFEg0KBXJvb21zGA4gASgFEhAKCGNhcmF2YW5zGA8gASgFEhEKCXdl",
+            "YXBvbkRwcxgQIAEoBRITCgtlbGVjdHJpY2l0eRgRIAEoBRIQCghtZWRpY2lu",
+            "ZRgSIAEoBRIMCgRmb29kGBMgASgFEgwKBGZpcmUYFCABKAUSEgoKY29uZGl0",
+            "aW9ucxgVIAEoBRITCgt0ZW1wZXJhdHVyZRgWIAEoBRIVCg1udW1SYWlkc0Vu",
+            "ZW15GBcgASgFEhUKDW51bVRocmVhdEJpZ3MYGCABKAUSFwoPY29sb25pc3Rz",
+            "S2lsbGVkGBkgASgFEhoKEmdyZWF0ZXN0UG9wdWxhdGlvbhgaIAEoBRITCgtp",
+            "bkdhbWVIb3VycxgbIAEoBRIYChBkYW1hZ2VUYWtlblBhd25zGBwgASgCEhkK",
+            "EWRhbWFnZVRha2VuVGhpbmdzGB0gASgCEhMKC2RhbWFnZURlYWx0GB4gASgC",
+            "IiEKDVN0YXRzUmVzcG9uc2USEAoIaW50ZXJ2YWwYASABKAUiggEKC0Z1dHVy",
+            "ZUV2ZW50Eg0KBXRpY2tzGAEgASgFEgwKBG5hbWUYAiABKAkSDQoFcXVlc3QY",
+            "AyABKAkSDwoHZmFjdGlvbhgEIAEoCRIOCgZwb2ludHMYBSABKAISEAoIc3Ry",
+            "YXRlZ3kYBiABKAkSFAoMYXJyaXZhbF9tb2RlGAcgASgJIkIKE0Z1dHVyZUV2",
+            "ZW50c1JlcXVlc3QSCgoCaWQYASABKAkSHwoFZXZlbnQYAiADKAsyEC5hcGku",
+            "RnV0dXJlRXZlbnQiFgoURnV0dXJlRXZlbnRzUmVzcG9uc2UysAEKA0FQSRIw",
+            "CgVIZWxsbxIRLmFwaS5IZWxsb1JlcXVlc3QaEi5hcGkuSGVsbG9SZXNwb25z",
+            "ZSIAEjAKBVN0YXRzEhEuYXBpLlN0YXRzUmVxdWVzdBoSLmFwaS5TdGF0c1Jl",
+            "c3BvbnNlIgASRQoMRnV0dXJlRXZlbnRzEhguYXBpLkZ1dHVyZUV2ZW50c1Jl",
+            "cXVlc3QaGS5hcGkuRnV0dXJlRXZlbnRzUmVzcG9uc2UiAGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Api.HelloRequest), global::Api.HelloRequest.Parser, new[]{ "Id" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.HelloReply), global::Api.HelloReply.Parser, new[]{ "Id" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Api.HelloResponse), global::Api.HelloResponse.Parser, new[]{ "Id" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Api.StatsRequest), global::Api.StatsRequest.Parser, new[]{ "Id", "Wealth", "MapCount", "Colonists", "ColonistsNeedTending", "MedicalConditions", "Enemies", "WildAnimals", "TamedAnimals", "Visitors", "Prisoners", "DownedColonists", "MentalColonists", "Rooms", "Caravans", "WeaponDps", "Electricity", "Medicine", "Food", "Fire", "Conditions", "Temperature", "NumRaidsEnemy", "NumThreatBigs", "ColonistsKilled", "GreatestPopulation", "InGameHours", "DamageTakenPawns", "DamageTakenThings", "DamageDealt" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Api.StatsResponse), global::Api.StatsResponse.Parser, new[]{ "Interval" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Api.FutureEvent), global::Api.FutureEvent.Parser, new[]{ "Ticks", "Name", "Quest", "Faction", "Points", "Strategy", "ArrivalMode" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Api.FutureEventsRequest), global::Api.FutureEventsRequest.Parser, new[]{ "Id", "Event" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Api.FutureEventsResponse), global::Api.FutureEventsResponse.Parser, null, null, null, null)
           }));
     }
     #endregion
@@ -168,11 +195,11 @@ namespace Api {
 
   }
 
-  public sealed partial class HelloReply : pb::IMessage<HelloReply> {
-    private static readonly pb::MessageParser<HelloReply> _parser = new pb::MessageParser<HelloReply>(() => new HelloReply());
+  public sealed partial class HelloResponse : pb::IMessage<HelloResponse> {
+    private static readonly pb::MessageParser<HelloResponse> _parser = new pb::MessageParser<HelloResponse>(() => new HelloResponse());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<HelloReply> Parser { get { return _parser; } }
+    public static pb::MessageParser<HelloResponse> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -185,21 +212,21 @@ namespace Api {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public HelloReply() {
+    public HelloResponse() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public HelloReply(HelloReply other) : this() {
+    public HelloResponse(HelloResponse other) : this() {
       id_ = other.id_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public HelloReply Clone() {
-      return new HelloReply(this);
+    public HelloResponse Clone() {
+      return new HelloResponse(this);
     }
 
     /// <summary>Field number for the "id" field.</summary>
@@ -215,11 +242,11 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as HelloReply);
+      return Equals(other as HelloResponse);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(HelloReply other) {
+    public bool Equals(HelloResponse other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -269,7 +296,7 @@ namespace Api {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(HelloReply other) {
+    public void MergeFrom(HelloResponse other) {
       if (other == null) {
         return;
       }
@@ -291,6 +318,1623 @@ namespace Api {
             Id = input.ReadString();
             break;
           }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class StatsRequest : pb::IMessage<StatsRequest> {
+    private static readonly pb::MessageParser<StatsRequest> _parser = new pb::MessageParser<StatsRequest>(() => new StatsRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<StatsRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Api.ApiReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StatsRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StatsRequest(StatsRequest other) : this() {
+      id_ = other.id_;
+      wealth_ = other.wealth_;
+      mapCount_ = other.mapCount_;
+      colonists_ = other.colonists_;
+      colonistsNeedTending_ = other.colonistsNeedTending_;
+      medicalConditions_ = other.medicalConditions_;
+      enemies_ = other.enemies_;
+      wildAnimals_ = other.wildAnimals_;
+      tamedAnimals_ = other.tamedAnimals_;
+      visitors_ = other.visitors_;
+      prisoners_ = other.prisoners_;
+      downedColonists_ = other.downedColonists_;
+      mentalColonists_ = other.mentalColonists_;
+      rooms_ = other.rooms_;
+      caravans_ = other.caravans_;
+      weaponDps_ = other.weaponDps_;
+      electricity_ = other.electricity_;
+      medicine_ = other.medicine_;
+      food_ = other.food_;
+      fire_ = other.fire_;
+      conditions_ = other.conditions_;
+      temperature_ = other.temperature_;
+      numRaidsEnemy_ = other.numRaidsEnemy_;
+      numThreatBigs_ = other.numThreatBigs_;
+      colonistsKilled_ = other.colonistsKilled_;
+      greatestPopulation_ = other.greatestPopulation_;
+      inGameHours_ = other.inGameHours_;
+      damageTakenPawns_ = other.damageTakenPawns_;
+      damageTakenThings_ = other.damageTakenThings_;
+      damageDealt_ = other.damageDealt_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StatsRequest Clone() {
+      return new StatsRequest(this);
+    }
+
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private string id_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Id {
+      get { return id_; }
+      set {
+        id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "wealth" field.</summary>
+    public const int WealthFieldNumber = 2;
+    private int wealth_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Wealth {
+      get { return wealth_; }
+      set {
+        wealth_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "mapCount" field.</summary>
+    public const int MapCountFieldNumber = 3;
+    private int mapCount_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MapCount {
+      get { return mapCount_; }
+      set {
+        mapCount_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "colonists" field.</summary>
+    public const int ColonistsFieldNumber = 4;
+    private int colonists_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Colonists {
+      get { return colonists_; }
+      set {
+        colonists_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "colonistsNeedTending" field.</summary>
+    public const int ColonistsNeedTendingFieldNumber = 5;
+    private int colonistsNeedTending_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ColonistsNeedTending {
+      get { return colonistsNeedTending_; }
+      set {
+        colonistsNeedTending_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "medicalConditions" field.</summary>
+    public const int MedicalConditionsFieldNumber = 6;
+    private int medicalConditions_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MedicalConditions {
+      get { return medicalConditions_; }
+      set {
+        medicalConditions_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "enemies" field.</summary>
+    public const int EnemiesFieldNumber = 7;
+    private int enemies_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Enemies {
+      get { return enemies_; }
+      set {
+        enemies_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "wildAnimals" field.</summary>
+    public const int WildAnimalsFieldNumber = 8;
+    private int wildAnimals_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int WildAnimals {
+      get { return wildAnimals_; }
+      set {
+        wildAnimals_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "tamedAnimals" field.</summary>
+    public const int TamedAnimalsFieldNumber = 9;
+    private int tamedAnimals_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int TamedAnimals {
+      get { return tamedAnimals_; }
+      set {
+        tamedAnimals_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "visitors" field.</summary>
+    public const int VisitorsFieldNumber = 10;
+    private int visitors_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Visitors {
+      get { return visitors_; }
+      set {
+        visitors_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "prisoners" field.</summary>
+    public const int PrisonersFieldNumber = 11;
+    private int prisoners_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Prisoners {
+      get { return prisoners_; }
+      set {
+        prisoners_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "downedColonists" field.</summary>
+    public const int DownedColonistsFieldNumber = 12;
+    private int downedColonists_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int DownedColonists {
+      get { return downedColonists_; }
+      set {
+        downedColonists_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "mentalColonists" field.</summary>
+    public const int MentalColonistsFieldNumber = 13;
+    private int mentalColonists_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MentalColonists {
+      get { return mentalColonists_; }
+      set {
+        mentalColonists_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "rooms" field.</summary>
+    public const int RoomsFieldNumber = 14;
+    private int rooms_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Rooms {
+      get { return rooms_; }
+      set {
+        rooms_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "caravans" field.</summary>
+    public const int CaravansFieldNumber = 15;
+    private int caravans_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Caravans {
+      get { return caravans_; }
+      set {
+        caravans_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "weaponDps" field.</summary>
+    public const int WeaponDpsFieldNumber = 16;
+    private int weaponDps_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int WeaponDps {
+      get { return weaponDps_; }
+      set {
+        weaponDps_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "electricity" field.</summary>
+    public const int ElectricityFieldNumber = 17;
+    private int electricity_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Electricity {
+      get { return electricity_; }
+      set {
+        electricity_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "medicine" field.</summary>
+    public const int MedicineFieldNumber = 18;
+    private int medicine_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Medicine {
+      get { return medicine_; }
+      set {
+        medicine_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "food" field.</summary>
+    public const int FoodFieldNumber = 19;
+    private int food_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Food {
+      get { return food_; }
+      set {
+        food_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fire" field.</summary>
+    public const int FireFieldNumber = 20;
+    private int fire_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Fire {
+      get { return fire_; }
+      set {
+        fire_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "conditions" field.</summary>
+    public const int ConditionsFieldNumber = 21;
+    private int conditions_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Conditions {
+      get { return conditions_; }
+      set {
+        conditions_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "temperature" field.</summary>
+    public const int TemperatureFieldNumber = 22;
+    private int temperature_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Temperature {
+      get { return temperature_; }
+      set {
+        temperature_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "numRaidsEnemy" field.</summary>
+    public const int NumRaidsEnemyFieldNumber = 23;
+    private int numRaidsEnemy_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int NumRaidsEnemy {
+      get { return numRaidsEnemy_; }
+      set {
+        numRaidsEnemy_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "numThreatBigs" field.</summary>
+    public const int NumThreatBigsFieldNumber = 24;
+    private int numThreatBigs_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int NumThreatBigs {
+      get { return numThreatBigs_; }
+      set {
+        numThreatBigs_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "colonistsKilled" field.</summary>
+    public const int ColonistsKilledFieldNumber = 25;
+    private int colonistsKilled_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ColonistsKilled {
+      get { return colonistsKilled_; }
+      set {
+        colonistsKilled_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "greatestPopulation" field.</summary>
+    public const int GreatestPopulationFieldNumber = 26;
+    private int greatestPopulation_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int GreatestPopulation {
+      get { return greatestPopulation_; }
+      set {
+        greatestPopulation_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "inGameHours" field.</summary>
+    public const int InGameHoursFieldNumber = 27;
+    private int inGameHours_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int InGameHours {
+      get { return inGameHours_; }
+      set {
+        inGameHours_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "damageTakenPawns" field.</summary>
+    public const int DamageTakenPawnsFieldNumber = 28;
+    private float damageTakenPawns_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float DamageTakenPawns {
+      get { return damageTakenPawns_; }
+      set {
+        damageTakenPawns_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "damageTakenThings" field.</summary>
+    public const int DamageTakenThingsFieldNumber = 29;
+    private float damageTakenThings_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float DamageTakenThings {
+      get { return damageTakenThings_; }
+      set {
+        damageTakenThings_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "damageDealt" field.</summary>
+    public const int DamageDealtFieldNumber = 30;
+    private float damageDealt_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float DamageDealt {
+      get { return damageDealt_; }
+      set {
+        damageDealt_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as StatsRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(StatsRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Id != other.Id) return false;
+      if (Wealth != other.Wealth) return false;
+      if (MapCount != other.MapCount) return false;
+      if (Colonists != other.Colonists) return false;
+      if (ColonistsNeedTending != other.ColonistsNeedTending) return false;
+      if (MedicalConditions != other.MedicalConditions) return false;
+      if (Enemies != other.Enemies) return false;
+      if (WildAnimals != other.WildAnimals) return false;
+      if (TamedAnimals != other.TamedAnimals) return false;
+      if (Visitors != other.Visitors) return false;
+      if (Prisoners != other.Prisoners) return false;
+      if (DownedColonists != other.DownedColonists) return false;
+      if (MentalColonists != other.MentalColonists) return false;
+      if (Rooms != other.Rooms) return false;
+      if (Caravans != other.Caravans) return false;
+      if (WeaponDps != other.WeaponDps) return false;
+      if (Electricity != other.Electricity) return false;
+      if (Medicine != other.Medicine) return false;
+      if (Food != other.Food) return false;
+      if (Fire != other.Fire) return false;
+      if (Conditions != other.Conditions) return false;
+      if (Temperature != other.Temperature) return false;
+      if (NumRaidsEnemy != other.NumRaidsEnemy) return false;
+      if (NumThreatBigs != other.NumThreatBigs) return false;
+      if (ColonistsKilled != other.ColonistsKilled) return false;
+      if (GreatestPopulation != other.GreatestPopulation) return false;
+      if (InGameHours != other.InGameHours) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(DamageTakenPawns, other.DamageTakenPawns)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(DamageTakenThings, other.DamageTakenThings)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(DamageDealt, other.DamageDealt)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (Wealth != 0) hash ^= Wealth.GetHashCode();
+      if (MapCount != 0) hash ^= MapCount.GetHashCode();
+      if (Colonists != 0) hash ^= Colonists.GetHashCode();
+      if (ColonistsNeedTending != 0) hash ^= ColonistsNeedTending.GetHashCode();
+      if (MedicalConditions != 0) hash ^= MedicalConditions.GetHashCode();
+      if (Enemies != 0) hash ^= Enemies.GetHashCode();
+      if (WildAnimals != 0) hash ^= WildAnimals.GetHashCode();
+      if (TamedAnimals != 0) hash ^= TamedAnimals.GetHashCode();
+      if (Visitors != 0) hash ^= Visitors.GetHashCode();
+      if (Prisoners != 0) hash ^= Prisoners.GetHashCode();
+      if (DownedColonists != 0) hash ^= DownedColonists.GetHashCode();
+      if (MentalColonists != 0) hash ^= MentalColonists.GetHashCode();
+      if (Rooms != 0) hash ^= Rooms.GetHashCode();
+      if (Caravans != 0) hash ^= Caravans.GetHashCode();
+      if (WeaponDps != 0) hash ^= WeaponDps.GetHashCode();
+      if (Electricity != 0) hash ^= Electricity.GetHashCode();
+      if (Medicine != 0) hash ^= Medicine.GetHashCode();
+      if (Food != 0) hash ^= Food.GetHashCode();
+      if (Fire != 0) hash ^= Fire.GetHashCode();
+      if (Conditions != 0) hash ^= Conditions.GetHashCode();
+      if (Temperature != 0) hash ^= Temperature.GetHashCode();
+      if (NumRaidsEnemy != 0) hash ^= NumRaidsEnemy.GetHashCode();
+      if (NumThreatBigs != 0) hash ^= NumThreatBigs.GetHashCode();
+      if (ColonistsKilled != 0) hash ^= ColonistsKilled.GetHashCode();
+      if (GreatestPopulation != 0) hash ^= GreatestPopulation.GetHashCode();
+      if (InGameHours != 0) hash ^= InGameHours.GetHashCode();
+      if (DamageTakenPawns != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(DamageTakenPawns);
+      if (DamageTakenThings != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(DamageTakenThings);
+      if (DamageDealt != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(DamageDealt);
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Id.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Id);
+      }
+      if (Wealth != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Wealth);
+      }
+      if (MapCount != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(MapCount);
+      }
+      if (Colonists != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(Colonists);
+      }
+      if (ColonistsNeedTending != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(ColonistsNeedTending);
+      }
+      if (MedicalConditions != 0) {
+        output.WriteRawTag(48);
+        output.WriteInt32(MedicalConditions);
+      }
+      if (Enemies != 0) {
+        output.WriteRawTag(56);
+        output.WriteInt32(Enemies);
+      }
+      if (WildAnimals != 0) {
+        output.WriteRawTag(64);
+        output.WriteInt32(WildAnimals);
+      }
+      if (TamedAnimals != 0) {
+        output.WriteRawTag(72);
+        output.WriteInt32(TamedAnimals);
+      }
+      if (Visitors != 0) {
+        output.WriteRawTag(80);
+        output.WriteInt32(Visitors);
+      }
+      if (Prisoners != 0) {
+        output.WriteRawTag(88);
+        output.WriteInt32(Prisoners);
+      }
+      if (DownedColonists != 0) {
+        output.WriteRawTag(96);
+        output.WriteInt32(DownedColonists);
+      }
+      if (MentalColonists != 0) {
+        output.WriteRawTag(104);
+        output.WriteInt32(MentalColonists);
+      }
+      if (Rooms != 0) {
+        output.WriteRawTag(112);
+        output.WriteInt32(Rooms);
+      }
+      if (Caravans != 0) {
+        output.WriteRawTag(120);
+        output.WriteInt32(Caravans);
+      }
+      if (WeaponDps != 0) {
+        output.WriteRawTag(128, 1);
+        output.WriteInt32(WeaponDps);
+      }
+      if (Electricity != 0) {
+        output.WriteRawTag(136, 1);
+        output.WriteInt32(Electricity);
+      }
+      if (Medicine != 0) {
+        output.WriteRawTag(144, 1);
+        output.WriteInt32(Medicine);
+      }
+      if (Food != 0) {
+        output.WriteRawTag(152, 1);
+        output.WriteInt32(Food);
+      }
+      if (Fire != 0) {
+        output.WriteRawTag(160, 1);
+        output.WriteInt32(Fire);
+      }
+      if (Conditions != 0) {
+        output.WriteRawTag(168, 1);
+        output.WriteInt32(Conditions);
+      }
+      if (Temperature != 0) {
+        output.WriteRawTag(176, 1);
+        output.WriteInt32(Temperature);
+      }
+      if (NumRaidsEnemy != 0) {
+        output.WriteRawTag(184, 1);
+        output.WriteInt32(NumRaidsEnemy);
+      }
+      if (NumThreatBigs != 0) {
+        output.WriteRawTag(192, 1);
+        output.WriteInt32(NumThreatBigs);
+      }
+      if (ColonistsKilled != 0) {
+        output.WriteRawTag(200, 1);
+        output.WriteInt32(ColonistsKilled);
+      }
+      if (GreatestPopulation != 0) {
+        output.WriteRawTag(208, 1);
+        output.WriteInt32(GreatestPopulation);
+      }
+      if (InGameHours != 0) {
+        output.WriteRawTag(216, 1);
+        output.WriteInt32(InGameHours);
+      }
+      if (DamageTakenPawns != 0F) {
+        output.WriteRawTag(229, 1);
+        output.WriteFloat(DamageTakenPawns);
+      }
+      if (DamageTakenThings != 0F) {
+        output.WriteRawTag(237, 1);
+        output.WriteFloat(DamageTakenThings);
+      }
+      if (DamageDealt != 0F) {
+        output.WriteRawTag(245, 1);
+        output.WriteFloat(DamageDealt);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Id.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      }
+      if (Wealth != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Wealth);
+      }
+      if (MapCount != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MapCount);
+      }
+      if (Colonists != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Colonists);
+      }
+      if (ColonistsNeedTending != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ColonistsNeedTending);
+      }
+      if (MedicalConditions != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MedicalConditions);
+      }
+      if (Enemies != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Enemies);
+      }
+      if (WildAnimals != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(WildAnimals);
+      }
+      if (TamedAnimals != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TamedAnimals);
+      }
+      if (Visitors != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Visitors);
+      }
+      if (Prisoners != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Prisoners);
+      }
+      if (DownedColonists != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DownedColonists);
+      }
+      if (MentalColonists != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MentalColonists);
+      }
+      if (Rooms != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Rooms);
+      }
+      if (Caravans != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Caravans);
+      }
+      if (WeaponDps != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(WeaponDps);
+      }
+      if (Electricity != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(Electricity);
+      }
+      if (Medicine != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(Medicine);
+      }
+      if (Food != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(Food);
+      }
+      if (Fire != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(Fire);
+      }
+      if (Conditions != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(Conditions);
+      }
+      if (Temperature != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(Temperature);
+      }
+      if (NumRaidsEnemy != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(NumRaidsEnemy);
+      }
+      if (NumThreatBigs != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(NumThreatBigs);
+      }
+      if (ColonistsKilled != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(ColonistsKilled);
+      }
+      if (GreatestPopulation != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(GreatestPopulation);
+      }
+      if (InGameHours != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(InGameHours);
+      }
+      if (DamageTakenPawns != 0F) {
+        size += 2 + 4;
+      }
+      if (DamageTakenThings != 0F) {
+        size += 2 + 4;
+      }
+      if (DamageDealt != 0F) {
+        size += 2 + 4;
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(StatsRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Id.Length != 0) {
+        Id = other.Id;
+      }
+      if (other.Wealth != 0) {
+        Wealth = other.Wealth;
+      }
+      if (other.MapCount != 0) {
+        MapCount = other.MapCount;
+      }
+      if (other.Colonists != 0) {
+        Colonists = other.Colonists;
+      }
+      if (other.ColonistsNeedTending != 0) {
+        ColonistsNeedTending = other.ColonistsNeedTending;
+      }
+      if (other.MedicalConditions != 0) {
+        MedicalConditions = other.MedicalConditions;
+      }
+      if (other.Enemies != 0) {
+        Enemies = other.Enemies;
+      }
+      if (other.WildAnimals != 0) {
+        WildAnimals = other.WildAnimals;
+      }
+      if (other.TamedAnimals != 0) {
+        TamedAnimals = other.TamedAnimals;
+      }
+      if (other.Visitors != 0) {
+        Visitors = other.Visitors;
+      }
+      if (other.Prisoners != 0) {
+        Prisoners = other.Prisoners;
+      }
+      if (other.DownedColonists != 0) {
+        DownedColonists = other.DownedColonists;
+      }
+      if (other.MentalColonists != 0) {
+        MentalColonists = other.MentalColonists;
+      }
+      if (other.Rooms != 0) {
+        Rooms = other.Rooms;
+      }
+      if (other.Caravans != 0) {
+        Caravans = other.Caravans;
+      }
+      if (other.WeaponDps != 0) {
+        WeaponDps = other.WeaponDps;
+      }
+      if (other.Electricity != 0) {
+        Electricity = other.Electricity;
+      }
+      if (other.Medicine != 0) {
+        Medicine = other.Medicine;
+      }
+      if (other.Food != 0) {
+        Food = other.Food;
+      }
+      if (other.Fire != 0) {
+        Fire = other.Fire;
+      }
+      if (other.Conditions != 0) {
+        Conditions = other.Conditions;
+      }
+      if (other.Temperature != 0) {
+        Temperature = other.Temperature;
+      }
+      if (other.NumRaidsEnemy != 0) {
+        NumRaidsEnemy = other.NumRaidsEnemy;
+      }
+      if (other.NumThreatBigs != 0) {
+        NumThreatBigs = other.NumThreatBigs;
+      }
+      if (other.ColonistsKilled != 0) {
+        ColonistsKilled = other.ColonistsKilled;
+      }
+      if (other.GreatestPopulation != 0) {
+        GreatestPopulation = other.GreatestPopulation;
+      }
+      if (other.InGameHours != 0) {
+        InGameHours = other.InGameHours;
+      }
+      if (other.DamageTakenPawns != 0F) {
+        DamageTakenPawns = other.DamageTakenPawns;
+      }
+      if (other.DamageTakenThings != 0F) {
+        DamageTakenThings = other.DamageTakenThings;
+      }
+      if (other.DamageDealt != 0F) {
+        DamageDealt = other.DamageDealt;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Id = input.ReadString();
+            break;
+          }
+          case 16: {
+            Wealth = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            MapCount = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            Colonists = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            ColonistsNeedTending = input.ReadInt32();
+            break;
+          }
+          case 48: {
+            MedicalConditions = input.ReadInt32();
+            break;
+          }
+          case 56: {
+            Enemies = input.ReadInt32();
+            break;
+          }
+          case 64: {
+            WildAnimals = input.ReadInt32();
+            break;
+          }
+          case 72: {
+            TamedAnimals = input.ReadInt32();
+            break;
+          }
+          case 80: {
+            Visitors = input.ReadInt32();
+            break;
+          }
+          case 88: {
+            Prisoners = input.ReadInt32();
+            break;
+          }
+          case 96: {
+            DownedColonists = input.ReadInt32();
+            break;
+          }
+          case 104: {
+            MentalColonists = input.ReadInt32();
+            break;
+          }
+          case 112: {
+            Rooms = input.ReadInt32();
+            break;
+          }
+          case 120: {
+            Caravans = input.ReadInt32();
+            break;
+          }
+          case 128: {
+            WeaponDps = input.ReadInt32();
+            break;
+          }
+          case 136: {
+            Electricity = input.ReadInt32();
+            break;
+          }
+          case 144: {
+            Medicine = input.ReadInt32();
+            break;
+          }
+          case 152: {
+            Food = input.ReadInt32();
+            break;
+          }
+          case 160: {
+            Fire = input.ReadInt32();
+            break;
+          }
+          case 168: {
+            Conditions = input.ReadInt32();
+            break;
+          }
+          case 176: {
+            Temperature = input.ReadInt32();
+            break;
+          }
+          case 184: {
+            NumRaidsEnemy = input.ReadInt32();
+            break;
+          }
+          case 192: {
+            NumThreatBigs = input.ReadInt32();
+            break;
+          }
+          case 200: {
+            ColonistsKilled = input.ReadInt32();
+            break;
+          }
+          case 208: {
+            GreatestPopulation = input.ReadInt32();
+            break;
+          }
+          case 216: {
+            InGameHours = input.ReadInt32();
+            break;
+          }
+          case 229: {
+            DamageTakenPawns = input.ReadFloat();
+            break;
+          }
+          case 237: {
+            DamageTakenThings = input.ReadFloat();
+            break;
+          }
+          case 245: {
+            DamageDealt = input.ReadFloat();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class StatsResponse : pb::IMessage<StatsResponse> {
+    private static readonly pb::MessageParser<StatsResponse> _parser = new pb::MessageParser<StatsResponse>(() => new StatsResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<StatsResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Api.ApiReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StatsResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StatsResponse(StatsResponse other) : this() {
+      interval_ = other.interval_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StatsResponse Clone() {
+      return new StatsResponse(this);
+    }
+
+    /// <summary>Field number for the "interval" field.</summary>
+    public const int IntervalFieldNumber = 1;
+    private int interval_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Interval {
+      get { return interval_; }
+      set {
+        interval_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as StatsResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(StatsResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Interval != other.Interval) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Interval != 0) hash ^= Interval.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Interval != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Interval);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Interval != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Interval);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(StatsResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Interval != 0) {
+        Interval = other.Interval;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Interval = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class FutureEvent : pb::IMessage<FutureEvent> {
+    private static readonly pb::MessageParser<FutureEvent> _parser = new pb::MessageParser<FutureEvent>(() => new FutureEvent());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<FutureEvent> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Api.ApiReflection.Descriptor.MessageTypes[4]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public FutureEvent() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public FutureEvent(FutureEvent other) : this() {
+      ticks_ = other.ticks_;
+      name_ = other.name_;
+      quest_ = other.quest_;
+      faction_ = other.faction_;
+      points_ = other.points_;
+      strategy_ = other.strategy_;
+      arrivalMode_ = other.arrivalMode_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public FutureEvent Clone() {
+      return new FutureEvent(this);
+    }
+
+    /// <summary>Field number for the "ticks" field.</summary>
+    public const int TicksFieldNumber = 1;
+    private int ticks_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Ticks {
+      get { return ticks_; }
+      set {
+        ticks_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 2;
+    private string name_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Name {
+      get { return name_; }
+      set {
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "quest" field.</summary>
+    public const int QuestFieldNumber = 3;
+    private string quest_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Quest {
+      get { return quest_; }
+      set {
+        quest_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "faction" field.</summary>
+    public const int FactionFieldNumber = 4;
+    private string faction_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Faction {
+      get { return faction_; }
+      set {
+        faction_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "points" field.</summary>
+    public const int PointsFieldNumber = 5;
+    private float points_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float Points {
+      get { return points_; }
+      set {
+        points_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "strategy" field.</summary>
+    public const int StrategyFieldNumber = 6;
+    private string strategy_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Strategy {
+      get { return strategy_; }
+      set {
+        strategy_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "arrival_mode" field.</summary>
+    public const int ArrivalModeFieldNumber = 7;
+    private string arrivalMode_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ArrivalMode {
+      get { return arrivalMode_; }
+      set {
+        arrivalMode_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as FutureEvent);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(FutureEvent other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Ticks != other.Ticks) return false;
+      if (Name != other.Name) return false;
+      if (Quest != other.Quest) return false;
+      if (Faction != other.Faction) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Points, other.Points)) return false;
+      if (Strategy != other.Strategy) return false;
+      if (ArrivalMode != other.ArrivalMode) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Ticks != 0) hash ^= Ticks.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (Quest.Length != 0) hash ^= Quest.GetHashCode();
+      if (Faction.Length != 0) hash ^= Faction.GetHashCode();
+      if (Points != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Points);
+      if (Strategy.Length != 0) hash ^= Strategy.GetHashCode();
+      if (ArrivalMode.Length != 0) hash ^= ArrivalMode.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Ticks != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Ticks);
+      }
+      if (Name.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Name);
+      }
+      if (Quest.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Quest);
+      }
+      if (Faction.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Faction);
+      }
+      if (Points != 0F) {
+        output.WriteRawTag(45);
+        output.WriteFloat(Points);
+      }
+      if (Strategy.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(Strategy);
+      }
+      if (ArrivalMode.Length != 0) {
+        output.WriteRawTag(58);
+        output.WriteString(ArrivalMode);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Ticks != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Ticks);
+      }
+      if (Name.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      }
+      if (Quest.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Quest);
+      }
+      if (Faction.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Faction);
+      }
+      if (Points != 0F) {
+        size += 1 + 4;
+      }
+      if (Strategy.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Strategy);
+      }
+      if (ArrivalMode.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ArrivalMode);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(FutureEvent other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Ticks != 0) {
+        Ticks = other.Ticks;
+      }
+      if (other.Name.Length != 0) {
+        Name = other.Name;
+      }
+      if (other.Quest.Length != 0) {
+        Quest = other.Quest;
+      }
+      if (other.Faction.Length != 0) {
+        Faction = other.Faction;
+      }
+      if (other.Points != 0F) {
+        Points = other.Points;
+      }
+      if (other.Strategy.Length != 0) {
+        Strategy = other.Strategy;
+      }
+      if (other.ArrivalMode.Length != 0) {
+        ArrivalMode = other.ArrivalMode;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Ticks = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            Name = input.ReadString();
+            break;
+          }
+          case 26: {
+            Quest = input.ReadString();
+            break;
+          }
+          case 34: {
+            Faction = input.ReadString();
+            break;
+          }
+          case 45: {
+            Points = input.ReadFloat();
+            break;
+          }
+          case 50: {
+            Strategy = input.ReadString();
+            break;
+          }
+          case 58: {
+            ArrivalMode = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class FutureEventsRequest : pb::IMessage<FutureEventsRequest> {
+    private static readonly pb::MessageParser<FutureEventsRequest> _parser = new pb::MessageParser<FutureEventsRequest>(() => new FutureEventsRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<FutureEventsRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Api.ApiReflection.Descriptor.MessageTypes[5]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public FutureEventsRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public FutureEventsRequest(FutureEventsRequest other) : this() {
+      id_ = other.id_;
+      event_ = other.event_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public FutureEventsRequest Clone() {
+      return new FutureEventsRequest(this);
+    }
+
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private string id_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Id {
+      get { return id_; }
+      set {
+        id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "event" field.</summary>
+    public const int EventFieldNumber = 2;
+    private static readonly pb::FieldCodec<global::Api.FutureEvent> _repeated_event_codec
+        = pb::FieldCodec.ForMessage(18, global::Api.FutureEvent.Parser);
+    private readonly pbc::RepeatedField<global::Api.FutureEvent> event_ = new pbc::RepeatedField<global::Api.FutureEvent>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::Api.FutureEvent> Event {
+      get { return event_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as FutureEventsRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(FutureEventsRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Id != other.Id) return false;
+      if(!event_.Equals(other.event_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Id.Length != 0) hash ^= Id.GetHashCode();
+      hash ^= event_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Id.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Id);
+      }
+      event_.WriteTo(output, _repeated_event_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Id.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      }
+      size += event_.CalculateSize(_repeated_event_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(FutureEventsRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Id.Length != 0) {
+        Id = other.Id;
+      }
+      event_.Add(other.event_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Id = input.ReadString();
+            break;
+          }
+          case 18: {
+            event_.AddEntriesFrom(input, _repeated_event_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class FutureEventsResponse : pb::IMessage<FutureEventsResponse> {
+    private static readonly pb::MessageParser<FutureEventsResponse> _parser = new pb::MessageParser<FutureEventsResponse>(() => new FutureEventsResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<FutureEventsResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Api.ApiReflection.Descriptor.MessageTypes[6]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public FutureEventsResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public FutureEventsResponse(FutureEventsResponse other) : this() {
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public FutureEventsResponse Clone() {
+      return new FutureEventsResponse(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as FutureEventsResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(FutureEventsResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(FutureEventsResponse other) {
+      if (other == null) {
+        return;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
         }
       }
     }

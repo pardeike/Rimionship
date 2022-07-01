@@ -3,13 +3,70 @@
 package api;
 
 service API {
-  rpc Hello (HelloRequest) returns (HelloReply) {}
+	rpc Hello (HelloRequest) returns (HelloResponse) {}
+	rpc Stats (StatsRequest) returns (StatsResponse) {}
+	rpc FutureEvents (FutureEventsRequest) returns (FutureEventsResponse) {}
 }
 
 message HelloRequest {
 	string id = 1;
 }
 
-message HelloReply {
+message HelloResponse {
   string id = 1;
+}
+
+message StatsRequest {
+	string id = 1;
+	int32 wealth = 2;
+	int32 mapCount = 3;
+	int32 colonists = 4;
+	int32 colonistsNeedTending = 5;
+	int32 medicalConditions = 6;
+	int32 enemies = 7;
+	int32 wildAnimals = 8;
+	int32 tamedAnimals = 9;
+	int32 visitors = 10;
+	int32 prisoners = 11;
+	int32 downedColonists = 12;
+	int32 mentalColonists = 13;
+	int32 rooms = 14;
+	int32 caravans = 15;
+	int32 weaponDps = 16;
+	int32 electricity = 17;
+	int32 medicine = 18;
+	int32 food = 19;
+	int32 fire = 20;
+	int32 conditions = 21;
+	int32 temperature = 22;
+	int32 numRaidsEnemy = 23;
+	int32 numThreatBigs = 24;
+	int32 colonistsKilled = 25;
+	int32 greatestPopulation = 26;
+	int32 inGameHours = 27;
+	float damageTakenPawns = 28;
+	float damageTakenThings = 29;
+	float damageDealt = 30;
+}
+
+message StatsResponse {
+	int32 interval = 1;
+}
+
+message FutureEvent {
+	int32 ticks = 1;
+	string name = 2;
+	string quest = 3;
+	string faction = 4;
+	float points = 5;
+	string strategy = 6;
+	string arrival_mode = 7;
+}
+
+message FutureEventsRequest {
+	string id = 1;
+	repeated FutureEvent event = 2;
+}
+
+message FutureEventsResponse {
 }
