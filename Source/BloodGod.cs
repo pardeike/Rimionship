@@ -151,7 +151,8 @@ namespace Rimionship
 						&& pawn.Downed == false
 						&& pawn.IsPrisoner == false
 						&& pawn.IsSlave == false
-						&& pawn.health.State == PawnHealthState.Mobile)
+						&& pawn.health.State == PawnHealthState.Mobile
+						&& pawn.WorkTagIsDisabled(WorkTags.Violent) == false)
 					.ToList();
 			if (candidates.Count == 0) return null;
 			return candidates.RandomElementByWeight(pawn => pawn.skills.skills.Sum(SkillWeight));
@@ -179,20 +180,20 @@ namespace Rimionship
 				Log.Warning($"#{Instance.punishLevel} MakeMentalBreak no colonist avail => false");
 				return false;
 			}
-			var otherPawn = (Pawn)null;
 			if (def == MentalStateDefOf.SocialFighting)
 			{
-				otherPawn = NonMentalColonist(pawn);
+				var otherPawn = NonMentalColonist(pawn);
 				if (otherPawn == null)
 				{
 					Log.Warning($"#{Instance.punishLevel} MakeMentalBreak no other colonist avail => false");
 					return false;
 				}
+				pawn.interactions.StartSocialFight(otherPawn, "MessageSocialFight");
+				return true;
 			}
-			var res1 = pawn.mindState.mentalStateHandler.TryStartMentalState(def, null, true, false, otherPawn);
-			var res2 = otherPawn?.mindState.mentalStateHandler.TryStartMentalState(def, null, true, false, pawn) ?? true;
-			Log.Warning($"#{Instance.punishLevel} {pawn.LabelShortCap} {def.defName} => {res1} {res2}");
-			return res1 && res2;
+			var result = pawn.mindState.mentalStateHandler.TryStartMentalState(def, null, true);
+			Log.Warning($"#{Instance.punishLevel} {pawn.LabelShortCap} {def.defName} => {result}");
+			return result;
 		}
 
 		public static bool MakeRandomHediffGiver()
