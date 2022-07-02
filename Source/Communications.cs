@@ -12,7 +12,8 @@ namespace Rimionship
 		public static void Load(string rootDir)
 		{
 			var caRoots = File.ReadAllText(Path.Combine(rootDir, "Resources", "ca.pem"));
-			var channel = new Channel("localhost:443", new SslCredentials(caRoots));
+			//var option = new List<ChannelOption> { new ChannelOption(ChannelOptions.SslTargetNameOverride, "localhost") };
+			var channel = new Channel("mod.rimionship.com:443", new SslCredentials(caRoots)); // , option);
 			Communications.client = new API.APIClient(channel);
 			Communications.CreateModId();
 		}

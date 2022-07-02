@@ -27,7 +27,7 @@ namespace Rimionship
 		private const string twitchAuthUrl = "https://id.twitch.tv/oauth2/authorize";
 		private const string twitchClientId = "";
 		private const string twitchClientSecret = "";
-		private const string twitchRedirectUrl = "http://localhost:8080/";
+		private const string twitchRedirectUrl = "https://mod.rimionship.com/auth/twitch/callback";
 		private string twitchAuthStateVerify;
 
 		public Action<string> tokenCallback;
