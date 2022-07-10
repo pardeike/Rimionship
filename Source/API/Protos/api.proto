@@ -4,6 +4,7 @@ package api;
 
 service API {
 	rpc Hello (HelloRequest) returns (HelloResponse) {}
+	rpc Sync (SyncRequest) returns (stream SyncResponse) {}
 	rpc Stats (StatsRequest) returns (StatsResponse) {}
 	rpc FutureEvents (FutureEventsRequest) returns (FutureEventsResponse) {}
 }
@@ -13,7 +14,55 @@ message HelloRequest {
 }
 
 message HelloResponse {
-  string id = 1;
+	bool found = 1;
+}
+
+message SyncRequest {
+}
+
+message SyncResponse {
+	oneof part {
+		State state = 1;
+		Settings settings = 2;
+		string message = 3;
+	}
+}
+
+message State {
+	enum Game {
+		STOPPED = 0;
+		TRAINING = 1;
+		PREPARE = 2;
+		STARTED = 3;
+		COMPLETED = 4;
+	}
+	Game game = 1;
+	int32 plannedStartHour = 2;
+	int32 plannedStartMinute = 3;
+}
+
+message Settings {
+	Traits traits = 1;
+	Rising rising = 2;
+	Punishment punishment = 3;
+}
+
+message Traits {
+	float scaleFactor = 1;
+	float goodTraitSuppression = 2;
+	float badTraitSuppression = 3;
+}
+
+message Rising {
+	int32 maxFreeColonistCount = 1;
+	int32 risingInterval = 2;
+}
+
+message Punishment {
+	int32 randomStartPauseMin = 1;
+	int32 randomStartPauseMax = 2;
+	int32 startPauseInterval = 3;
+	int32 finalPauseInterval = 4;
 }
 
 message StatsRequest {

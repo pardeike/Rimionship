@@ -1,6 +1,8 @@
 ﻿using RimWorld;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -8,6 +10,29 @@ namespace Rimionship
 {
 	public static class Tools
 	{
+		private static readonly System.Random _RND = new();
+
+		public static string GenerateHexString(int digits)
+		{
+			return string.Concat(Enumerable.Range(0, digits).Select(_ => _RND.Next(16).ToString("x")));
+		}
+
+		private static string uniqueModID;
+		public static string UniqueModID
+		{
+			get
+			{
+				if (uniqueModID == null)
+				{
+					uniqueModID = PlayerPrefs.GetString("rimionship-id");
+					if (uniqueModID.NullOrEmpty())
+						uniqueModID = Guid.NewGuid().ToString();
+					PlayerPrefs.SetString("rimionship-id", uniqueModID);
+				}
+				return uniqueModID;
+			}
+		}
+
 		public static bool EveryNTick(this int ticks, int offset = 0)
 		{
 			return (Find.TickManager.TicksGame + offset) % ticks == 0;

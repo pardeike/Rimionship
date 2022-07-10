@@ -19,10 +19,11 @@ namespace Rimionship
 	[HarmonyPatch(typeof(OptionListingUtility), nameof(OptionListingUtility.DrawOptionListing))]
 	class OptionListingUtility_DrawOptionListing_Patch
 	{
+		static readonly string newColonyLabel = "NewColony".Translate();
+
 		public static void Prefix(List<ListableOption> optList)
 		{
-			var label = "NewColony".Translate();
-			var option = optList.FirstOrDefault(opt => opt.label == label);
+			var option = optList.FirstOrDefault(opt => opt.label == newColonyLabel);
 			if (option == null) return;
 			option.label = "Rimionship";
 			option.action = () =>
@@ -30,6 +31,47 @@ namespace Rimionship
 				MainMenuDrawer.CloseMainTab();
 				GameDataSaveLoader.LoadGame(Path.Combine(RimionshipMod.rootDir, "Resources", "rimionship"));
 			};
+		}
+	}
+
+	// make all rimionship buttons stand out
+	//
+	[HarmonyPatch(typeof(Widgets), nameof(Widgets.ButtonTextWorker))]
+	class Widgets_ButtonTextWorker_Patch
+	{
+		static readonly MethodInfo drawAtlasMethod = SymbolExtensions.GetMethodInfo(() => Widgets.DrawAtlas(default, default));
+
+		static void DrawAtlas(Rect rect, Texture2D atlas, string label)
+		{
+			var flag = label.Contains("Rimionship");
+			if (flag)
+			{
+				atlas = Assets.ButtonBGAtlas;
+				if (Mouse.IsOver(rect))
+					atlas = Input.GetMouseButton(0) ? Assets.ButtonBGAtlasClick : Assets.ButtonBGAtlasOver;
+			}
+			Widgets.DrawAtlas(rect, atlas);
+			if (flag)
+			{
+				var r = rect.ExpandedBy(-1);
+				var s = rect.size;
+				var f = r.size.x / r.size.y;
+				if (s.x / s.y < f)
+					s.x = s.y * f;
+				Widgets.DrawTextureFitted(r, Assets.ButtonPattern, 1f, s, new Rect(0f, 0f, 1f, 1f));
+			}
+		}
+
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+		{
+			return new CodeMatcher(instructions)
+				.MatchStartForward(new CodeMatch(operand: drawAtlasMethod))
+				.RemoveInstruction()
+				.Insert(
+					Ldarg_1,
+					Call[SymbolExtensions.GetMethodInfo(() => DrawAtlas(default, default, default))]
+				)
+				.InstructionEnumeration();
 		}
 	}
 
@@ -87,11 +129,11 @@ namespace Rimionship
 			ModsConfig.RecacheActiveMods();
 		}
 
-		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instruction)
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 		{
 			var from = SymbolExtensions.GetMethodInfo(() => ModsConfig.TrySortMods());
 			var to = SymbolExtensions.GetMethodInfo(() => LoadRimionshipMods());
-			var list = Transpilers.MethodReplacer(instruction, from, to).ToList();
+			var list = Transpilers.MethodReplacer(instructions, from, to).ToList();
 
 			var ldstr = list.FirstOrDefault(code => code.operand is string s && s == "ResolveModOrder");
 			ldstr.operand = "LoadRimionshipMods";

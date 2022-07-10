@@ -8,18 +8,6 @@ using Verse;
 
 namespace Rimionship
 {
-	[HarmonyPatch(typeof(UIRoot_Entry), nameof(UIRoot_Entry.Init))]
-	static class UIRoot_Entry_Init_Patch
-	{
-		static void Postfix()
-		{
-			Log.TryOpenLogWindow();
-
-			Authentication authentication = new Authentication { tokenCallback = token => Log.Error($"TOKEN: {token}") };
-			LongEventHandler.ExecuteWhenFinished(authentication.InitiateTwitchAuth);
-		}
-	}
-
 	[StaticConstructorOnStartup]
 	class RimionshipMod : Mod
 	{

@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using System.Collections;
 using System.Net;
 using System.Text;
@@ -25,13 +26,16 @@ namespace Rimionship
 	public class Authentication
 	{
 		private const string twitchAuthUrl = "https://id.twitch.tv/oauth2/authorize";
-		private const string twitchClientId = "";
-		private const string twitchClientSecret = "";
-		private const string twitchRedirectUrl = "https://mod.rimionship.com/auth/twitch/callback";
+		private const string twitchClientId = "6lhl8584kr6gksdtia7tn3pbsj9xod";
+		private const string twitchClientSecret = "e0n9wytn4f5hlq6ij8bh484bs12lv6";
+		private const string twitchRedirectUrl = "http://localhost/auth/twitch/callback/";
 		private string twitchAuthStateVerify;
 
 		public Action<string> tokenCallback;
 		public string twitchAuthToken;
+
+		private HttpListener localServer;
+		private IAsyncResult asyncResult;
 
 		public void InitiateTwitchAuth()
 		{
@@ -64,15 +68,15 @@ namespace Rimionship
 			StartLocalWebserver();
 
 			// open the users browser and send them to the Twitch auth URL
-			Application.OpenURL(twitchAuthUrl + "?" + query);
+			Application.OpenURL($"{twitchAuthUrl}?{query}");
 		}
 
 		void StartLocalWebserver()
 		{
-			var httpListener = new HttpListener();
-			httpListener.Prefixes.Add(twitchRedirectUrl);
-			httpListener.Start();
-			_ = httpListener.BeginGetContext(new AsyncCallback(IncomingHttpRequest), httpListener);
+			localServer = new HttpListener();
+			localServer.Prefixes.Add(twitchRedirectUrl);
+			localServer.Start();
+			asyncResult = localServer.BeginGetContext(new AsyncCallback(IncomingHttpRequest), localServer);
 		}
 
 		void IncomingHttpRequest(IAsyncResult result)
@@ -182,3 +186,4 @@ namespace Rimionship
 		}
 	}
 }
+*/

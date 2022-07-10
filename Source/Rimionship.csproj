@@ -39,6 +39,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Authentication.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="Authentication.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Brrainz.RimWorld.CrossPromotion" Version="1.0.0" />
 		<PackageReference Include="Grpc.Core" Version="1.18.0" />
 		<PackageReference Include="Microsoft.NETCore.Platforms" Version="6.0.3" />

@@ -14,6 +14,8 @@ namespace Api {
 
     static readonly grpc::Marshaller<global::Api.HelloRequest> __Marshaller_api_HelloRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.HelloRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::Api.HelloResponse> __Marshaller_api_HelloResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.HelloResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Api.SyncRequest> __Marshaller_api_SyncRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.SyncRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::Api.SyncResponse> __Marshaller_api_SyncResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.SyncResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::Api.StatsRequest> __Marshaller_api_StatsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.StatsRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::Api.StatsResponse> __Marshaller_api_StatsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.StatsResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::Api.FutureEventsRequest> __Marshaller_api_FutureEventsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.FutureEventsRequest.Parser.ParseFrom);
@@ -25,6 +27,13 @@ namespace Api {
         "Hello",
         __Marshaller_api_HelloRequest,
         __Marshaller_api_HelloResponse);
+
+    static readonly grpc::Method<global::Api.SyncRequest, global::Api.SyncResponse> __Method_Sync = new grpc::Method<global::Api.SyncRequest, global::Api.SyncResponse>(
+        grpc::MethodType.ServerStreaming,
+        __ServiceName,
+        "Sync",
+        __Marshaller_api_SyncRequest,
+        __Marshaller_api_SyncResponse);
 
     static readonly grpc::Method<global::Api.StatsRequest, global::Api.StatsResponse> __Method_Stats = new grpc::Method<global::Api.StatsRequest, global::Api.StatsResponse>(
         grpc::MethodType.Unary,
@@ -50,6 +59,11 @@ namespace Api {
     public abstract partial class APIBase
     {
       public virtual global::System.Threading.Tasks.Task<global::Api.HelloResponse> Hello(global::Api.HelloRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task Sync(global::Api.SyncRequest request, grpc::IServerStreamWriter<global::Api.SyncResponse> responseStream, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -105,6 +119,14 @@ namespace Api {
       {
         return CallInvoker.AsyncUnaryCall(__Method_Hello, null, options, request);
       }
+      public virtual grpc::AsyncServerStreamingCall<global::Api.SyncResponse> Sync(global::Api.SyncRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return Sync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncServerStreamingCall<global::Api.SyncResponse> Sync(global::Api.SyncRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncServerStreamingCall(__Method_Sync, null, options, request);
+      }
       public virtual global::Api.StatsResponse Stats(global::Api.StatsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return Stats(request, new grpc::CallOptions(headers, deadline, cancellationToken));
@@ -150,6 +172,7 @@ namespace Api {
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
           .AddMethod(__Method_Hello, serviceImpl.Hello)
+          .AddMethod(__Method_Sync, serviceImpl.Sync)
           .AddMethod(__Method_Stats, serviceImpl.Stats)
           .AddMethod(__Method_FutureEvents, serviceImpl.FutureEvents).Build();
     }
@@ -161,6 +184,7 @@ namespace Api {
     public static void BindService(grpc::ServiceBinderBase serviceBinder, APIBase serviceImpl)
     {
       serviceBinder.AddMethod(__Method_Hello, serviceImpl.Hello);
+      serviceBinder.AddMethod(__Method_Sync, serviceImpl.Sync);
       serviceBinder.AddMethod(__Method_Stats, serviceImpl.Stats);
       serviceBinder.AddMethod(__Method_FutureEvents, serviceImpl.FutureEvents);
     }
