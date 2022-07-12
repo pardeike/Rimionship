@@ -1,87 +1,55 @@
 ﻿using Api;
 using Grpc.Core;
-using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
-using Verse;
 
 namespace Rimionship
 {
-	public class Loader
+	public class Communications
 	{
 		public static readonly string hostName = "mod.rimionship.com";
 
-		public static void Load(string rootDir)
+		private static object _channel;
+		private static Channel Channel
+		{
+			get => (Channel)_channel;
+			set => _channel = value;
+		}
+
+		private static object _client;
+		public static API.APIClient Client
+		{
+			get => (API.APIClient)_client;
+			set => _client = value;
+		}
+
+		public static void Start(string rootDir)
 		{
 			var caRoots = File.ReadAllText(Path.Combine(rootDir, "Resources", "ca.pem"));
-			var channel = new Channel($"{hostName}:443", new SslCredentials(caRoots));
-			Communications.client = new API.APIClient(channel);
-			Communications.Hello();
+			Channel = new Channel($"{hostName}:443", new SslCredentials(caRoots));
+			Client = new API.APIClient(Channel);
+			ServerAPI.SendHello();
 		}
-	}
 
-	public static class Communications
-	{
-		public static API.APIClient client;
-
-		public static int interval = 10;
-		public static float nextUpdate;
-
-		public static void Hello()
+		public static void Stop()
 		{
-			var id = Tools.UniqueModID;
-			var request = new HelloRequest() { Id = id };
-			try
+			Channel?.ShutdownAsync().Wait();
+			Channel = null;
+			Client = null;
+		}
+
+		public static CommState State
+		{
+			get
 			{
-				if (client.Hello(request).Found == false)
+				return Channel.State switch
 				{
-					var rnd = Tools.GenerateHexString(256);
-					var url = $"https://{Loader.hostName}?rnd={rnd}&id={id}";
-					LongEventHandler.ExecuteWhenFinished(() => Application.OpenURL(url));
-				}
-			}
-			catch (RpcException e)
-			{
-				Log.Error("gRPC error: " + e);
-			}
-		}
-
-		public static bool WaitUntilNextStatSend()
-		{
-			var result = Time.realtimeSinceStartup < nextUpdate;
-			if (result == false)
-				nextUpdate = Time.realtimeSinceStartup + interval;
-			return result;
-		}
-
-		public static void SendStat(Model_Stat stat)
-		{
-			if (client == null) return;
-			var id = PlayerPrefs.GetString("rimionship-id");
-			var request = stat.TransferModel(id);
-			try
-			{
-				interval = client.Stats(request).Interval;
-			}
-			catch (RpcException e)
-			{
-				Log.Error("gRPC error: " + e);
-			}
-		}
-
-		public static void SendFutureEvents(IEnumerable<FutureEvent> events)
-		{
-			if (client == null) return;
-			var id = PlayerPrefs.GetString("rimionship-id");
-			var request = new FutureEventsRequest() { Id = id };
-			request.AddEvents(events);
-			try
-			{
-				_ = client.FutureEvents(request);
-			}
-			catch (RpcException e)
-			{
-				Log.Error("gRPC error: " + e);
+					ChannelState.Idle => CommState.Shutdown,
+					ChannelState.Connecting => CommState.Shutdown,
+					ChannelState.Ready => CommState.Shutdown,
+					ChannelState.TransientFailure => CommState.Shutdown,
+					ChannelState.Shutdown => CommState.Shutdown,
+					_ => CommState.Unknown,
+				};
 			}
 		}
 	}

@@ -14,6 +14,16 @@ using static HarmonyLib.Code;
 
 namespace Rimionship
 {
+	// show main menu info
+	[HarmonyPatch(typeof(MainMenuDrawer), nameof(MainMenuDrawer.DoMainMenuControls))]
+	class MainMenuDrawer_DoMainMenuControls_Patch
+	{
+		public static void Postfix(Rect rect)
+		{
+			MainMenu.OnGUI(rect.x - 7f, rect.y + 45f + 7f + 45f / 2f);
+		}
+	}
+
 	// replace New Game with Rimionship button in the main menu
 	//
 	[HarmonyPatch(typeof(OptionListingUtility), nameof(OptionListingUtility.DrawOptionListing))]

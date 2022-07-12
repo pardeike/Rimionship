@@ -10,6 +10,8 @@ namespace Rimionship
 		static readonly AssetBundle assets = LoadAssetBundle();
 		static readonly GameObject hud = assets.LoadAsset<GameObject>("HUD");
 		public static readonly GameObject sacrificeEffects = assets.LoadAsset<GameObject>("sacrificeEffects");
+		public static readonly Font menuFontSmall = assets.LoadAsset<Font>("MenuSmall");
+		public static readonly Font menuFontLarge = assets.LoadAsset<Font>("MenuLarge");
 
 		public static GameObject runtimeHUD;
 		public static UnityEngine.UI.Text placement;
@@ -22,12 +24,16 @@ namespace Rimionship
 		public static Animator statsAnimator;
 		public static Animator panelAnimator;
 
-		public static Texture2D CancelSpot = ContentFinder<Texture2D>.Get("CancelSpot", true);
-		public static Texture2D RemoveSpot = ContentFinder<Texture2D>.Get("RemoveSpot", true);
-		public static Texture2D Blood = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/Blood", true);
-		public static Texture2D Skull = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/Skull", true);
-		public static Texture2D Insult = ContentFinder<Texture2D>.Get("Things/Mote/SpeechSymbols/Insult", true);
-		public static Texture2D[] Pentas = new[]
+		public static readonly Texture2D MainMenuInfo = ContentFinder<Texture2D>.Get("MainMenuInfo", true);
+		public static readonly Texture2D StateOK = ContentFinder<Texture2D>.Get("StateOK", true);
+		public static readonly Texture2D StateError = ContentFinder<Texture2D>.Get("StateError", true);
+		public static readonly Texture2D StateWait = ContentFinder<Texture2D>.Get("StateWait", true);
+		public static readonly Texture2D CancelSpot = ContentFinder<Texture2D>.Get("CancelSpot", true);
+		public static readonly Texture2D RemoveSpot = ContentFinder<Texture2D>.Get("RemoveSpot", true);
+		public static readonly Texture2D Blood = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/Blood", true);
+		public static readonly Texture2D Skull = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/Skull", true);
+		public static readonly Texture2D Insult = ContentFinder<Texture2D>.Get("Things/Mote/SpeechSymbols/Insult", true);
+		public static readonly Texture2D[] Pentas = new[]
 		{
 			ContentFinder<Texture2D>.Get("Penta0", true),
 			ContentFinder<Texture2D>.Get("Penta1", true),

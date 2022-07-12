@@ -412,10 +412,10 @@ namespace Rimionship
 				yield return UpdateTemperature();
 				yield return UpdateStoryWatcherInfos();
 
-				Communications.SendStat(stat);
+				ServerAPI.SendStat(stat);
 				yield return null;
 
-				while (Communications.WaitUntilNextStatSend())
+				while (ServerAPI.WaitUntilNextStatSend())
 					yield return null;
 
 				if (Find.Storyteller.incidentQueue.queuedIncidents.Any())
@@ -431,7 +431,7 @@ namespace Rimionship
 							Strategy = q.firingInc.parms.raidStrategy?.defName ?? "",
 							ArrivalMode = q.firingInc.parms.raidArrivalMode?.defName ?? ""
 						});
-					Communications.SendFutureEvents(events);
+					ServerAPI.SendFutureEvents(events);
 					yield return null;
 				}
 			}

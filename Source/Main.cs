@@ -27,7 +27,13 @@ namespace Rimionship
 			CrossPromotion.Install(76561197973010050);
 
 			LoadAPI();
-			Loader.Load(rootDir);
+			Communications.Start(rootDir);
+
+			Application.wantsToQuit += () =>
+			{
+				Communications.Stop();
+				return true;
+			};
 		}
 
 		public override void DoSettingsWindowContents(Rect inRect) => settings.DoWindowContents(inRect);
