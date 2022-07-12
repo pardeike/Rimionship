@@ -11,6 +11,7 @@ namespace Rimionship
 	public static class Tools
 	{
 		private static readonly System.Random _RND = new();
+		public static readonly Rect Rect01 = new(0, 0, 1, 1);
 
 		public static string GenerateHexString(int digits)
 		{
@@ -49,6 +50,22 @@ namespace Rimionship
 				nr /= 1000;
 			}
 			return string.Join(".", parts.ToArray());
+		}
+
+		public static HashSet<ulong> InstalledMods()
+		{
+			return ModLister.AllInstalledMods.Select(mod => mod.GetPublishedFileId().m_PublishedFileId).ToHashSet();
+		}
+
+		public static GUIStyle GUIStyle(this Font font, Color color, RectOffset padding = null)
+		{
+			return new GUIStyle()
+			{
+				font = font,
+				alignment = TextAnchor.MiddleCenter,
+				padding = padding ?? new RectOffset(0, 0, 0, 0),
+				normal = new GUIStyleState() { textColor = color }
+			};
 		}
 
 		public static void EndOnDespawnedOrNull<T>(this T f, Action cleanupAction, params TargetIndex[] indices) where T : IJobEndable

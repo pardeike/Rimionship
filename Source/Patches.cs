@@ -20,6 +20,7 @@ namespace Rimionship
 	{
 		public static void Postfix(Rect rect)
 		{
+			PlayState.EvaluateModlist();
 			MainMenu.OnGUI(rect.x - 7f, rect.y + 45f + 7f + 45f / 2f);
 		}
 	}
@@ -117,24 +118,12 @@ namespace Rimionship
 	{
 		static void LoadRimionshipMods()
 		{
-			var modList = new ulong[] { 2009463077, 0, 818773962, 761421485, 867467808, 839005762, 2773821103, 2790250834 };
-
-			foreach (var id in modList)
-			{
-				if (ModLister.AllInstalledMods.Any(mod => mod.GetPublishedFileId().m_PublishedFileId == id))
-					continue;
+			var installed = Tools.InstalledMods();
+			foreach (var id in PlayState.allowedMods.Except(installed))
 				_ = SteamUGC.SubscribeItem(new PublishedFileId_t(id));
-			}
 			WorkshopItems.RebuildItemsList();
 
-			var activeMods = modList
-				.Select(id => ModLister.AllInstalledMods.FirstOrDefault(mod => mod.GetPublishedFileId().m_PublishedFileId == id))
-				.OfType<ModMetaData>()
-				.ToList();
-
-			ModLister.AllInstalledMods.Do(mod => mod.Active = false);
-			activeMods.Do(mod => mod.Active = true);
-
+			ModLister.AllInstalledMods.Do(mod => mod.Active = PlayState.allowedMods.Contains(mod.GetPublishedFileId().m_PublishedFileId));
 			ModsConfig.Save();
 			ModsConfig.RecacheActiveMods();
 		}

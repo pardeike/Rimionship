@@ -15,9 +15,11 @@ message HelloRequest {
 
 message HelloResponse {
 	bool found = 1;
+	repeated uint64 allowedMods = 2;
 }
 
 message SyncRequest {
+	string id = 1;
 }
 
 message SyncResponse {

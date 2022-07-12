@@ -8,5 +8,10 @@ namespace Api
 		{
 			request.Event.AddRange(events);
 		}
+
+		public static HashSet<ulong> GetAllowedMods(this HelloResponse response)
+		{
+			return new HashSet<ulong>(response.AllowedMods);
+		}
 	}
 }

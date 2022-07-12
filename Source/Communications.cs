@@ -28,6 +28,7 @@ namespace Rimionship
 			Channel = new Channel($"{hostName}:443", new SslCredentials(caRoots));
 			Client = new API.APIClient(Channel);
 			ServerAPI.SendHello();
+			ServerAPI.StartSyncing();
 		}
 
 		public static void Stop()

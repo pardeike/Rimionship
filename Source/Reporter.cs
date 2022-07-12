@@ -384,7 +384,7 @@ namespace Rimionship
 
 		public IEnumerator Coroutine()
 		{
-			while (Current.ProgramState != ProgramState.Playing)
+			while (Current.ProgramState != ProgramState.Playing || PlayState.Valid == false)
 				yield return null;
 
 			while (Current.Game != null)
