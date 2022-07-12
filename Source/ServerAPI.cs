@@ -30,7 +30,8 @@ namespace Rimionship
 			}
 			catch (RpcException e)
 			{
-				if (e.StatusCode != StatusCode.Unavailable)
+				var code = e.StatusCode;
+				if (code != StatusCode.Unavailable && code != StatusCode.PermissionDenied)
 				{
 					PlayState.errorCount++;
 					Log.Error("gRPC error: " + e);
@@ -71,7 +72,8 @@ namespace Rimionship
 					}
 					catch (RpcException e)
 					{
-						if (e.StatusCode != StatusCode.Unavailable)
+						var code = e.StatusCode;
+						if (code != StatusCode.Unavailable && code != StatusCode.PermissionDenied)
 						{
 							PlayState.errorCount++;
 							Log.Error("gRPC error: " + e);
