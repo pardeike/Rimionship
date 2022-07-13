@@ -29,7 +29,7 @@ namespace Api {
         __Marshaller_api_HelloResponse);
 
     static readonly grpc::Method<global::Api.SyncRequest, global::Api.SyncResponse> __Method_Sync = new grpc::Method<global::Api.SyncRequest, global::Api.SyncResponse>(
-        grpc::MethodType.ServerStreaming,
+        grpc::MethodType.Unary,
         __ServiceName,
         "Sync",
         __Marshaller_api_SyncRequest,
@@ -63,7 +63,7 @@ namespace Api {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
-      public virtual global::System.Threading.Tasks.Task Sync(global::Api.SyncRequest request, grpc::IServerStreamWriter<global::Api.SyncResponse> responseStream, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Api.SyncResponse> Sync(global::Api.SyncRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -119,13 +119,21 @@ namespace Api {
       {
         return CallInvoker.AsyncUnaryCall(__Method_Hello, null, options, request);
       }
-      public virtual grpc::AsyncServerStreamingCall<global::Api.SyncResponse> Sync(global::Api.SyncRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Api.SyncResponse Sync(global::Api.SyncRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return Sync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual grpc::AsyncServerStreamingCall<global::Api.SyncResponse> Sync(global::Api.SyncRequest request, grpc::CallOptions options)
+      public virtual global::Api.SyncResponse Sync(global::Api.SyncRequest request, grpc::CallOptions options)
       {
-        return CallInvoker.AsyncServerStreamingCall(__Method_Sync, null, options, request);
+        return CallInvoker.BlockingUnaryCall(__Method_Sync, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::Api.SyncResponse> SyncAsync(global::Api.SyncRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return SyncAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::Api.SyncResponse> SyncAsync(global::Api.SyncRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_Sync, null, options, request);
       }
       public virtual global::Api.StatsResponse Stats(global::Api.StatsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {

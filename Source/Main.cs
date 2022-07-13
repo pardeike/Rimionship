@@ -51,7 +51,7 @@ namespace Rimionship
 		{
 			var path = Path.Combine(rootDir, "Libs", $"{name}.dll");
 			try { _ = Assembly.LoadFrom(path); }
-			catch { Log.Warning($"Loading {name} failed"); }
+			catch { Log.Error($"Loading {name} failed"); }
 		}
 
 		public static Assembly ResolveEventHandler(object sender, ResolveEventArgs args)

@@ -118,14 +118,22 @@ namespace Rimionship
 	{
 		static void LoadRimionshipMods()
 		{
-			var installed = Tools.InstalledMods();
-			foreach (var id in PlayState.allowedMods.Except(installed))
-				_ = SteamUGC.SubscribeItem(new PublishedFileId_t(id));
-			WorkshopItems.RebuildItemsList();
+			if (PlayState.allowedMods.NullOrEmpty())
+				return; // TODO - show a warning
 
-			ModLister.AllInstalledMods.Do(mod => mod.Active = PlayState.allowedMods.Contains(mod.GetPublishedFileId().m_PublishedFileId));
+			PlayState.allowedMods
+				.Select(mod => mod.Key)
+				.Except(Tools.InstalledMods())
+				.Do(missingPackageId =>
+				{
+					var mod = PlayState.allowedMods.FirstOrDefault(mod => mod.Key == missingPackageId);
+					_ = SteamUGC.SubscribeItem(new PublishedFileId_t(mod.Value));
+				});
+
+			ModsConfig.data.activeMods = PlayState.allowedMods.Select(mod => mod.Key).ToList();
 			ModsConfig.Save();
 			ModsConfig.RecacheActiveMods();
+			WorkshopItems.RebuildItemsList();
 		}
 
 		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)

@@ -38,7 +38,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}
@@ -51,7 +51,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}
@@ -64,7 +64,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}
@@ -77,7 +77,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}
@@ -90,7 +90,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}
@@ -103,7 +103,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}
@@ -116,7 +116,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}
@@ -129,7 +129,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}
@@ -142,7 +142,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}
@@ -155,7 +155,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}
@@ -168,7 +168,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}
@@ -181,7 +181,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}
@@ -194,7 +194,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}
@@ -207,7 +207,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}
@@ -223,7 +223,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 			try
@@ -232,7 +232,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 			try
@@ -241,7 +241,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			stat.weaponDps = (int)(w1 + w2 + w3);
 			yield return null;
@@ -255,7 +255,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}
@@ -270,7 +270,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 			try
@@ -279,7 +279,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			stat.medicine = (int)(m1 + m2);
 			yield return null;
@@ -295,7 +295,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 			try
@@ -304,7 +304,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			stat.food = (int)(f1 + f2);
 			yield return null;
@@ -318,7 +318,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}
@@ -331,7 +331,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}
@@ -344,7 +344,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}
@@ -364,7 +364,7 @@ namespace Rimionship
 			}
 			catch (Exception ex)
 			{
-				Log.Warning($"EX: {ex}");
+				AsyncLogger.Warning($"EX: {ex}");
 			}
 			yield return null;
 		}

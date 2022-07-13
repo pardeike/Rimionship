@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Api
 {
@@ -9,9 +10,9 @@ namespace Api
 			request.Event.AddRange(events);
 		}
 
-		public static HashSet<ulong> GetAllowedMods(this HelloResponse response)
+		public static List<KeyValuePair<string, ulong>> GetAllowedMods(this HelloResponse response)
 		{
-			return new HashSet<ulong>(response.AllowedMods);
+			return response.AllowedMods.Select(mod => new KeyValuePair<string, ulong>(mod.PackageId, mod.SteamId)).ToList();
 		}
 	}
 }

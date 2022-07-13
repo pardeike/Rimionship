@@ -11,4 +11,19 @@
 	<BloodGodScaleHelp>Blood god dissatisfaction level. Once it reaches 100% bad things will happen to your colonists. Sacrifice a colonist at the blood god spot to satisfy the blood god.</BloodGodScaleHelp>
 	<ColonistBecomesDumberTitle>{0} got dumber</ColonistBecomesDumberTitle>
 	<ColonistBecomesDumberText>{0} had a brain accident and got dumber</ColonistBecomesDumberText>
+	<CommStateUnknown>Unknown</CommStateUnknown>
+	<CommStateIdle>Idle</CommStateIdle>
+	<CommStateConnecting>Connecting</CommStateConnecting>
+	<CommStateReady>Ready</CommStateReady>
+	<CommStateTransientFailure>Failure</CommStateTransientFailure>
+	<CommStateShutdown>Shutdown</CommStateShutdown>
+	<ModRegistered>Registered</ModRegistered>
+	<ModNotRegistered>Not Registered</ModNotRegistered>
+	<ModlistValid>Valid</ModlistValid>
+	<ModlistInvalid>Invalid</ModlistInvalid>
+	<TournamentStopped>Stopped</TournamentStopped>
+	<TournamentTraining>Training</TournamentTraining>
+	<TournamentPrepare>Start at {hour}:{minute}</TournamentPrepare>
+	<TournamentStarted>Started</TournamentStarted>
+	<TournamentCompleted>Completed</TournamentCompleted>
 </LanguageData>

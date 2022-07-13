@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using Grpc.Core;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,9 +53,16 @@ namespace Rimionship
 			return string.Join(".", parts.ToArray());
 		}
 
-		public static HashSet<ulong> InstalledMods()
+		public static HashSet<string> InstalledMods()
 		{
-			return ModLister.AllInstalledMods.Select(mod => mod.GetPublishedFileId().m_PublishedFileId).ToHashSet();
+			return ModsConfig.data.activeMods.ToHashSet();
+		}
+
+		public static bool ShouldReport(this RpcException exception)
+		{
+			var code = exception.StatusCode;
+			if (code == StatusCode.Unavailable || code == StatusCode.PermissionDenied) return false;
+			return code != StatusCode.Unknown || exception.Status.Detail != "Stream removed";
 		}
 
 		public static GUIStyle GUIStyle(this Font font, Color color, RectOffset padding = null)

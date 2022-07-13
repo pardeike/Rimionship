@@ -4,7 +4,7 @@ package api;
 
 service API {
 	rpc Hello (HelloRequest) returns (HelloResponse) {}
-	rpc Sync (SyncRequest) returns (stream SyncResponse) {}
+	rpc Sync (SyncRequest) returns (SyncResponse) {}
 	rpc Stats (StatsRequest) returns (StatsResponse) {}
 	rpc FutureEvents (FutureEventsRequest) returns (FutureEventsResponse) {}
 }
@@ -15,7 +15,12 @@ message HelloRequest {
 
 message HelloResponse {
 	bool found = 1;
-	repeated uint64 allowedMods = 2;
+	repeated Mod allowedMods = 2;
+}
+
+message Mod {
+	uint64 steamId = 1;
+	string packageId = 2;
 }
 
 message SyncRequest {

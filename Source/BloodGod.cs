@@ -162,13 +162,13 @@ namespace Rimionship
 		{
 			if (Find.CurrentMap.GameConditionManager.ConditionIsActive(def))
 			{
-				Log.Warning($"#{Instance.punishLevel} {def.defName} => false");
+				AsyncLogger.Warning($"#{Instance.punishLevel} {def.defName} => false");
 				return false;
 			}
 			var gameCondition = GameConditionMaker.MakeCondition(def, -1);
 			gameCondition.Duration = duration;
 			Find.CurrentMap.GameConditionManager.RegisterCondition(gameCondition);
-			Log.Warning($"#{Instance.punishLevel} {def.defName} => true");
+			AsyncLogger.Warning($"#{Instance.punishLevel} {def.defName} => true");
 			return true;
 		}
 
@@ -177,7 +177,7 @@ namespace Rimionship
 			var pawn = NonMentalColonist(isViolent);
 			if (pawn == null)
 			{
-				Log.Warning($"#{Instance.punishLevel} MakeMentalBreak no colonist avail => false");
+				AsyncLogger.Warning($"#{Instance.punishLevel} MakeMentalBreak no colonist avail => false");
 				return false;
 			}
 			if (def == MentalStateDefOf.SocialFighting)
@@ -185,15 +185,15 @@ namespace Rimionship
 				var otherPawn = NonMentalColonist(true, pawn);
 				if (otherPawn == null)
 				{
-					Log.Warning($"#{Instance.punishLevel} MakeMentalBreak no other colonist avail => false");
+					AsyncLogger.Warning($"#{Instance.punishLevel} MakeMentalBreak no other colonist avail => false");
 					return false;
 				}
-				Log.Warning($"#{Instance.punishLevel} {pawn.LabelShortCap}-{otherPawn.LabelShortCap} {def.defName}");
+				AsyncLogger.Warning($"#{Instance.punishLevel} {pawn.LabelShortCap}-{otherPawn.LabelShortCap} {def.defName}");
 				pawn.interactions.StartSocialFight(otherPawn, "MessageSocialFight");
 				return true;
 			}
 			var result = pawn.mindState.mentalStateHandler.TryStartMentalState(def, null, true);
-			Log.Warning($"#{Instance.punishLevel} {pawn.LabelShortCap} {def.defName} => {result}");
+			AsyncLogger.Warning($"#{Instance.punishLevel} {pawn.LabelShortCap} {def.defName} => {result}");
 			return result;
 		}
 
@@ -202,14 +202,14 @@ namespace Rimionship
 			var pawn = NonMentalColonist(false);
 			if (pawn == null)
 			{
-				Log.Warning($"#{Instance.punishLevel} MakeRandomHediffGiver no colonist avail => false");
+				AsyncLogger.Warning($"#{Instance.punishLevel} MakeRandomHediffGiver no colonist avail => false");
 				return false;
 			}
 			var hediffGiver = ThingDefOf.Human.race.hediffGiverSets
 				.SelectMany((HediffGiverSetDef set) => set.hediffGivers)
 				.RandomElement();
 			var result = hediffGiver.TryApply(pawn, null);
-			Log.Warning($"#{Instance.punishLevel} {hediffGiver} => {result}");
+			AsyncLogger.Warning($"#{Instance.punishLevel} {hediffGiver} => {result}");
 			return result;
 		}
 
@@ -227,7 +227,7 @@ namespace Rimionship
 				forced = true
 			};
 			var result = incidentDef.Worker.TryExecute(parms);
-			Log.Warning($"#{Instance.punishLevel} {incidentDef.defName} [{isAnimal}] => {result}");
+			AsyncLogger.Warning($"#{Instance.punishLevel} {incidentDef.defName} [{isAnimal}] => {result}");
 			return result;
 		}
 
@@ -312,7 +312,7 @@ namespace Rimionship
 					{
 						case 1:
 							var looser = NonMentalColonist(false);
-							Log.Warning($"#{Instance.punishLevel} ColonistBecomesDumber => {looser != null}");
+							AsyncLogger.Warning($"#{Instance.punishLevel} ColonistBecomesDumber => {looser != null}");
 							if (looser != null)
 							{
 								looser.skills.skills.Do(skill => skill.levelInt /= 2);

@@ -11,4 +11,19 @@
 	<BloodGodScaleHelp>Unzufriedenheit des Blutgottes. Bei 100% passieren den Kolonisten schlimme Dinge. Opfere einen Kolonisten am Blutgottspot um den Blutgott zufrieden zu stellen.</BloodGodScaleHelp>
 	<ColonistBecomesDumberTitle>{0} wurde dümmer</ColonistBecomesDumberTitle>
 	<ColonistBecomesDumberText>{0} hatte einen Hirnschaden und wurde dadurch dümmer</ColonistBecomesDumberText>
+	<CommStateUnknown>Unbekannt</CommStateUnknown>
+	<CommStateIdle>Leerlauf</CommStateIdle>
+	<CommStateConnecting>Verbinden</CommStateConnecting>
+	<CommStateReady>Bereit</CommStateReady>
+	<CommStateTransientFailure>Fehlerhaft</CommStateTransientFailure>
+	<CommStateShutdown>Geschlossen</CommStateShutdown>
+	<ModRegistered>Registriert</ModRegistered>
+	<ModNotRegistered>Unregistriert</ModNotRegistered>
+	<ModlistValid>Erlaubt</ModlistValid>
+	<ModlistInvalid>Unerlaubt</ModlistInvalid>
+	<TournamentStopped>Gestoppt</TournamentStopped>
+	<TournamentTraining>Training</TournamentTraining>
+	<TournamentPrepare>Start um {hour}:{minute}</TournamentPrepare>
+	<TournamentStarted>Gestartet</TournamentStarted>
+	<TournamentCompleted>Abgeschlossen</TournamentCompleted>
 </LanguageData>

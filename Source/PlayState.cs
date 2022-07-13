@@ -6,7 +6,6 @@ namespace Rimionship
 {
 	public enum CommState
 	{
-		Unknown,
 		Idle,
 		Connecting,
 		Ready,
@@ -30,7 +29,7 @@ namespace Rimionship
 
 		public static bool modRegistered = false;
 
-		public static HashSet<ulong> allowedMods = new() { 2009463077, 0, 867467808 };
+		public static List<KeyValuePair<string, ulong>> allowedMods = new();
 		public static bool modlistValid = false;
 		public static bool recheckModlist = true;
 
@@ -48,7 +47,8 @@ namespace Rimionship
 		{
 			if (recheckModlist == false) return;
 			recheckModlist = false;
-			modlistValid = Tools.InstalledMods().Except(allowedMods).Any() == false;
+			var allowed = allowedMods.Select(mod => mod.Key).ToHashSet();
+			modlistValid = Tools.InstalledMods().Except(allowed).Any() == false;
 		}
 	}
 }

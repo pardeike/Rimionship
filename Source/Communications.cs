@@ -27,7 +27,7 @@ namespace Rimionship
 			var caRoots = File.ReadAllText(Path.Combine(rootDir, "Resources", "ca.pem"));
 			Channel = new Channel($"{hostName}:443", new SslCredentials(caRoots));
 			Client = new API.APIClient(Channel);
-			ServerAPI.SendHello();
+			ServerAPI.StartConnecting();
 			ServerAPI.StartSyncing();
 		}
 
@@ -42,14 +42,15 @@ namespace Rimionship
 		{
 			get
 			{
+				if (Channel == null) return CommState.Shutdown;
 				return Channel.State switch
 				{
-					ChannelState.Idle => CommState.Shutdown,
-					ChannelState.Connecting => CommState.Shutdown,
-					ChannelState.Ready => CommState.Shutdown,
-					ChannelState.TransientFailure => CommState.Shutdown,
+					ChannelState.Idle => CommState.Idle,
+					ChannelState.Connecting => CommState.Connecting,
+					ChannelState.Ready => CommState.Ready,
+					ChannelState.TransientFailure => CommState.TransientFailure,
 					ChannelState.Shutdown => CommState.Shutdown,
-					_ => CommState.Unknown,
+					_ => CommState.Shutdown,
 				};
 			}
 		}

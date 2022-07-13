@@ -24,10 +24,13 @@ namespace Rimionship
 		public static Animator statsAnimator;
 		public static Animator panelAnimator;
 
+		public static readonly Texture2D MainMenuLogin = ContentFinder<Texture2D>.Get("MainMenuLogin", true);
+		public static readonly Texture2D MainMenuLoginOver = ContentFinder<Texture2D>.Get("MainMenuLoginOver", true);
 		public static readonly Texture2D MainMenuInfo = ContentFinder<Texture2D>.Get("MainMenuInfo", true);
 		public static readonly Texture2D StateOK = ContentFinder<Texture2D>.Get("StateOK", true);
 		public static readonly Texture2D StateError = ContentFinder<Texture2D>.Get("StateError", true);
 		public static readonly Texture2D StateWait = ContentFinder<Texture2D>.Get("StateWait", true);
+		public static readonly Texture2D StateAction = ContentFinder<Texture2D>.Get("StateAction", true);
 		public static readonly Texture2D CancelSpot = ContentFinder<Texture2D>.Get("CancelSpot", true);
 		public static readonly Texture2D RemoveSpot = ContentFinder<Texture2D>.Get("RemoveSpot", true);
 		public static readonly Texture2D Blood = ContentFinder<Texture2D>.Get("Things/Mote/BattleSymbols/Blood", true);

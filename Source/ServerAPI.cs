@@ -2,7 +2,8 @@
 using Grpc.Core;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Threading;
 using UnityEngine;
 using Verse;
 
@@ -30,25 +31,30 @@ namespace Rimionship
 			}
 			catch (RpcException e)
 			{
-				var code = e.StatusCode;
-				if (code != StatusCode.Unavailable && code != StatusCode.PermissionDenied)
+				if (e.ShouldReport())
 				{
 					PlayState.errorCount++;
-					Log.Error("gRPC error: " + e);
+					AsyncLogger.Error($"gRPC error: {e}", new StackTrace());
 				}
+			}
+			catch (Exception e)
+			{
+				AsyncLogger.Error($"Exception: {e}", new StackTrace());
 			}
 		}
 
-		public static void SendHello()
+		public static void SendHello(bool openBrowser = false)
 		{
 			WrapCall(() =>
 			{
 				var id = Tools.UniqueModID;
 				var request = new HelloRequest() { Id = id };
+				AsyncLogger.Warning("-> Hello");
 				var response = Communications.Client.Hello(request);
 				PlayState.modRegistered = response.Found;
 				PlayState.allowedMods = response.GetAllowedMods();
-				if (PlayState.modRegistered == false)
+				AsyncLogger.Warning($"{PlayState.modRegistered} {PlayState.allowedMods.ToArray()} <- Hello");
+				if (PlayState.modRegistered == false && openBrowser)
 				{
 					var rnd = Tools.GenerateHexString(256);
 					var url = $"https://{Communications.hostName}?rnd={rnd}&id={id}";
@@ -57,35 +63,50 @@ namespace Rimionship
 			});
 		}
 
+		public static void StartConnecting()
+		{
+			new Thread(() =>
+			{
+				while (cancelled == false)
+				{
+					SendHello();
+					Thread.Sleep(5000);
+				}
+			})
+			.Start();
+		}
+
 		public static void StartSyncing()
 		{
-			var task = Task.Run(async () =>
+			new Thread(() =>
 			{
 				while (cancelled == false)
 				{
 					try
 					{
-						var request = new SyncRequest() { Id = Tools.UniqueModID };
-						var stream = Communications.Client.Sync(request).ResponseStream;
-						while (cancelled == false && await stream.MoveNext())
-							HandleSyncResponse(stream.Current);
+						var id = Tools.UniqueModID;
+						var request = new SyncRequest() { Id = id };
+						AsyncLogger.Warning($"-> Sync");
+						var response = Communications.Client.Sync(request);
+						AsyncLogger.Warning($"{response.PartCase} <- Sync");
+						HandleSyncResponse(response);
 					}
 					catch (RpcException e)
 					{
-						var code = e.StatusCode;
-						if (code != StatusCode.Unavailable && code != StatusCode.PermissionDenied)
+						if (e.ShouldReport())
 						{
 							PlayState.errorCount++;
-							Log.Error("gRPC error: " + e);
+							AsyncLogger.Error($"gRPC error: {e}", new StackTrace());
 						}
 					}
 					catch (Exception e)
 					{
-						Log.Error("Exception: " + e);
+						AsyncLogger.Error($"Exception: {e}", new StackTrace());
 					}
-					await Task.Delay(1000);
+					Thread.Sleep(1000);
 				}
-			});
+			})
+			.Start();
 		}
 
 		public static void HandleSyncResponse(SyncResponse response)
@@ -131,7 +152,10 @@ namespace Rimionship
 			WrapCall(() =>
 			{
 				var request = stat.TransferModel(Tools.UniqueModID);
-				PlayState.currentStatsSendingInterval = Communications.Client.Stats(request).Interval;
+				AsyncLogger.Warning("-> Stats");
+				var response = Communications.Client.Stats(request);
+				AsyncLogger.Warning($"{response.Interval} <- Stats");
+				PlayState.currentStatsSendingInterval = response.Interval;
 			});
 		}
 
@@ -141,7 +165,9 @@ namespace Rimionship
 			{
 				var request = new FutureEventsRequest() { Id = Tools.UniqueModID };
 				request.AddEvents(events);
+				AsyncLogger.Warning("-> FutureEvents");
 				_ = Communications.Client.FutureEvents(request);
+				AsyncLogger.Warning("<- FutureEvents");
 			});
 		}
 	}
