@@ -49,11 +49,11 @@ namespace Rimionship
 			{
 				var id = Tools.UniqueModID;
 				var request = new HelloRequest() { Id = id };
-				AsyncLogger.Warning("-> Hello");
+				//AsyncLogger.Warning("-> Hello");
 				var response = Communications.Client.Hello(request);
 				PlayState.modRegistered = response.Found;
-				PlayState.allowedMods = response.GetAllowedMods();
-				AsyncLogger.Warning($"{PlayState.modRegistered} {PlayState.allowedMods.ToArray()} <- Hello");
+				PlayState.AllowedMods = response.GetAllowedMods();
+				AsyncLogger.Warning($"{PlayState.modRegistered} {PlayState.AllowedMods.ToArray()} <- Hello");
 				if (PlayState.modRegistered == false && openBrowser)
 				{
 					var rnd = Tools.GenerateHexString(256);
@@ -86,9 +86,9 @@ namespace Rimionship
 					{
 						var id = Tools.UniqueModID;
 						var request = new SyncRequest() { Id = id };
-						AsyncLogger.Warning($"-> Sync");
+						//AsyncLogger.Warning($"-> Sync");
 						var response = Communications.Client.Sync(request);
-						AsyncLogger.Warning($"{response.PartCase} <- Sync");
+						//AsyncLogger.Warning($"{response.PartCase} <- Sync");
 						HandleSyncResponse(response);
 					}
 					catch (RpcException e)
@@ -152,9 +152,9 @@ namespace Rimionship
 			WrapCall(() =>
 			{
 				var request = stat.TransferModel(Tools.UniqueModID);
-				AsyncLogger.Warning("-> Stats");
+				//AsyncLogger.Warning("-> Stats");
 				var response = Communications.Client.Stats(request);
-				AsyncLogger.Warning($"{response.Interval} <- Stats");
+				//AsyncLogger.Warning($"{response.Interval} <- Stats");
 				PlayState.currentStatsSendingInterval = response.Interval;
 			});
 		}
@@ -165,9 +165,9 @@ namespace Rimionship
 			{
 				var request = new FutureEventsRequest() { Id = Tools.UniqueModID };
 				request.AddEvents(events);
-				AsyncLogger.Warning("-> FutureEvents");
+				//AsyncLogger.Warning("-> FutureEvents");
 				_ = Communications.Client.FutureEvents(request);
-				AsyncLogger.Warning("<- FutureEvents");
+				//AsyncLogger.Warning("<- FutureEvents");
 			});
 		}
 	}

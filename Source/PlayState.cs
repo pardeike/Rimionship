@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using HarmonyLib;
+using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
@@ -22,6 +23,13 @@ namespace Rimionship
 		Completed
 	}
 
+	public enum ModListStatus
+	{
+		Unknown,
+		Invalid,
+		Valid
+	}
+
 	public static class PlayState
 	{
 		public static int currentStatsSendingInterval = 10;
@@ -29,9 +37,26 @@ namespace Rimionship
 
 		public static bool modRegistered = false;
 
-		public static List<KeyValuePair<string, ulong>> allowedMods = new();
-		public static bool modlistValid = false;
-		public static bool recheckModlist = true;
+		private static List<KeyValuePair<string, ulong>> _allowedMods = new();
+		public static List<KeyValuePair<string, ulong>> AllowedMods
+		{
+			get => _allowedMods;
+			set
+			{
+				_allowedMods = value;
+				if (_allowedMods.NullOrEmpty())
+					modlistStatus = ModListStatus.Unknown;
+				else
+				{
+					var allowed = _allowedMods.Select(mod => mod.Key).ToHashSet();
+					if (Tools.InstalledMods().Except(allowed).Any())
+						modlistStatus = ModListStatus.Invalid;
+					else
+						modlistStatus = ModListStatus.Valid;
+				}
+			}
+		}
+		public static ModListStatus modlistStatus = ModListStatus.Unknown;
 
 		public static string serverMessage = null;
 		public static TournamentState tournamentState = TournamentState.Stopped;
@@ -40,15 +65,17 @@ namespace Rimionship
 
 		public static bool Valid => tournamentState == TournamentState.Started
 			&& modRegistered
-			&& modlistValid
+			&& modlistStatus == ModListStatus.Valid
 			&& Communications.State == CommState.Ready;
 
-		public static void EvaluateModlist()
+		public static string InvalidModsTooltip()
 		{
-			if (recheckModlist == false) return;
-			recheckModlist = false;
-			var allowed = allowedMods.Select(mod => mod.Key).ToHashSet();
-			modlistValid = Tools.InstalledMods().Except(allowed).Any() == false;
+			var invalid = Tools.InstalledMods()
+				.Except(AllowedMods.Select(mod => mod.Key))
+				.Select(packageId => ModsConfig.activeModsInLoadOrderCached.FirstOrDefault(mod => mod.PackageId == packageId)?.Name)
+				.OfType<string>()
+				.Join();
+			return "InvalidModsTooltip".Translate(new NamedArgument(invalid, "list"));
 		}
 	}
 }

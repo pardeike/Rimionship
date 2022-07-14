@@ -8,7 +8,7 @@ namespace Rimionship
 	{
 		static GUIStyle[] labelStyles = null;
 
-		static readonly Func<(string, Texture2D, Action)>[] textFunctions = new Func<(string, Texture2D, Action)>[]
+		static readonly Func<(string, Texture2D, Action, Func<string>)>[] textFunctions = new Func<(string, Texture2D, Action, Func<string>)>[]
 		{
 			() =>
 			{
@@ -17,29 +17,45 @@ namespace Rimionship
 				(
 					state,
 					Communications.State == CommState.Ready ? Assets.StateOK : Assets.StateError,
+					null,
 					null
 				);
 			},
+
 			() =>
 			{
-				var state = $"Mod{(PlayState.modRegistered ? "" : "Not")}Registered".Translate();
+				var state = Communications.State == CommState.Ready
+					? $"Mod{(PlayState.modRegistered ? "" : "Not")}Registered".Translate()
+					: "ModRegistrationUnknown".Translate();
 				return
 				(
 					state,
-					PlayState.modRegistered ? Assets.StateOK : (DateTime.Now.Millisecond % 1500) < 750 ? null : Assets.StateAction,
-					PlayState.modRegistered ? (Action)null : () => ServerAPI.SendHello(true)
-				);
-			},
-			() =>
-			{
-				var state = $"Modlist{(PlayState.modlistValid ? "Valid" : "Invalid")}".Translate();
-				return
-				(
-					state,
-					PlayState.modlistValid ? Assets.StateOK : Assets.StateError,
+					PlayState.modRegistered
+						? Assets.StateOK
+						: Communications.State == CommState.Ready
+							? (DateTime.Now.Millisecond % 1500 < 750 ? null : Assets.StateAction)
+							: Assets.StateWait,
+					PlayState.modRegistered
+						? null
+						: Communications.State == CommState.Ready
+							? (() => ServerAPI.SendHello(true))
+							: null,
 					null
 				);
 			},
+
+			() =>
+			{
+				var state = $"Modlist{(PlayState.modlistStatus)}".Translate();
+				return
+				(
+					state,
+					PlayState.modlistStatus.ToAsset(),
+					null,
+					() => PlayState.modlistStatus == ModListStatus.Invalid ? PlayState.InvalidModsTooltip() : (string)null
+				);
+			},
+
 			() =>
 			{
 				var args = Array.Empty<NamedArgument>();
@@ -51,20 +67,25 @@ namespace Rimionship
 						new NamedArgument($"{PlayState.tournamentStartMinute:D2}", "minute"),
 					};
 				}
-				var state = $"Tournament{PlayState.tournamentState}".Translate(args);
-				var icon = PlayState.tournamentState switch
-				{
-					TournamentState.Stopped => Assets.StateError,
-					TournamentState.Training => Assets.StateOK,
-					TournamentState.Prepare => Assets.StateWait,
-					TournamentState.Started => Assets.StateOK,
-					TournamentState.Completed => Assets.StateError,
-					_ => Assets.StateError
-				};
+				var state = Communications.State == CommState.Ready && PlayState.modRegistered
+					? $"Tournament{PlayState.tournamentState}".Translate(args)
+					: $"TournamentUnknown".Translate();
+				var icon = Communications.State == CommState.Ready && PlayState.modRegistered
+					? PlayState.tournamentState switch
+						{
+							TournamentState.Stopped => Assets.StateError,
+							TournamentState.Training => Assets.StateOK,
+							TournamentState.Prepare => Assets.StateWait,
+							TournamentState.Started => Assets.StateOK,
+							TournamentState.Completed => Assets.StateError,
+							_ => Assets.StateError
+						}
+					: Assets.StateWait;
 				return
 				(
 					state,
 					icon,
+					null,
 					null
 				);
 			}
@@ -112,6 +133,7 @@ namespace Rimionship
 				var text = textFunctions[i]().Item1;
 				var state = textFunctions[i]().Item2;
 				var action = textFunctions[i]().Item3;
+				var tooltip = textFunctions[i]().Item4;
 
 				if (state != null)
 				{
@@ -121,6 +143,13 @@ namespace Rimionship
 				}
 
 				GUI.Label(field, text, labelStyles[scale == 1f ? 1 : 0]);
+
+				if (tooltip != null)
+				{
+					var tip = tooltip();
+					if (tip != null)
+						TooltipHandler.TipRegion(field, () => tip, 545392561);
+				}
 
 				if (action != null)
 				{

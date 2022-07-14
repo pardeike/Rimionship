@@ -135,4 +135,20 @@
 		</subSounds>
 	</SoundDef>
 
+	<SoundDef>
+		<defName>Nope</defName>
+		<context>Any</context>
+		<maxSimultaneous>1</maxSimultaneous>
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>Nope</clipPath>
+					</li>
+				</grains>
+			</li>
+		</subSounds>
+	</SoundDef>
+
 </Defs>

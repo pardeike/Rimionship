@@ -19,11 +19,15 @@
 	<CommStateShutdown>Geschlossen</CommStateShutdown>
 	<ModRegistered>Registriert</ModRegistered>
 	<ModNotRegistered>Unregistriert</ModNotRegistered>
+	<ModRegistrationUnknown>Unbekannt</ModRegistrationUnknown>
+	<ModlistUnknown>Unbekannt</ModlistUnknown>
 	<ModlistValid>Erlaubt</ModlistValid>
 	<ModlistInvalid>Unerlaubt</ModlistInvalid>
+	<TournamentUnknown>Unbekannt</TournamentUnknown>
 	<TournamentStopped>Gestoppt</TournamentStopped>
 	<TournamentTraining>Training</TournamentTraining>
 	<TournamentPrepare>Start um {hour}:{minute}</TournamentPrepare>
 	<TournamentStarted>Gestartet</TournamentStarted>
 	<TournamentCompleted>Abgeschlossen</TournamentCompleted>
+	<InvalidModsTooltip>Bitte folgende Mods deaktivieren: {list}</InvalidModsTooltip>
 </LanguageData>

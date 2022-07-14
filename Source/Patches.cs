@@ -9,19 +9,36 @@ using System.Reflection;
 using System.Reflection.Emit;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 using Verse.Steam;
 using static HarmonyLib.Code;
 
 namespace Rimionship
 {
+	// start our async safe logger
+	//
+	[HarmonyPatch(typeof(Current), nameof(Current.Notify_LoadedSceneChanged))]
+	static class Current_Notify_LoadedSceneChanged_Patch
+	{
+		public static void Postfix()
+		{
+			if (GenScene.InEntryScene)
+				_ = Current.Root_Entry.StartCoroutine(AsyncLogger.LogCoroutine());
+
+			if (GenScene.InPlayScene)
+				_ = Current.Root_Play.StartCoroutine(AsyncLogger.LogCoroutine());
+		}
+	}
+
 	// show main menu info
+	//
 	[HarmonyPatch(typeof(MainMenuDrawer), nameof(MainMenuDrawer.DoMainMenuControls))]
 	class MainMenuDrawer_DoMainMenuControls_Patch
 	{
 		public static void Postfix(Rect rect)
 		{
-			PlayState.EvaluateModlist();
-			MainMenu.OnGUI(rect.x - 7f, rect.y + 45f + 7f + 45f / 2f);
+			if (Current.ProgramState == ProgramState.Entry)
+				MainMenu.OnGUI(rect.x - 7f, rect.y + 45f + 7f + 45f / 2f);
 		}
 	}
 
@@ -39,6 +56,11 @@ namespace Rimionship
 			option.label = "Rimionship";
 			option.action = () =>
 			{
+				if (PlayState.Valid == false)
+				{
+					Defs.Nope.PlayOneShotOnCamera();
+					return;
+				}
 				MainMenuDrawer.CloseMainTab();
 				GameDataSaveLoader.LoadGame(Path.Combine(RimionshipMod.rootDir, "Resources", "rimionship"));
 			};
@@ -118,22 +140,30 @@ namespace Rimionship
 	{
 		static void LoadRimionshipMods()
 		{
-			if (PlayState.allowedMods.NullOrEmpty())
-				return; // TODO - show a warning
+			if (PlayState.AllowedMods.NullOrEmpty())
+			{
+				Defs.Nope.PlayOneShotOnCamera();
+				return;
+			}
 
-			PlayState.allowedMods
+			PlayState.AllowedMods
 				.Select(mod => mod.Key)
 				.Except(Tools.InstalledMods())
 				.Do(missingPackageId =>
 				{
-					var mod = PlayState.allowedMods.FirstOrDefault(mod => mod.Key == missingPackageId);
+					var mod = PlayState.AllowedMods.FirstOrDefault(mod => mod.Key == missingPackageId);
 					_ = SteamUGC.SubscribeItem(new PublishedFileId_t(mod.Value));
 				});
 
-			ModsConfig.data.activeMods = PlayState.allowedMods.Select(mod => mod.Key).ToList();
+			ModsConfig.data.activeMods = PlayState.AllowedMods.Select(mod => mod.Key).ToList();
 			ModsConfig.Save();
 			ModsConfig.RecacheActiveMods();
 			WorkshopItems.RebuildItemsList();
+		}
+
+		public static bool Prepare()
+		{
+			return SteamManager.Initialized;
 		}
 
 		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)

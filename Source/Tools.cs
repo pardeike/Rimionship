@@ -149,6 +149,17 @@ namespace Rimionship
 			return (damage * atkProps.burstShotCount) / RangedSpeed(weapon, atkProps);
 		}
 
+		public static Texture2D ToAsset(this ModListStatus status)
+		{
+			return status switch
+			{
+				ModListStatus.Unknown => Assets.StateWait,
+				ModListStatus.Invalid => Assets.StateError,
+				ModListStatus.Valid => Assets.StateOK,
+				_ => throw new NotImplementedException()
+			};
+		}
+
 		public static IEnumerable<IncidentDef> AllIncidentDefs() => DefDatabase<IncidentDef>.AllDefsListForReading;
 	}
 }
