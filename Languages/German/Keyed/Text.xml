@@ -30,4 +30,6 @@
 	<TournamentStarted>Gestartet</TournamentStarted>
 	<TournamentCompleted>Abgeschlossen</TournamentCompleted>
 	<InvalidModsTooltip>Bitte folgende Mods deaktivieren: {list}</InvalidModsTooltip>
+	<CannotStartTournament>Das Turnier kann noch nicht gestartet werden.</CannotStartTournament>
+	<AllowedModsNotAvailable>Sie benötigen eine Serververbindung um die Modliste festzulegen.</AllowedModsNotAvailable>
 </LanguageData>

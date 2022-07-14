@@ -30,4 +30,6 @@
 	<TournamentStarted>Started</TournamentStarted>
 	<TournamentCompleted>Completed</TournamentCompleted>
 	<InvalidModsTooltip>Please disable the following mods: {list}</InvalidModsTooltip>
+	<CannotStartTournament>You cannot start the tournament yet.</CannotStartTournament>
+	<AllowedModsNotAvailable>You need a server connection to set the mod list.</AllowedModsNotAvailable>
 </LanguageData>

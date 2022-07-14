@@ -59,6 +59,7 @@ namespace Rimionship
 				if (PlayState.Valid == false)
 				{
 					Defs.Nope.PlayOneShotOnCamera();
+					Find.WindowStack.Add(new Dialog_MessageBox("CannotStartTournament".Translate()));
 					return;
 				}
 				MainMenuDrawer.CloseMainTab();
@@ -135,14 +136,90 @@ namespace Rimionship
 
 	// replace Auto-sort mods button in mod configuration dialog with Load-default-rimionship
 	//
+	[HarmonyPatch(typeof(Window), nameof(Window.PostOpen))]
+	class Page_ModsConfig_PostOpen_Patch
+	{
+		public static void Postfix(Window __instance)
+		{
+			if (__instance is Page_ModsConfig page)
+				Page_ModsConfig_DoWindowContents_Patch.PostOpen(page);
+		}
+	}
+	//
+	[HarmonyPatch(typeof(Window), nameof(Window.PreClose))]
+	class Page_ModsConfig_PreClose_Patch
+	{
+		public static void Prefix(Window __instance)
+		{
+			if (__instance is Page_ModsConfig)
+				Page_ModsConfig_DoWindowContents_Patch.PreClose();
+		}
+	}
+	//
 	[HarmonyPatch(typeof(Page_ModsConfig), nameof(Page_ModsConfig.DoWindowContents))]
 	class Page_ModsConfig_DoWindowContents_Patch
 	{
-		static void LoadRimionshipMods()
+		static Page_ModsConfig currentPage = null;
+		static Callback<RemoteStoragePublishedFileSubscribed_t> subscribedCallback;
+
+		internal static void PostOpen(Page_ModsConfig page)
 		{
+			currentPage = page;
+			subscribedCallback = Callback<RemoteStoragePublishedFileSubscribed_t>.Create(new Callback<RemoteStoragePublishedFileSubscribed_t>.DispatchDelegate(OnItemSubscribed));
+		}
+
+		internal static void PreClose()
+		{
+			currentPage = null;
+			subscribedCallback.Unregister();
+			subscribedCallback = null;
+		}
+
+		static void OnItemSubscribed(RemoteStoragePublishedFileSubscribed_t result)
+		{
+			if (currentPage == null) return;
+			if (PlayState.AllowedMods.Any(pair => pair.Value == result.m_nPublishedFileId.m_PublishedFileId) == false) return;
+
+			LongEventHandler.ExecuteWhenFinished(() =>
+			{
+				// TODO: this repeating code seems necessary. Investigate more
+
+				PlayState.AllowedMods
+					.Select(mod => mod.Key)
+					.Except(Tools.InstalledMods())
+					.Do(missingPackageId =>
+					{
+						var mod = PlayState.AllowedMods.FirstOrDefault(mod => mod.Key == missingPackageId);
+						var _ = SteamUGC.SubscribeItem(new PublishedFileId_t(mod.Value));
+					});
+				WorkshopItems.RebuildItemsList();
+
+				ModsConfig.data.activeMods = PlayState.AllowedMods.Select(mod => mod.Key).ToList();
+				ModsConfig.RecacheActiveMods();
+				ModLister.RebuildModList();
+				ModsConfig.Save();
+				ModsConfig.activeModsInLoadOrderCachedDirty = true;
+				Page_ModsConfig.modWarningsCached = ModsConfig.GetModWarnings();
+			});
+		}
+
+		static string ButtonLabel()
+		{
+			return SteamManager.Initialized ? "LoadRimionshipMods" : "ResolveModOrder";
+		}
+
+		static void LoadRimionshipMods(Page_ModsConfig _)
+		{
+			if (SteamManager.Initialized == false)
+			{
+				ModsConfig.TrySortMods();
+				return;
+			}
+
 			if (PlayState.AllowedMods.NullOrEmpty())
 			{
 				Defs.Nope.PlayOneShotOnCamera();
+				Find.WindowStack.Add(new Dialog_MessageBox("AllowedModsNotAvailable".Translate()));
 				return;
 			}
 
@@ -152,30 +229,32 @@ namespace Rimionship
 				.Do(missingPackageId =>
 				{
 					var mod = PlayState.AllowedMods.FirstOrDefault(mod => mod.Key == missingPackageId);
-					_ = SteamUGC.SubscribeItem(new PublishedFileId_t(mod.Value));
+					var _ = SteamUGC.SubscribeItem(new PublishedFileId_t(mod.Value));
 				});
+			WorkshopItems.RebuildItemsList();
 
 			ModsConfig.data.activeMods = PlayState.AllowedMods.Select(mod => mod.Key).ToList();
-			ModsConfig.Save();
 			ModsConfig.RecacheActiveMods();
-			WorkshopItems.RebuildItemsList();
-		}
-
-		public static bool Prepare()
-		{
-			return SteamManager.Initialized;
+			ModLister.RebuildModList();
+			ModsConfig.Save();
+			ModsConfig.activeModsInLoadOrderCachedDirty = true;
+			Page_ModsConfig.modWarningsCached = ModsConfig.GetModWarnings();
 		}
 
 		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 		{
-			var from = SymbolExtensions.GetMethodInfo(() => ModsConfig.TrySortMods());
-			var to = SymbolExtensions.GetMethodInfo(() => LoadRimionshipMods());
-			var list = Transpilers.MethodReplacer(instructions, from, to).ToList();
-
-			var ldstr = list.FirstOrDefault(code => code.operand is string s && s == "ResolveModOrder");
-			ldstr.operand = "LoadRimionshipMods";
-
-			return list.AsEnumerable();
+			return new CodeMatcher(instructions)
+				.MatchStartForward(
+					new CodeMatch(operand: SymbolExtensions.GetMethodInfo(() => ModsConfig.TrySortMods()))
+				)
+				.InsertAndAdvance(Ldarg_0)
+				.SetOperandAndAdvance(SymbolExtensions.GetMethodInfo(() => LoadRimionshipMods(default)))
+				.Start()
+				.MatchStartForward(
+					new CodeMatch(OpCodes.Ldstr, "ResolveModOrder")
+				)
+				.Set(Call.opcode, SymbolExtensions.GetMethodInfo(() => ButtonLabel()))
+				.InstructionEnumeration();
 		}
 	}
 
