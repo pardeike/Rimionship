@@ -34,7 +34,6 @@ namespace Rimionship
 			try
 			{
 				stat.wealth = Stats.ColonyWealth(ChosenMap);
-				HUD.SetScore(stat.wealth);
 			}
 			catch (Exception ex)
 			{

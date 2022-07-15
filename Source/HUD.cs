@@ -1,10 +1,27 @@
-﻿using HarmonyLib;
+﻿using Api;
+using HarmonyLib;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Verse;
 
 namespace Rimionship
 {
 	public static class HUD
 	{
+		public static void Update(HelloResponse response)
+		{
+			if (Current.ProgramState != ProgramState.Playing)
+				return;
+
+			SetName(response.TwitchName);
+			var scores = response.GetScores();
+			SetScore(scores.FirstOrFallback(pair => pair.Key == response.TwitchName, new KeyValuePair<string, int>("", 0)).Value);
+			SetPlacements(scores.Select(pair => pair.Key).ToArray());
+			SetScores(scores.Select(pair => pair.Value).ToArray());
+			SetArrow(scores.FirstIndexOf(pair => pair.Key == response.TwitchName));
+		}
+
 		public static void SetName(string name)
 		{
 			Assets.name.text = name.ToUpper();
@@ -33,7 +50,7 @@ namespace Rimionship
 
 		public static void SetScores(params int[] scores)
 		{
-			Assets.scores.text = scores.Join(n => n.DotFormatted(), "\n");
+			Assets.scores.text = scores.Join(n => n.DotFormatted(hideZero: true), "\n");
 		}
 
 		public static void SetPanelVisble(bool state)

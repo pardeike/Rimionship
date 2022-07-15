@@ -14,5 +14,10 @@ namespace Api
 		{
 			return response.AllowedMods.Select(mod => new KeyValuePair<string, ulong>(mod.PackageId, mod.SteamId)).ToList();
 		}
+
+		public static List<KeyValuePair<string, int>> GetScores(this HelloResponse response)
+		{
+			return response.Score.Select(score => new KeyValuePair<string, int>(score.TwitchName, score.LatestScore)).ToList();
+		}
 	}
 }

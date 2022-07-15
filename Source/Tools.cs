@@ -40,9 +40,9 @@ namespace Rimionship
 			return (Find.TickManager.TicksGame + offset) % ticks == 0;
 		}
 
-		public static string DotFormatted(this int nr)
+		public static string DotFormatted(this int nr, bool hideZero = false)
 		{
-			if (nr == 0) return "0";
+			if (nr == 0) return hideZero ? "" : "0";
 			var parts = new List<string>();
 			while (nr > 0)
 			{

@@ -73,13 +73,13 @@ namespace Rimionship
 			name = _info.Find("name").GetComponent<UnityEngine.UI.Text>();
 			score = _info.Find("score").GetComponent<UnityEngine.UI.Text>();
 
-			HUD.SetName("ArcticBathtubPirate1234");
-			HUD.SetScore(2834095);
+			HUD.SetName("");
+			HUD.SetScore(0);
 
-			HUD.SetPlacement(1);
+			HUD.SetPlacement(0);
 			HUD.SetArrow(0);
-			HUD.SetPlacements("ArcticBathtubPirate1234", "Brrainz", "edopeh");
-			HUD.SetScores(2834095, 41000, 123);
+			HUD.SetPlacements("", "", "");
+			HUD.SetScores(0, 0, 0);
 
 			HUD.SetPanelVisble(true);
 		}

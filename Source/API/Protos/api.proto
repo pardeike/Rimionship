@@ -16,11 +16,18 @@ message HelloRequest {
 message HelloResponse {
 	bool found = 1;
 	repeated Mod allowedMods = 2;
+	string twitchName = 3;
+	repeated Score score = 4;
 }
 
 message Mod {
 	uint64 steamId = 1;
 	string packageId = 2;
+}
+
+message Score {
+	string twitchName = 1;
+	int32 latestScore = 2;
 }
 
 message SyncRequest {

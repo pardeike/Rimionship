@@ -54,6 +54,7 @@ namespace Rimionship
 				PlayState.modRegistered = response.Found;
 				PlayState.AllowedMods = response.GetAllowedMods();
 				AsyncLogger.Warning($"{PlayState.modRegistered} {PlayState.AllowedMods.ToArray()} <- Hello");
+				HUD.Update(response);
 				if (PlayState.modRegistered == false && openBrowser)
 				{
 					var rnd = Tools.GenerateHexString(256);
@@ -114,24 +115,34 @@ namespace Rimionship
 			switch (response.PartCase)
 			{
 				case SyncResponse.PartOneofCase.Message:
-					PlayState.serverMessage = response.Message;
+					PlayState.serverMessage = response.Message ?? "";
 					break;
 				case SyncResponse.PartOneofCase.Settings:
+					response.Settings ??= new Api.Settings();
 					var traits = response.Settings.Traits;
-					RimionshipMod.settings.scaleFactor = traits.ScaleFactor;
-					RimionshipMod.settings.goodTraitSuppression = traits.GoodTraitSuppression;
-					RimionshipMod.settings.badTraitSuppression = traits.BadTraitSuppression;
+					if (traits != null)
+					{
+						RimionshipMod.settings.scaleFactor = traits.ScaleFactor;
+						RimionshipMod.settings.goodTraitSuppression = traits.GoodTraitSuppression;
+						RimionshipMod.settings.badTraitSuppression = traits.BadTraitSuppression;
+					}
 					var rising = response.Settings.Rising;
-					RimionshipMod.settings.maxFreeColonistCount = rising.MaxFreeColonistCount;
-					RimionshipMod.settings.risingInterval = rising.RisingInterval;
+					if (rising != null)
+					{
+						RimionshipMod.settings.maxFreeColonistCount = rising.MaxFreeColonistCount;
+						RimionshipMod.settings.risingInterval = rising.RisingInterval;
+					}
 					var punishment = response.Settings.Punishment;
-					RimionshipMod.settings.randomStartPauseMin = punishment.RandomStartPauseMin;
-					RimionshipMod.settings.randomStartPauseMax = punishment.RandomStartPauseMax;
-					RimionshipMod.settings.startPauseInterval = punishment.StartPauseInterval;
-					RimionshipMod.settings.finalPauseInterval = punishment.FinalPauseInterval;
-					RimionshipMod.settings.Write();
+					if (punishment != null)
+					{
+						RimionshipMod.settings.randomStartPauseMin = punishment.RandomStartPauseMin;
+						RimionshipMod.settings.randomStartPauseMax = punishment.RandomStartPauseMax;
+						RimionshipMod.settings.startPauseInterval = punishment.StartPauseInterval;
+						RimionshipMod.settings.finalPauseInterval = punishment.FinalPauseInterval;
+					}
 					break;
 				case SyncResponse.PartOneofCase.State:
+					response.State ??= new State();
 					PlayState.tournamentState = response.State.Game switch
 					{
 						State.Types.Game.Stopped => TournamentState.Stopped,
