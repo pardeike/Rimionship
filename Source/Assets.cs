@@ -49,6 +49,7 @@ namespace Rimionship
 		public static readonly Texture2D ButtonBGAtlasOver = ContentFinder<Texture2D>.Get("Button/ButtonBGOver", true);
 		public static readonly Texture2D ButtonBGAtlasClick = ContentFinder<Texture2D>.Get("Button/ButtonBGClick", true);
 		public static readonly Texture2D ButtonPattern = ContentFinder<Texture2D>.Get("Button/Pattern", true);
+		public static readonly Texture2D Note = ContentFinder<Texture2D>.Get("Note", true);
 
 		static Assets()
 		{

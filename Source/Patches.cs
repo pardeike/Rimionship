@@ -30,6 +30,37 @@ namespace Rimionship
 		}
 	}
 
+	// show server messages
+	//
+	[HarmonyPatch(typeof(Root), nameof(Root.OnGUI))]
+	class Root_OnGUI_Patch
+	{
+		public static bool inited = false;
+		static GUIStyle style;
+
+		public static void Postfix(Root __instance)
+		{
+			if (inited == false || __instance.destroyed) return;
+			try
+			{
+				if (PlayState.serverMessage.NullOrEmpty() == false)
+				{
+					var x = (UI.screenWidth - Assets.Note.width) / 2f;
+					var y = UI.screenHeight * 240f / 1080f;
+					var r = new Rect(x, y, Assets.Note.width, Assets.Note.height);
+					GUI.DrawTextureWithTexCoords(r, Assets.Note, Tools.Rect01);
+					r = r.ExpandedBy(-16, -16);
+					r.yMin += 38;
+					style ??= Assets.menuFontLarge.GUIStyle(Color.white).Alignment(TextAnchor.UpperLeft);
+					GUI.Label(r, PlayState.serverMessage, style);
+				}
+			}
+			finally
+			{
+			}
+		}
+	}
+
 	// show main menu info
 	//
 	[HarmonyPatch(typeof(MainMenuDrawer), nameof(MainMenuDrawer.DoMainMenuControls))]
@@ -38,7 +69,10 @@ namespace Rimionship
 		public static void Postfix(Rect rect)
 		{
 			if (Current.ProgramState == ProgramState.Entry)
+			{
+				Root_OnGUI_Patch.inited = true;
 				MainMenu.OnGUI(rect.x - 7f, rect.y + 45f + 7f + 45f / 2f);
+			}
 		}
 	}
 

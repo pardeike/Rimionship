@@ -50,7 +50,7 @@ namespace Rimionship
 
 		public static void SetScores(params int[] scores)
 		{
-			Assets.scores.text = scores.Join(n => n.DotFormatted(hideZero: true), "\n");
+			Assets.scores.text = scores.Join(n => n.DotFormatted(), "\n");
 		}
 
 		public static void SetPanelVisble(bool state)

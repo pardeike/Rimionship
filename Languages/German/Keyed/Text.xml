@@ -15,7 +15,7 @@
 	<CommStateIdle>Leerlauf</CommStateIdle>
 	<CommStateConnecting>Verbinden</CommStateConnecting>
 	<CommStateReady>Bereit</CommStateReady>
-	<CommStateTransientFailure>Fehlerhaft</CommStateTransientFailure>
+	<CommStateTransientFailure>Kein Kontakt</CommStateTransientFailure>
 	<CommStateShutdown>Geschlossen</CommStateShutdown>
 	<ModRegistered>Registriert</ModRegistered>
 	<ModNotRegistered>Unregistriert</ModNotRegistered>

@@ -15,7 +15,7 @@
 	<CommStateIdle>Idle</CommStateIdle>
 	<CommStateConnecting>Connecting</CommStateConnecting>
 	<CommStateReady>Ready</CommStateReady>
-	<CommStateTransientFailure>Failure</CommStateTransientFailure>
+	<CommStateTransientFailure>Disconnected</CommStateTransientFailure>
 	<CommStateShutdown>Shutdown</CommStateShutdown>
 	<ModRegistered>Registered</ModRegistered>
 	<ModNotRegistered>Not Registered</ModNotRegistered>

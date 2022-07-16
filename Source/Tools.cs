@@ -40,9 +40,9 @@ namespace Rimionship
 			return (Find.TickManager.TicksGame + offset) % ticks == 0;
 		}
 
-		public static string DotFormatted(this int nr, bool hideZero = false)
+		public static string DotFormatted(this int nr)
 		{
-			if (nr == 0) return hideZero ? "" : "0";
+			if (nr == 0) return "";
 			var parts = new List<string>();
 			while (nr > 0)
 			{
@@ -74,6 +74,12 @@ namespace Rimionship
 				padding = padding ?? new RectOffset(0, 0, 0, 0),
 				normal = new GUIStyleState() { textColor = color }
 			};
+		}
+
+		public static GUIStyle Alignment(this GUIStyle style, TextAnchor anchor)
+		{
+			style.alignment = anchor;
+			return style;
 		}
 
 		public static void EndOnDespawnedOrNull<T>(this T f, Action cleanupAction, params TargetIndex[] indices) where T : IJobEndable
