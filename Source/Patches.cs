@@ -51,7 +51,7 @@ namespace Rimionship
 					GUI.DrawTextureWithTexCoords(r, Assets.Note, Tools.Rect01);
 					r = r.ExpandedBy(-16, -16);
 					r.yMin += 38;
-					style ??= Assets.menuFontLarge.GUIStyle(Color.white).Alignment(TextAnchor.UpperLeft);
+					style ??= Assets.menuFontLarge.GUIStyle(Color.white).Alignment(TextAnchor.UpperLeft).Wrapping();
 					GUI.Label(r, PlayState.serverMessage, style);
 				}
 			}

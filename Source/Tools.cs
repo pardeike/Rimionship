@@ -82,6 +82,12 @@ namespace Rimionship
 			return style;
 		}
 
+		public static GUIStyle Wrapping(this GUIStyle style)
+		{
+			style.wordWrap = true;
+			return style;
+		}
+
 		public static void EndOnDespawnedOrNull<T>(this T f, Action cleanupAction, params TargetIndex[] indices) where T : IJobEndable
 		{
 			foreach (var ind in indices)
