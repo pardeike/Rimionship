@@ -5,7 +5,7 @@ using Verse;
 
 namespace Rimionship
 {
-	class ConfigurePawns : Page_ConfigureStartingPawns
+	class Page_ConfigurePawns : Page_ConfigureStartingPawns
 	{
 		bool devMode;
 
@@ -13,7 +13,7 @@ namespace Rimionship
 		{
 			Current.Game.InitData = new GameInitData();
 			Find.GameInitData.startingAndOptionalPawns = new List<Pawn>();
-			Find.GameInitData.startingPawnCount = 3;
+			Find.GameInitData.startingPawnCount = PlayState.startingPawnCount;
 
 			for (int i = 0; i < Find.GameInitData.startingPawnCount; i++)
 			{

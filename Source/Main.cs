@@ -31,6 +31,7 @@ namespace Rimionship
 
 			Application.wantsToQuit += () =>
 			{
+				ServerAPI.CancelAll();
 				Communications.Stop();
 				return true;
 			};

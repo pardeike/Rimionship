@@ -3,7 +3,6 @@ using RimWorld;
 using Steamworks;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -97,7 +96,7 @@ namespace Rimionship
 					return;
 				}
 				MainMenuDrawer.CloseMainTab();
-				GameDataSaveLoader.LoadGame(Path.Combine(RimionshipMod.rootDir, "Resources", "rimionship"));
+				PlayState.LoadGame();
 			};
 		}
 	}
@@ -155,7 +154,7 @@ namespace Rimionship
 				Find.GameEnder.gameEnding = false;
 				Find.GameEnder.ticksToGameOver = -1;
 				Stats.ResetAll();
-				Find.WindowStack.Add(new ConfigurePawns());
+				Find.WindowStack.Add(new Page_ConfigurePawns());
 			}
 		}
 	}

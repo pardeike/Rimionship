@@ -45,6 +45,7 @@ namespace Rimionship
 			ContentFinder<Texture2D>.Get("Penta4", true),
 			ContentFinder<Texture2D>.Get("Penta5", true)
 		};
+
 		public static readonly Texture2D ButtonBGAtlas = ContentFinder<Texture2D>.Get("Button/ButtonBG", true);
 		public static readonly Texture2D ButtonBGAtlasOver = ContentFinder<Texture2D>.Get("Button/ButtonBGOver", true);
 		public static readonly Texture2D ButtonBGAtlasClick = ContentFinder<Texture2D>.Get("Button/ButtonBGClick", true);
@@ -91,6 +92,16 @@ namespace Rimionship
 			var info = runtimeHUD.transform.Find("Info");
 			if (info == null) return;
 			info.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -95 * Prefs.UIScale);
+		}
+
+		public static string GameFilePath()
+		{
+			return Path.Combine(GenFilePaths.ConfigFolderPath, "Mod_Rimionship.rws");
+		}
+
+		public static void SaveGameFile(byte[] data)
+		{
+			File.WriteAllBytes(GameFilePath(), data);
 		}
 
 		static string GetModRootDirectory()

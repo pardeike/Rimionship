@@ -63,7 +63,9 @@ namespace Rimionship
 		public static int tournamentStartHour = 0;
 		public static int tournamentStartMinute = 0;
 
-		public static bool Valid => tournamentState == TournamentState.Started
+		public static int startingPawnCount = 0;
+
+		public static bool Valid => (tournamentState == TournamentState.Started || tournamentState == TournamentState.Training)
 			&& modRegistered
 			&& modlistStatus == ModListStatus.Valid
 			&& Communications.State == CommState.Ready;
@@ -76,6 +78,31 @@ namespace Rimionship
 				.OfType<string>()
 				.Join();
 			return "InvalidModsTooltip".Translate(new NamedArgument(invalid, "list"));
+		}
+
+		public static void LoadGame()
+		{
+			LongEventHandler.QueueLongEvent(
+				() =>
+				{
+					if (ServerAPI.StartGame())
+					{
+						// MemoryUtility.ClearAllMapsAndWorld();
+						Current.Game = new Game
+						{
+							InitData = new GameInitData
+							{
+								gameToLoad = Assets.GameFilePath().Replace(".rws", "")
+							}
+						};
+					}
+				},
+				"Play",
+				"LoadingLongEvent",
+				true,
+				ex => Log.Error($"Game loading exception: {ex}"),
+				true
+			);
 		}
 	}
 }

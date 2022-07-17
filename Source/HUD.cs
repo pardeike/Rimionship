@@ -1,6 +1,6 @@
 ﻿using Api;
 using HarmonyLib;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -15,11 +15,12 @@ namespace Rimionship
 				return;
 
 			SetName(response.TwitchName);
+			SetPlacement(response.Position);
 			var scores = response.GetScores();
-			SetScore(scores.FirstOrFallback(pair => pair.Key == response.TwitchName, new KeyValuePair<string, int>("", 0)).Value);
-			SetPlacements(scores.Select(pair => pair.Key).ToArray());
-			SetScores(scores.Select(pair => pair.Value).ToArray());
-			SetArrow(scores.FirstIndexOf(pair => pair.Key == response.TwitchName));
+			SetScore(scores.FirstOrFallback(tuple => tuple.Item2 == response.TwitchName, new Tuple<int, string, int>(0, "", 0)).Item3);
+			SetPlacements(scores.Select(tuple => tuple.Item2).ToArray());
+			SetScores(scores.Select(tuple => tuple.Item3).ToArray());
+			SetArrow(scores.FirstIndexOf(tuple => tuple.Item2 == response.TwitchName));
 		}
 
 		public static void SetName(string name)
@@ -34,7 +35,7 @@ namespace Rimionship
 
 		public static void SetPlacement(int place)
 		{
-			Assets.placement.text = $"#{place}";
+			Assets.placement.text = place < 1 ? "" : $"#{place}";
 		}
 
 		public static void SetArrow(int n)

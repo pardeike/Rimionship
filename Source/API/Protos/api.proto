@@ -5,6 +5,7 @@ package api;
 service API {
 	rpc Hello (HelloRequest) returns (HelloResponse) {}
 	rpc Sync (SyncRequest) returns (SyncResponse) {}
+	rpc Start (StartRequest) returns (StartResponse) {}
 	rpc Stats (StatsRequest) returns (StatsResponse) {}
 	rpc FutureEvents (FutureEventsRequest) returns (FutureEventsResponse) {}
 }
@@ -17,7 +18,8 @@ message HelloResponse {
 	bool found = 1;
 	repeated Mod allowedMods = 2;
 	string twitchName = 3;
-	repeated Score score = 4;
+	int32 position = 4;
+	repeated Score score = 5;
 }
 
 message Mod {
@@ -26,20 +28,20 @@ message Mod {
 }
 
 message Score {
-	string twitchName = 1;
-	int32 latestScore = 2;
+	int32 position = 1;
+	string twitchName = 2;
+	int32 latestScore = 3;
 }
 
 message SyncRequest {
 	string id = 1;
+	bool waitForChange = 2;
 }
 
 message SyncResponse {
-	oneof part {
-		State state = 1;
-		Settings settings = 2;
-		string message = 3;
-	}
+	State state = 1;
+	Settings settings = 2;
+	string message = 3;
 }
 
 message State {
@@ -77,6 +79,17 @@ message Punishment {
 	int32 randomStartPauseMax = 2;
 	int32 startPauseInterval = 3;
 	int32 finalPauseInterval = 4;
+}
+
+message StartRequest {
+	string id = 1;
+}
+
+message StartResponse {
+	string gameFileHash = 1;
+	string gameFileUrl = 2;
+	int32 startingPawnCount = 3;
+	Settings settings = 4;
 }
 
 message StatsRequest {

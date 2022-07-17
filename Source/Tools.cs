@@ -2,7 +2,9 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -51,6 +53,15 @@ namespace Rimionship
 				nr /= 1000;
 			}
 			return string.Join(".", parts.ToArray());
+		}
+
+		public static string FileHash(string path)
+		{
+			if (File.Exists(path) == false) return "";
+			using var md5 = MD5.Create();
+			using var stream = File.OpenRead(path);
+			var checksum = md5.ComputeHash(stream);
+			return BitConverter.ToString(checksum).Replace("-", "").ToLower();
 		}
 
 		public static HashSet<string> InstalledMods()
