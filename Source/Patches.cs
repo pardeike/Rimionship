@@ -39,7 +39,8 @@ namespace Rimionship
 
 		public static void Postfix(Root __instance)
 		{
-			if (inited == false || __instance.destroyed) return;
+			if (inited == false || __instance.destroyed)
+				return;
 			try
 			{
 				if (PlayState.serverMessage.NullOrEmpty() == false)
@@ -85,7 +86,8 @@ namespace Rimionship
 		public static void Prefix(List<ListableOption> optList)
 		{
 			var option = optList.FirstOrDefault(opt => opt.label == newColonyLabel);
-			if (option == null) return;
+			if (option == null)
+				return;
 			option.label = "Rimionship";
 			option.action = () =>
 			{
@@ -98,6 +100,76 @@ namespace Rimionship
 				MainMenuDrawer.CloseMainTab();
 				PlayState.LoadGame();
 			};
+		}
+	}
+
+	// avoid incidents too early
+	//
+	[HarmonyPatch(typeof(IncidentWorker), nameof(IncidentWorker.CanFireNow))]
+	static class IncidentWorker_CanFireNow_Patch
+	{
+		public static bool Prefix(ref bool __result)
+		{
+			if (Find.TickManager.TicksGame > GenDate.TicksPerHour)
+			{
+				__result = false;
+				return false;
+			}
+			return true;
+		}
+	}
+
+	// catch mouse events when necessary
+	//
+	[HarmonyPatch(typeof(WindowStack), nameof(WindowStack.HandleEventsHighPriority))]
+	static class WindowStack_HandleEventsHighPriority_Patch
+	{
+		public static void Prefix()
+		{
+			var type = Event.current.type;
+			if (Assets.catchMouseEvents && (type == EventType.MouseDown || type == EventType.MouseUp))
+				Event.current.Use();
+		}
+	}
+
+	// turn dev mode off
+	//
+	[HarmonyPatch(typeof(Prefs), nameof(Prefs.DevMode), MethodType.Getter)]
+	static class Prefs_DevMode_Patch
+	{
+		public static bool Prepare() => Tools.DevMode == false;
+
+		public static bool Prefix(ref bool __result)
+		{
+			__result = false;
+			return false;
+		}
+	}
+
+	// turn off learning helper
+	//
+	[HarmonyPatch(typeof(LearningReadout), nameof(LearningReadout.LearningReadoutOnGUI))]
+	static class LearningReadout_LearningReadoutOnGUI_Patch
+	{
+		public static bool Prefix()
+		{
+			return false;
+		}
+	}
+
+	// turn off in-game storyteller changing
+	//
+	[HarmonyPatch(typeof(TutorSystem), nameof(TutorSystem.AllowAction))]
+	static class TutorSystem_AllowAction_Patch
+	{
+		public static bool Prepare() => Tools.DevMode == false;
+
+		public static bool Prefix(EventPack ep, ref bool __result)
+		{
+			if (ep.Tag != "ChooseStoryteller")
+				return true;
+			__result = false;
+			return false;
 		}
 	}
 
@@ -210,8 +282,10 @@ namespace Rimionship
 
 		static void OnItemSubscribed(RemoteStoragePublishedFileSubscribed_t result)
 		{
-			if (currentPage == null) return;
-			if (PlayState.AllowedMods.Any(pair => pair.Value == result.m_nPublishedFileId.m_PublishedFileId) == false) return;
+			if (currentPage == null)
+				return;
+			if (PlayState.AllowedMods.Any(pair => pair.Value == result.m_nPublishedFileId.m_PublishedFileId) == false)
+				return;
 
 			LongEventHandler.ExecuteWhenFinished(() =>
 			{
@@ -363,14 +437,18 @@ namespace Rimionship
 		public static void Postfix(Vector3 clickPos, Pawn pawn, List<FloatMenuOption> opts)
 		{
 			var map = pawn.Map;
-			if (map.ReadyForSacrification(out var spot, out var sacrification) == false) return;
-			if (spot.CanSacrifice(pawn) == false) return;
+			if (map.ReadyForSacrification(out var spot, out var sacrification) == false)
+				return;
+			if (spot.CanSacrifice(pawn) == false)
+				return;
 
 			using List<Thing>.Enumerator enumerator = IntVec3.FromVector3(clickPos).GetThingList(map).GetEnumerator();
 			while (enumerator.MoveNext())
 			{
-				if (enumerator.Current is not Pawn clickedPawn) continue;
-				if (spot.CanBeSacrificed(clickedPawn) == false) continue;
+				if (enumerator.Current is not Pawn clickedPawn)
+					continue;
+				if (spot.CanBeSacrificed(clickedPawn) == false)
+					continue;
 
 				opts.Add(new FloatMenuOption("SacrificeColonist".Translate(clickedPawn.LabelShortCap), () =>
 				{
@@ -475,7 +553,7 @@ namespace Rimionship
 	{
 		public static void Postfix(float leftX, ref float curBaseY)
 		{
-			BloodGod.Draw(leftX, ref curBaseY);
+			BloodGod.Instance.Draw(leftX, ref curBaseY);
 		}
 	}
 }

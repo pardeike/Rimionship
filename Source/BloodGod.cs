@@ -24,14 +24,16 @@ namespace Rimionship
 			Preparing,
 			Punishing,
 			Pausing,
+			Cooldown
 		}
 
 		public State state;
 		public int startTicks;
+		public int cooldownTicks;
 		public int randomPause;
 		public int punishLevel;
 
-		private Sustainer ambience;
+		Sustainer ambience;
 
 		public BloodGod(World world) : base(world)
 		{
@@ -42,21 +44,87 @@ namespace Rimionship
 			base.ExposeData();
 			Scribe_Values.Look(ref state, "state");
 			Scribe_Values.Look(ref startTicks, "startTicks");
+			Scribe_Values.Look(ref cooldownTicks, "cooldownTicks");
 			Scribe_Values.Look(ref randomPause, "randomPause");
 			Scribe_Values.Look(ref punishLevel, "punishLevel");
 		}
 
 		public float RisingClamped01()
 		{
-			if (state == State.Idle) return 0f;
-			if (state > State.Rising) return 1f;
-			return Mathf.Clamp01((Find.TickManager.TicksGame - startTicks) / (float)RimionshipMod.settings.risingInterval);
+			var currentTicks = Find.TickManager.TicksGame;
+			if (state == State.Idle || state == State.Cooldown)
+				return 0f;
+			if (state > State.Rising)
+				return 1f;
+			return Mathf.Clamp01((currentTicks - startTicks) / (float)RimionshipMod.settings.risingInterval);
 		}
 
 		public override void WorldComponentTick()
 		{
 			base.WorldComponentTick();
+			TickAmbience();
 
+			if (60.EveryNTick() == false)
+				return;
+			var allColonists = Stats.AllColonists();
+
+			if (allColonists <= RimionshipMod.settings.maxFreeColonistCount)
+				StartPhase(State.Idle);
+
+			var currentTicks = Find.TickManager.TicksGame;
+			switch (state)
+			{
+				case State.Idle:
+					if (allColonists > RimionshipMod.settings.maxFreeColonistCount)
+						StartPhase(State.Rising);
+					break;
+
+				case State.Rising:
+					if (currentTicks - startTicks > RimionshipMod.settings.risingInterval)
+					{
+						var minPause = RimionshipMod.settings.randomStartPauseMin;
+						var maxPause = RimionshipMod.settings.randomStartPauseMax;
+						randomPause = currentTicks + Rand.Range(minPause, maxPause);
+						Defs.Bloodgod.PlayOneShotOnCamera();
+						punishLevel = 1;
+						StartPhase(State.Preparing, setStartTicks: false);
+					}
+					break;
+
+				case State.Preparing:
+					if (currentTicks > randomPause)
+						StartPhase(State.Punishing);
+					break;
+
+				case State.Punishing:
+					if (CommencePunishment())
+					{
+						Defs.Thunder.PlayOneShotOnCamera();
+						StartPhase(State.Pausing);
+					}
+					break;
+
+				case State.Pausing:
+					var minInterval = RimionshipMod.settings.startPauseInterval;
+					var maxInterval = RimionshipMod.settings.finalPauseInterval;
+					var interval = GenMath.LerpDoubleClamped(1, 5, minInterval, maxInterval, punishLevel);
+					if (currentTicks - startTicks > interval)
+					{
+						punishLevel = Math.Min(punishLevel + 1, 5);
+						Defs.Bloodgod.PlayOneShotOnCamera();
+						StartPhase(State.Preparing);
+					}
+					break;
+
+				case State.Cooldown:
+					if (currentTicks > cooldownTicks)
+						StartPhase(State.Rising);
+					break;
+			}
+		}
+
+		void TickAmbience()
+		{
 			if (state != State.Idle)
 			{
 				if (ambience == null || ambience.Ended)
@@ -73,68 +141,28 @@ namespace Rimionship
 					ambience = null;
 				}
 			}
-
-			if (60.EveryNTick() == false) return;
-
-			if (Stats.AllColonists() <= RimionshipMod.settings.maxFreeColonistCount)
-				state = State.Idle;
-
-			switch (state)
-			{
-				case State.Idle:
-					if (Stats.AllColonists() > RimionshipMod.settings.maxFreeColonistCount)
-					{
-						startTicks = Find.TickManager.TicksGame;
-						state = State.Rising;
-					}
-					break;
-
-				case State.Rising:
-					if (Find.TickManager.TicksGame - startTicks > RimionshipMod.settings.risingInterval)
-					{
-						var minPause = RimionshipMod.settings.randomStartPauseMin;
-						var maxPause = RimionshipMod.settings.randomStartPauseMax;
-						randomPause = Find.TickManager.TicksGame + Rand.Range(minPause, maxPause);
-						Defs.Bloodgod.PlayOneShotOnCamera();
-						punishLevel = 1;
-						state = State.Preparing;
-					}
-					break;
-
-				case State.Preparing:
-					if (Find.TickManager.TicksGame > randomPause)
-					{
-						startTicks = Find.TickManager.TicksGame;
-						state = State.Punishing;
-					}
-					break;
-
-				case State.Punishing:
-					if (CommencePunishment())
-					{
-						Defs.Thunder.PlayOneShotOnCamera();
-						state = State.Pausing;
-					}
-					break;
-
-				case State.Pausing:
-					var minInterval = RimionshipMod.settings.startPauseInterval;
-					var maxInterval = RimionshipMod.settings.finalPauseInterval;
-					var interval = GenMath.LerpDoubleClamped(1, 5, minInterval, maxInterval, punishLevel);
-					if (Find.TickManager.TicksGame - startTicks > interval)
-					{
-						startTicks = Find.TickManager.TicksGame;
-						punishLevel = Math.Min(punishLevel + 1, 5);
-						Defs.Bloodgod.PlayOneShotOnCamera();
-						state = State.Preparing;
-					}
-					break;
-			}
 		}
 
-		public void Satisfy()
+		public void Satisfy(SacrificationSpot spot, Sacrification sacrification)
 		{
-			state = State.Idle;
+			var factor = GenMath.LerpDouble(1, 5, RimionshipMod.settings.minThoughtFactor, RimionshipMod.settings.maxThoughtFactor, punishLevel);
+
+			sacrification.sacrificer.GiveThought(ThoughtDefOf.EncouragingSpeech, factor);
+			sacrification.sacrificer.GiveThought(ThoughtDefOf.KilledHumanlikeBloodlust, factor);
+
+			var pawns = Tools.ColonistsNear(spot.Position, spot.Map, 7f);
+			Tools.HasLineOfSightTo(spot.Position, spot.Map, pawns).Do(pawn => pawn.GiveThought(ThoughtDefOf.WitnessedDeathBloodlust, factor));
+
+			cooldownTicks = Find.TickManager.TicksGame + RimionshipMod.settings.risingCooldown;
+			StartPhase(State.Cooldown);
+		}
+
+		void StartPhase(State state, bool setStartTicks = true)
+		{
+			if (setStartTicks)
+				startTicks = Find.TickManager.TicksGame;
+			this.state = state;
+			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} phase => {state}");
 		}
 
 		public static Pawn NonMentalColonist(bool withViolence, Pawn exclude = null)
@@ -154,7 +182,8 @@ namespace Rimionship
 						&& pawn.health.State == PawnHealthState.Mobile
 						&& (withViolence == false || pawn.WorkTagIsDisabled(WorkTags.Violent) == false))
 					.ToList();
-			if (candidates.Count == 0) return null;
+			if (candidates.Count == 0)
+				return null;
 			return candidates.RandomElementByWeight(pawn => pawn.skills.skills.Sum(SkillWeight));
 		}
 
@@ -162,13 +191,13 @@ namespace Rimionship
 		{
 			if (Find.CurrentMap.GameConditionManager.ConditionIsActive(def))
 			{
-				AsyncLogger.Warning($"#{Instance.punishLevel} {def.defName} => false");
+				AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {def.defName} => false");
 				return false;
 			}
 			var gameCondition = GameConditionMaker.MakeCondition(def, -1);
 			gameCondition.Duration = duration;
 			Find.CurrentMap.GameConditionManager.RegisterCondition(gameCondition);
-			AsyncLogger.Warning($"#{Instance.punishLevel} {def.defName} => true");
+			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {def.defName} => true");
 			return true;
 		}
 
@@ -177,7 +206,7 @@ namespace Rimionship
 			var pawn = NonMentalColonist(isViolent);
 			if (pawn == null)
 			{
-				AsyncLogger.Warning($"#{Instance.punishLevel} MakeMentalBreak no colonist avail => false");
+				AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeMentalBreak no colonist avail => false");
 				return false;
 			}
 			if (def == MentalStateDefOf.SocialFighting)
@@ -185,15 +214,15 @@ namespace Rimionship
 				var otherPawn = NonMentalColonist(true, pawn);
 				if (otherPawn == null)
 				{
-					AsyncLogger.Warning($"#{Instance.punishLevel} MakeMentalBreak no other colonist avail => false");
+					AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeMentalBreak no other colonist avail => false");
 					return false;
 				}
-				AsyncLogger.Warning($"#{Instance.punishLevel} {pawn.LabelShortCap}-{otherPawn.LabelShortCap} {def.defName}");
+				AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {pawn.LabelShortCap}-{otherPawn.LabelShortCap} {def.defName}");
 				pawn.interactions.StartSocialFight(otherPawn, "MessageSocialFight");
 				return true;
 			}
 			var result = pawn.mindState.mentalStateHandler.TryStartMentalState(def, null, true);
-			AsyncLogger.Warning($"#{Instance.punishLevel} {pawn.LabelShortCap} {def.defName} => {result}");
+			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {pawn.LabelShortCap} {def.defName} => {result}");
 			return result;
 		}
 
@@ -202,14 +231,14 @@ namespace Rimionship
 			var pawn = NonMentalColonist(false);
 			if (pawn == null)
 			{
-				AsyncLogger.Warning($"#{Instance.punishLevel} MakeRandomHediffGiver no colonist avail => false");
+				AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomHediffGiver no colonist avail => false");
 				return false;
 			}
 			var hediffGiver = ThingDefOf.Human.race.hediffGiverSets
 				.SelectMany((HediffGiverSetDef set) => set.hediffGivers)
 				.RandomElement();
 			var result = hediffGiver.TryApply(pawn, null);
-			AsyncLogger.Warning($"#{Instance.punishLevel} {hediffGiver} => {result}");
+			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {hediffGiver} => {result}");
 			return result;
 		}
 
@@ -227,7 +256,7 @@ namespace Rimionship
 				forced = true
 			};
 			var result = incidentDef.Worker.TryExecute(parms);
-			AsyncLogger.Warning($"#{Instance.punishLevel} {incidentDef.defName} [{isAnimal}] => {result}");
+			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {incidentDef.defName} [{isAnimal}] => {result}");
 			return result;
 		}
 
@@ -312,7 +341,7 @@ namespace Rimionship
 					{
 						case 1:
 							var looser = NonMentalColonist(false);
-							AsyncLogger.Warning($"#{Instance.punishLevel} ColonistBecomesDumber => {looser != null}");
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} ColonistBecomesDumber => {looser != null}");
 							if (looser != null)
 							{
 								looser.skills.skills.Do(skill => skill.levelInt /= 2);
@@ -335,8 +364,11 @@ namespace Rimionship
 			return false;
 		}
 
-		public static void Draw(float leftX, ref float curBaseY)
+		public void Draw(float leftX, ref float curBaseY)
 		{
+			if (state == State.Idle)
+				return;
+
 			var f = Instance.RisingClamped01();
 			var n = Instance.state >= State.Rising ? (int)(1 + 4 * f) : 0;
 			if (f > 0.9f)
@@ -353,7 +385,8 @@ namespace Rimionship
 			if (Mouse.IsOver(mouseRect))
 			{
 				Widgets.DrawHighlight(mouseRect);
-				TooltipHandler.TipRegion(mouseRect, new TipSignal("BloodGodScaleHelp".Translate(), 742863));
+				if (state != State.Cooldown)
+					TooltipHandler.TipRegion(mouseRect, new TipSignal("BloodGodScaleHelp".Translate(), 742863));
 			}
 
 			curBaseY -= 24;

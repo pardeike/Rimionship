@@ -7,8 +7,6 @@ namespace Rimionship
 {
 	class Page_ConfigurePawns : Page_ConfigureStartingPawns
 	{
-		bool devMode;
-
 		public override void PreOpen()
 		{
 			Current.Game.InitData = new GameInitData();
@@ -21,16 +19,10 @@ namespace Rimionship
 				Find.GameInitData.startingAndOptionalPawns.Add(pawn);
 			}
 
-			devMode = Prefs.DevMode;
-			Prefs.DevMode = false;
+			if (Find.CameraDriver.rootSize < 40)
+				Find.CameraDriver.SetRootPosAndSize(Find.CameraDriver.rootPos, 40);
 
 			base.PreOpen();
-		}
-
-		public override void PostClose()
-		{
-			base.PostClose();
-			Prefs.DevMode = devMode;
 		}
 
 		public override void DoNext()
@@ -45,6 +37,7 @@ namespace Rimionship
 			MapGenerator.PlayerStartSpot = Find.CameraDriver.CurrentViewRect.CenterCell;
 			var pods = Find.GameInitData.startingAndOptionalPawns.Select(pawn => new List<Thing>() { pawn }).ToList();
 			DropPodUtility.DropThingGroupsNear(MapGenerator.PlayerStartSpot, map, pods, 110, false, false, true, true, false, false);
+			Find.StoryWatcher.statsRecord.greatestPopulation = 0;
 
 			Close(true);
 		}

@@ -37,14 +37,10 @@ namespace Rimionship
 
 		public override void MapComponentTick()
 		{
-			if (10.EveryNTick() == false) return;
+			if (10.EveryNTick() == false)
+				return;
 
-			// reset game init data
-			if (map.mapPawns.ColonistCount > 0 && Find.GameInitData != null && Find.GameInitData.startingPawnCount != -1)
-			{
-				Find.GameInitData.startingAndOptionalPawns.Clear();
-				Find.GameInitData.startingPawnCount = -1;
-			}
+			FixGameInitData();
 
 			// ritual ending
 			if (state == State.EndSuccess || state == State.EndFailure)
@@ -55,9 +51,20 @@ namespace Rimionship
 
 				if (state == State.EndSuccess)
 				{
+					var spot = SacrificationSpot.ForMap(map);
+					var sacrification = map.GetComponent<Sacrification>();
 					var bloodGod = Current.Game.World.GetComponent<BloodGod>();
-					bloodGod.Satisfy();
+					bloodGod.Satisfy(spot, sacrification);
 				}
+			}
+		}
+
+		void FixGameInitData()
+		{
+			if (map.mapPawns.ColonistCount > 0 && Find.GameInitData != null && Find.GameInitData.startingPawnCount != -1)
+			{
+				Find.GameInitData.startingAndOptionalPawns.Clear();
+				Find.GameInitData.startingPawnCount = -1;
 			}
 		}
 	}

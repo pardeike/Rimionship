@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Verse;
 
 namespace Rimionship
@@ -14,15 +15,19 @@ namespace Rimionship
 		public static readonly Font menuFontLarge = assets.LoadAsset<Font>("MenuLarge");
 
 		public static GameObject runtimeHUD;
+		public static Transform scorePanel;
 		public static UnityEngine.UI.Text placement;
 		public static RectTransform arrowTransform;
 		public static UnityEngine.UI.Text placements;
 		public static UnityEngine.UI.Text scores;
-		public static UnityEngine.UI.Text name;
-		public static UnityEngine.UI.Text score;
+		public static UnityEngine.UI.Image infoBackground;
+		public static UnityEngine.UI.Text infoName;
+		public static UnityEngine.UI.Text infoScore;
 
 		public static Animator statsAnimator;
 		public static Animator panelAnimator;
+		public static float infoWidth, infoHeight;
+		public static RectTransform infoRectTransform;
 
 		public static readonly Texture2D MainMenuLogin = ContentFinder<Texture2D>.Get("MainMenuLogin", true);
 		public static readonly Texture2D MainMenuLoginOver = ContentFinder<Texture2D>.Get("MainMenuLoginOver", true);
@@ -52,6 +57,46 @@ namespace Rimionship
 		public static readonly Texture2D ButtonPattern = ContentFinder<Texture2D>.Get("Button/Pattern", true);
 		public static readonly Texture2D Note = ContentFinder<Texture2D>.Get("Note", true);
 
+		public static bool catchMouseEvents = false;
+
+		public class StatsScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+		{
+#pragma warning disable CA1822
+			public void Update()
+			{
+				var infoTop = 95 * Prefs.UIScale;
+				infoRectTransform.anchoredPosition = new Vector2(0, -infoTop);
+
+				var infoRect = new Rect(
+					UI.screenWidth / 2 - infoWidth / 2,
+					UI.screenHeight - (infoTop + infoHeight) / Prefs.UIScale,
+					infoWidth,
+					infoHeight
+				);
+				var pos = UI.MousePositionOnUI;
+				var dx = Mathf.Abs(infoRect.center.x - pos.x) * Prefs.UIScale - infoRect.width / 2;
+				var dy = Mathf.Abs(infoRect.center.y - pos.y) * Prefs.UIScale - infoRect.height / 2;
+				var fx = GenMath.LerpDoubleClamped(0, 30, 0, 1, dx);
+				var fy = GenMath.LerpDoubleClamped(0, 30, 0, 1, dy);
+				SetInfoAlpha(Mathf.Max(fx, fy));
+			}
+#pragma warning restore CA1822
+
+			public void OnPointerEnter(PointerEventData _)
+			{
+				// TODO if the mouse is already down when we enter we will eat
+				// the mouse up event when it happens inside us. Cannot figure out
+				// why detecting a pressed mouse button does not work here though
+				//
+				catchMouseEvents = true;
+			}
+
+			public void OnPointerExit(PointerEventData _)
+			{
+				catchMouseEvents = false;
+			}
+		}
+
 		static Assets()
 		{
 			runtimeHUD = Object.Instantiate(hud);
@@ -60,20 +105,32 @@ namespace Rimionship
 			var tr = runtimeHUD.transform;
 
 			var _stats = tr.Find("Stats");
+			_ = _stats.gameObject.AddComponent<StatsScript>();
+
 			statsAnimator = _stats.GetComponent<Animator>();
 
-			var _panel = _stats.Find("Panel");
-			panelAnimator = _panel.GetComponent<Animator>();
+			var trigger = (EventTrigger)_stats.gameObject.AddComponent(typeof(EventTrigger));
+			var entry = new EventTrigger.Entry { eventID = EventTriggerType.PointerClick };
+			entry.callback.AddListener((eventData) => { Log.Warning($"CLICK {eventData}"); eventData.Use(); });
+			trigger.triggers.Add(entry);
 
-			placement = _panel.Find("pos").GetComponent<UnityEngine.UI.Text>();
-			arrowTransform = _panel.Find("arrow").GetComponent<RectTransform>();
-			placements = _panel.Find("names").GetComponent<UnityEngine.UI.Text>();
-			scores = _panel.Find("scores").GetComponent<UnityEngine.UI.Text>();
+			scorePanel = _stats.Find("Panel");
+			panelAnimator = scorePanel.GetComponent<Animator>();
+
+			placement = scorePanel.Find("pos").GetComponent<UnityEngine.UI.Text>();
+			arrowTransform = scorePanel.Find("arrow").GetComponent<RectTransform>();
+			placements = scorePanel.Find("names").GetComponent<UnityEngine.UI.Text>();
+			scores = scorePanel.Find("scores").GetComponent<UnityEngine.UI.Text>();
 
 			var _info = tr.Find("Info");
-			_info.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -95 * Prefs.UIScale);
-			name = _info.Find("name").GetComponent<UnityEngine.UI.Text>();
-			score = _info.Find("score").GetComponent<UnityEngine.UI.Text>();
+			infoRectTransform = _info.GetComponent<RectTransform>();
+			var infoTop = 95 * Prefs.UIScale;
+			infoWidth = infoRectTransform.sizeDelta.x;
+			infoHeight = infoRectTransform.sizeDelta.y;
+			infoRectTransform.anchoredPosition = new Vector2(0, -infoTop);
+			infoBackground = _info.Find("bg").GetComponent<UnityEngine.UI.Image>();
+			infoName = _info.Find("name").GetComponent<UnityEngine.UI.Text>();
+			infoScore = _info.Find("score").GetComponent<UnityEngine.UI.Text>();
 
 			HUD.SetName("");
 			HUD.SetScore(0);
@@ -84,13 +141,31 @@ namespace Rimionship
 			HUD.SetScores(0, 0, 0);
 
 			HUD.SetPanelVisble(true);
+
+			Tools.assetsInited = true;
+		}
+
+		public static void SetInfoAlpha(float alpha)
+		{
+			Color c;
+			c = infoBackground.color;
+			c.a = alpha;
+			infoBackground.color = c;
+			c = infoName.color;
+			c.a = alpha;
+			infoName.color = c;
+			c = infoScore.color;
+			c.a = alpha;
+			infoScore.color = c;
 		}
 
 		public static void UIScaleChanged()
 		{
-			if (runtimeHUD == null) return;
+			if (runtimeHUD == null)
+				return;
 			var info = runtimeHUD.transform.Find("Info");
-			if (info == null) return;
+			if (info == null)
+				return;
 			info.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -95 * Prefs.UIScale);
 		}
 

@@ -72,6 +72,7 @@ message Traits {
 message Rising {
 	int32 maxFreeColonistCount = 1;
 	int32 risingInterval = 2;
+	int32 risingCooldown = 3;
 }
 
 message Punishment {
@@ -79,6 +80,8 @@ message Punishment {
 	int32 randomStartPauseMax = 2;
 	int32 startPauseInterval = 3;
 	int32 finalPauseInterval = 4;
+	float minThoughtFactor = 5;
+	float maxThoughtFactor = 6;
 }
 
 message StartRequest {

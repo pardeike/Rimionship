@@ -37,7 +37,7 @@ namespace Rimionship
 
 		public static bool modRegistered = false;
 
-		private static List<KeyValuePair<string, ulong>> _allowedMods = new();
+		static List<KeyValuePair<string, ulong>> _allowedMods = new();
 		public static List<KeyValuePair<string, ulong>> AllowedMods
 		{
 			get => _allowedMods;

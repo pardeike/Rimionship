@@ -25,12 +25,12 @@ namespace Rimionship
 
 		public static void SetName(string name)
 		{
-			Assets.name.text = name.ToUpper();
+			Assets.infoName.text = name.ToUpper();
 		}
 
 		public static void SetScore(int score)
 		{
-			Assets.score.text = score.DotFormatted();
+			Assets.infoScore.text = score.DotFormatted();
 		}
 
 		public static void SetPlacement(int place)

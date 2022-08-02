@@ -41,41 +41,43 @@ namespace Api {
             "KAsyCy5hcGkuVHJhaXRzEhsKBnJpc2luZxgCIAEoCzILLmFwaS5SaXNpbmcS",
             "IwoKcHVuaXNobWVudBgDIAEoCzIPLmFwaS5QdW5pc2htZW50IlgKBlRyYWl0",
             "cxITCgtzY2FsZUZhY3RvchgBIAEoAhIcChRnb29kVHJhaXRTdXBwcmVzc2lv",
-            "bhgCIAEoAhIbChNiYWRUcmFpdFN1cHByZXNzaW9uGAMgASgCIj4KBlJpc2lu",
+            "bhgCIAEoAhIbChNiYWRUcmFpdFN1cHByZXNzaW9uGAMgASgCIlYKBlJpc2lu",
             "ZxIcChRtYXhGcmVlQ29sb25pc3RDb3VudBgBIAEoBRIWCg5yaXNpbmdJbnRl",
-            "cnZhbBgCIAEoBSJ+CgpQdW5pc2htZW50EhsKE3JhbmRvbVN0YXJ0UGF1c2VN",
-            "aW4YASABKAUSGwoTcmFuZG9tU3RhcnRQYXVzZU1heBgCIAEoBRIaChJzdGFy",
-            "dFBhdXNlSW50ZXJ2YWwYAyABKAUSGgoSZmluYWxQYXVzZUludGVydmFsGAQg",
-            "ASgFIhoKDFN0YXJ0UmVxdWVzdBIKCgJpZBgBIAEoCSJ2Cg1TdGFydFJlc3Bv",
-            "bnNlEhQKDGdhbWVGaWxlSGFzaBgBIAEoCRITCgtnYW1lRmlsZVVybBgCIAEo",
-            "CRIZChFzdGFydGluZ1Bhd25Db3VudBgDIAEoBRIfCghzZXR0aW5ncxgEIAEo",
-            "CzINLmFwaS5TZXR0aW5ncyL9BAoMU3RhdHNSZXF1ZXN0EgoKAmlkGAEgASgJ",
-            "Eg4KBndlYWx0aBgCIAEoBRIQCghtYXBDb3VudBgDIAEoBRIRCgljb2xvbmlz",
-            "dHMYBCABKAUSHAoUY29sb25pc3RzTmVlZFRlbmRpbmcYBSABKAUSGQoRbWVk",
-            "aWNhbENvbmRpdGlvbnMYBiABKAUSDwoHZW5lbWllcxgHIAEoBRITCgt3aWxk",
-            "QW5pbWFscxgIIAEoBRIUCgx0YW1lZEFuaW1hbHMYCSABKAUSEAoIdmlzaXRv",
-            "cnMYCiABKAUSEQoJcHJpc29uZXJzGAsgASgFEhcKD2Rvd25lZENvbG9uaXN0",
-            "cxgMIAEoBRIXCg9tZW50YWxDb2xvbmlzdHMYDSABKAUSDQoFcm9vbXMYDiAB",
-            "KAUSEAoIY2FyYXZhbnMYDyABKAUSEQoJd2VhcG9uRHBzGBAgASgFEhMKC2Vs",
-            "ZWN0cmljaXR5GBEgASgFEhAKCG1lZGljaW5lGBIgASgFEgwKBGZvb2QYEyAB",
-            "KAUSDAoEZmlyZRgUIAEoBRISCgpjb25kaXRpb25zGBUgASgFEhMKC3RlbXBl",
-            "cmF0dXJlGBYgASgFEhUKDW51bVJhaWRzRW5lbXkYFyABKAUSFQoNbnVtVGhy",
-            "ZWF0QmlncxgYIAEoBRIXCg9jb2xvbmlzdHNLaWxsZWQYGSABKAUSGgoSZ3Jl",
-            "YXRlc3RQb3B1bGF0aW9uGBogASgFEhMKC2luR2FtZUhvdXJzGBsgASgFEhgK",
-            "EGRhbWFnZVRha2VuUGF3bnMYHCABKAISGQoRZGFtYWdlVGFrZW5UaGluZ3MY",
-            "HSABKAISEwoLZGFtYWdlRGVhbHQYHiABKAIiIQoNU3RhdHNSZXNwb25zZRIQ",
-            "CghpbnRlcnZhbBgBIAEoBSKCAQoLRnV0dXJlRXZlbnQSDQoFdGlja3MYASAB",
-            "KAUSDAoEbmFtZRgCIAEoCRINCgVxdWVzdBgDIAEoCRIPCgdmYWN0aW9uGAQg",
-            "ASgJEg4KBnBvaW50cxgFIAEoAhIQCghzdHJhdGVneRgGIAEoCRIUCgxhcnJp",
-            "dmFsX21vZGUYByABKAkiQgoTRnV0dXJlRXZlbnRzUmVxdWVzdBIKCgJpZBgB",
-            "IAEoCRIfCgVldmVudBgCIAMoCzIQLmFwaS5GdXR1cmVFdmVudCIWChRGdXR1",
-            "cmVFdmVudHNSZXNwb25zZTKRAgoDQVBJEjAKBUhlbGxvEhEuYXBpLkhlbGxv",
-            "UmVxdWVzdBoSLmFwaS5IZWxsb1Jlc3BvbnNlIgASLQoEU3luYxIQLmFwaS5T",
-            "eW5jUmVxdWVzdBoRLmFwaS5TeW5jUmVzcG9uc2UiABIwCgVTdGFydBIRLmFw",
-            "aS5TdGFydFJlcXVlc3QaEi5hcGkuU3RhcnRSZXNwb25zZSIAEjAKBVN0YXRz",
-            "EhEuYXBpLlN0YXRzUmVxdWVzdBoSLmFwaS5TdGF0c1Jlc3BvbnNlIgASRQoM",
-            "RnV0dXJlRXZlbnRzEhguYXBpLkZ1dHVyZUV2ZW50c1JlcXVlc3QaGS5hcGku",
-            "RnV0dXJlRXZlbnRzUmVzcG9uc2UiAGIGcHJvdG8z"));
+            "cnZhbBgCIAEoBRIWCg5yaXNpbmdDb29sZG93bhgDIAEoBSKyAQoKUHVuaXNo",
+            "bWVudBIbChNyYW5kb21TdGFydFBhdXNlTWluGAEgASgFEhsKE3JhbmRvbVN0",
+            "YXJ0UGF1c2VNYXgYAiABKAUSGgoSc3RhcnRQYXVzZUludGVydmFsGAMgASgF",
+            "EhoKEmZpbmFsUGF1c2VJbnRlcnZhbBgEIAEoBRIYChBtaW5UaG91Z2h0RmFj",
+            "dG9yGAUgASgCEhgKEG1heFRob3VnaHRGYWN0b3IYBiABKAIiGgoMU3RhcnRS",
+            "ZXF1ZXN0EgoKAmlkGAEgASgJInYKDVN0YXJ0UmVzcG9uc2USFAoMZ2FtZUZp",
+            "bGVIYXNoGAEgASgJEhMKC2dhbWVGaWxlVXJsGAIgASgJEhkKEXN0YXJ0aW5n",
+            "UGF3bkNvdW50GAMgASgFEh8KCHNldHRpbmdzGAQgASgLMg0uYXBpLlNldHRp",
+            "bmdzIv0ECgxTdGF0c1JlcXVlc3QSCgoCaWQYASABKAkSDgoGd2VhbHRoGAIg",
+            "ASgFEhAKCG1hcENvdW50GAMgASgFEhEKCWNvbG9uaXN0cxgEIAEoBRIcChRj",
+            "b2xvbmlzdHNOZWVkVGVuZGluZxgFIAEoBRIZChFtZWRpY2FsQ29uZGl0aW9u",
+            "cxgGIAEoBRIPCgdlbmVtaWVzGAcgASgFEhMKC3dpbGRBbmltYWxzGAggASgF",
+            "EhQKDHRhbWVkQW5pbWFscxgJIAEoBRIQCgh2aXNpdG9ycxgKIAEoBRIRCglw",
+            "cmlzb25lcnMYCyABKAUSFwoPZG93bmVkQ29sb25pc3RzGAwgASgFEhcKD21l",
+            "bnRhbENvbG9uaXN0cxgNIAEoBRINCgVyb29tcxgOIAEoBRIQCghjYXJhdmFu",
+            "cxgPIAEoBRIRCgl3ZWFwb25EcHMYECABKAUSEwoLZWxlY3RyaWNpdHkYESAB",
+            "KAUSEAoIbWVkaWNpbmUYEiABKAUSDAoEZm9vZBgTIAEoBRIMCgRmaXJlGBQg",
+            "ASgFEhIKCmNvbmRpdGlvbnMYFSABKAUSEwoLdGVtcGVyYXR1cmUYFiABKAUS",
+            "FQoNbnVtUmFpZHNFbmVteRgXIAEoBRIVCg1udW1UaHJlYXRCaWdzGBggASgF",
+            "EhcKD2NvbG9uaXN0c0tpbGxlZBgZIAEoBRIaChJncmVhdGVzdFBvcHVsYXRp",
+            "b24YGiABKAUSEwoLaW5HYW1lSG91cnMYGyABKAUSGAoQZGFtYWdlVGFrZW5Q",
+            "YXducxgcIAEoAhIZChFkYW1hZ2VUYWtlblRoaW5ncxgdIAEoAhITCgtkYW1h",
+            "Z2VEZWFsdBgeIAEoAiIhCg1TdGF0c1Jlc3BvbnNlEhAKCGludGVydmFsGAEg",
+            "ASgFIoIBCgtGdXR1cmVFdmVudBINCgV0aWNrcxgBIAEoBRIMCgRuYW1lGAIg",
+            "ASgJEg0KBXF1ZXN0GAMgASgJEg8KB2ZhY3Rpb24YBCABKAkSDgoGcG9pbnRz",
+            "GAUgASgCEhAKCHN0cmF0ZWd5GAYgASgJEhQKDGFycml2YWxfbW9kZRgHIAEo",
+            "CSJCChNGdXR1cmVFdmVudHNSZXF1ZXN0EgoKAmlkGAEgASgJEh8KBWV2ZW50",
+            "GAIgAygLMhAuYXBpLkZ1dHVyZUV2ZW50IhYKFEZ1dHVyZUV2ZW50c1Jlc3Bv",
+            "bnNlMpECCgNBUEkSMAoFSGVsbG8SES5hcGkuSGVsbG9SZXF1ZXN0GhIuYXBp",
+            "LkhlbGxvUmVzcG9uc2UiABItCgRTeW5jEhAuYXBpLlN5bmNSZXF1ZXN0GhEu",
+            "YXBpLlN5bmNSZXNwb25zZSIAEjAKBVN0YXJ0EhEuYXBpLlN0YXJ0UmVxdWVz",
+            "dBoSLmFwaS5TdGFydFJlc3BvbnNlIgASMAoFU3RhdHMSES5hcGkuU3RhdHNS",
+            "ZXF1ZXN0GhIuYXBpLlN0YXRzUmVzcG9uc2UiABJFCgxGdXR1cmVFdmVudHMS",
+            "GC5hcGkuRnV0dXJlRXZlbnRzUmVxdWVzdBoZLmFwaS5GdXR1cmVFdmVudHNS",
+            "ZXNwb25zZSIAYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -88,8 +90,8 @@ namespace Api {
             new pbr::GeneratedClrTypeInfo(typeof(global::Api.State), global::Api.State.Parser, new[]{ "Game", "PlannedStartHour", "PlannedStartMinute" }, null, new[]{ typeof(global::Api.State.Types.Game) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Api.Settings), global::Api.Settings.Parser, new[]{ "Traits", "Rising", "Punishment" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Api.Traits), global::Api.Traits.Parser, new[]{ "ScaleFactor", "GoodTraitSuppression", "BadTraitSuppression" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.Rising), global::Api.Rising.Parser, new[]{ "MaxFreeColonistCount", "RisingInterval" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.Punishment), global::Api.Punishment.Parser, new[]{ "RandomStartPauseMin", "RandomStartPauseMax", "StartPauseInterval", "FinalPauseInterval" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Api.Rising), global::Api.Rising.Parser, new[]{ "MaxFreeColonistCount", "RisingInterval", "RisingCooldown" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Api.Punishment), global::Api.Punishment.Parser, new[]{ "RandomStartPauseMin", "RandomStartPauseMax", "StartPauseInterval", "FinalPauseInterval", "MinThoughtFactor", "MaxThoughtFactor" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Api.StartRequest), global::Api.StartRequest.Parser, new[]{ "Id" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Api.StartResponse), global::Api.StartResponse.Parser, new[]{ "GameFileHash", "GameFileUrl", "StartingPawnCount", "Settings" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Api.StatsRequest), global::Api.StatsRequest.Parser, new[]{ "Id", "Wealth", "MapCount", "Colonists", "ColonistsNeedTending", "MedicalConditions", "Enemies", "WildAnimals", "TamedAnimals", "Visitors", "Prisoners", "DownedColonists", "MentalColonists", "Rooms", "Caravans", "WeaponDps", "Electricity", "Medicine", "Food", "Fire", "Conditions", "Temperature", "NumRaidsEnemy", "NumThreatBigs", "ColonistsKilled", "GreatestPopulation", "InGameHours", "DamageTakenPawns", "DamageTakenThings", "DamageDealt" }, null, null, null),
@@ -1768,6 +1770,7 @@ namespace Api {
     public Rising(Rising other) : this() {
       maxFreeColonistCount_ = other.maxFreeColonistCount_;
       risingInterval_ = other.risingInterval_;
+      risingCooldown_ = other.risingCooldown_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1798,6 +1801,17 @@ namespace Api {
       }
     }
 
+    /// <summary>Field number for the "risingCooldown" field.</summary>
+    public const int RisingCooldownFieldNumber = 3;
+    private int risingCooldown_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int RisingCooldown {
+      get { return risingCooldown_; }
+      set {
+        risingCooldown_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as Rising);
@@ -1813,6 +1827,7 @@ namespace Api {
       }
       if (MaxFreeColonistCount != other.MaxFreeColonistCount) return false;
       if (RisingInterval != other.RisingInterval) return false;
+      if (RisingCooldown != other.RisingCooldown) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1821,6 +1836,7 @@ namespace Api {
       int hash = 1;
       if (MaxFreeColonistCount != 0) hash ^= MaxFreeColonistCount.GetHashCode();
       if (RisingInterval != 0) hash ^= RisingInterval.GetHashCode();
+      if (RisingCooldown != 0) hash ^= RisingCooldown.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1842,6 +1858,10 @@ namespace Api {
         output.WriteRawTag(16);
         output.WriteInt32(RisingInterval);
       }
+      if (RisingCooldown != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(RisingCooldown);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1855,6 +1875,9 @@ namespace Api {
       }
       if (RisingInterval != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(RisingInterval);
+      }
+      if (RisingCooldown != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RisingCooldown);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1873,6 +1896,9 @@ namespace Api {
       if (other.RisingInterval != 0) {
         RisingInterval = other.RisingInterval;
       }
+      if (other.RisingCooldown != 0) {
+        RisingCooldown = other.RisingCooldown;
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -1890,6 +1916,10 @@ namespace Api {
           }
           case 16: {
             RisingInterval = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            RisingCooldown = input.ReadInt32();
             break;
           }
         }
@@ -1927,6 +1957,8 @@ namespace Api {
       randomStartPauseMax_ = other.randomStartPauseMax_;
       startPauseInterval_ = other.startPauseInterval_;
       finalPauseInterval_ = other.finalPauseInterval_;
+      minThoughtFactor_ = other.minThoughtFactor_;
+      maxThoughtFactor_ = other.maxThoughtFactor_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1979,6 +2011,28 @@ namespace Api {
       }
     }
 
+    /// <summary>Field number for the "minThoughtFactor" field.</summary>
+    public const int MinThoughtFactorFieldNumber = 5;
+    private float minThoughtFactor_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float MinThoughtFactor {
+      get { return minThoughtFactor_; }
+      set {
+        minThoughtFactor_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "maxThoughtFactor" field.</summary>
+    public const int MaxThoughtFactorFieldNumber = 6;
+    private float maxThoughtFactor_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float MaxThoughtFactor {
+      get { return maxThoughtFactor_; }
+      set {
+        maxThoughtFactor_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as Punishment);
@@ -1996,6 +2050,8 @@ namespace Api {
       if (RandomStartPauseMax != other.RandomStartPauseMax) return false;
       if (StartPauseInterval != other.StartPauseInterval) return false;
       if (FinalPauseInterval != other.FinalPauseInterval) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(MinThoughtFactor, other.MinThoughtFactor)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(MaxThoughtFactor, other.MaxThoughtFactor)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -2006,6 +2062,8 @@ namespace Api {
       if (RandomStartPauseMax != 0) hash ^= RandomStartPauseMax.GetHashCode();
       if (StartPauseInterval != 0) hash ^= StartPauseInterval.GetHashCode();
       if (FinalPauseInterval != 0) hash ^= FinalPauseInterval.GetHashCode();
+      if (MinThoughtFactor != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(MinThoughtFactor);
+      if (MaxThoughtFactor != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(MaxThoughtFactor);
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2035,6 +2093,14 @@ namespace Api {
         output.WriteRawTag(32);
         output.WriteInt32(FinalPauseInterval);
       }
+      if (MinThoughtFactor != 0F) {
+        output.WriteRawTag(45);
+        output.WriteFloat(MinThoughtFactor);
+      }
+      if (MaxThoughtFactor != 0F) {
+        output.WriteRawTag(53);
+        output.WriteFloat(MaxThoughtFactor);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2054,6 +2120,12 @@ namespace Api {
       }
       if (FinalPauseInterval != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(FinalPauseInterval);
+      }
+      if (MinThoughtFactor != 0F) {
+        size += 1 + 4;
+      }
+      if (MaxThoughtFactor != 0F) {
+        size += 1 + 4;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2077,6 +2149,12 @@ namespace Api {
       }
       if (other.FinalPauseInterval != 0) {
         FinalPauseInterval = other.FinalPauseInterval;
+      }
+      if (other.MinThoughtFactor != 0F) {
+        MinThoughtFactor = other.MinThoughtFactor;
+      }
+      if (other.MaxThoughtFactor != 0F) {
+        MaxThoughtFactor = other.MaxThoughtFactor;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -2103,6 +2181,14 @@ namespace Api {
           }
           case 32: {
             FinalPauseInterval = input.ReadInt32();
+            break;
+          }
+          case 45: {
+            MinThoughtFactor = input.ReadFloat();
+            break;
+          }
+          case 53: {
+            MaxThoughtFactor = input.ReadFloat();
             break;
           }
         }

@@ -13,9 +13,9 @@ namespace Rimionship
 {
 	public static class ServerAPI
 	{
-		private static readonly CancellationTokenSource source = new();
+		static readonly CancellationTokenSource source = new();
 
-		private static float _nextStatsUpdate;
+		static float _nextStatsUpdate;
 		public static bool WaitUntilNextStatSend()
 		{
 			var result = Time.realtimeSinceStartup < _nextStatsUpdate;
@@ -31,7 +31,8 @@ namespace Rimionship
 
 		public static void WrapCall(Action call)
 		{
-			if (Communications.Client == null) return;
+			if (Communications.Client == null)
+				return;
 			try
 			{
 				call();
@@ -60,7 +61,7 @@ namespace Rimionship
 				var response = Communications.Client.Hello(request, null, null, source.Token);
 				PlayState.modRegistered = response.Found;
 				PlayState.AllowedMods = response.GetAllowedMods();
-				//AsyncLogger.Warning($"{PlayState.modRegistered} {PlayState.AllowedMods.ToArray()} <- Hello");
+				AsyncLogger.Warning($"{PlayState.modRegistered} {PlayState.AllowedMods.ToArray()} <- Hello");
 				HUD.Update(response);
 				if (PlayState.modRegistered == false && openBrowser)
 				{
@@ -177,6 +178,9 @@ namespace Rimionship
 
 		static void ApplySettings(Api.Settings settings)
 		{
+			if (Tools.DevMode)
+				return;
+
 			settings ??= new Api.Settings();
 			var traits = settings.Traits;
 			if (traits != null)
@@ -190,6 +194,7 @@ namespace Rimionship
 			{
 				RimionshipMod.settings.maxFreeColonistCount = rising.MaxFreeColonistCount;
 				RimionshipMod.settings.risingInterval = rising.RisingInterval;
+				RimionshipMod.settings.risingCooldown = rising.RisingCooldown;
 			}
 			var punishment = settings.Punishment;
 			if (punishment != null)
@@ -198,6 +203,8 @@ namespace Rimionship
 				RimionshipMod.settings.randomStartPauseMax = punishment.RandomStartPauseMax;
 				RimionshipMod.settings.startPauseInterval = punishment.StartPauseInterval;
 				RimionshipMod.settings.finalPauseInterval = punishment.FinalPauseInterval;
+				RimionshipMod.settings.minThoughtFactor = punishment.MinThoughtFactor;
+				RimionshipMod.settings.maxThoughtFactor = punishment.MaxThoughtFactor;
 			}
 		}
 

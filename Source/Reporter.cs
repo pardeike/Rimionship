@@ -8,10 +8,10 @@ namespace Rimionship
 {
 	public class Reporter : WorldComponent
 	{
-		private int _chosenMap = 0;
+		int _chosenMap = 0;
 		public Map ChosenMap => Current.Game.maps[_chosenMap];
 
-		private Model_Stat stat = new();
+		Model_Stat stat = new();
 
 		public Reporter(World world) : base(world)
 		{
@@ -29,7 +29,7 @@ namespace Rimionship
 			_ = Find.CameraDriver.StartCoroutine(Coroutine());
 		}
 
-		private IEnumerator UpdateWeath()
+		IEnumerator UpdateWeath()
 		{
 			try
 			{
@@ -42,7 +42,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateMaps()
+		IEnumerator UpdateMaps()
 		{
 			try
 			{
@@ -55,7 +55,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateColonists()
+		IEnumerator UpdateColonists()
 		{
 			try
 			{
@@ -68,7 +68,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateColonistsNeedTending()
+		IEnumerator UpdateColonistsNeedTending()
 		{
 			try
 			{
@@ -81,7 +81,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateMedicalConditions()
+		IEnumerator UpdateMedicalConditions()
 		{
 			try
 			{
@@ -94,7 +94,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateEnemies()
+		IEnumerator UpdateEnemies()
 		{
 			try
 			{
@@ -107,7 +107,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateWildAnimals()
+		IEnumerator UpdateWildAnimals()
 		{
 			try
 			{
@@ -120,7 +120,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateTamedAnimals()
+		IEnumerator UpdateTamedAnimals()
 		{
 			try
 			{
@@ -133,7 +133,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateVisitors()
+		IEnumerator UpdateVisitors()
 		{
 			try
 			{
@@ -146,7 +146,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdatePrisoners()
+		IEnumerator UpdatePrisoners()
 		{
 			try
 			{
@@ -159,7 +159,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateDownedColonists()
+		IEnumerator UpdateDownedColonists()
 		{
 			try
 			{
@@ -172,7 +172,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateMentalColonists()
+		IEnumerator UpdateMentalColonists()
 		{
 			try
 			{
@@ -185,7 +185,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateRooms()
+		IEnumerator UpdateRooms()
 		{
 			try
 			{
@@ -198,7 +198,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateCaravans()
+		IEnumerator UpdateCaravans()
 		{
 			try
 			{
@@ -211,7 +211,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateWeaponDps()
+		IEnumerator UpdateWeaponDps()
 		{
 			var w1 = 0f;
 			var w2 = 0f;
@@ -246,7 +246,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateElectricity()
+		IEnumerator UpdateElectricity()
 		{
 			try
 			{
@@ -259,7 +259,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateMedicine()
+		IEnumerator UpdateMedicine()
 		{
 			var m1 = 0f;
 			var m2 = 0f;
@@ -284,7 +284,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateFood()
+		IEnumerator UpdateFood()
 		{
 			var f1 = 0f;
 			var f2 = 0f;
@@ -309,7 +309,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateFire()
+		IEnumerator UpdateFire()
 		{
 			try
 			{
@@ -322,7 +322,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateConditions()
+		IEnumerator UpdateConditions()
 		{
 			try
 			{
@@ -335,7 +335,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateTemperature()
+		IEnumerator UpdateTemperature()
 		{
 			try
 			{
@@ -348,7 +348,7 @@ namespace Rimionship
 			yield return null;
 		}
 
-		private IEnumerator UpdateStoryWatcherInfos()
+		IEnumerator UpdateStoryWatcherInfos()
 		{
 			try
 			{

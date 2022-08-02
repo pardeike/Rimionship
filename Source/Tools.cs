@@ -13,15 +13,25 @@ namespace Rimionship
 {
 	public static class Tools
 	{
-		private static readonly System.Random _RND = new();
+		static readonly System.Random _RND = new();
+
+		public static bool assetsInited = false;
 		public static readonly Rect Rect01 = new(0, 0, 1, 1);
+		public static readonly bool DevMode;
+
+		static Tools()
+		{
+			DevMode = Environment.GetEnvironmentVariable("RIMIONSHIP-DEV") != null;
+			if (DevMode)
+				Log.Warning($"Rimionship runs in dev mode");
+		}
 
 		public static string GenerateHexString(int digits)
 		{
 			return string.Concat(Enumerable.Range(0, digits).Select(_ => _RND.Next(16).ToString("x")));
 		}
 
-		private static string uniqueModID;
+		static string uniqueModID;
 		public static string UniqueModID
 		{
 			get
@@ -44,7 +54,8 @@ namespace Rimionship
 
 		public static string DotFormatted(this int nr)
 		{
-			if (nr == 0) return "";
+			if (nr == 0)
+				return "";
 			var parts = new List<string>();
 			while (nr > 0)
 			{
@@ -57,7 +68,8 @@ namespace Rimionship
 
 		public static string FileHash(string path)
 		{
-			if (File.Exists(path) == false) return "";
+			if (File.Exists(path) == false)
+				return "";
 			using var md5 = MD5.Create();
 			using var stream = File.OpenRead(path);
 			var checksum = md5.ComputeHash(stream);
@@ -72,7 +84,8 @@ namespace Rimionship
 		public static bool ShouldReport(this RpcException exception)
 		{
 			var code = exception.StatusCode;
-			if (code == StatusCode.Unavailable || code == StatusCode.PermissionDenied) return false;
+			if (code == StatusCode.Unavailable || code == StatusCode.PermissionDenied)
+				return false;
 			return code != StatusCode.Unknown || exception.Status.Detail != "Stream removed";
 		}
 
@@ -131,6 +144,23 @@ namespace Rimionship
 			return spot != null;
 		}
 
+		public static void GiveThought(this Pawn pawn, ThoughtDef thoughtDef, float powerFactor = 1f)
+		{
+			var thought = (Thought_Memory)ThoughtMaker.MakeThought(thoughtDef);
+			thought.moodPowerFactor = powerFactor;
+			pawn.needs.mood.thoughts.memories.TryGainMemory(thought);
+		}
+
+		public static IEnumerable<Pawn> ColonistsNear(IntVec3 point, Map map, float distance)
+		{
+			return map.mapPawns.FreeColonistsAndPrisoners.Where(pawn => pawn.Position.DistanceTo(point) <= distance);
+		}
+
+		public static IEnumerable<Pawn> HasLineOfSightTo(IntVec3 point, Map map, IEnumerable<Pawn> pawns)
+		{
+			return pawns.Where(pawn => GenSight.PointsOnLineOfSight(pawn.Position, point).All(p => p.CanBeSeenOverFast(map)));
+		}
+
 		public static bool CanSacrifice(this SacrificationSpot spot, Pawn pawn)
 		{
 			return pawn.factionInt == Faction.OfPlayer
@@ -148,13 +178,20 @@ namespace Rimionship
 
 		public static bool CanBeSacrificed(this SacrificationSpot spot, Pawn pawn)
 		{
-			if (pawn.factionInt != Faction.OfPlayer) return false;
-			if (pawn.RaceProps.Humanlike == false) return false;
-			if (pawn.IsSlave) return false;
-			if (pawn.IsPrisoner) return false;
-			if (pawn.InMentalState) return false;
-			if (pawn.Downed) return false;
-			if (pawn.health.State != PawnHealthState.Mobile) return false;
+			if (pawn.factionInt != Faction.OfPlayer)
+				return false;
+			if (pawn.RaceProps.Humanlike == false)
+				return false;
+			if (pawn.IsSlave)
+				return false;
+			if (pawn.IsPrisoner)
+				return false;
+			if (pawn.InMentalState)
+				return false;
+			if (pawn.Downed)
+				return false;
+			if (pawn.health.State != PawnHealthState.Mobile)
+				return false;
 			return ReachabilityUtility.CanReach(pawn, spot, PathEndMode.OnCell, Danger.Deadly);
 		}
 

@@ -8,14 +8,14 @@ namespace Rimionship
 	{
 		public static readonly string hostName = "mod.rimionship.com";
 
-		private static object _channel;
-		private static Channel Channel
+		static object _channel;
+		static Channel Channel
 		{
 			get => (Channel)_channel;
 			set => _channel = value;
 		}
 
-		private static object _client;
+		static object _client;
 		public static API.APIClient Client
 		{
 			get => (API.APIClient)_client;
@@ -42,7 +42,8 @@ namespace Rimionship
 		{
 			get
 			{
-				if (Channel == null) return CommState.Shutdown;
+				if (Channel == null)
+					return CommState.Shutdown;
 				return Channel.State switch
 				{
 					ChannelState.Idle => CommState.Idle,

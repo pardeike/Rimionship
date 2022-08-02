@@ -13,15 +13,15 @@ namespace Rimionship
 		int HoursLeftToRemovable() => created + GenDate.TicksPerDay - Find.TickManager.TicksGame;
 
 		// transient props
-		private GameObject effect;
-		private GameObject magic;
-		private Sustainer evilChoir;
-		private GameObject spotlightObject;
-		private Light spotlightLight;
-		private Light[] lights = System.Array.Empty<Light>();
+		GameObject effect;
+		GameObject magic;
+		Sustainer evilChoir;
+		GameObject spotlightObject;
+		Light spotlightLight;
+		Light[] lights = System.Array.Empty<Light>();
 
-		private float intensity;
-		private float spotlightRamper;
+		float intensity;
+		float spotlightRamper;
 
 		public SacrificationSpot() : base()
 		{
@@ -114,8 +114,10 @@ namespace Rimionship
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn selPawn)
 		{
 			var map = selPawn.Map;
-			if (map.ReadyForSacrification(out var _, out var sacrification) == false) yield break;
-			if (this.CanBeSacrificed(selPawn) == false) yield break;
+			if (map.ReadyForSacrification(out var _, out var sacrification) == false)
+				yield break;
+			if (this.CanBeSacrificed(selPawn) == false)
+				yield break;
 
 			yield return new FloatMenuOption("SacrificeMyself".Translate(), () =>
 			{
@@ -134,9 +136,10 @@ namespace Rimionship
 			MenuOptionPriority.VeryLow);
 		}
 
-		private void StartEvilChoir()
+		void StartEvilChoir()
 		{
-			if (evilChoir != null) return;
+			if (evilChoir != null)
+				return;
 
 			var info = SoundInfo.InMap(this, MaintenanceType.PerTick);
 			evilChoir = Defs.EvilChoir.TrySpawnSustainer(info);
@@ -145,9 +148,10 @@ namespace Rimionship
 			Find.MusicManagerPlay.audioSource?.Stop();
 		}
 
-		private void StopEvilChoir()
+		void StopEvilChoir()
 		{
-			if (evilChoir == null) return;
+			if (evilChoir == null)
+				return;
 
 			evilChoir = null;
 
@@ -159,10 +163,12 @@ namespace Rimionship
 		public override void Tick()
 		{
 			base.Tick();
-			if (effect == null) return;
+			if (effect == null)
+				return;
 
 			var sacrification = Map.GetComponent<Sacrification>();
-			if (sacrification == null) return;
+			if (sacrification == null)
+				return;
 
 			var magicOn = sacrification.IsRunning();
 			if (magic.activeSelf != magicOn)
@@ -175,7 +181,8 @@ namespace Rimionship
 					spotlightObject.SetActive(true);
 					StartEvilChoir();
 				}
-				if (spotlightRamper < 1f) spotlightRamper += 0.01f;
+				if (spotlightRamper < 1f)
+					spotlightRamper += 0.01f;
 				intensity = spotlightRamper * (10 + 10 * Mathf.Sin(GenTicks.TicksGame / 60f));
 				spotlightLight.intensity = intensity;
 

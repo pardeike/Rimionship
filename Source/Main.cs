@@ -23,6 +23,7 @@ namespace Rimionship
 
 			var harmony = new Harmony("net.pardeike.rimworld.mod.rimionship");
 			harmony.PatchAll();
+			LongEventHandler.ExecuteWhenFinished(() => Patches_Mods.Patch(harmony));
 
 			CrossPromotion.Install(76561197973010050);
 
@@ -43,7 +44,8 @@ namespace Rimionship
 		public static void LoadAPI()
 		{
 			AppDomain.CurrentDomain.AssemblyResolve += ResolveEventHandler;
-			foreach (var lib in dependencies) LoadDll(lib);
+			foreach (var lib in dependencies)
+				LoadDll(lib);
 			LoadDll(api);
 			AppDomain.CurrentDomain.AssemblyResolve -= ResolveEventHandler;
 		}
@@ -51,7 +53,8 @@ namespace Rimionship
 		public static void LoadDll(string name)
 		{
 			var path = Path.Combine(rootDir, "Libs", $"{name}.dll");
-			try { _ = Assembly.LoadFrom(path); }
+			try
+			{ _ = Assembly.LoadFrom(path); }
 			catch { Log.Error($"Loading {name} failed"); }
 		}
 

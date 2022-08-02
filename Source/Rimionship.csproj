@@ -39,7 +39,28 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Authentication.cs" />
+		<Compile Remove="Authentication.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="..\About\**\*.*">
+			<Link>Files\About\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		</Content>
+		<Content Include="..\Defs\**\*.*">
+			<Link>Files\Defs\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		</Content>
+		<Content Include="..\Languages\**\*.*">
+			<Link>Files\Languages\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		</Content>
+		<Content Include="..\Originals\**\*.*">
+			<Link>Files\Originals\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		</Content>
+		<Content Include="..\Sounds\**\*.*">
+			<Link>Files\Sounds\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		</Content>
+		<Content Include="..\Textures\**\*.*">
+			<Link>Files\Textures\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
