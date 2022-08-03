@@ -32,4 +32,5 @@
 	<InvalidModsTooltip>Bitte folgende Mods deaktivieren: {list}</InvalidModsTooltip>
 	<CannotStartTournament>Das Turnier kann noch nicht gestartet werden.</CannotStartTournament>
 	<AllowedModsNotAvailable>Sie benötigen eine Serververbindung um die Modliste festzulegen.</AllowedModsNotAvailable>
+	<ModLoading>Noch zu laden: {count}</ModLoading>
 </LanguageData>

@@ -241,74 +241,10 @@ namespace Rimionship
 
 	// replace Auto-sort mods button in mod configuration dialog with Load-default-rimionship
 	//
-	[HarmonyPatch(typeof(Window), nameof(Window.PostOpen))]
-	class Page_ModsConfig_PostOpen_Patch
-	{
-		public static void Postfix(Window __instance)
-		{
-			if (__instance is Page_ModsConfig page)
-				Page_ModsConfig_DoWindowContents_Patch.PostOpen(page);
-		}
-	}
-	//
-	[HarmonyPatch(typeof(Window), nameof(Window.PreClose))]
-	class Page_ModsConfig_PreClose_Patch
-	{
-		public static void Prefix(Window __instance)
-		{
-			if (__instance is Page_ModsConfig)
-				Page_ModsConfig_DoWindowContents_Patch.PreClose();
-		}
-	}
-	//
 	[HarmonyPatch(typeof(Page_ModsConfig), nameof(Page_ModsConfig.DoWindowContents))]
 	class Page_ModsConfig_DoWindowContents_Patch
 	{
-		static Page_ModsConfig currentPage = null;
-		static Callback<RemoteStoragePublishedFileSubscribed_t> subscribedCallback;
-
-		internal static void PostOpen(Page_ModsConfig page)
-		{
-			currentPage = page;
-			subscribedCallback = Callback<RemoteStoragePublishedFileSubscribed_t>.Create(new Callback<RemoteStoragePublishedFileSubscribed_t>.DispatchDelegate(OnItemSubscribed));
-		}
-
-		internal static void PreClose()
-		{
-			currentPage = null;
-			subscribedCallback.Unregister();
-			subscribedCallback = null;
-		}
-
-		static void OnItemSubscribed(RemoteStoragePublishedFileSubscribed_t result)
-		{
-			if (currentPage == null)
-				return;
-			if (PlayState.AllowedMods.Any(pair => pair.Value == result.m_nPublishedFileId.m_PublishedFileId) == false)
-				return;
-
-			LongEventHandler.ExecuteWhenFinished(() =>
-			{
-				// TODO: this repeating code seems necessary. Investigate more
-
-				PlayState.AllowedMods
-					.Select(mod => mod.Key)
-					.Except(Tools.InstalledMods())
-					.Do(missingPackageId =>
-					{
-						var mod = PlayState.AllowedMods.FirstOrDefault(mod => mod.Key == missingPackageId);
-						var _ = SteamUGC.SubscribeItem(new PublishedFileId_t(mod.Value));
-					});
-				WorkshopItems.RebuildItemsList();
-
-				ModsConfig.data.activeMods = PlayState.AllowedMods.Select(mod => mod.Key).ToList();
-				ModsConfig.RecacheActiveMods();
-				ModLister.RebuildModList();
-				ModsConfig.Save();
-				ModsConfig.activeModsInLoadOrderCachedDirty = true;
-				Page_ModsConfig.modWarningsCached = ModsConfig.GetModWarnings();
-			});
-		}
+		static int lastDownloadingItemsCount = 0;
 
 		static string ButtonLabel()
 		{
@@ -333,33 +269,78 @@ namespace Rimionship
 			PlayState.AllowedMods
 				.Select(mod => mod.Key)
 				.Except(Tools.InstalledMods())
+				.ToList()
 				.Do(missingPackageId =>
 				{
-					var mod = PlayState.AllowedMods.FirstOrDefault(mod => mod.Key == missingPackageId);
-					var _ = SteamUGC.SubscribeItem(new PublishedFileId_t(mod.Value));
-				});
-			WorkshopItems.RebuildItemsList();
+					lastDownloadingItemsCount = -1;
 
-			ModsConfig.data.activeMods = PlayState.AllowedMods.Select(mod => mod.Key).ToList();
-			ModsConfig.RecacheActiveMods();
-			ModLister.RebuildModList();
-			ModsConfig.Save();
-			ModsConfig.activeModsInLoadOrderCachedDirty = true;
-			Page_ModsConfig.modWarningsCached = ModsConfig.GetModWarnings();
+					var mod = PlayState.AllowedMods.FirstOrDefault(mod => mod.Key == missingPackageId);
+					var callResult = CallResult<RemoteStorageSubscribePublishedFileResult_t>.Create((pCallback, bIOFailure) =>
+					{
+						if (pCallback.m_eResult != EResult.k_EResultOK || bIOFailure)
+							Log.Error($"Error downloading mod {missingPackageId}: {pCallback.m_eResult}");
+					});
+					var handle = SteamRemoteStorage.SubscribePublishedFile(new PublishedFileId_t(mod.Value));
+					callResult.Set(handle);
+				});
+		}
+
+		[HarmonyPrefix]
+		public static void Downloader(Page_ModsConfig __instance)
+		{
+			var count = WorkshopItems.DownloadingItemsCount;
+			if (count > 0)
+			{
+				var winRect = new Rect((UI.screenWidth - 320f) / 2f, (UI.screenHeight - 180f) / 2f, 320f, 180f);
+				Find.WindowStack.ImmediateWindow(6673095, winRect, WindowLayer.Super, delegate
+				{
+					Text.Font = GameFont.Small;
+					Text.Anchor = TextAnchor.MiddleCenter;
+					Text.WordWrap = true;
+					var r = new Rect(10, 10, 300, 80);
+					Widgets.Label(r, "ModLoading".Translate(new NamedArgument(count, "count")));
+					Text.Anchor = TextAnchor.UpperLeft;
+					r = new Rect(100, 120, 120, 40);
+					if (Widgets.ButtonText(r, "DesignatorCancel".Translate(), true, true, true))
+					{
+						lastDownloadingItemsCount = count;
+						__instance.Close();
+					}
+				}, true, true, 1f, null);
+
+				__instance.selectedMod = null;
+			}
+
+			if (lastDownloadingItemsCount != count)
+			{
+				lastDownloadingItemsCount = count;
+
+				if (count == 0)
+				{
+					ModsConfig.data.activeMods = PlayState.AllowedMods.Select(mod => mod.Key).ToList();
+					ModsConfig.RecacheActiveMods();
+				}
+
+				ModLister.RebuildModList();
+				__instance.modsInListOrderDirty = true;
+				__instance.selectedMod = __instance.ModsInListOrder().FirstOrDefault<ModMetaData>();
+
+				if (count == 0)
+				{
+					ModsConfig.activeModsInLoadOrderCachedDirty = true;
+					Page_ModsConfig.modWarningsCached = ModsConfig.GetModWarnings();
+				}
+			}
 		}
 
 		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 		{
 			return new CodeMatcher(instructions)
-				.MatchStartForward(
-					new CodeMatch(operand: SymbolExtensions.GetMethodInfo(() => ModsConfig.TrySortMods()))
-				)
+				.MatchStartForward(new CodeMatch(operand: SymbolExtensions.GetMethodInfo(() => ModsConfig.TrySortMods())))
 				.InsertAndAdvance(Ldarg_0)
 				.SetOperandAndAdvance(SymbolExtensions.GetMethodInfo(() => LoadRimionshipMods(default)))
 				.Start()
-				.MatchStartForward(
-					new CodeMatch(OpCodes.Ldstr, "ResolveModOrder")
-				)
+				.MatchStartForward(new CodeMatch(OpCodes.Ldstr, "ResolveModOrder"))
 				.Set(Call.opcode, SymbolExtensions.GetMethodInfo(() => ButtonLabel()))
 				.InstructionEnumeration();
 		}
