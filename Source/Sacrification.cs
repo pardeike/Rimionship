@@ -42,6 +42,14 @@ namespace Rimionship
 
 			FixGameInitData();
 
+			if (SacrificationSpot.ForMap(map) == null || BloodGod.Instance.IsInactive)
+			{
+				if (IsRunning())
+					MarkFailed();
+				else
+					state = State.Idle;
+			}
+
 			// ritual ending
 			if (state == State.EndSuccess || state == State.EndFailure)
 			{

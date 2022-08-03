@@ -103,7 +103,7 @@ namespace Rimionship
 			if (Map.GetComponent<Sacrification>().IsRunning())
 				yield return new Command_Action
 				{
-					defaultLabel = "Cancel".Translate(),
+					defaultLabel = "DesignatorCancel".Translate(),
 					icon = Assets.CancelSpot,
 					defaultDesc = "CancelDesc".Translate(),
 					order = -19f,

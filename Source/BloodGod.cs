@@ -49,10 +49,12 @@ namespace Rimionship
 			Scribe_Values.Look(ref punishLevel, "punishLevel");
 		}
 
+		public bool IsInactive => state == State.Idle || state == State.Cooldown;
+
 		public float RisingClamped01()
 		{
 			var currentTicks = Find.TickManager.TicksGame;
-			if (state == State.Idle || state == State.Cooldown)
+			if (IsInactive)
 				return 0f;
 			if (state > State.Rising)
 				return 1f;
@@ -366,7 +368,7 @@ namespace Rimionship
 
 		public void Draw(float leftX, ref float curBaseY)
 		{
-			if (state == State.Idle)
+			if (IsInactive)
 				return;
 
 			var f = Instance.RisingClamped01();
