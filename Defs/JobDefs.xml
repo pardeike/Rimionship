@@ -6,6 +6,7 @@
 		<driverClass>Rimionship.JobDriver_GettingSacrificed</driverClass>
 		<reportString>waiting to get sacrificed.</reportString>
 		<casualInterruptible>false</casualInterruptible>
+		<suspendable>false</suspendable>
 	</JobDef>
 
 	<JobDef>
@@ -13,6 +14,7 @@
 		<driverClass>Rimionship.JobDriver_SacrificeColonist</driverClass>
 		<reportString>sacrificing TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
+		<suspendable>false</suspendable>
 	</JobDef>
 
 	<JobDef>
@@ -20,6 +22,7 @@
 		<driverClass>Rimionship.JobDriver_WatchSacrification</driverClass>
 		<reportString>Watching sacrification of TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
+		<suspendable>false</suspendable>
 	</JobDef>
 
 </Defs>

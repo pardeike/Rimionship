@@ -27,7 +27,11 @@ namespace Rimionship
 			Scribe_References.Look(ref sacrificer, "sacrificer");
 		}
 
-		public void Start() { state = State.Gathering; }
+		public void Start()
+		{
+			state = State.Gathering;
+			map.InterruptAllColonistsOnMap();
+		}
 		public void MarkFailed() { state = State.EndFailure; }
 		public void MakeSuccess() { state = State.EndSuccess; }
 

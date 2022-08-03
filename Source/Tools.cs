@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using HarmonyLib;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -130,6 +131,25 @@ namespace Rimionship
 					}
 					return JobCondition.Ongoing;
 				});
+		}
+
+		public static bool CanParticipateInSacrificationRitual(this Pawn pawn)
+		{
+			return pawn.RaceProps.Humanlike &&
+				pawn.MentalStateDef == null &&
+				pawn.IsSlave == false &&
+				pawn.Downed == false &&
+				pawn.health.capacities.CapableOf(PawnCapacityDefOf.Moving);
+		}
+
+		public static void InterruptAllColonistsOnMap(this Map map)
+		{
+			map.mapPawns.FreeColonistsSpawned
+				.DoIf(
+					pawn => pawn.CanParticipateInSacrificationRitual(),
+					pawn => pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true)
+				);
+			;
 		}
 
 		public static bool ReadyForSacrification(this Map map, out SacrificationSpot spot, out Sacrification sacrification)

@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 using Verse.Sound;
 using Verse.Steam;
 using static HarmonyLib.Code;
@@ -439,6 +440,48 @@ namespace Rimionship
 				},
 				MenuOptionPriority.Low));
 			}
+		}
+	}
+
+	// fake prio our sacrification jobs
+	//
+	[HarmonyPatch(typeof(Pawn_JobTracker), nameof(Pawn_JobTracker.TryFindAndStartJob))]
+	class Pawn_JobTracker_TryFindAndStartJob_Patch
+	{
+		public static bool Prefix(Pawn_JobTracker __instance, Pawn ___pawn)
+		{
+			if (___pawn.CanParticipateInSacrificationRitual() == false)
+				return true;
+
+			if (__instance.curJob != null)
+				__instance.EndCurrentJob(JobCondition.InterruptForced, false);
+
+			var sacrification = ___pawn.Map.GetComponent<Sacrification>();
+			if (sacrification.IsNotRunning())
+				return true;
+
+			var spot = SacrificationSpot.ForMap(___pawn.Map);
+			if (spot == null)
+				return true;
+
+			if (sacrification.sacrificer == ___pawn)
+			{
+				___pawn.drafter.Drafted = false;
+				__instance.StartJob(JobMaker.MakeJob(Defs.SacrificeColonist, sacrification.sacrifice, spot));
+				return false;
+			}
+
+			if (sacrification.sacrifice == ___pawn)
+			{
+				___pawn.drafter.Drafted = false;
+				__instance.StartJob(JobMaker.MakeJob(Defs.GettingSacrificed, spot, sacrification.sacrificer));
+				return false;
+			}
+
+			var job = JobMaker.MakeJob(Defs.WatchSacrification, sacrification.sacrifice, spot, sacrification.sacrificer);
+			___pawn.drafter.Drafted = false;
+			__instance.StartJob(job);
+			return false;
 		}
 	}
 
