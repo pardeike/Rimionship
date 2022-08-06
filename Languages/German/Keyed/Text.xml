@@ -2,13 +2,15 @@
 <LanguageData>
 	<LoadRimionshipMods>Rimionship Mods Laden</LoadRimionshipMods>
 	<Remove>Entfernen</Remove>
-	<WaitToRemove>Der Blutgottspot kann wieder in {0} entfernt werden</WaitToRemove>
-	<RemoveDesc>Entfernt den Blutgottspot damit er woanders wieder aufgebaut werden kann</RemoveDesc>
+	<WaitToRemove>Der Blutgottplatz kann wieder in {0} entfernt werden</WaitToRemove>
+	<RemoveDesc>Entfernt den Blutgottplatz damit er woanders wieder aufgebaut werden kann</RemoveDesc>
 	<CancelDesc>Ritual abbrechen</CancelDesc>
 	<SacrificeMyself>Opfere mich selbst für den Blutgott</SacrificeMyself>
 	<SacrificeColonist>Opfere {0} für den Blutgott</SacrificeColonist>
 	<NobodyCanSacrifice>Niemand hat die Möglichkeit das Ritual durchzuführen</NobodyCanSacrifice>
-	<BloodGodScaleHelp>Unzufriedenheit des Blutgottes. Bei 100% passieren den Kolonisten schlimme Dinge. Opfere einen Kolonisten am Blutgottspot um den Blutgott zufrieden zu stellen.</BloodGodScaleHelp>
+	<BloodGodScaleHelp>Unzufriedenheit des Blutgottes. Bei 100% passieren den Kolonisten schlimme Dinge. Opfere einen Kolonisten am Blutgottplatz um den Blutgott zufrieden zu stellen.</BloodGodScaleHelp>
+	<PunishmentLetterTitle>Blutgottbestrafung</PunishmentLetterTitle>
+	<PunishmentLetterContent>Der Blutgott bestraft die Kolonisten (Level {0}). Immer schlimmerer Dinge werden den Kolonisten passieren bis ein Kolonist am Blutgottplatz geopfert wird.</PunishmentLetterContent>
 	<ColonistBecomesDumberTitle>{0} wurde dümmer</ColonistBecomesDumberTitle>
 	<ColonistBecomesDumberText>{0} hatte einen Hirnschaden und wurde dadurch dümmer</ColonistBecomesDumberText>
 	<CommStateUnknown>Unbekannt</CommStateUnknown>

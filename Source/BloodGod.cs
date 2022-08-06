@@ -21,7 +21,7 @@ namespace Rimionship
 		{
 			Idle,
 			Rising,
-			Preparing,
+			Announcing,
 			Punishing,
 			Pausing,
 			Cooldown
@@ -30,7 +30,6 @@ namespace Rimionship
 		public State state;
 		public int startTicks;
 		public int cooldownTicks;
-		public int randomPause;
 		public int punishLevel;
 
 		Sustainer ambience;
@@ -45,18 +44,18 @@ namespace Rimionship
 			Scribe_Values.Look(ref state, "state");
 			Scribe_Values.Look(ref startTicks, "startTicks");
 			Scribe_Values.Look(ref cooldownTicks, "cooldownTicks");
-			Scribe_Values.Look(ref randomPause, "randomPause");
 			Scribe_Values.Look(ref punishLevel, "punishLevel");
 		}
 
 		public bool IsInactive => state == State.Idle || state == State.Cooldown;
+		public bool IsPunishing => state == State.Punishing || state == State.Pausing;
 
 		public float RisingClamped01()
 		{
 			var currentTicks = Find.TickManager.TicksGame;
 			if (IsInactive)
 				return 0f;
-			if (state > State.Rising)
+			if (state > State.Announcing)
 				return 1f;
 			return Mathf.Clamp01((currentTicks - startTicks) / (float)RimionshipMod.settings.risingInterval);
 		}
@@ -84,23 +83,19 @@ namespace Rimionship
 				case State.Rising:
 					if (currentTicks - startTicks > RimionshipMod.settings.risingInterval)
 					{
-						var minPause = RimionshipMod.settings.randomStartPauseMin;
-						var maxPause = RimionshipMod.settings.randomStartPauseMax;
-						randomPause = currentTicks + Rand.Range(minPause, maxPause);
-						Defs.Bloodgod.PlayOneShotOnCamera();
 						punishLevel = 1;
-						StartPhase(State.Preparing, setStartTicks: false);
+						Defs.Bloodgod.PlayWithCallback(0f, () => StartPhase(State.Punishing));
+						StartPhase(State.Announcing);
 					}
 					break;
 
-				case State.Preparing:
-					if (currentTicks > randomPause)
-						StartPhase(State.Punishing);
+				case State.Announcing:
 					break;
 
 				case State.Punishing:
 					if (CommencePunishment())
 					{
+						Find.LetterStack.ReceiveLetter("PunishmentLetterTitle".Translate(), "PunishmentLetterContent".Translate(punishLevel), LetterDefOf.NegativeEvent, null);
 						Defs.Thunder.PlayOneShotOnCamera();
 						StartPhase(State.Pausing);
 					}
@@ -112,9 +107,9 @@ namespace Rimionship
 					var interval = GenMath.LerpDoubleClamped(1, 5, minInterval, maxInterval, punishLevel);
 					if (currentTicks - startTicks > interval)
 					{
-						punishLevel = Math.Min(punishLevel + 1, 5);
-						Defs.Bloodgod.PlayOneShotOnCamera();
-						StartPhase(State.Preparing);
+						IncreasePunishmentLevel();
+						Defs.Bloodgod.PlayWithCallback(0f, () => StartPhase(State.Punishing));
+						StartPhase(State.Announcing);
 					}
 					break;
 
@@ -148,7 +143,7 @@ namespace Rimionship
 		public void Satisfy(SacrificationSpot spot, Sacrification sacrification)
 		{
 			var factor = GenMath.LerpDouble(1, 5, RimionshipMod.settings.minThoughtFactor, RimionshipMod.settings.maxThoughtFactor, punishLevel);
-			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} SATISFIED (factor {factor})");
+			AsyncLogger.Warning($"BLOOD GOD #{punishLevel} SATISFIED (factor {factor})");
 
 			sacrification.sacrificer.GiveThought(sacrification.sacrificer, ThoughtDefOf.EncouragingSpeech, factor);
 			sacrification.sacrificer.GiveThought(sacrification.sacrificer, ThoughtDefOf.KilledHumanlikeBloodlust, factor);
@@ -165,7 +160,7 @@ namespace Rimionship
 			if (setStartTicks)
 				startTicks = Find.TickManager.TicksGame;
 			this.state = state;
-			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} phase => {state}");
+			AsyncLogger.Warning($"BLOOD GOD #{punishLevel} phase => {state}");
 		}
 
 		public static Pawn NonMentalColonist(bool withViolence, Pawn exclude = null)
@@ -263,88 +258,112 @@ namespace Rimionship
 			return result;
 		}
 
+		static int PunishmentChoice(int max)
+		{
+			return Rand.RangeInclusive(1, max);
+		}
+
+		void IncreasePunishmentLevel()
+		{
+			punishLevel = Math.Min(punishLevel + 1, 5);
+			AsyncLogger.Warning($"BLOOD GOD Level now #{punishLevel}");
+		}
+
 		public bool CommencePunishment()
 		{
 			switch (punishLevel)
 			{
 				case 1:
-					switch (Rand.RangeInclusive(1, 4))
+					switch (PunishmentChoice(4))
 					{
 						case 1:
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Flashstorm");
 							if (MakeGameCondition(GameConditionDefOf.Flashstorm, GenDate.TicksPerDay))
 								return true;
 							break;
 						case 2:
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} PsychicDrone");
 							if (MakeGameCondition(GameConditionDefOf.PsychicDrone, GenDate.TicksPerDay))
 								return true;
 							break;
 						case 3:
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} SolarFlare");
 							if (MakeGameCondition(GameConditionDefOf.SolarFlare, GenDate.TicksPerDay))
 								return true;
 							break;
 						case 4:
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} ToxicFallout");
 							if (MakeGameCondition(GameConditionDefOf.ToxicFallout, GenDate.TicksPerDay))
 								return true;
 							break;
 					}
 					break;
 				case 2:
-					switch (Rand.RangeInclusive(1, 3))
+					switch (PunishmentChoice(3))
 					{
 						case 1:
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Slaughterer");
 							if (MakeMentalBreak(Defs.Slaughterer, true))
 								return true;
 							break;
 						case 2:
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} SocialFighting");
 							if (MakeMentalBreak(MentalStateDefOf.SocialFighting, true))
 								return true;
 							break;
 						case 3:
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomDisease-Animal");
 							if (MakeRandomDisease(true))
 								return true;
 							break;
 					}
 					break;
 				case 3:
-					switch (Rand.RangeInclusive(1, 3))
+					switch (PunishmentChoice(3))
 					{
 						case 1:
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Berserk");
 							if (MakeMentalBreak(MentalStateDefOf.Berserk, true))
 								return true;
 							break;
 						case 2:
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomDisease-Human");
 							if (MakeRandomDisease(false))
 								return true;
 							break;
 						case 3:
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} InsultingSpree");
 							if (MakeMentalBreak(Defs.InsultingSpree, false))
 								return true;
 							break;
 					}
 					break;
 				case 4:
-					switch (Rand.RangeInclusive(1, 3))
+					switch (PunishmentChoice(3))
 					{
 						case 1:
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} SadisticRage");
 							if (MakeMentalBreak(Defs.SadisticRage, true))
 								return true;
 							break;
 						case 2:
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} TargetedInsultingSpree");
 							if (MakeMentalBreak(Defs.TargetedInsultingSpree, false))
 								return true;
 							break;
 						case 3:
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomHediffGiver");
 							if (MakeRandomHediffGiver())
 								return true;
 							break;
 					}
 					break;
 				case 5:
-					switch (Rand.RangeInclusive(1, 3))
+					switch (PunishmentChoice(3))
 					{
 						case 1:
 							var looser = NonMentalColonist(false);
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} ColonistBecomesDumber => {looser != null}");
+							AsyncLogger.Warning($"BLOOD GOD #{punishLevel} ColonistBecomesDumber => {looser != null}");
 							if (looser != null)
 							{
 								looser.skills.skills.Do(skill => skill.levelInt /= 2);
@@ -354,10 +373,12 @@ namespace Rimionship
 							}
 							break;
 						case 2:
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MurderousRage");
 							if (MakeMentalBreak(Defs.MurderousRage, true))
 								return true;
 							break;
 						case 3:
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} GiveUpExit");
 							if (MakeMentalBreak(Defs.GiveUpExit, false))
 								return true;
 							break;

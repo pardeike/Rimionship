@@ -60,7 +60,7 @@ namespace Rimionship
 				var response = Communications.Client.Hello(request, null, null, source.Token);
 				PlayState.modRegistered = response.Found;
 				PlayState.AllowedMods = response.GetAllowedMods();
-				AsyncLogger.Warning($"{PlayState.modRegistered} {PlayState.AllowedMods.ToArray()} <- Hello");
+				//AsyncLogger.Warning($"{PlayState.modRegistered} {PlayState.AllowedMods.ToArray()} <- Hello");
 				HUD.Update(response);
 				if (PlayState.modRegistered == false && openBrowser)
 				{
@@ -197,8 +197,9 @@ namespace Rimionship
 			var punishment = settings.Punishment;
 			if (punishment != null)
 			{
-				RimionshipMod.settings.randomStartPauseMin = punishment.RandomStartPauseMin;
-				RimionshipMod.settings.randomStartPauseMax = punishment.RandomStartPauseMax;
+				// TODO: remove from API
+				// RimionshipMod.settings.randomStartPauseMin = punishment.RandomStartPauseMin;
+				// RimionshipMod.settings.randomStartPauseMax = punishment.RandomStartPauseMax;
 				RimionshipMod.settings.startPauseInterval = punishment.StartPauseInterval;
 				RimionshipMod.settings.finalPauseInterval = punishment.FinalPauseInterval;
 				RimionshipMod.settings.minThoughtFactor = punishment.MinThoughtFactor;

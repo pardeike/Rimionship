@@ -14,9 +14,6 @@ namespace Rimionship
 		public int risingInterval = 120000; // 2 days
 		public int risingCooldown = 60000; // 1 day
 
-		public int randomStartPauseMin = 140;
-		public int randomStartPauseMax = 600;
-
 		public int startPauseInterval = 30000; // 0.5 day
 		public int finalPauseInterval = 5000; // 2 hours
 
@@ -33,9 +30,6 @@ namespace Rimionship
 			Scribe_Values.Look(ref maxFreeColonistCount, "maxFreeColonistCount", 5);
 			Scribe_Values.Look(ref risingInterval, "risingInterval", 120000);
 			Scribe_Values.Look(ref risingCooldown, "risingCooldown", 60000);
-
-			Scribe_Values.Look(ref randomStartPauseMin, "randomStartPauseMin", 140);
-			Scribe_Values.Look(ref randomStartPauseMax, "randomStartPauseMax", 600);
 
 			Scribe_Values.Look(ref startPauseInterval, "startPauseInterval", 30000);
 			Scribe_Values.Look(ref finalPauseInterval, "finalPauseInterval", 5000);
@@ -83,10 +77,6 @@ namespace Rimionship
 			_ = list.Label($"Rising Cooldown: {risingCooldown.ToStringTicksToPeriod()}");
 			risingCooldown = (int)(GenDate.TicksPerHour * list.Slider(risingCooldown / (float)GenDate.TicksPerHour, 0, 96));
 			list.Gap(12f);
-
-			_ = list.Label($"Pause Before Punishment Range: {randomStartPauseMin.ToStringTicksToPeriod()} - {randomStartPauseMax.ToStringTicksToPeriod()}");
-			randomStartPauseMin = (int)list.Slider(randomStartPauseMin, 0, 1200);
-			randomStartPauseMax = (int)list.Slider(randomStartPauseMax, 0, 1200);
 
 			list.NewColumn();
 

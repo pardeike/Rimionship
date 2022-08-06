@@ -2,6 +2,7 @@
 using HarmonyLib;
 using RimWorld;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Security.Cryptography;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.Sound;
 
 namespace Rimionship
 {
@@ -179,6 +181,13 @@ namespace Rimionship
 		{
 			bool canBeSeenOver(IntVec3 p) => p.CanBeSeenOverFast(map);
 			return pawns.Where(pawn => GenSight.PointsOnLineOfSight(pawn.Position, point).All(canBeSeenOver));
+		}
+
+		public static ConcurrentDictionary<SoundDef, DelayedAction> PlayCallbacks = new();
+		public static void PlayWithCallback(this SoundDef soundDef, float delay, Action callback)
+		{
+			PlayCallbacks[soundDef] = new DelayedAction() { action = callback, delay = delay };
+			soundDef.PlayOneShotOnCamera();
 		}
 
 		public static bool CanSacrifice(this SacrificationSpot spot, Pawn pawn)

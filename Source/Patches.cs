@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -586,6 +587,26 @@ namespace Rimionship
 			var from = SymbolExtensions.GetMethodInfo(() => ((Storyteller)null).TryFire(default));
 			var to = SymbolExtensions.GetMethodInfo(() => TryFire(default, default));
 			return instructions.MethodReplacer(from, to);
+		}
+	}
+
+	// support callbacks for sounds played with Tools.PlayWithCallback
+	//
+	[HarmonyPatch(typeof(SampleOneShot), nameof(SampleOneShot.TryMakeAndPlay))]
+	class SampleOneShot_TryMakeAndPlay_Patch
+	{
+		public static void Postfix(SubSoundDef def, AudioClip clip, SampleOneShot __result)
+		{
+			if (__result != null && Tools.PlayCallbacks.TryRemove(def.parentDef, out var delayedAction))
+			{
+				var msWait = (int)((clip.length + delayedAction.delay) * 1000);
+				new Task(async () =>
+				{
+					await Task.Delay(msWait);
+					delayedAction.action();
+				})
+				.Start();
+			}
 		}
 	}
 
