@@ -111,7 +111,7 @@ namespace Rimionship
 
 			var trigger = (EventTrigger)_stats.gameObject.AddComponent(typeof(EventTrigger));
 			var entry = new EventTrigger.Entry { eventID = EventTriggerType.PointerClick };
-			entry.callback.AddListener((eventData) => { Log.Warning($"CLICK {eventData}"); eventData.Use(); });
+			entry.callback.AddListener((eventData) => { eventData.Use(); });
 			trigger.triggers.Add(entry);
 
 			scorePanel = _stats.Find("Panel");

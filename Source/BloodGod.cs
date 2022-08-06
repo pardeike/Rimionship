@@ -250,7 +250,7 @@ namespace Rimionship
 			var parms = new IncidentParms
 			{
 				target = reporter.ChosenMap,
-				faction = Faction.OfPlayer,
+				// faction = Faction.OfPlayer,
 				forced = true
 			};
 			var result = incidentDef.Worker.TryExecute(parms);
