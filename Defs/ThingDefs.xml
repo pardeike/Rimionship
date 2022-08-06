@@ -4,7 +4,7 @@
 	<ThingDef ParentName="BuildingBase">
 		<defName>SacrificationSpot</defName>
 		<label>scarification spot</label>
-		<description>Hier werden Kolonisten dem Blutgott geopfert.</description>
+		<description>You can sacrifice colonists here.</description>
 		<thingClass>Rimionship.SacrificationSpot</thingClass>
 		<graphicData>
 			<texPath>SacrificationSpot</texPath>

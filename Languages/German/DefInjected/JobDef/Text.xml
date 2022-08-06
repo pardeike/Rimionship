@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<SacrificationSpot.label>opferplatz</SacrificationSpot.label>
+	<SacrificationSpot.description>Hier werden Kolonisten dem Blutgott geopfert.</SacrificationSpot.description>
+	<GettingSacrificed.reportString>wartet geopfert zu werden</GettingSacrificed.reportString>
+	<SacrificeColonist.reportString>opfert einen Kolonisten</SacrificeColonist.reportString>
+	<WatchSacrification.reportString>sieht der Opferung von TargetA zu</WatchSacrification.reportString>
+</LanguageData>

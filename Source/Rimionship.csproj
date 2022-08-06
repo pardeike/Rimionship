@@ -65,6 +65,7 @@
 
 	<ItemGroup>
 	  <Content Remove="..\Defs\WorkGivers.xml" />
+	  <Content Remove="..\Languages\German\Injected.xml" />
 	</ItemGroup>
 
 	<ItemGroup>

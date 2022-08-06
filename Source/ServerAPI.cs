@@ -109,7 +109,6 @@ namespace Rimionship
 				using var file = File.Create(Assets.GameFilePath());
 				stream.CopyTo(file);
 				var info = new FileInfo(Assets.GameFilePath());
-				Log.Warning($"len = {info.Length}");
 				return info.Length > 0;
 			}
 			catch (Exception ex)
