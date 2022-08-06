@@ -411,6 +411,22 @@ namespace Rimionship
 		}
 	}
 
+	// allow custom thoughts
+	//
+	[HarmonyPatch(typeof(ThoughtUtility), nameof(ThoughtUtility.CanGetThought))]
+	class ThoughtUtility_CanGetThought_Patch
+	{
+		public static bool Prefix(ref bool __result)
+		{
+			if (Tools.AllowOverride)
+			{
+				__result = true;
+				return false;
+			}
+			return true;
+		}
+	}
+
 	// add pawn-pawn actions to the floatmenu
 	//
 	[HarmonyPatch(typeof(FloatMenuMakerMap), nameof(FloatMenuMakerMap.AddHumanlikeOrders))]
@@ -467,6 +483,7 @@ namespace Rimionship
 			if (sacrification.sacrificer == ___pawn)
 			{
 				___pawn.drafter.Drafted = false;
+				Log.Error($"# Job SacrificeColonist => {___pawn}");
 				__instance.StartJob(JobMaker.MakeJob(Defs.SacrificeColonist, sacrification.sacrifice, spot));
 				return false;
 			}
@@ -474,10 +491,12 @@ namespace Rimionship
 			if (sacrification.sacrifice == ___pawn)
 			{
 				___pawn.drafter.Drafted = false;
+				Log.Error($"# Job GettingSacrificed => {___pawn}");
 				__instance.StartJob(JobMaker.MakeJob(Defs.GettingSacrificed, spot, sacrification.sacrificer));
 				return false;
 			}
 
+			Log.Error($"# Job WatchSacrification => {___pawn}");
 			var job = JobMaker.MakeJob(Defs.WatchSacrification, sacrification.sacrifice, spot, sacrification.sacrificer);
 			___pawn.drafter.Drafted = false;
 			__instance.StartJob(job);

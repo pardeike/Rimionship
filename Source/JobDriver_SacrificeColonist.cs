@@ -44,8 +44,9 @@ namespace Rimionship
 
 		public override IEnumerable<Toil> MakeNewToils()
 		{
-			this.EndOnDespawnedOrNull(() => Map.GetComponent<Sacrification>().MarkFailed(), TargetIndex.A, TargetIndex.B);
-			AddEndCondition(() => Map.GetComponent<Sacrification>().HasEnded() ? JobCondition.Incompletable : JobCondition.Ongoing);
+			JobCondition EndCondition() => Map.GetComponent<Sacrification>().HasEnded() ? JobCondition.Incompletable : JobCondition.Ongoing;
+			this.EndOnDespawnedOrNull(() => EndJobWith(EndCondition()), TargetIndex.A, TargetIndex.B);
+			AddEndCondition(EndCondition);
 
 			yield return Toils_Goto.GotoCell(TargetThingA.Position + new IntVec3(1, 0, 0), PathEndMode.OnCell);
 			yield return new Toil
@@ -54,7 +55,8 @@ namespace Rimionship
 				tickAction = () =>
 				{
 					pawn.Rotation = Rot4.North;
-					if (pawn.IsHashIntervalTick(100) == false) return;
+					if (pawn.IsHashIntervalTick(100) == false)
+						return;
 					FleckMaker.ThrowMetaIcon(pawn.Position, pawn.Map, FleckDefOf.Meditating);
 					if (++meditationCount == 4)
 						ReadyForNextToil();
@@ -71,7 +73,8 @@ namespace Rimionship
 				tickAction = () =>
 				{
 					pawn.Rotation = Rot4.South;
-					if (pawn.IsHashIntervalTick(100) == false) return;
+					if (pawn.IsHashIntervalTick(100) == false)
+						return;
 					speechCount++;
 					if (speechCount == 7)
 					{
@@ -101,7 +104,7 @@ namespace Rimionship
 				skull = null;
 				FleckMaker.ThrowMetaIcon(TargetThingB.Position, TargetThingB.Map, FleckDefOf.PsycastAreaEffect);
 				ExecuteByRemovingHead(TargetA.Pawn);
-				ThoughtUtility.GiveThoughtsForPawnExecuted(TargetA.Pawn, pawn, PawnExecutionKind.GenericBrutal);
+				// ThoughtUtility.GiveThoughtsForPawnExecuted(TargetA.Pawn, pawn, PawnExecutionKind.GenericBrutal);
 				Map.GetComponent<Sacrification>().MakeSuccess();
 			});
 		}

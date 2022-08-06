@@ -2,7 +2,6 @@
 using Grpc.Core;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -42,12 +41,12 @@ namespace Rimionship
 				if (e.ShouldReport())
 				{
 					PlayState.errorCount++;
-					AsyncLogger.Error($"gRPC error: {e}", new StackTrace());
+					AsyncLogger.Error($"gRPC error: {e}");
 				}
 			}
 			catch (Exception e)
 			{
-				AsyncLogger.Error($"Exception: {e}", new StackTrace());
+				AsyncLogger.Error($"Exception: {e}");
 			}
 		}
 
@@ -146,12 +145,12 @@ namespace Rimionship
 						if (e.ShouldReport())
 						{
 							PlayState.errorCount++;
-							AsyncLogger.Error($"gRPC error: {e}", new StackTrace());
+							AsyncLogger.Error($"gRPC error: {e}");
 						}
 					}
 					catch (Exception e)
 					{
-						AsyncLogger.Error($"Exception: {e}", new StackTrace());
+						AsyncLogger.Error($"Exception: {e}");
 					}
 					Thread.Sleep(1000);
 				}

@@ -148,12 +148,13 @@ namespace Rimionship
 		public void Satisfy(SacrificationSpot spot, Sacrification sacrification)
 		{
 			var factor = GenMath.LerpDouble(1, 5, RimionshipMod.settings.minThoughtFactor, RimionshipMod.settings.maxThoughtFactor, punishLevel);
+			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} SATISFIED (factor {factor})");
 
-			sacrification.sacrificer.GiveThought(ThoughtDefOf.EncouragingSpeech, factor);
-			sacrification.sacrificer.GiveThought(ThoughtDefOf.KilledHumanlikeBloodlust, factor);
+			sacrification.sacrificer.GiveThought(sacrification.sacrificer, ThoughtDefOf.EncouragingSpeech, factor);
+			sacrification.sacrificer.GiveThought(sacrification.sacrificer, ThoughtDefOf.KilledHumanlikeBloodlust, factor);
 
-			var pawns = Tools.ColonistsNear(spot.Position, spot.Map, 7f);
-			Tools.HasLineOfSightTo(spot.Position, spot.Map, pawns).Do(pawn => pawn.GiveThought(ThoughtDefOf.WitnessedDeathBloodlust, factor));
+			spot.Map.mapPawns.FreeColonistsAndPrisoners.HasLineOfSightTo(spot.Position, spot.Map)
+				.Do(pawn => pawn.GiveThought(sacrification.sacrificer, ThoughtDefOf.WitnessedDeathBloodlust, factor));
 
 			cooldownTicks = Find.TickManager.TicksGame + RimionshipMod.settings.risingCooldown;
 			StartPhase(State.Cooldown);

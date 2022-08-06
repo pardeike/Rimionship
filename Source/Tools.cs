@@ -164,21 +164,21 @@ namespace Rimionship
 			return spot != null;
 		}
 
-		public static void GiveThought(this Pawn pawn, ThoughtDef thoughtDef, float powerFactor = 1f)
+		public static bool AllowOverride = false;
+		public static void GiveThought(this Pawn pawn, Pawn otherPawn, ThoughtDef thoughtDef, float powerFactor = 1f)
 		{
-			var thought = (Thought_Memory)ThoughtMaker.MakeThought(thoughtDef);
+			var thought = ThoughtMaker.MakeThought(thoughtDef, null);
+			thought.SetForcedStage(0);
 			thought.moodPowerFactor = powerFactor;
-			pawn.needs.mood.thoughts.memories.TryGainMemory(thought);
+			AllowOverride = true;
+			pawn.needs.mood.thoughts.memories.TryGainMemory(thought, otherPawn);
+			AllowOverride = false;
 		}
 
-		public static IEnumerable<Pawn> ColonistsNear(IntVec3 point, Map map, float distance)
+		public static IEnumerable<Pawn> HasLineOfSightTo(this IEnumerable<Pawn> pawns, IntVec3 point, Map map)
 		{
-			return map.mapPawns.FreeColonistsAndPrisoners.Where(pawn => pawn.Position.DistanceTo(point) <= distance);
-		}
-
-		public static IEnumerable<Pawn> HasLineOfSightTo(IntVec3 point, Map map, IEnumerable<Pawn> pawns)
-		{
-			return pawns.Where(pawn => GenSight.PointsOnLineOfSight(pawn.Position, point).All(p => p.CanBeSeenOverFast(map)));
+			bool canBeSeenOver(IntVec3 p) => p.CanBeSeenOverFast(map);
+			return pawns.Where(pawn => GenSight.PointsOnLineOfSight(pawn.Position, point).All(canBeSeenOver));
 		}
 
 		public static bool CanSacrifice(this SacrificationSpot spot, Pawn pawn)

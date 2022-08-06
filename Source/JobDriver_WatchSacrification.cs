@@ -103,8 +103,9 @@ namespace Rimionship
 
 		public override IEnumerable<Toil> MakeNewToils()
 		{
-			this.EndOnDespawnedOrNull(() => Map.GetComponent<Sacrification>().MarkFailed(), TargetIndex.A, TargetIndex.B, TargetIndex.C);
-			AddEndCondition(() => Map.GetComponent<Sacrification>().HasEnded() ? JobCondition.Incompletable : JobCondition.Ongoing);
+			JobCondition EndCondition() => Map.GetComponent<Sacrification>().HasEnded() ? JobCondition.Incompletable : JobCondition.Ongoing;
+			this.EndOnDespawnedOrNull(() => EndJobWith(EndCondition()), TargetIndex.A, TargetIndex.B, TargetIndex.C);
+			AddEndCondition(EndCondition);
 
 			yield return Toils_Goto.GotoCell(watchSpot, PathEndMode.OnCell);
 			yield return new Toil

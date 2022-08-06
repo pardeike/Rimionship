@@ -57,10 +57,6 @@ namespace Rimionship
 			// ritual ending
 			if (state == State.EndSuccess || state == State.EndFailure)
 			{
-				sacrificer = null;
-				sacrifice = null;
-				state = State.Idle;
-
 				if (state == State.EndSuccess)
 				{
 					var spot = SacrificationSpot.ForMap(map);
@@ -68,6 +64,11 @@ namespace Rimionship
 					var bloodGod = Current.Game.World.GetComponent<BloodGod>();
 					bloodGod.Satisfy(spot, sacrification);
 				}
+
+				state = State.Idle;
+
+				sacrificer = null;
+				sacrifice = null;
 			}
 		}
 
