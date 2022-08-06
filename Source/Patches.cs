@@ -617,4 +617,31 @@ namespace Rimionship
 			BloodGod.Instance.Draw(leftX, ref curBaseY);
 		}
 	}
+
+	// show extra UX on architect popup
+	//
+	[HarmonyPatch(typeof(MainTabWindow_Architect), nameof(MainTabWindow_Architect.WinHeight), MethodType.Getter)]
+	class MainTabWindow_Architect_WinHeight_Patch
+	{
+		public static void Postfix(ref float __result)
+		{
+			__result += 100f;
+		}
+	}
+	/*
+	[HarmonyPatch(typeof(MainTabWindow_Architect), nameof(MainTabWindow_Architect.DoWindowContents))]
+	class MainTabWindow_Architect_DoWindowContents_Patch
+	{
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+		{
+			var list = instructions.ToList();
+			var loadConstants = list.FindAll(instr => instr.opcode == OpCodes.Ldc_R4 && instr.OperandIs(0f));
+			if (loadConstants.Count >= 2)
+				loadConstants[1].operand = 100f;
+			else
+				Log.Error($"Cannot find three Ldc_R4 0f in MainTabWindow_Architect.DoWindowContents");
+			return list.AsEnumerable();
+		}
+	}
+	*/
 }

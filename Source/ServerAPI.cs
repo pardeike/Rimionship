@@ -126,6 +126,9 @@ namespace Rimionship
 		{
 			new Thread(() =>
 			{
+				while (source.IsCancellationRequested == false && PlayState.modRegistered == false)
+					Thread.Sleep(500);
+
 				var WaitForChange = false;
 				while (source.IsCancellationRequested == false)
 				{
@@ -136,7 +139,7 @@ namespace Rimionship
 						WaitForChange = true;
 						//AsyncLogger.Warning($"-> Sync");
 						var response = Communications.Client.Sync(request, null, null, source.Token);
-						//AsyncLogger.Warning($"{response.PartCase} <- Sync");
+						//AsyncLogger.Warning($"{response.State} <- Sync");
 						HandleSyncResponse(response);
 					}
 					catch (RpcException e)
