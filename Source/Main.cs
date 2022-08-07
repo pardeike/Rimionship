@@ -20,6 +20,7 @@ namespace Rimionship
 		{
 			settings = GetSettings<Settings>();
 			rootDir = content.RootDir;
+			AsyncLogger.StartCoroutine();
 
 			var harmony = new Harmony("net.pardeike.rimworld.mod.rimionship");
 			harmony.PatchAll();

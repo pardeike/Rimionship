@@ -37,21 +37,40 @@ namespace Rimionship
 			queue.Enqueue(new() { isError = true, txt = txt, lineNumber = 0, caller = null, trace = trace });
 		}
 
-		public static IEnumerator LogCoroutine()
+		public static void StartCoroutine()
 		{
-			while (true)
+			static IEnumerator LogCoroutine()
 			{
-				while (queue.TryDequeue(out var entry))
-					if (entry.isError)
-					{
-						Log.Error($"{entry.txt}\n{entry.trace}");
-					}
-					else
-					{
-						var extra = entry.lineNumber == 0 ? "" : $" at {entry.caller}:{entry.lineNumber}";
-						Log.Warning($"{entry.txt}{extra}");
-					}
-				yield return null;
+				while (true)
+				{
+					while (queue.TryDequeue(out var entry))
+						if (entry.isError)
+						{
+							Log.Error($"{entry.txt}\n{entry.trace}");
+						}
+						else
+						{
+							var extra = entry.lineNumber == 0 ? "" : $" at {entry.caller}:{entry.lineNumber}";
+							Log.Warning($"{entry.txt}{extra}");
+						}
+					yield return null;
+				}
+			}
+
+			if (Current.Root_Entry)
+			{
+				Log.Warning("installing log coroutine in root_entry");
+				_ = Current.Root_Entry.StartCoroutine(LogCoroutine());
+			}
+			else if (Current.Root_Play)
+			{
+				Log.Warning("installing log coroutine in root_play");
+				_ = Current.Root_Play.StartCoroutine(LogCoroutine());
+			}
+			else
+			{
+				Log.Warning("installing log coroutine in root");
+				_ = Current.Root.StartCoroutine(LogCoroutine());
 			}
 		}
 	}

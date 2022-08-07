@@ -56,11 +56,11 @@ namespace Rimionship
 			{
 				var id = Tools.UniqueModID;
 				var request = new HelloRequest() { Id = id };
-				//AsyncLogger.Warning("-> Hello");
+				//AsyncLogger.Warning($"-> Hello");
 				var response = Communications.Client.Hello(request, null, null, source.Token);
 				PlayState.modRegistered = response.Found;
 				PlayState.AllowedMods = response.GetAllowedMods();
-				//AsyncLogger.Warning($"{PlayState.modRegistered} {PlayState.AllowedMods.ToArray()} <- Hello");
+				//AsyncLogger.Warning($"reg={PlayState.modRegistered} <- Hello");
 				HUD.Update(response);
 				if (PlayState.modRegistered == false && openBrowser)
 				{
@@ -126,9 +126,6 @@ namespace Rimionship
 		{
 			new Thread(() =>
 			{
-				while (source.IsCancellationRequested == false && PlayState.modRegistered == false)
-					Thread.Sleep(500);
-
 				var WaitForChange = false;
 				while (source.IsCancellationRequested == false)
 				{
@@ -137,13 +134,15 @@ namespace Rimionship
 						var id = Tools.UniqueModID;
 						var request = new SyncRequest() { Id = id, WaitForChange = WaitForChange };
 						WaitForChange = true;
-						//AsyncLogger.Warning($"-> Sync");
+						AsyncLogger.Warning($"-> Sync");
 						var response = Communications.Client.Sync(request, null, null, source.Token);
-						//AsyncLogger.Warning($"{response.State} <- Sync");
+						AsyncLogger.Warning($"{response.State} <- Sync");
 						HandleSyncResponse(response);
 					}
 					catch (RpcException e)
 					{
+						AsyncLogger.Warning($"{e.Status.StatusCode} <- Sync");
+
 						if (e.ShouldReport())
 						{
 							PlayState.errorCount++;
@@ -200,9 +199,6 @@ namespace Rimionship
 			var punishment = settings.Punishment;
 			if (punishment != null)
 			{
-				// TODO: remove from API
-				// RimionshipMod.settings.randomStartPauseMin = punishment.RandomStartPauseMin;
-				// RimionshipMod.settings.randomStartPauseMax = punishment.RandomStartPauseMax;
 				RimionshipMod.settings.startPauseInterval = punishment.StartPauseInterval;
 				RimionshipMod.settings.finalPauseInterval = punishment.FinalPauseInterval;
 				RimionshipMod.settings.minThoughtFactor = punishment.MinThoughtFactor;

@@ -23,11 +23,7 @@ namespace Rimionship
 	{
 		public static void Postfix()
 		{
-			if (GenScene.InEntryScene)
-				_ = Current.Root_Entry.StartCoroutine(AsyncLogger.LogCoroutine());
-
-			if (GenScene.InPlayScene)
-				_ = Current.Root_Play.StartCoroutine(AsyncLogger.LogCoroutine());
+			AsyncLogger.StartCoroutine();
 		}
 	}
 

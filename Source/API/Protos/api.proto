@@ -76,12 +76,10 @@ message Rising {
 }
 
 message Punishment {
-	int32 randomStartPauseMin = 1;
-	int32 randomStartPauseMax = 2;
-	int32 startPauseInterval = 3;
-	int32 finalPauseInterval = 4;
-	float minThoughtFactor = 5;
-	float maxThoughtFactor = 6;
+	int32 startPauseInterval = 1;
+	int32 finalPauseInterval = 2;
+	float minThoughtFactor = 3;
+	float maxThoughtFactor = 4;
 }
 
 message StartRequest {
