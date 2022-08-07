@@ -35,4 +35,7 @@
 	<CannotStartTournament>You cannot start the tournament yet.</CannotStartTournament>
 	<AllowedModsNotAvailable>You need a server connection to set the mod list.</AllowedModsNotAvailable>
 	<ModLoading>Remaining: {count}</ModLoading>
+	<Activate>Activate</Activate>
+	<MainMapIsActive>This is your main map. Only it will count towards your total wealth.\n\nYou can make another map your main map by going there and activating it here in this tab.</MainMapIsActive>
+	<MainMapIsInactive>This is not your main map. It will not count towards your total wealth.\n\nIf you want to activate it press {0} below:</MainMapIsInactive>
 </LanguageData>

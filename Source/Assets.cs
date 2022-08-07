@@ -29,6 +29,7 @@ namespace Rimionship
 		public static float infoWidth, infoHeight;
 		public static RectTransform infoRectTransform;
 
+		public static readonly Texture2D Rimionship = ContentFinder<Texture2D>.Get("Rimionship", true);
 		public static readonly Texture2D MainMenuLogin = ContentFinder<Texture2D>.Get("MainMenuLogin", true);
 		public static readonly Texture2D MainMenuLoginOver = ContentFinder<Texture2D>.Get("MainMenuLoginOver", true);
 		public static readonly Texture2D MainMenuInfo = ContentFinder<Texture2D>.Get("MainMenuInfo", true);

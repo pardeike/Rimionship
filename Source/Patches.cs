@@ -616,28 +616,51 @@ namespace Rimionship
 
 	// show extra UX on architect popup
 	//
-	[HarmonyPatch(typeof(MainTabWindow_Architect), nameof(MainTabWindow_Architect.WinHeight), MethodType.Getter)]
-	class MainTabWindow_Architect_WinHeight_Patch
+	[HarmonyPatch]
+	class ArchitectCategoryTab_Patch
 	{
-		public static void Postfix(ref float __result)
+		public static MethodInfo TargetMethod()
 		{
-			__result += 100f;
+			var cls = AccessTools.FirstInner(typeof(ArchitectCategoryTab), type => AccessTools.Field(type, "designator") != null);
+			if (cls == null)
+				return null;
+			return AccessTools.GetDeclaredMethods(cls).FirstOrDefault();
 		}
-	}
-	/*
-	[HarmonyPatch(typeof(MainTabWindow_Architect), nameof(MainTabWindow_Architect.DoWindowContents))]
-	class MainTabWindow_Architect_DoWindowContents_Patch
-	{
-		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+
+		public static void Postfix(Designator ___designator, Rect ___infoRect)
 		{
-			var list = instructions.ToList();
-			var loadConstants = list.FindAll(instr => instr.opcode == OpCodes.Ldc_R4 && instr.OperandIs(0f));
-			if (loadConstants.Count >= 2)
-				loadConstants[1].operand = 100f;
+			if (___designator != null)
+				return;
+			var rect = ___infoRect.AtZero().ContractedBy(7f);
+
+			var list = new Listing_Standard();
+			list.Begin(rect);
+
+			Text.Font = GameFont.Medium;
+			Widgets.DrawTextureFitted(list.GetRect(27), Assets.Rimionship, 1f);
+			list.Gap(12f);
+
+			var reporter = Current.Game.World.GetComponent<Reporter>();
+			var activateLabel = "Activate".Translate();
+			if (Find.CurrentMap == reporter.ChosenMap)
+			{
+				Text.Font = GameFont.Small;
+				_ = list.Label("MainMapIsActive".Translate());
+			}
 			else
-				Log.Error($"Cannot find three Ldc_R4 0f in MainTabWindow_Architect.DoWindowContents");
-			return list.AsEnumerable();
+			{
+				Text.Font = GameFont.Small;
+				_ = list.Label("MainMapIsInactive".Translate(activateLabel));
+				list.Gap(7f);
+
+				if (list.ButtonText(activateLabel))
+				{
+					reporter.ChosenMap = Find.CurrentMap;
+					reporter.RefreshWealth();
+				}
+			}
+
+			list.End();
 		}
 	}
-	*/
 }

@@ -1,4 +1,5 @@
 ﻿using RimWorld;
+using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
@@ -17,16 +18,19 @@ namespace Rimionship
 			WealthWatcher.ResetStaticData();
 		}
 
+		static List<Map> PlayerMaps => Find.Maps.Where(m => m.IsPlayerHome).ToList();
+
 		public static int ColonyWealth(this Map map)
 		{
-			if (map == null) return 0;
+			if (map == null)
+				return 0;
 			map.wealthWatcher.ForceRecount();
 			return (int)map.wealthWatcher.WealthTotal;
 		}
 
 		public static int AllMaps()
 		{
-			return Find.Maps.Count(map => map.IsPlayerHome);
+			return PlayerMaps.Count;
 		}
 
 		public static int AllColonists()
@@ -60,8 +64,7 @@ namespace Rimionship
 
 		public static int AllEnemies()
 		{
-			return Find.Maps
-				.Where(map => map.IsPlayerHome)
+			return PlayerMaps
 				.Sum(map => map.attackTargetsCache
 					.TargetsHostileToFaction(Faction.OfPlayer)
 					.Select(target => target.Thing)
@@ -86,6 +89,7 @@ namespace Rimionship
 		{
 			return Find.Maps
 				.SelectMany(map => map.mapPawns.AllPawnsSpawned)
+				.ToList()
 				.Where(pawn => pawn.training != null)
 				.Select(pawn => pawn.RaceProps)
 				.Count(raceProp =>
@@ -101,15 +105,15 @@ namespace Rimionship
 
 		public static int AllVisitors()
 		{
-			return Find.Maps
-				.Where(map => map.IsPlayerHome)
+			return PlayerMaps
 				.Sum(map => map.mapPawns.AllPawnsSpawned
 					.Except(map.attackTargetsCache.TargetsHostileToFaction(Faction.OfPlayer))
 					.Except(PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists)
 					.Select(target => target.Thing)
 					.OfType<Pawn>()
 					.Where(pawn => pawn.RaceProps.intelligence > Intelligence.Animal)
-					.Count());
+					.Count()
+				);
 		}
 
 		public static int AllPrisoners()
@@ -131,8 +135,7 @@ namespace Rimionship
 
 		public static int AllRooms()
 		{
-			return Find.Maps
-				.Where(map => map.IsPlayerHome)
+			return PlayerMaps
 				.Sum(map => map.listerBuildings.allBuildingsColonist.Count);
 		}
 
@@ -143,10 +146,11 @@ namespace Rimionship
 
 		public static float AllWeaponDps_1()
 		{
-			return Find.Maps
-				.Where(map => map.IsPlayerHome)
+			return PlayerMaps
 				.Sum(map =>
-					map.listerThings.ThingsInGroup(ThingRequestGroup.Weapon)
+					map.listerThings
+						.ThingsInGroup(ThingRequestGroup.Weapon)
+						.ToList()
 						.OfType<ThingWithComps>()
 						.Where(thing =>
 							thing.def.IsRangedWeapon
@@ -177,18 +181,17 @@ namespace Rimionship
 
 		public static int AllElectricity()
 		{
-			return (int)Find.Maps
-				.Where(map => map.IsPlayerHome)
+			return (int)PlayerMaps
 				.SelectMany(map => map.powerNetManager.AllNetsListForReading)
 				.Sum(net => net.CurrentEnergyGainRate() * 60000 + net.CurrentStoredEnergy());
 		}
 
 		public static float AllMedicine_1()
 		{
-			return Find.Maps
-				.Where(map => map.IsPlayerHome)
+			return PlayerMaps
 				.Sum(map =>
 					map.listerThings.ThingsInGroup(ThingRequestGroup.Medicine)
+						.ToList()
 						.OfType<ThingWithComps>()
 						.Sum(med => med.GetStatValue(StatDefOf.MedicalPotency) * med.stackCount * 5)
 				);
@@ -204,10 +207,10 @@ namespace Rimionship
 
 		public static float AllFood_1()
 		{
-			return Find.Maps
-				.Where(map => map.IsPlayerHome)
+			return PlayerMaps
 				.Sum(map =>
 					map.listerThings.ThingsInGroup(ThingRequestGroup.FoodSource)
+						.ToList()
 						.OfType<ThingWithComps>()
 						.Sum(food => food.GetStatValue(StatDefOf.Nutrition) * food.stackCount / 0.9f)
 				);
@@ -222,26 +225,26 @@ namespace Rimionship
 
 		public static int AllFire()
 		{
-			var total = 0;
-			var maps = Find.Maps.Where(map => map.IsPlayerHome).ToArray();
-			for (var i = 0; i < maps.Length; i++)
-			{
-				var home = maps[i].areaManager.Home;
-				total += maps[i].listerThings.ThingsOfDef(ThingDefOf.Fire).Count(fire => home[fire.Position]);
-			}
-			return total;
+			return PlayerMaps
+				.Sum(map =>
+				{
+					var home = map.areaManager.Home;
+					return map.listerThings
+						.ThingsOfDef(ThingDefOf.Fire)
+						.Count(fire => home[fire.Position]);
+				});
 		}
 
 		public static int AllGameConditions()
 		{
-			return Find.Maps
-				.Where(map => map.IsPlayerHome)
+			return PlayerMaps
 				.Sum(map => map.gameConditionManager.ActiveConditions.Count);
 		}
 
 		public static int Temperature(this Map map)
 		{
-			if (map == null) return 0;
+			if (map == null)
+				return 0;
 			return (int)map.mapTemperature.OutdoorTemp;
 		}
 

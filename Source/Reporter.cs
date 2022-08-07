@@ -9,12 +9,24 @@ namespace Rimionship
 	public class Reporter : WorldComponent
 	{
 		int _chosenMap = 0;
-		public Map ChosenMap => Current.Game.maps[_chosenMap];
+		public Map ChosenMap
+		{
+			get => Current.Game.maps[_chosenMap];
+			set
+			{
+				_chosenMap = value.Index;
+			}
+		}
 
 		Model_Stat stat = new();
 
 		public Reporter(World world) : base(world)
 		{
+		}
+
+		public void RefreshWealth()
+		{
+			stat.wealth = Stats.ColonyWealth(ChosenMap);
 		}
 
 		public override void ExposeData()
@@ -33,7 +45,8 @@ namespace Rimionship
 		{
 			try
 			{
-				stat.wealth = Stats.ColonyWealth(ChosenMap);
+				if (Current.ProgramState == ProgramState.Playing)
+					stat.wealth = Stats.ColonyWealth(ChosenMap);
 			}
 			catch (Exception ex)
 			{
