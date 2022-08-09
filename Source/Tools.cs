@@ -86,10 +86,24 @@ namespace Rimionship
 
 		public static bool ShouldReport(this RpcException exception)
 		{
-			var code = exception.StatusCode;
-			if (code == StatusCode.Unavailable || code == StatusCode.PermissionDenied)
-				return false;
-			return code != StatusCode.Unknown || exception.Status.Detail != "Stream removed";
+			var detail = exception.Status.Detail;
+			switch (exception.StatusCode)
+			{
+				case StatusCode.Unavailable:
+				case StatusCode.PermissionDenied:
+					return false;
+				case StatusCode.Unknown:
+					if (detail == "Stream removed")
+						return false;
+					break;
+				case StatusCode.Internal:
+					if (detail == "GOAWAY received")
+						return false;
+					break;
+				default:
+					break;
+			}
+			return true;
 		}
 
 		public static GUIStyle GUIStyle(this Font font, Color color, RectOffset padding = null)

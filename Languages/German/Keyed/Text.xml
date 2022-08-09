@@ -11,7 +11,7 @@
 	<NobodyCanSacrifice>Niemand hat die Möglichkeit das Ritual durchzuführen</NobodyCanSacrifice>
 	<BloodGodScaleHelp>Unzufriedenheit des Blutgottes. Bei 100% passieren den Kolonisten schlimme Dinge. Opfere einen Kolonisten am Blutgottplatz um den Blutgott zufrieden zu stellen.</BloodGodScaleHelp>
 	<PunishmentLetterTitle>Blutgottbestrafung</PunishmentLetterTitle>
-	<PunishmentLetterContent>Der Blutgott bestraft die Kolonisten (Level {0}). Immer schlimmerer Dinge werden den Kolonisten passieren bis ein Kolonist am Blutgottplatz geopfert wird.</PunishmentLetterContent>
+	<PunishmentLetterContent>Der Blutgott bestraft die Kolonisten (Level {0}). Immer schlimmere Dinge werden den Kolonisten passieren bis ein Kolonist am Blutgottplatz geopfert wird.</PunishmentLetterContent>
 	<ColonistBecomesDumberTitle>{0} wurde dümmer</ColonistBecomesDumberTitle>
 	<ColonistBecomesDumberText>{0} hatte einen Hirnschaden und wurde dadurch dümmer</ColonistBecomesDumberText>
 	<CommStateUnknown>Unbekannt</CommStateUnknown>

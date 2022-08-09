@@ -543,12 +543,12 @@ namespace Rimionship
 	[HarmonyPatch(typeof(Storyteller), nameof(Storyteller.StorytellerTick))]
 	class Storyteller_StorytellerTick_Patch
 	{
-		public static bool TryFire(Storyteller _, FiringIncident fi)
+		public static bool TryFire(Storyteller __instance, FiringIncident fi)
 		{
 			if (fi.def.Worker.CanFireNow(fi.parms))
 			{
 				var qi = new QueuedIncident(new FiringIncident(fi.def, fi.source, fi.parms), Find.TickManager.TicksGame + GenDate.TicksPerDay, 0);
-				var _unused = Find.Storyteller.incidentQueue.Add(qi);
+				_ = __instance.incidentQueue.Add(qi);
 				return true;
 			}
 			return false;

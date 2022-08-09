@@ -53,9 +53,9 @@ namespace Rimionship
 		public float RisingClamped01()
 		{
 			var currentTicks = Find.TickManager.TicksGame;
-			if (IsInactive)
+			if (state < State.Rising)
 				return 0f;
-			if (state > State.Announcing)
+			if (state > State.Rising)
 				return 1f;
 
 			var n = Math.Max(0, Stats.AllColonists() - RimionshipMod.settings.maxFreeColonistCount);

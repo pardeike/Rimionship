@@ -430,9 +430,10 @@ namespace Rimionship
 				while (ServerAPI.WaitUntilNextStatSend())
 					yield return null;
 
-				if (Find.Storyteller.incidentQueue.queuedIncidents.Any())
+				var incidents = Find.Storyteller.incidentQueue.queuedIncidents;
+				if (incidents.Any())
 				{
-					var events = Find.Storyteller.incidentQueue.queuedIncidents
+					var events = incidents
 						.Select(q => new Api.FutureEvent()
 						{
 							Ticks = q.fireTick - Find.TickManager.TicksGame,
