@@ -57,6 +57,13 @@ namespace Rimionship
 				return 0f;
 			if (state > State.Announcing)
 				return 1f;
+
+			var n = Math.Max(0, Stats.AllColonists() - RimionshipMod.settings.maxFreeColonistCount);
+			var interval = Mathf.Max(
+				RimionshipMod.settings.risingIntervalMinimum,
+				RimionshipMod.settings.risingInterval - RimionshipMod.settings.risingReductionPerColonist * n
+			);
+
 			return Mathf.Clamp01((currentTicks - startTicks) / (float)RimionshipMod.settings.risingInterval);
 		}
 

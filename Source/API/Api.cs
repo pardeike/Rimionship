@@ -24,63 +24,65 @@ namespace Api {
     static ApiReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChBQcm90b3MvYXBpLnByb3RvEgNhcGkiGgoMSGVsbG9SZXF1ZXN0EgoKAmlk",
-            "GAEgASgJIn4KDUhlbGxvUmVzcG9uc2USDQoFZm91bmQYASABKAgSHQoLYWxs",
-            "b3dlZE1vZHMYAiADKAsyCC5hcGkuTW9kEhIKCnR3aXRjaE5hbWUYAyABKAkS",
-            "EAoIcG9zaXRpb24YBCABKAUSGQoFc2NvcmUYBSADKAsyCi5hcGkuU2NvcmUi",
-            "KQoDTW9kEg8KB3N0ZWFtSWQYASABKAQSEQoJcGFja2FnZUlkGAIgASgJIkIK",
-            "BVNjb3JlEhAKCHBvc2l0aW9uGAEgASgFEhIKCnR3aXRjaE5hbWUYAiABKAkS",
-            "EwoLbGF0ZXN0U2NvcmUYAyABKAUiMAoLU3luY1JlcXVlc3QSCgoCaWQYASAB",
-            "KAkSFQoNd2FpdEZvckNoYW5nZRgCIAEoCCJbCgxTeW5jUmVzcG9uc2USGQoF",
-            "c3RhdGUYASABKAsyCi5hcGkuU3RhdGUSHwoIc2V0dGluZ3MYAiABKAsyDS5h",
-            "cGkuU2V0dGluZ3MSDwoHbWVzc2FnZRgDIAEoCSKoAQoFU3RhdGUSHQoEZ2Ft",
-            "ZRgBIAEoDjIPLmFwaS5TdGF0ZS5HYW1lEhgKEHBsYW5uZWRTdGFydEhvdXIY",
-            "AiABKAUSGgoScGxhbm5lZFN0YXJ0TWludXRlGAMgASgFIkoKBEdhbWUSCwoH",
-            "U1RPUFBFRBAAEgwKCFRSQUlOSU5HEAESCwoHUFJFUEFSRRACEgsKB1NUQVJU",
-            "RUQQAxINCglDT01QTEVURUQQBCJpCghTZXR0aW5ncxIbCgZ0cmFpdHMYASAB",
-            "KAsyCy5hcGkuVHJhaXRzEhsKBnJpc2luZxgCIAEoCzILLmFwaS5SaXNpbmcS",
-            "IwoKcHVuaXNobWVudBgDIAEoCzIPLmFwaS5QdW5pc2htZW50IlgKBlRyYWl0",
-            "cxITCgtzY2FsZUZhY3RvchgBIAEoAhIcChRnb29kVHJhaXRTdXBwcmVzc2lv",
-            "bhgCIAEoAhIbChNiYWRUcmFpdFN1cHByZXNzaW9uGAMgASgCIlYKBlJpc2lu",
-            "ZxIcChRtYXhGcmVlQ29sb25pc3RDb3VudBgBIAEoBRIWCg5yaXNpbmdJbnRl",
-            "cnZhbBgCIAEoBRIWCg5yaXNpbmdDb29sZG93bhgDIAEoBSJ4CgpQdW5pc2ht",
-            "ZW50EhoKEnN0YXJ0UGF1c2VJbnRlcnZhbBgBIAEoBRIaChJmaW5hbFBhdXNl",
-            "SW50ZXJ2YWwYAiABKAUSGAoQbWluVGhvdWdodEZhY3RvchgDIAEoAhIYChBt",
-            "YXhUaG91Z2h0RmFjdG9yGAQgASgCIhoKDFN0YXJ0UmVxdWVzdBIKCgJpZBgB",
-            "IAEoCSJ2Cg1TdGFydFJlc3BvbnNlEhQKDGdhbWVGaWxlSGFzaBgBIAEoCRIT",
-            "CgtnYW1lRmlsZVVybBgCIAEoCRIZChFzdGFydGluZ1Bhd25Db3VudBgDIAEo",
-            "BRIfCghzZXR0aW5ncxgEIAEoCzINLmFwaS5TZXR0aW5ncyL9BAoMU3RhdHNS",
-            "ZXF1ZXN0EgoKAmlkGAEgASgJEg4KBndlYWx0aBgCIAEoBRIQCghtYXBDb3Vu",
-            "dBgDIAEoBRIRCgljb2xvbmlzdHMYBCABKAUSHAoUY29sb25pc3RzTmVlZFRl",
-            "bmRpbmcYBSABKAUSGQoRbWVkaWNhbENvbmRpdGlvbnMYBiABKAUSDwoHZW5l",
-            "bWllcxgHIAEoBRITCgt3aWxkQW5pbWFscxgIIAEoBRIUCgx0YW1lZEFuaW1h",
-            "bHMYCSABKAUSEAoIdmlzaXRvcnMYCiABKAUSEQoJcHJpc29uZXJzGAsgASgF",
-            "EhcKD2Rvd25lZENvbG9uaXN0cxgMIAEoBRIXCg9tZW50YWxDb2xvbmlzdHMY",
-            "DSABKAUSDQoFcm9vbXMYDiABKAUSEAoIY2FyYXZhbnMYDyABKAUSEQoJd2Vh",
-            "cG9uRHBzGBAgASgFEhMKC2VsZWN0cmljaXR5GBEgASgFEhAKCG1lZGljaW5l",
-            "GBIgASgFEgwKBGZvb2QYEyABKAUSDAoEZmlyZRgUIAEoBRISCgpjb25kaXRp",
-            "b25zGBUgASgFEhMKC3RlbXBlcmF0dXJlGBYgASgFEhUKDW51bVJhaWRzRW5l",
-            "bXkYFyABKAUSFQoNbnVtVGhyZWF0QmlncxgYIAEoBRIXCg9jb2xvbmlzdHNL",
-            "aWxsZWQYGSABKAUSGgoSZ3JlYXRlc3RQb3B1bGF0aW9uGBogASgFEhMKC2lu",
-            "R2FtZUhvdXJzGBsgASgFEhgKEGRhbWFnZVRha2VuUGF3bnMYHCABKAISGQoR",
-            "ZGFtYWdlVGFrZW5UaGluZ3MYHSABKAISEwoLZGFtYWdlRGVhbHQYHiABKAIi",
-            "IQoNU3RhdHNSZXNwb25zZRIQCghpbnRlcnZhbBgBIAEoBSKCAQoLRnV0dXJl",
-            "RXZlbnQSDQoFdGlja3MYASABKAUSDAoEbmFtZRgCIAEoCRINCgVxdWVzdBgD",
-            "IAEoCRIPCgdmYWN0aW9uGAQgASgJEg4KBnBvaW50cxgFIAEoAhIQCghzdHJh",
-            "dGVneRgGIAEoCRIUCgxhcnJpdmFsX21vZGUYByABKAkiQgoTRnV0dXJlRXZl",
-            "bnRzUmVxdWVzdBIKCgJpZBgBIAEoCRIfCgVldmVudBgCIAMoCzIQLmFwaS5G",
-            "dXR1cmVFdmVudCIWChRGdXR1cmVFdmVudHNSZXNwb25zZTKRAgoDQVBJEjAK",
-            "BUhlbGxvEhEuYXBpLkhlbGxvUmVxdWVzdBoSLmFwaS5IZWxsb1Jlc3BvbnNl",
-            "IgASLQoEU3luYxIQLmFwaS5TeW5jUmVxdWVzdBoRLmFwaS5TeW5jUmVzcG9u",
-            "c2UiABIwCgVTdGFydBIRLmFwaS5TdGFydFJlcXVlc3QaEi5hcGkuU3RhcnRS",
-            "ZXNwb25zZSIAEjAKBVN0YXRzEhEuYXBpLlN0YXRzUmVxdWVzdBoSLmFwaS5T",
-            "dGF0c1Jlc3BvbnNlIgASRQoMRnV0dXJlRXZlbnRzEhguYXBpLkZ1dHVyZUV2",
-            "ZW50c1JlcXVlc3QaGS5hcGkuRnV0dXJlRXZlbnRzUmVzcG9uc2UiAGIGcHJv",
-            "dG8z"));
+            "ChBQcm90b3MvYXBpLnByb3RvEgNhcGkiLgoMSGVsbG9SZXF1ZXN0EhIKCmFw",
+            "aVZlcnNpb24YASABKAUSCgoCaWQYAiABKAkifgoNSGVsbG9SZXNwb25zZRIN",
+            "CgVmb3VuZBgBIAEoCBIdCgthbGxvd2VkTW9kcxgCIAMoCzIILmFwaS5Nb2QS",
+            "EgoKdHdpdGNoTmFtZRgDIAEoCRIQCghwb3NpdGlvbhgEIAEoBRIZCgVzY29y",
+            "ZRgFIAMoCzIKLmFwaS5TY29yZSIpCgNNb2QSDwoHc3RlYW1JZBgBIAEoBBIR",
+            "CglwYWNrYWdlSWQYAiABKAkiQgoFU2NvcmUSEAoIcG9zaXRpb24YASABKAUS",
+            "EgoKdHdpdGNoTmFtZRgCIAEoCRITCgtsYXRlc3RTY29yZRgDIAEoBSIwCgtT",
+            "eW5jUmVxdWVzdBIKCgJpZBgBIAEoCRIVCg13YWl0Rm9yQ2hhbmdlGAIgASgI",
+            "IlsKDFN5bmNSZXNwb25zZRIZCgVzdGF0ZRgBIAEoCzIKLmFwaS5TdGF0ZRIf",
+            "CghzZXR0aW5ncxgCIAEoCzINLmFwaS5TZXR0aW5ncxIPCgdtZXNzYWdlGAMg",
+            "ASgJIqgBCgVTdGF0ZRIdCgRnYW1lGAEgASgOMg8uYXBpLlN0YXRlLkdhbWUS",
+            "GAoQcGxhbm5lZFN0YXJ0SG91chgCIAEoBRIaChJwbGFubmVkU3RhcnRNaW51",
+            "dGUYAyABKAUiSgoER2FtZRILCgdTVE9QUEVEEAASDAoIVFJBSU5JTkcQARIL",
+            "CgdQUkVQQVJFEAISCwoHU1RBUlRFRBADEg0KCUNPTVBMRVRFRBAEImkKCFNl",
+            "dHRpbmdzEhsKBnRyYWl0cxgBIAEoCzILLmFwaS5UcmFpdHMSGwoGcmlzaW5n",
+            "GAIgASgLMgsuYXBpLlJpc2luZxIjCgpwdW5pc2htZW50GAMgASgLMg8uYXBp",
+            "LlB1bmlzaG1lbnQiWAoGVHJhaXRzEhMKC3NjYWxlRmFjdG9yGAEgASgCEhwK",
+            "FGdvb2RUcmFpdFN1cHByZXNzaW9uGAIgASgCEhsKE2JhZFRyYWl0U3VwcHJl",
+            "c3Npb24YAyABKAIimQEKBlJpc2luZxIcChRtYXhGcmVlQ29sb25pc3RDb3Vu",
+            "dBgBIAEoBRIWCg5yaXNpbmdJbnRlcnZhbBgCIAEoBRIiChpyaXNpbmdSZWR1",
+            "Y3Rpb25QZXJDb2xvbmlzdBgDIAEoBRIdChVyaXNpbmdJbnRlcnZhbE1pbmlt",
+            "dW0YBCABKAUSFgoOcmlzaW5nQ29vbGRvd24YBSABKAUieAoKUHVuaXNobWVu",
+            "dBIaChJzdGFydFBhdXNlSW50ZXJ2YWwYASABKAUSGgoSZmluYWxQYXVzZUlu",
+            "dGVydmFsGAIgASgFEhgKEG1pblRob3VnaHRGYWN0b3IYAyABKAISGAoQbWF4",
+            "VGhvdWdodEZhY3RvchgEIAEoAiIaCgxTdGFydFJlcXVlc3QSCgoCaWQYASAB",
+            "KAkidgoNU3RhcnRSZXNwb25zZRIUCgxnYW1lRmlsZUhhc2gYASABKAkSEwoL",
+            "Z2FtZUZpbGVVcmwYAiABKAkSGQoRc3RhcnRpbmdQYXduQ291bnQYAyABKAUS",
+            "HwoIc2V0dGluZ3MYBCABKAsyDS5hcGkuU2V0dGluZ3Mi/QQKDFN0YXRzUmVx",
+            "dWVzdBIKCgJpZBgBIAEoCRIOCgZ3ZWFsdGgYAiABKAUSEAoIbWFwQ291bnQY",
+            "AyABKAUSEQoJY29sb25pc3RzGAQgASgFEhwKFGNvbG9uaXN0c05lZWRUZW5k",
+            "aW5nGAUgASgFEhkKEW1lZGljYWxDb25kaXRpb25zGAYgASgFEg8KB2VuZW1p",
+            "ZXMYByABKAUSEwoLd2lsZEFuaW1hbHMYCCABKAUSFAoMdGFtZWRBbmltYWxz",
+            "GAkgASgFEhAKCHZpc2l0b3JzGAogASgFEhEKCXByaXNvbmVycxgLIAEoBRIX",
+            "Cg9kb3duZWRDb2xvbmlzdHMYDCABKAUSFwoPbWVudGFsQ29sb25pc3RzGA0g",
+            "ASgFEg0KBXJvb21zGA4gASgFEhAKCGNhcmF2YW5zGA8gASgFEhEKCXdlYXBv",
+            "bkRwcxgQIAEoBRITCgtlbGVjdHJpY2l0eRgRIAEoBRIQCghtZWRpY2luZRgS",
+            "IAEoBRIMCgRmb29kGBMgASgFEgwKBGZpcmUYFCABKAUSEgoKY29uZGl0aW9u",
+            "cxgVIAEoBRITCgt0ZW1wZXJhdHVyZRgWIAEoBRIVCg1udW1SYWlkc0VuZW15",
+            "GBcgASgFEhUKDW51bVRocmVhdEJpZ3MYGCABKAUSFwoPY29sb25pc3RzS2ls",
+            "bGVkGBkgASgFEhoKEmdyZWF0ZXN0UG9wdWxhdGlvbhgaIAEoBRITCgtpbkdh",
+            "bWVIb3VycxgbIAEoBRIYChBkYW1hZ2VUYWtlblBhd25zGBwgASgCEhkKEWRh",
+            "bWFnZVRha2VuVGhpbmdzGB0gASgCEhMKC2RhbWFnZURlYWx0GB4gASgCIiEK",
+            "DVN0YXRzUmVzcG9uc2USEAoIaW50ZXJ2YWwYASABKAUiggEKC0Z1dHVyZUV2",
+            "ZW50Eg0KBXRpY2tzGAEgASgFEgwKBG5hbWUYAiABKAkSDQoFcXVlc3QYAyAB",
+            "KAkSDwoHZmFjdGlvbhgEIAEoCRIOCgZwb2ludHMYBSABKAISEAoIc3RyYXRl",
+            "Z3kYBiABKAkSFAoMYXJyaXZhbF9tb2RlGAcgASgJIkIKE0Z1dHVyZUV2ZW50",
+            "c1JlcXVlc3QSCgoCaWQYASABKAkSHwoFZXZlbnQYAiADKAsyEC5hcGkuRnV0",
+            "dXJlRXZlbnQiFgoURnV0dXJlRXZlbnRzUmVzcG9uc2UykQIKA0FQSRIwCgVI",
+            "ZWxsbxIRLmFwaS5IZWxsb1JlcXVlc3QaEi5hcGkuSGVsbG9SZXNwb25zZSIA",
+            "Ei0KBFN5bmMSEC5hcGkuU3luY1JlcXVlc3QaES5hcGkuU3luY1Jlc3BvbnNl",
+            "IgASMAoFU3RhcnQSES5hcGkuU3RhcnRSZXF1ZXN0GhIuYXBpLlN0YXJ0UmVz",
+            "cG9uc2UiABIwCgVTdGF0cxIRLmFwaS5TdGF0c1JlcXVlc3QaEi5hcGkuU3Rh",
+            "dHNSZXNwb25zZSIAEkUKDEZ1dHVyZUV2ZW50cxIYLmFwaS5GdXR1cmVFdmVu",
+            "dHNSZXF1ZXN0GhkuYXBpLkZ1dHVyZUV2ZW50c1Jlc3BvbnNlIgBiBnByb3Rv",
+            "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.HelloRequest), global::Api.HelloRequest.Parser, new[]{ "Id" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Api.HelloRequest), global::Api.HelloRequest.Parser, new[]{ "ApiVersion", "Id" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Api.HelloResponse), global::Api.HelloResponse.Parser, new[]{ "Found", "AllowedMods", "TwitchName", "Position", "Score" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Api.Mod), global::Api.Mod.Parser, new[]{ "SteamId", "PackageId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Api.Score), global::Api.Score.Parser, new[]{ "Position", "TwitchName", "LatestScore" }, null, null, null),
@@ -89,7 +91,7 @@ namespace Api {
             new pbr::GeneratedClrTypeInfo(typeof(global::Api.State), global::Api.State.Parser, new[]{ "Game", "PlannedStartHour", "PlannedStartMinute" }, null, new[]{ typeof(global::Api.State.Types.Game) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Api.Settings), global::Api.Settings.Parser, new[]{ "Traits", "Rising", "Punishment" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Api.Traits), global::Api.Traits.Parser, new[]{ "ScaleFactor", "GoodTraitSuppression", "BadTraitSuppression" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.Rising), global::Api.Rising.Parser, new[]{ "MaxFreeColonistCount", "RisingInterval", "RisingCooldown" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Api.Rising), global::Api.Rising.Parser, new[]{ "MaxFreeColonistCount", "RisingInterval", "RisingReductionPerColonist", "RisingIntervalMinimum", "RisingCooldown" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Api.Punishment), global::Api.Punishment.Parser, new[]{ "StartPauseInterval", "FinalPauseInterval", "MinThoughtFactor", "MaxThoughtFactor" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Api.StartRequest), global::Api.StartRequest.Parser, new[]{ "Id" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Api.StartResponse), global::Api.StartResponse.Parser, new[]{ "GameFileHash", "GameFileUrl", "StartingPawnCount", "Settings" }, null, null, null),
@@ -129,6 +131,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public HelloRequest(HelloRequest other) : this() {
+      apiVersion_ = other.apiVersion_;
       id_ = other.id_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -138,8 +141,19 @@ namespace Api {
       return new HelloRequest(this);
     }
 
+    /// <summary>Field number for the "apiVersion" field.</summary>
+    public const int ApiVersionFieldNumber = 1;
+    private int apiVersion_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ApiVersion {
+      get { return apiVersion_; }
+      set {
+        apiVersion_ = value;
+      }
+    }
+
     /// <summary>Field number for the "id" field.</summary>
-    public const int IdFieldNumber = 1;
+    public const int IdFieldNumber = 2;
     private string id_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Id {
@@ -162,6 +176,7 @@ namespace Api {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (ApiVersion != other.ApiVersion) return false;
       if (Id != other.Id) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -169,6 +184,7 @@ namespace Api {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
+      if (ApiVersion != 0) hash ^= ApiVersion.GetHashCode();
       if (Id.Length != 0) hash ^= Id.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -183,8 +199,12 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+      if (ApiVersion != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(ApiVersion);
+      }
       if (Id.Length != 0) {
-        output.WriteRawTag(10);
+        output.WriteRawTag(18);
         output.WriteString(Id);
       }
       if (_unknownFields != null) {
@@ -195,6 +215,9 @@ namespace Api {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      if (ApiVersion != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ApiVersion);
+      }
       if (Id.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
       }
@@ -208,6 +231,9 @@ namespace Api {
     public void MergeFrom(HelloRequest other) {
       if (other == null) {
         return;
+      }
+      if (other.ApiVersion != 0) {
+        ApiVersion = other.ApiVersion;
       }
       if (other.Id.Length != 0) {
         Id = other.Id;
@@ -223,7 +249,11 @@ namespace Api {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 10: {
+          case 8: {
+            ApiVersion = input.ReadInt32();
+            break;
+          }
+          case 18: {
             Id = input.ReadString();
             break;
           }
@@ -1769,6 +1799,8 @@ namespace Api {
     public Rising(Rising other) : this() {
       maxFreeColonistCount_ = other.maxFreeColonistCount_;
       risingInterval_ = other.risingInterval_;
+      risingReductionPerColonist_ = other.risingReductionPerColonist_;
+      risingIntervalMinimum_ = other.risingIntervalMinimum_;
       risingCooldown_ = other.risingCooldown_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -1800,8 +1832,30 @@ namespace Api {
       }
     }
 
+    /// <summary>Field number for the "risingReductionPerColonist" field.</summary>
+    public const int RisingReductionPerColonistFieldNumber = 3;
+    private int risingReductionPerColonist_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int RisingReductionPerColonist {
+      get { return risingReductionPerColonist_; }
+      set {
+        risingReductionPerColonist_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "risingIntervalMinimum" field.</summary>
+    public const int RisingIntervalMinimumFieldNumber = 4;
+    private int risingIntervalMinimum_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int RisingIntervalMinimum {
+      get { return risingIntervalMinimum_; }
+      set {
+        risingIntervalMinimum_ = value;
+      }
+    }
+
     /// <summary>Field number for the "risingCooldown" field.</summary>
-    public const int RisingCooldownFieldNumber = 3;
+    public const int RisingCooldownFieldNumber = 5;
     private int risingCooldown_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int RisingCooldown {
@@ -1826,6 +1880,8 @@ namespace Api {
       }
       if (MaxFreeColonistCount != other.MaxFreeColonistCount) return false;
       if (RisingInterval != other.RisingInterval) return false;
+      if (RisingReductionPerColonist != other.RisingReductionPerColonist) return false;
+      if (RisingIntervalMinimum != other.RisingIntervalMinimum) return false;
       if (RisingCooldown != other.RisingCooldown) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -1835,6 +1891,8 @@ namespace Api {
       int hash = 1;
       if (MaxFreeColonistCount != 0) hash ^= MaxFreeColonistCount.GetHashCode();
       if (RisingInterval != 0) hash ^= RisingInterval.GetHashCode();
+      if (RisingReductionPerColonist != 0) hash ^= RisingReductionPerColonist.GetHashCode();
+      if (RisingIntervalMinimum != 0) hash ^= RisingIntervalMinimum.GetHashCode();
       if (RisingCooldown != 0) hash ^= RisingCooldown.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -1857,8 +1915,16 @@ namespace Api {
         output.WriteRawTag(16);
         output.WriteInt32(RisingInterval);
       }
-      if (RisingCooldown != 0) {
+      if (RisingReductionPerColonist != 0) {
         output.WriteRawTag(24);
+        output.WriteInt32(RisingReductionPerColonist);
+      }
+      if (RisingIntervalMinimum != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(RisingIntervalMinimum);
+      }
+      if (RisingCooldown != 0) {
+        output.WriteRawTag(40);
         output.WriteInt32(RisingCooldown);
       }
       if (_unknownFields != null) {
@@ -1874,6 +1940,12 @@ namespace Api {
       }
       if (RisingInterval != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(RisingInterval);
+      }
+      if (RisingReductionPerColonist != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RisingReductionPerColonist);
+      }
+      if (RisingIntervalMinimum != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(RisingIntervalMinimum);
       }
       if (RisingCooldown != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(RisingCooldown);
@@ -1894,6 +1966,12 @@ namespace Api {
       }
       if (other.RisingInterval != 0) {
         RisingInterval = other.RisingInterval;
+      }
+      if (other.RisingReductionPerColonist != 0) {
+        RisingReductionPerColonist = other.RisingReductionPerColonist;
+      }
+      if (other.RisingIntervalMinimum != 0) {
+        RisingIntervalMinimum = other.RisingIntervalMinimum;
       }
       if (other.RisingCooldown != 0) {
         RisingCooldown = other.RisingCooldown;
@@ -1918,6 +1996,14 @@ namespace Api {
             break;
           }
           case 24: {
+            RisingReductionPerColonist = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            RisingIntervalMinimum = input.ReadInt32();
+            break;
+          }
+          case 40: {
             RisingCooldown = input.ReadInt32();
             break;
           }

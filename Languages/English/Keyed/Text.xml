@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
+	<ModTooOld>The Rimionship Mod is too old and cannot talk to the server</ModTooOld>
 	<LoadRimionshipMods>Load Rimionship Mods</LoadRimionshipMods>
 	<Remove>Remove</Remove>
 	<WaitToRemove>You can remove the blood god spot again in {0}</WaitToRemove>

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
+	<ModTooOld>Die Rimionship Mod ist zu alt und kann nicht mit dem Server kommunizieren</ModTooOld>
 	<LoadRimionshipMods>Rimionship Mods Laden</LoadRimionshipMods>
 	<Remove>Entfernen</Remove>
 	<WaitToRemove>Der Blutgottplatz kann wieder in {0} entfernt werden</WaitToRemove>

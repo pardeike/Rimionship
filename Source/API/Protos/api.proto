@@ -11,7 +11,8 @@ service API {
 }
 
 message HelloRequest {
-	string id = 1;
+	int32 apiVersion = 1;
+	string id = 2;
 }
 
 message HelloResponse {
@@ -72,7 +73,9 @@ message Traits {
 message Rising {
 	int32 maxFreeColonistCount = 1;
 	int32 risingInterval = 2;
-	int32 risingCooldown = 3;
+	int32 risingReductionPerColonist = 3;
+	int32 risingIntervalMinimum = 4;
+	int32 risingCooldown = 5;
 }
 
 message Punishment {

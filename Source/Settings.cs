@@ -1,5 +1,4 @@
-﻿using RimWorld;
-using UnityEngine;
+﻿using UnityEngine;
 using Verse;
 
 namespace Rimionship
@@ -11,11 +10,13 @@ namespace Rimionship
 		public float badTraitSuppression = 0.15f;
 
 		public int maxFreeColonistCount = 5;
-		public int risingInterval = 120000; // 2 days
-		public int risingCooldown = 60000; // 1 day
+		public int risingInterval = 2400000; // 40 days
+		public int risingReductionPerColonist = 240000; // 4 days
+		public int risingIntervalMinimum = 120000; // 2 days
+		public int risingCooldown = 120000; // 2 day
 
-		public int startPauseInterval = 30000; // 0.5 day
-		public int finalPauseInterval = 5000; // 2 hours
+		public int startPauseInterval = 120000; // 2 days
+		public int finalPauseInterval = 120000; // 2 days
 
 		public float minThoughtFactor = 1f;
 		public float maxThoughtFactor = 3f;
@@ -28,8 +29,10 @@ namespace Rimionship
 			Scribe_Values.Look(ref badTraitSuppression, "badTraitSuppression", 0.15f);
 
 			Scribe_Values.Look(ref maxFreeColonistCount, "maxFreeColonistCount", 5);
-			Scribe_Values.Look(ref risingInterval, "risingInterval", 120000);
-			Scribe_Values.Look(ref risingCooldown, "risingCooldown", 60000);
+			Scribe_Values.Look(ref risingInterval, "risingInterval", 2400000);
+			Scribe_Values.Look(ref risingReductionPerColonist, "risingReductionPerColonist", 240000);
+			Scribe_Values.Look(ref risingIntervalMinimum, "risingIntervalMinimum", 120000);
+			Scribe_Values.Look(ref risingCooldown, "risingCooldown", 120000);
 
 			Scribe_Values.Look(ref startPauseInterval, "startPauseInterval", 30000);
 			Scribe_Values.Look(ref finalPauseInterval, "finalPauseInterval", 5000);
@@ -40,7 +43,7 @@ namespace Rimionship
 
 		public void DoWindowContents(Rect inRect)
 		{
-			var list = new Listing_Standard { ColumnWidth = inRect.width / 2f };
+			var list = new Listing_Standard { ColumnWidth = (inRect.width - 17f) / 2f };
 			list.Begin(inRect);
 			list.Gap(12f);
 
@@ -50,7 +53,7 @@ namespace Rimionship
 				list.Gap(12f);
 			}
 
-			_ = list.Label($"Traits Change Factor: {scaleFactor:P0}");
+			_ = list.Label($"Traits Scale: {scaleFactor:P0}");
 			scaleFactor = list.Slider(scaleFactor, 0, 1);
 			list.Gap(12f);
 
@@ -62,31 +65,32 @@ namespace Rimionship
 			badTraitSuppression = list.Slider(badTraitSuppression, 0, 1);
 			list.Gap(12f);
 
-			_ = list.Label("Graph");
-			_ = list.TextEntry("https://www.desmos.com/calculator/psoxn2lt1r");
-			list.Gap(12f);
-
-			_ = list.Label($"Blood God Max Free Colonists: {maxFreeColonistCount}");
-			maxFreeColonistCount = (int)list.Slider(maxFreeColonistCount, 1, 10);
-			list.Gap(12f);
-
-			_ = list.Label($"Rising Interval: {risingInterval.ToStringTicksToPeriod()}");
-			risingInterval = (int)(GenDate.TicksPerHour * list.Slider(risingInterval / (float)GenDate.TicksPerHour, 0, 96));
-			list.Gap(12f);
-
-			_ = list.Label($"Rising Cooldown: {risingCooldown.ToStringTicksToPeriod()}");
-			risingCooldown = (int)(GenDate.TicksPerHour * list.Slider(risingCooldown / (float)GenDate.TicksPerHour, 0, 96));
-			list.Gap(12f);
+			if (list.ButtonText("Help graph for trait values"))
+				Application.OpenURL("https://www.desmos.com/calculator/psoxn2lt1r");
 
 			list.NewColumn();
 
-			_ = list.Label($"Punishment Interval Tier 1: {startPauseInterval.ToStringTicksToPeriod()}");
-			startPauseInterval = (int)list.Slider(startPauseInterval, 0, 120000);
+			_ = list.Label($"Blood God Max Free Colonists: {maxFreeColonistCount}");
+			maxFreeColonistCount = (int)list.Slider(maxFreeColonistCount, 1, 10);
+			list.Gap(20f);
+
+			list.TimeEditor("Rising Interval", risingInterval, 1, Days.Instance, n => { risingInterval = n; });
 			list.Gap(12f);
 
-			_ = list.Label($"Punishment Interval Tier 5: {finalPauseInterval.ToStringTicksToPeriod()}");
-			finalPauseInterval = (int)list.Slider(finalPauseInterval, 0, 15000);
+			list.TimeEditor("Rising Reduction Per Colonist", risingReductionPerColonist, 1, Days.Instance, n => { risingReductionPerColonist = n; });
 			list.Gap(12f);
+
+			list.TimeEditor("Rising Interval Minimum", risingIntervalMinimum, 1, Days.Instance, n => { risingIntervalMinimum = n; });
+			list.Gap(12f);
+
+			list.TimeEditor("Rising Cooldown", risingCooldown, 1, Days.Instance, n => { risingCooldown = n; });
+			list.Gap(32f);
+
+			list.TimeEditor("Punishment Interval Tier 1", startPauseInterval, 1, Hours.Instance, n => { startPauseInterval = n; });
+			list.Gap(12f);
+
+			list.TimeEditor("Punishment Interval Tier 5", finalPauseInterval, 1, Hours.Instance, n => { finalPauseInterval = n; });
+			list.Gap(32f);
 
 			_ = list.Label($"Sacrification Thought Factor Range: {minThoughtFactor:F2} - {maxThoughtFactor:F2}");
 			minThoughtFactor = list.Slider(minThoughtFactor, 0.1f, 4f);

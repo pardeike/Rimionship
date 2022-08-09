@@ -16,9 +16,9 @@ namespace Rimionship
 				return
 				(
 					state,
-					Communications.State == CommState.Ready ? Assets.StateOK : Assets.StateError,
+					Communications.State == CommState.Ready ? Assets.StateOK : (ServerAPI.modTooOld ? Assets.StateAction: Assets.StateError),
 					null,
-					null
+					() => "ModTooOld".Translate()
 				);
 			},
 

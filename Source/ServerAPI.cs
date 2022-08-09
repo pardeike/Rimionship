@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading;
 using UnityEngine;
 using Verse;
@@ -12,9 +13,12 @@ namespace Rimionship
 {
 	public static class ServerAPI
 	{
-		static readonly CancellationTokenSource source = new();
+		const int API_VERSION = 1;
 
+		static readonly CancellationTokenSource source = new();
 		static float _nextStatsUpdate;
+		public static bool modTooOld = false;
+
 		public static bool WaitUntilNextStatSend()
 		{
 			var result = Time.realtimeSinceStartup < _nextStatsUpdate;
@@ -28,6 +32,7 @@ namespace Rimionship
 			source.Cancel();
 		}
 
+		static readonly Regex apiTooOldDetails = new(@"Expected API version (\d+) but got (\d+)", RegexOptions.Compiled);
 		public static void WrapCall(Action call)
 		{
 			if (Communications.Client == null)
@@ -38,6 +43,19 @@ namespace Rimionship
 			}
 			catch (RpcException e)
 			{
+				if (e.Status.StatusCode == StatusCode.Aborted)
+				{
+					AsyncLogger.Error($"Aborted gRPC call: {e.Status.Detail}");
+					var match = apiTooOldDetails.Match(e.Status.Detail);
+					if (match.Success)
+					{
+						modTooOld = true;
+						CancelAll();
+						Communications.Stop();
+						return;
+					}
+				}
+
 				if (e.ShouldReport())
 				{
 					PlayState.errorCount++;
@@ -55,12 +73,12 @@ namespace Rimionship
 			WrapCall(() =>
 			{
 				var id = Tools.UniqueModID;
-				var request = new HelloRequest() { Id = id };
-				//AsyncLogger.Warning($"-> Hello");
+				var request = new HelloRequest() { ApiVersion = API_VERSION, Id = id };
+				AsyncLogger.Warning($"-> Hello");
 				var response = Communications.Client.Hello(request, null, null, source.Token);
 				PlayState.modRegistered = response.Found;
 				PlayState.AllowedMods = response.GetAllowedMods();
-				//AsyncLogger.Warning($"reg={PlayState.modRegistered} <- Hello");
+				AsyncLogger.Warning($"reg={PlayState.modRegistered} <- Hello");
 				HUD.Update(response);
 				if (PlayState.modRegistered == false && openBrowser)
 				{
@@ -194,6 +212,8 @@ namespace Rimionship
 			{
 				RimionshipMod.settings.maxFreeColonistCount = rising.MaxFreeColonistCount;
 				RimionshipMod.settings.risingInterval = rising.RisingInterval;
+				RimionshipMod.settings.risingReductionPerColonist = rising.RisingReductionPerColonist;
+				RimionshipMod.settings.risingIntervalMinimum = rising.RisingIntervalMinimum;
 				RimionshipMod.settings.risingCooldown = rising.RisingCooldown;
 			}
 			var punishment = settings.Punishment;
