@@ -14,6 +14,7 @@ namespace Rimionship
 	public static class ServerAPI
 	{
 		const int API_VERSION = 1;
+		static readonly bool LOGGING = false;
 
 		static readonly CancellationTokenSource source = new();
 		static float _nextStatsUpdate;
@@ -74,11 +75,13 @@ namespace Rimionship
 			{
 				var id = Tools.UniqueModID;
 				var request = new HelloRequest() { ApiVersion = API_VERSION, Id = id };
-				AsyncLogger.Warning($"-> Hello");
+				if (LOGGING)
+					AsyncLogger.Warning($"-> Hello");
 				var response = Communications.Client.Hello(request, null, null, source.Token);
 				PlayState.modRegistered = response.Found;
 				PlayState.AllowedMods = response.GetAllowedMods();
-				AsyncLogger.Warning($"reg={PlayState.modRegistered} <- Hello");
+				if (LOGGING)
+					AsyncLogger.Warning($"reg={PlayState.modRegistered} <- Hello");
 				HUD.Update(response);
 				if (PlayState.modRegistered == false && openBrowser)
 				{
@@ -152,14 +155,17 @@ namespace Rimionship
 						var id = Tools.UniqueModID;
 						var request = new SyncRequest() { Id = id, WaitForChange = WaitForChange };
 						WaitForChange = true;
-						AsyncLogger.Warning($"-> Sync");
+						if (LOGGING)
+							AsyncLogger.Warning($"-> Sync");
 						var response = Communications.Client.Sync(request, null, null, source.Token);
-						AsyncLogger.Warning($"{response.State} <- Sync");
+						if (LOGGING)
+							AsyncLogger.Warning($"{response.State} <- Sync");
 						HandleSyncResponse(response);
 					}
 					catch (RpcException e)
 					{
-						AsyncLogger.Warning($"{e.Status.StatusCode} <- Sync");
+						if (LOGGING)
+							AsyncLogger.Warning($"{e.Status.StatusCode} <- Sync");
 
 						if (e.ShouldReport())
 						{
@@ -231,9 +237,11 @@ namespace Rimionship
 			WrapCall(() =>
 			{
 				var request = stat.TransferModel(Tools.UniqueModID);
-				//AsyncLogger.Warning("-> Stats");
+				if (LOGGING)
+					AsyncLogger.Warning("-> Stats");
 				var response = Communications.Client.Stats(request, null, null, source.Token);
-				//AsyncLogger.Warning($"{response.Interval} <- Stats");
+				if (LOGGING)
+					AsyncLogger.Warning($"{response.Interval} <- Stats");
 				PlayState.currentStatsSendingInterval = response.Interval;
 			});
 		}
@@ -244,9 +252,11 @@ namespace Rimionship
 			{
 				var request = new FutureEventsRequest() { Id = Tools.UniqueModID };
 				request.AddEvents(events);
-				//AsyncLogger.Warning("-> FutureEvents");
+				if (LOGGING)
+					AsyncLogger.Warning("-> FutureEvents");
 				_ = Communications.Client.FutureEvents(request, null, null, source.Token);
-				//AsyncLogger.Warning("<- FutureEvents");
+				if (LOGGING)
+					AsyncLogger.Warning("<- FutureEvents");
 			});
 		}
 	}

@@ -75,9 +75,9 @@ namespace Rimionship
 			base.DeSpawn(mode);
 		}
 
-		public override void Draw()
+		public void SetVisible(bool visible)
 		{
-			// nothing to draw
+			effect?.SetActive(visible);
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
@@ -163,6 +163,7 @@ namespace Rimionship
 		public override void Tick()
 		{
 			base.Tick();
+
 			if (effect == null)
 				return;
 

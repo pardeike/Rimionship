@@ -1,5 +1,4 @@
 ﻿using Grpc.Core;
-using HarmonyLib;
 using RimWorld;
 using System;
 using System.Collections.Concurrent;
@@ -137,15 +136,13 @@ namespace Rimionship
 					var target = f.GetActor().jobs.curJob.GetTarget(ind);
 					var thing = target.Thing;
 					if (thing == null && target.IsValid)
-					{
-						return JobCondition.Ongoing;
-					}
+						return JobCondition.None;
 					if (thing == null || !thing.Spawned || thing.Map != f.GetActor().Map)
 					{
 						cleanupAction();
 						return JobCondition.Incompletable;
 					}
-					return JobCondition.Ongoing;
+					return JobCondition.None;
 				});
 		}
 
@@ -158,14 +155,15 @@ namespace Rimionship
 				pawn.health.capacities.CapableOf(PawnCapacityDefOf.Moving);
 		}
 
-		public static void InterruptAllColonistsOnMap(this Map map)
+		public static void InterruptAllColonistsOnMap(this Map map, bool onlyOurJobs = false)
 		{
-			map.mapPawns.FreeColonistsSpawned
-				.DoIf(
-					pawn => pawn.CanParticipateInSacrificationRitual(),
-					pawn => pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true)
-				);
-			;
+			var colonists = map.mapPawns.FreeColonistsSpawned.Where(pawn => pawn.CanParticipateInSacrificationRitual()).ToList();
+			foreach (var pawn in colonists)
+			{
+				var jobDef = pawn.CurJobDef;
+				if (onlyOurJobs == false || jobDef == Defs.SacrificeColonist || jobDef == Defs.GettingSacrificed || jobDef == Defs.WatchSacrification)
+					pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+			}
 		}
 
 		public static bool ReadyForSacrification(this Map map, out SacrificationSpot spot, out Sacrification sacrification)
@@ -202,6 +200,25 @@ namespace Rimionship
 		{
 			PlayCallbacks[soundDef] = new DelayedAction() { action = callback, delay = delay };
 			soundDef.PlayOneShotOnCamera();
+		}
+
+		public static Toil WaitUntil(Func<bool> condition, int minTicks, TargetIndex face = TargetIndex.None)
+		{
+			var deadline = 0;
+			var toil = new Toil
+			{
+				initAction = () => deadline = Find.TickManager.TicksGame + minTicks,
+				defaultCompleteMode = ToilCompleteMode.Never,
+				handlingFacing = true
+			};
+			toil.tickAction = delegate ()
+			{
+				if (Find.TickManager.TicksGame > deadline && condition())
+					toil.actor.jobs.curDriver.ReadyForNextToil();
+				if (face != TargetIndex.None)
+					toil.actor.rotationTracker.FaceTarget(toil.actor.CurJob.GetTarget(face));
+			};
+			return toil;
 		}
 
 		public static bool CanSacrifice(this SacrificationSpot spot, Pawn pawn)

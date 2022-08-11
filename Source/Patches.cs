@@ -432,6 +432,8 @@ namespace Rimionship
 		public static void Postfix(Vector3 clickPos, Pawn pawn, List<FloatMenuOption> opts)
 		{
 			var map = pawn.Map;
+			if (BloodGod.Instance.IsInactive)
+				return;
 			if (map.ReadyForSacrification(out var spot, out var sacrification) == false)
 				return;
 			if (spot.CanSacrifice(pawn) == false)
@@ -495,6 +497,23 @@ namespace Rimionship
 			___pawn.drafter.Drafted = false;
 			__instance.StartJob(job);
 			return false;
+		}
+	}
+	//
+	[HarmonyPatch(typeof(Pawn_JobTracker), nameof(Pawn_JobTracker.StartJob))]
+	class Pawn_JobTracker_StartJob_Patch
+	{
+		public static void Postfix(Pawn ___pawn)
+		{
+			if (___pawn?.MentalStateDef == null || ___pawn.RaceProps.Humanlike == false)
+				return;
+
+			var sacrification = ___pawn.Map.GetComponent<Sacrification>();
+			if (sacrification.IsRunning() == false)
+				return;
+
+			if (___pawn == sacrification.sacrifice || ___pawn == sacrification.sacrificer)
+				sacrification.MarkFailed();
 		}
 	}
 
@@ -600,6 +619,19 @@ namespace Rimionship
 				})
 				.Start();
 			}
+		}
+	}
+
+	// turn sacrification spot on/off to only show it on its own map
+	//
+	[HarmonyPatch(typeof(MapInterface), nameof(MapInterface.MapInterfaceUpdate))]
+	class MapInterface_MapInterfaceUpdate_Patch
+	{
+		public static void Prefix()
+		{
+			var currentMap = Find.CurrentMap;
+			foreach (var map in Current.Game.Maps)
+				SacrificationSpot.ForMap(map)?.SetVisible(map == currentMap);
 		}
 	}
 

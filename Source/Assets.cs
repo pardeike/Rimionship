@@ -10,7 +10,7 @@ namespace Rimionship
 	{
 		static readonly AssetBundle assets = LoadAssetBundle();
 		static readonly GameObject hud = assets.LoadAsset<GameObject>("HUD");
-		public static readonly GameObject sacrificeEffects = assets.LoadAsset<GameObject>("sacrificeEffects");
+		public static readonly GameObject sacrificeEffects = assets.LoadAsset<GameObject>("SacrificeEffects");
 		public static readonly Font menuFontSmall = assets.LoadAsset<Font>("MenuSmall");
 		public static readonly Font menuFontLarge = assets.LoadAsset<Font>("MenuLarge");
 

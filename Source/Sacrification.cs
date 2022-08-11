@@ -32,8 +32,17 @@ namespace Rimionship
 			state = State.Gathering;
 			map.InterruptAllColonistsOnMap();
 		}
-		public void MarkFailed() { state = State.EndFailure; }
-		public void MakeSuccess() { state = State.EndSuccess; }
+		public void MarkFailed()
+		{
+			state = State.EndFailure;
+			map.InterruptAllColonistsOnMap(true);
+		}
+
+		public void MakeSuccess()
+		{
+			state = State.EndSuccess;
+			map.InterruptAllColonistsOnMap(true);
+		}
 
 		public bool IsRunning() => state == State.Gathering || state == State.Executing;
 		public bool IsNotRunning() => IsRunning() == false;

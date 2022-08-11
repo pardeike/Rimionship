@@ -44,11 +44,11 @@ namespace Rimionship
 
 		public override IEnumerable<Toil> MakeNewToils()
 		{
-			JobCondition EndCondition() => Map.GetComponent<Sacrification>().HasEnded() ? JobCondition.Incompletable : JobCondition.Ongoing;
-			this.EndOnDespawnedOrNull(() => EndJobWith(EndCondition()), TargetIndex.A, TargetIndex.B);
-			AddEndCondition(EndCondition);
+			//this.EndOnDespawnedOrNull(() => Map.InterruptAllColonistsOnMap(true), TargetIndex.A, TargetIndex.B);
+			//AddEndCondition(() => Map.GetComponent<Sacrification>().HasEnded() ? JobCondition.Incompletable : JobCondition.Ongoing);
 
-			yield return Toils_Goto.GotoCell(TargetThingA.Position + new IntVec3(1, 0, 0), PathEndMode.OnCell);
+			yield return Toils_Goto.GotoCell(TargetThingB.Position + new IntVec3(1, 0, 0), PathEndMode.OnCell);
+			yield return Tools.WaitUntil(() => TargetThingA.Position == TargetThingB.Position, 0, TargetIndex.A);
 			yield return new Toil
 			{
 				initAction = () => meditationCount = 0,
@@ -65,8 +65,8 @@ namespace Rimionship
 				defaultCompleteMode = ToilCompleteMode.Never,
 				handlingFacing = true
 			};
-			yield return Toils_General.Wait(30);
-			yield return Toils_Goto.Goto(TargetIndex.A, PathEndMode.ClosestTouch);
+			yield return Toils_General.Wait(30, TargetIndex.A);
+			yield return Toils_Goto.GotoCell(TargetThingB.Position + new IntVec3(-1, 0, 0), PathEndMode.OnCell);
 			yield return new Toil
 			{
 				initAction = () => speechCount = 0,
