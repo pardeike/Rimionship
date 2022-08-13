@@ -170,7 +170,7 @@ namespace Rimionship
 			AsyncLogger.Warning($"BLOOD GOD #{punishLevel} phase => {state}");
 		}
 
-		public static Pawn NonMentalColonist(bool withViolence, Pawn exclude = null)
+		public static Pawn NonMentalColonist(bool withViolence, Pawn exclude = null, Map map = null)
 		{
 			static float SkillWeight(SkillRecord skill)
 				=> skill.levelInt * (
@@ -180,6 +180,7 @@ namespace Rimionship
 			var candidates = PawnsFinder
 				.AllMaps_FreeColonistsSpawned
 					.Where(pawn => pawn != exclude
+						&& (map == null || pawn.Map == map)
 						&& pawn.InMentalState == false
 						&& pawn.Downed == false
 						&& pawn.IsPrisoner == false
@@ -216,7 +217,7 @@ namespace Rimionship
 			}
 			if (def == MentalStateDefOf.SocialFighting)
 			{
-				var otherPawn = NonMentalColonist(true, pawn);
+				var otherPawn = NonMentalColonist(true, pawn, pawn.Map);
 				if (otherPawn == null)
 				{
 					AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeMentalBreak no other colonist avail => false");
