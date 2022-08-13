@@ -108,7 +108,7 @@ namespace Rimionship
 	{
 		public static bool Prefix(ref bool __result)
 		{
-			if (Find.TickManager.TicksGame > GenDate.TicksPerHour)
+			if (Find.TickManager.TicksGame < GenDate.TicksPerHour)
 			{
 				__result = false;
 				return false;
