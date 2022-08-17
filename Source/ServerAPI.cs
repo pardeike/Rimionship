@@ -1,11 +1,12 @@
 ﻿using Api;
 using Grpc.Core;
+using RimionshipServer.API;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 
@@ -14,11 +15,10 @@ namespace Rimionship
 	public static class ServerAPI
 	{
 		const int API_VERSION = 1;
-		static readonly bool LOGGING = false;
+		static readonly bool LOGGING = true;
 
 		static readonly CancellationTokenSource source = new();
 		static float _nextStatsUpdate;
-		public static bool modTooOld = false;
 
 		public static bool WaitUntilNextStatSend()
 		{
@@ -28,88 +28,83 @@ namespace Rimionship
 			return result;
 		}
 
+		public static DateTime DefaultDeadline => DateTime.UtcNow.AddMinutes(10);
+		public static DateTime ShortDeadline => DateTime.UtcNow.AddSeconds(4);
+
 		public static void CancelAll()
 		{
 			source.Cancel();
 		}
 
-		static readonly Regex apiTooOldDetails = new(@"Expected API version (\d+) but got (\d+)", RegexOptions.Compiled);
-		public static void WrapCall(Action call)
+		public static async Task SendHello()
 		{
-			if (Communications.Client == null)
-				return;
-			try
-			{
-				call();
-			}
-			catch (RpcException e)
-			{
-				if (e.Status.StatusCode == StatusCode.Aborted)
-				{
-					AsyncLogger.Error($"Aborted gRPC call: {e.Status.Detail}");
-					var match = apiTooOldDetails.Match(e.Status.Detail);
-					if (match.Success)
-					{
-						modTooOld = true;
-						CancelAll();
-						Communications.Stop();
-						return;
-					}
-				}
-
-				if (e.ShouldReport())
-				{
-					PlayState.errorCount++;
-					AsyncLogger.Error($"gRPC error: {e}");
-				}
-			}
-			catch (Exception e)
-			{
-				AsyncLogger.Error($"Exception: {e}");
-			}
-		}
-
-		public static void SendHello(bool openBrowser = false)
-		{
-			WrapCall(() =>
+			await ServerAPITools.WrapCall(async () =>
 			{
 				var id = Tools.UniqueModID;
 				var request = new HelloRequest() { ApiVersion = API_VERSION, Id = id };
 				if (LOGGING)
 					AsyncLogger.Warning($"-> Hello");
-				var response = Communications.Client.Hello(request, null, null, source.Token);
-				PlayState.modRegistered = response.Found;
-				PlayState.AllowedMods = response.GetAllowedMods();
+				var response = await Communications.Client.HelloAsync(request, null, DefaultDeadline, source.Token);
 				if (LOGGING)
-					AsyncLogger.Warning($"reg={PlayState.modRegistered} <- Hello");
+					AsyncLogger.Warning($"exists={response.UserExists} ({response.TwitchName}) <- Hello");
+				PlayState.modRegistered = response.UserExists;
+				PlayState.AllowedMods = response.GetAllowedMods();
 				HUD.Update(response);
-				if (PlayState.modRegistered == false && openBrowser)
+			});
+		}
+
+		public static async Task Login()
+		{
+			await ServerAPITools.WrapCall(async () =>
+			{
+				var loginRequest = new LoginRequest() { Id = Tools.UniqueModID };
+				if (LOGGING)
+					AsyncLogger.Warning($"-> Login");
+				var loginResponse = await Communications.Client.LoginAsync(loginRequest, null, DefaultDeadline, source.Token);
+				var loginToken = loginResponse.LoginToken;
+
+				Application.OpenURL(loginResponse.LoginUrl);
+
+				var timeout = DateTime.Now.AddSeconds(60);
+				while (DateTime.Now < timeout)
 				{
-					var rnd = Tools.GenerateHexString(256);
-					var url = $"https://{Communications.hostName}?rnd={rnd}&id={id}";
-					LongEventHandler.ExecuteWhenFinished(() => Application.OpenURL(url));
+					var linkAccountRequest = new LinkAccountRequest() { Id = Tools.UniqueModID, LoginToken = loginResponse.LoginToken };
+					if (LOGGING)
+						AsyncLogger.Warning($"-> LinkAccount");
+					var linkAccountResponse = await Communications.Client.LinkAccountAsync(linkAccountRequest, null, DefaultDeadline, source.Token);
+					if (LOGGING)
+						AsyncLogger.Warning($"exists={linkAccountResponse.UserExists} ({linkAccountResponse.TwitchName}) <- LinkAccount");
+					if (linkAccountResponse.UserExists)
+					{
+						PlayState.modRegistered = true;
+						var twitchName = linkAccountResponse.TwitchName;
+						AsyncLogger.Warning($"USER = {twitchName}");
+						HUD.SetName(twitchName);
+						break;
+					}
+					await Task.Delay(1000);
 				}
 			});
 		}
 
-		public static void StartConnecting()
+		public static async Task StartConnecting()
 		{
-			new Thread(() =>
+			while (source.IsCancellationRequested == false)
 			{
-				while (source.IsCancellationRequested == false)
-				{
-					SendHello();
-					Thread.Sleep(5000);
-				}
-			})
-			.Start();
+				await SendHello();
+				await Task.Delay(5000);
+			}
 		}
 
-		public static bool StartGame()
+		public static async Task<bool> StartGame()
 		{
 			var id = Tools.UniqueModID;
 			var existingHash = Tools.FileHash(Assets.GameFilePath());
-			var response = Communications.Client.Start(new StartRequest() { Id = Tools.UniqueModID }, null, null, source.Token);
+			if (LOGGING)
+				AsyncLogger.Warning($"-> Start");
+			var response = await Communications.Client.StartAsync(new StartRequest() { Id = Tools.UniqueModID }, null, DefaultDeadline, source.Token);
+			if (LOGGING)
+				AsyncLogger.Warning($"pawns={response.StartingPawnCount} <- Start");
 			PlayState.startingPawnCount = response.StartingPawnCount;
 			ApplySettings(response.Settings);
 
@@ -143,44 +138,40 @@ namespace Rimionship
 			}
 		}
 
-		public static void StartSyncing()
+		public static async Task StartSyncing()
 		{
-			new Thread(() =>
+			var WaitForChange = false;
+			while (source.IsCancellationRequested == false)
 			{
-				var WaitForChange = false;
-				while (source.IsCancellationRequested == false)
+				try
 				{
-					try
-					{
-						var id = Tools.UniqueModID;
-						var request = new SyncRequest() { Id = id, WaitForChange = WaitForChange };
-						WaitForChange = true;
-						if (LOGGING)
-							AsyncLogger.Warning($"-> Sync");
-						var response = Communications.Client.Sync(request, null, null, source.Token);
-						if (LOGGING)
-							AsyncLogger.Warning($"{response.State} <- Sync");
-						HandleSyncResponse(response);
-					}
-					catch (RpcException e)
-					{
-						if (LOGGING)
-							AsyncLogger.Warning($"{e.Status.StatusCode} <- Sync");
-
-						if (e.ShouldReport())
-						{
-							PlayState.errorCount++;
-							AsyncLogger.Error($"gRPC error: {e}");
-						}
-					}
-					catch (Exception e)
-					{
-						AsyncLogger.Error($"Exception: {e}");
-					}
-					Thread.Sleep(1000);
+					var id = Tools.UniqueModID;
+					var request = new SyncRequest() { Id = id, WaitForChange = WaitForChange };
+					WaitForChange = true;
+					if (LOGGING)
+						AsyncLogger.Warning($"-> Sync");
+					var response = await Communications.Client.SyncAsync(request, null, deadline: DefaultDeadline, source.Token);
+					if (LOGGING)
+						AsyncLogger.Warning($"{response.State} <- Sync");
+					HandleSyncResponse(response);
 				}
-			})
-			.Start();
+				catch (RpcException e)
+				{
+					if (LOGGING)
+						AsyncLogger.Warning($"{e.Status.StatusCode} <- Sync");
+
+					if (e.ShouldReport())
+					{
+						PlayState.errorCount++;
+						AsyncLogger.Error($"gRPC error: {e}");
+					}
+				}
+				catch (Exception e)
+				{
+					AsyncLogger.Error($"Exception: {e}");
+				}
+				Thread.Sleep(1000);
+			}
 		}
 
 		public static void HandleSyncResponse(SyncResponse response)
@@ -200,12 +191,12 @@ namespace Rimionship
 			PlayState.tournamentStartMinute = response.State.PlannedStartMinute;
 		}
 
-		static void ApplySettings(Api.Settings settings)
+		static void ApplySettings(RimionshipServer.API.Settings settings)
 		{
 			if (Tools.DevMode)
 				return;
 
-			settings ??= new Api.Settings();
+			settings ??= new RimionshipServer.API.Settings();
 			var traits = settings.Traits;
 			if (traits != null)
 			{
@@ -232,29 +223,29 @@ namespace Rimionship
 			}
 		}
 
-		public static void SendStat(Model_Stat stat)
+		public static async Task SendStat(Model_Stat stat)
 		{
-			WrapCall(() =>
+			await ServerAPITools.WrapCall(async () =>
 			{
 				var request = stat.TransferModel(Tools.UniqueModID);
 				if (LOGGING)
 					AsyncLogger.Warning("-> Stats");
-				var response = Communications.Client.Stats(request, null, null, source.Token);
+				var response = await Communications.Client.StatsAsync(request, null, ShortDeadline, source.Token);
 				if (LOGGING)
 					AsyncLogger.Warning($"{response.Interval} <- Stats");
 				PlayState.currentStatsSendingInterval = response.Interval;
 			});
 		}
 
-		public static void SendFutureEvents(IEnumerable<FutureEvent> events)
+		public static async Task SendFutureEvents(IEnumerable<FutureEvent> events)
 		{
-			WrapCall(() =>
+			await ServerAPITools.WrapCall(async () =>
 			{
 				var request = new FutureEventsRequest() { Id = Tools.UniqueModID };
 				request.AddEvents(events);
 				if (LOGGING)
 					AsyncLogger.Warning("-> FutureEvents");
-				_ = Communications.Client.FutureEvents(request, null, null, source.Token);
+				_ = await Communications.Client.FutureEventsAsync(request, null, ShortDeadline, source.Token);
 				if (LOGGING)
 					AsyncLogger.Warning("<- FutureEvents");
 			});

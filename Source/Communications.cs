@@ -1,12 +1,30 @@
-﻿using Api;
-using Grpc.Core;
+﻿using Grpc.Core;
+using System;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using static RimionshipServer.API.API;
 
 namespace Rimionship
 {
 	public class Communications
 	{
-		public static readonly string hostName = "mod.rimionship.com";
+		public static string EndpointUri
+		{
+			get
+			{
+				var prefix = "-rimionship-host=";
+				var endpoint = Environment.GetCommandLineArgs().FirstOrDefault(f => f.StartsWith(prefix));
+				if (!string.IsNullOrEmpty(endpoint))
+					return endpoint.Substring(prefix.Length);
+
+				endpoint = Environment.GetEnvironmentVariable("RIMIONSHIP-ENDPOINT");
+				if (!string.IsNullOrEmpty(endpoint))
+					return endpoint;
+
+				return "mod-test.rimionship.com";
+			}
+		}
 
 		static object _channel;
 		static Channel Channel
@@ -16,19 +34,19 @@ namespace Rimionship
 		}
 
 		static object _client;
-		public static API.APIClient Client
+		public static APIClient Client
 		{
-			get => (API.APIClient)_client;
+			get => (APIClient)_client;
 			set => _client = value;
 		}
 
 		public static void Start(string rootDir)
 		{
 			var caRoots = File.ReadAllText(Path.Combine(rootDir, "Resources", "ca.pem"));
-			Channel = new Channel($"{hostName}:443", new SslCredentials(caRoots));
-			Client = new API.APIClient(Channel);
-			ServerAPI.StartConnecting();
-			ServerAPI.StartSyncing();
+			Channel = new Channel(EndpointUri, new SslCredentials(caRoots));
+			Client = new APIClient(Channel);
+			_ = Task.Run(ServerAPI.StartConnecting);
+			_ = Task.Run(ServerAPI.StartSyncing);
 		}
 
 		public static void Stop()

@@ -1,4 +1,5 @@
-﻿using RimWorld.Planet;
+﻿using RimionshipServer.API;
+using RimWorld.Planet;
 using System;
 using System.Collections;
 using System.Linq;
@@ -424,8 +425,7 @@ namespace Rimionship
 				yield return UpdateTemperature();
 				yield return UpdateStoryWatcherInfos();
 
-				ServerAPI.SendStat(stat);
-				yield return null;
+				yield return ServerAPI.SendStat(stat).ToWaitUntil();
 
 				while (ServerAPI.WaitUntilNextStatSend())
 					yield return null;
@@ -434,7 +434,7 @@ namespace Rimionship
 				if (incidents.Any())
 				{
 					var events = incidents
-						.Select(q => new Api.FutureEvent()
+						.Select(q => new FutureEvent()
 						{
 							Ticks = q.fireTick - Find.TickManager.TicksGame,
 							Name = q.firingInc.def.defName,
@@ -444,8 +444,7 @@ namespace Rimionship
 							Strategy = q.firingInc.parms.raidStrategy?.defName ?? "",
 							ArrivalMode = q.firingInc.parms.raidArrivalMode?.defName ?? ""
 						});
-					ServerAPI.SendFutureEvents(events);
-					yield return null;
+					yield return ServerAPI.SendFutureEvents(events).ToWaitUntil();
 				}
 			}
 		}

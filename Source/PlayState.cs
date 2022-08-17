@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Verse;
 
 namespace Rimionship
@@ -80,23 +81,15 @@ namespace Rimionship
 			return "InvalidModsTooltip".Translate(new NamedArgument(invalid, "list"));
 		}
 
-		public static void LoadGame()
+		public static async Task LoadGame()
 		{
+			if (await ServerAPI.StartGame() == false)
+				return;
+
+			var gameToLoad = Assets.GameFilePath().Replace(".rws", "");
+
 			LongEventHandler.QueueLongEvent(
-				() =>
-				{
-					if (ServerAPI.StartGame())
-					{
-						// MemoryUtility.ClearAllMapsAndWorld();
-						Current.Game = new Game
-						{
-							InitData = new GameInitData
-							{
-								gameToLoad = Assets.GameFilePath().Replace(".rws", "")
-							}
-						};
-					}
-				},
+				() => Current.Game = new Game { InitData = new GameInitData { gameToLoad = gameToLoad } },
 				"Play",
 				"LoadingLongEvent",
 				true,

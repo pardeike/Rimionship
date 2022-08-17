@@ -1,9 +1,13 @@
 ﻿syntax = "proto3";
 
+option csharp_namespace = "RimionshipServer.API";
+
 package api;
 
 service API {
 	rpc Hello (HelloRequest) returns (HelloResponse) {}
+	rpc Login (LoginRequest) returns (LoginResponse) {}
+	rpc LinkAccount (LinkAccountRequest) returns (LinkAccountResponse) {}
 	rpc Sync (SyncRequest) returns (SyncResponse) {}
 	rpc Start (StartRequest) returns (StartResponse) {}
 	rpc Stats (StatsRequest) returns (StatsResponse) {}
@@ -16,7 +20,7 @@ message HelloRequest {
 }
 
 message HelloResponse {
-	bool found = 1;
+	bool userExists = 1;
 	repeated Mod allowedMods = 2;
 	string twitchName = 3;
 	int32 position = 4;
@@ -32,6 +36,25 @@ message Score {
 	int32 position = 1;
 	string twitchName = 2;
 	int32 latestScore = 3;
+}
+
+message LoginRequest {
+	string id = 1;
+}
+
+message LoginResponse {
+	string loginUrl = 1;
+	string loginToken = 2;
+}
+
+message LinkAccountRequest {
+	string id = 1;
+	string loginToken = 2;
+}
+
+message LinkAccountResponse {
+	bool userExists = 1;
+	string twitchName = 2;
 }
 
 message SyncRequest {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 
@@ -16,7 +17,7 @@ namespace Rimionship
 				return
 				(
 					state,
-					Communications.State == CommState.Ready ? Assets.StateOK : (ServerAPI.modTooOld ? Assets.StateAction: Assets.StateError),
+					Communications.State == CommState.Ready ? Assets.StateOK : (ServerAPITools.modTooOld ? Assets.StateAction: Assets.StateError),
 					null,
 					() => "ModTooOld".Translate()
 				);
@@ -38,7 +39,7 @@ namespace Rimionship
 					PlayState.modRegistered
 						? null
 						: Communications.State == CommState.Ready
-							? (() => ServerAPI.SendHello(true))
+							? (() => Task.Run(ServerAPI.Login))
 							: null,
 					null
 				);

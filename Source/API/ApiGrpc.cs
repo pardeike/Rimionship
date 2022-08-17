@@ -7,51 +7,69 @@
 
 using grpc = global::Grpc.Core;
 
-namespace Api {
+namespace RimionshipServer.API {
   public static partial class API
   {
     static readonly string __ServiceName = "api.API";
 
-    static readonly grpc::Marshaller<global::Api.HelloRequest> __Marshaller_api_HelloRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.HelloRequest.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::Api.HelloResponse> __Marshaller_api_HelloResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.HelloResponse.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::Api.SyncRequest> __Marshaller_api_SyncRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.SyncRequest.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::Api.SyncResponse> __Marshaller_api_SyncResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.SyncResponse.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::Api.StartRequest> __Marshaller_api_StartRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.StartRequest.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::Api.StartResponse> __Marshaller_api_StartResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.StartResponse.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::Api.StatsRequest> __Marshaller_api_StatsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.StatsRequest.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::Api.StatsResponse> __Marshaller_api_StatsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.StatsResponse.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::Api.FutureEventsRequest> __Marshaller_api_FutureEventsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.FutureEventsRequest.Parser.ParseFrom);
-    static readonly grpc::Marshaller<global::Api.FutureEventsResponse> __Marshaller_api_FutureEventsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::Api.FutureEventsResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::RimionshipServer.API.HelloRequest> __Marshaller_api_HelloRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.HelloRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::RimionshipServer.API.HelloResponse> __Marshaller_api_HelloResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.HelloResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::RimionshipServer.API.LoginRequest> __Marshaller_api_LoginRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.LoginRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::RimionshipServer.API.LoginResponse> __Marshaller_api_LoginResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.LoginResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::RimionshipServer.API.LinkAccountRequest> __Marshaller_api_LinkAccountRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.LinkAccountRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::RimionshipServer.API.LinkAccountResponse> __Marshaller_api_LinkAccountResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.LinkAccountResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::RimionshipServer.API.SyncRequest> __Marshaller_api_SyncRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.SyncRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::RimionshipServer.API.SyncResponse> __Marshaller_api_SyncResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.SyncResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::RimionshipServer.API.StartRequest> __Marshaller_api_StartRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.StartRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::RimionshipServer.API.StartResponse> __Marshaller_api_StartResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.StartResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::RimionshipServer.API.StatsRequest> __Marshaller_api_StatsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.StatsRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::RimionshipServer.API.StatsResponse> __Marshaller_api_StatsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.StatsResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::RimionshipServer.API.FutureEventsRequest> __Marshaller_api_FutureEventsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.FutureEventsRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::RimionshipServer.API.FutureEventsResponse> __Marshaller_api_FutureEventsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.FutureEventsResponse.Parser.ParseFrom);
 
-    static readonly grpc::Method<global::Api.HelloRequest, global::Api.HelloResponse> __Method_Hello = new grpc::Method<global::Api.HelloRequest, global::Api.HelloResponse>(
+    static readonly grpc::Method<global::RimionshipServer.API.HelloRequest, global::RimionshipServer.API.HelloResponse> __Method_Hello = new grpc::Method<global::RimionshipServer.API.HelloRequest, global::RimionshipServer.API.HelloResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "Hello",
         __Marshaller_api_HelloRequest,
         __Marshaller_api_HelloResponse);
 
-    static readonly grpc::Method<global::Api.SyncRequest, global::Api.SyncResponse> __Method_Sync = new grpc::Method<global::Api.SyncRequest, global::Api.SyncResponse>(
+    static readonly grpc::Method<global::RimionshipServer.API.LoginRequest, global::RimionshipServer.API.LoginResponse> __Method_Login = new grpc::Method<global::RimionshipServer.API.LoginRequest, global::RimionshipServer.API.LoginResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "Login",
+        __Marshaller_api_LoginRequest,
+        __Marshaller_api_LoginResponse);
+
+    static readonly grpc::Method<global::RimionshipServer.API.LinkAccountRequest, global::RimionshipServer.API.LinkAccountResponse> __Method_LinkAccount = new grpc::Method<global::RimionshipServer.API.LinkAccountRequest, global::RimionshipServer.API.LinkAccountResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "LinkAccount",
+        __Marshaller_api_LinkAccountRequest,
+        __Marshaller_api_LinkAccountResponse);
+
+    static readonly grpc::Method<global::RimionshipServer.API.SyncRequest, global::RimionshipServer.API.SyncResponse> __Method_Sync = new grpc::Method<global::RimionshipServer.API.SyncRequest, global::RimionshipServer.API.SyncResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "Sync",
         __Marshaller_api_SyncRequest,
         __Marshaller_api_SyncResponse);
 
-    static readonly grpc::Method<global::Api.StartRequest, global::Api.StartResponse> __Method_Start = new grpc::Method<global::Api.StartRequest, global::Api.StartResponse>(
+    static readonly grpc::Method<global::RimionshipServer.API.StartRequest, global::RimionshipServer.API.StartResponse> __Method_Start = new grpc::Method<global::RimionshipServer.API.StartRequest, global::RimionshipServer.API.StartResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "Start",
         __Marshaller_api_StartRequest,
         __Marshaller_api_StartResponse);
 
-    static readonly grpc::Method<global::Api.StatsRequest, global::Api.StatsResponse> __Method_Stats = new grpc::Method<global::Api.StatsRequest, global::Api.StatsResponse>(
+    static readonly grpc::Method<global::RimionshipServer.API.StatsRequest, global::RimionshipServer.API.StatsResponse> __Method_Stats = new grpc::Method<global::RimionshipServer.API.StatsRequest, global::RimionshipServer.API.StatsResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "Stats",
         __Marshaller_api_StatsRequest,
         __Marshaller_api_StatsResponse);
 
-    static readonly grpc::Method<global::Api.FutureEventsRequest, global::Api.FutureEventsResponse> __Method_FutureEvents = new grpc::Method<global::Api.FutureEventsRequest, global::Api.FutureEventsResponse>(
+    static readonly grpc::Method<global::RimionshipServer.API.FutureEventsRequest, global::RimionshipServer.API.FutureEventsResponse> __Method_FutureEvents = new grpc::Method<global::RimionshipServer.API.FutureEventsRequest, global::RimionshipServer.API.FutureEventsResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "FutureEvents",
@@ -61,33 +79,43 @@ namespace Api {
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
     {
-      get { return global::Api.ApiReflection.Descriptor.Services[0]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.Services[0]; }
     }
 
     /// <summary>Base class for server-side implementations of API</summary>
     public abstract partial class APIBase
     {
-      public virtual global::System.Threading.Tasks.Task<global::Api.HelloResponse> Hello(global::Api.HelloRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::RimionshipServer.API.HelloResponse> Hello(global::RimionshipServer.API.HelloRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
-      public virtual global::System.Threading.Tasks.Task<global::Api.SyncResponse> Sync(global::Api.SyncRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::RimionshipServer.API.LoginResponse> Login(global::RimionshipServer.API.LoginRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
-      public virtual global::System.Threading.Tasks.Task<global::Api.StartResponse> Start(global::Api.StartRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::RimionshipServer.API.LinkAccountResponse> LinkAccount(global::RimionshipServer.API.LinkAccountRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
-      public virtual global::System.Threading.Tasks.Task<global::Api.StatsResponse> Stats(global::Api.StatsRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::RimionshipServer.API.SyncResponse> Sync(global::RimionshipServer.API.SyncRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
-      public virtual global::System.Threading.Tasks.Task<global::Api.FutureEventsResponse> FutureEvents(global::Api.FutureEventsRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::RimionshipServer.API.StartResponse> Start(global::RimionshipServer.API.StartRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::RimionshipServer.API.StatsResponse> Stats(global::RimionshipServer.API.StatsRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::RimionshipServer.API.FutureEventsResponse> FutureEvents(global::RimionshipServer.API.FutureEventsRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -117,83 +145,115 @@ namespace Api {
       {
       }
 
-      public virtual global::Api.HelloResponse Hello(global::Api.HelloRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::RimionshipServer.API.HelloResponse Hello(global::RimionshipServer.API.HelloRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return Hello(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual global::Api.HelloResponse Hello(global::Api.HelloRequest request, grpc::CallOptions options)
+      public virtual global::RimionshipServer.API.HelloResponse Hello(global::RimionshipServer.API.HelloRequest request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_Hello, null, options, request);
       }
-      public virtual grpc::AsyncUnaryCall<global::Api.HelloResponse> HelloAsync(global::Api.HelloRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::RimionshipServer.API.HelloResponse> HelloAsync(global::RimionshipServer.API.HelloRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return HelloAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual grpc::AsyncUnaryCall<global::Api.HelloResponse> HelloAsync(global::Api.HelloRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::RimionshipServer.API.HelloResponse> HelloAsync(global::RimionshipServer.API.HelloRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_Hello, null, options, request);
       }
-      public virtual global::Api.SyncResponse Sync(global::Api.SyncRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::RimionshipServer.API.LoginResponse Login(global::RimionshipServer.API.LoginRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return Login(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::RimionshipServer.API.LoginResponse Login(global::RimionshipServer.API.LoginRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_Login, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::RimionshipServer.API.LoginResponse> LoginAsync(global::RimionshipServer.API.LoginRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return LoginAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::RimionshipServer.API.LoginResponse> LoginAsync(global::RimionshipServer.API.LoginRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_Login, null, options, request);
+      }
+      public virtual global::RimionshipServer.API.LinkAccountResponse LinkAccount(global::RimionshipServer.API.LinkAccountRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return LinkAccount(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::RimionshipServer.API.LinkAccountResponse LinkAccount(global::RimionshipServer.API.LinkAccountRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_LinkAccount, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::RimionshipServer.API.LinkAccountResponse> LinkAccountAsync(global::RimionshipServer.API.LinkAccountRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return LinkAccountAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::RimionshipServer.API.LinkAccountResponse> LinkAccountAsync(global::RimionshipServer.API.LinkAccountRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_LinkAccount, null, options, request);
+      }
+      public virtual global::RimionshipServer.API.SyncResponse Sync(global::RimionshipServer.API.SyncRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return Sync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual global::Api.SyncResponse Sync(global::Api.SyncRequest request, grpc::CallOptions options)
+      public virtual global::RimionshipServer.API.SyncResponse Sync(global::RimionshipServer.API.SyncRequest request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_Sync, null, options, request);
       }
-      public virtual grpc::AsyncUnaryCall<global::Api.SyncResponse> SyncAsync(global::Api.SyncRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::RimionshipServer.API.SyncResponse> SyncAsync(global::RimionshipServer.API.SyncRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return SyncAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual grpc::AsyncUnaryCall<global::Api.SyncResponse> SyncAsync(global::Api.SyncRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::RimionshipServer.API.SyncResponse> SyncAsync(global::RimionshipServer.API.SyncRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_Sync, null, options, request);
       }
-      public virtual global::Api.StartResponse Start(global::Api.StartRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::RimionshipServer.API.StartResponse Start(global::RimionshipServer.API.StartRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return Start(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual global::Api.StartResponse Start(global::Api.StartRequest request, grpc::CallOptions options)
+      public virtual global::RimionshipServer.API.StartResponse Start(global::RimionshipServer.API.StartRequest request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_Start, null, options, request);
       }
-      public virtual grpc::AsyncUnaryCall<global::Api.StartResponse> StartAsync(global::Api.StartRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::RimionshipServer.API.StartResponse> StartAsync(global::RimionshipServer.API.StartRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return StartAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual grpc::AsyncUnaryCall<global::Api.StartResponse> StartAsync(global::Api.StartRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::RimionshipServer.API.StartResponse> StartAsync(global::RimionshipServer.API.StartRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_Start, null, options, request);
       }
-      public virtual global::Api.StatsResponse Stats(global::Api.StatsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::RimionshipServer.API.StatsResponse Stats(global::RimionshipServer.API.StatsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return Stats(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual global::Api.StatsResponse Stats(global::Api.StatsRequest request, grpc::CallOptions options)
+      public virtual global::RimionshipServer.API.StatsResponse Stats(global::RimionshipServer.API.StatsRequest request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_Stats, null, options, request);
       }
-      public virtual grpc::AsyncUnaryCall<global::Api.StatsResponse> StatsAsync(global::Api.StatsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::RimionshipServer.API.StatsResponse> StatsAsync(global::RimionshipServer.API.StatsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return StatsAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual grpc::AsyncUnaryCall<global::Api.StatsResponse> StatsAsync(global::Api.StatsRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::RimionshipServer.API.StatsResponse> StatsAsync(global::RimionshipServer.API.StatsRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_Stats, null, options, request);
       }
-      public virtual global::Api.FutureEventsResponse FutureEvents(global::Api.FutureEventsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::RimionshipServer.API.FutureEventsResponse FutureEvents(global::RimionshipServer.API.FutureEventsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return FutureEvents(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual global::Api.FutureEventsResponse FutureEvents(global::Api.FutureEventsRequest request, grpc::CallOptions options)
+      public virtual global::RimionshipServer.API.FutureEventsResponse FutureEvents(global::RimionshipServer.API.FutureEventsRequest request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_FutureEvents, null, options, request);
       }
-      public virtual grpc::AsyncUnaryCall<global::Api.FutureEventsResponse> FutureEventsAsync(global::Api.FutureEventsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::RimionshipServer.API.FutureEventsResponse> FutureEventsAsync(global::RimionshipServer.API.FutureEventsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return FutureEventsAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
-      public virtual grpc::AsyncUnaryCall<global::Api.FutureEventsResponse> FutureEventsAsync(global::Api.FutureEventsRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::RimionshipServer.API.FutureEventsResponse> FutureEventsAsync(global::RimionshipServer.API.FutureEventsRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_FutureEvents, null, options, request);
       }
@@ -210,6 +270,8 @@ namespace Api {
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
           .AddMethod(__Method_Hello, serviceImpl.Hello)
+          .AddMethod(__Method_Login, serviceImpl.Login)
+          .AddMethod(__Method_LinkAccount, serviceImpl.LinkAccount)
           .AddMethod(__Method_Sync, serviceImpl.Sync)
           .AddMethod(__Method_Start, serviceImpl.Start)
           .AddMethod(__Method_Stats, serviceImpl.Stats)
@@ -223,6 +285,8 @@ namespace Api {
     public static void BindService(grpc::ServiceBinderBase serviceBinder, APIBase serviceImpl)
     {
       serviceBinder.AddMethod(__Method_Hello, serviceImpl.Hello);
+      serviceBinder.AddMethod(__Method_Login, serviceImpl.Login);
+      serviceBinder.AddMethod(__Method_LinkAccount, serviceImpl.LinkAccount);
       serviceBinder.AddMethod(__Method_Sync, serviceImpl.Sync);
       serviceBinder.AddMethod(__Method_Start, serviceImpl.Start);
       serviceBinder.AddMethod(__Method_Stats, serviceImpl.Stats);

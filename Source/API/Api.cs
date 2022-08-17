@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Api {
+namespace RimionshipServer.API {
 
   /// <summary>Holder for reflection information generated from Protos/api.proto</summary>
   public static partial class ApiReflection {
@@ -25,81 +25,92 @@ namespace Api {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChBQcm90b3MvYXBpLnByb3RvEgNhcGkiLgoMSGVsbG9SZXF1ZXN0EhIKCmFw",
-            "aVZlcnNpb24YASABKAUSCgoCaWQYAiABKAkifgoNSGVsbG9SZXNwb25zZRIN",
-            "CgVmb3VuZBgBIAEoCBIdCgthbGxvd2VkTW9kcxgCIAMoCzIILmFwaS5Nb2QS",
-            "EgoKdHdpdGNoTmFtZRgDIAEoCRIQCghwb3NpdGlvbhgEIAEoBRIZCgVzY29y",
-            "ZRgFIAMoCzIKLmFwaS5TY29yZSIpCgNNb2QSDwoHc3RlYW1JZBgBIAEoBBIR",
-            "CglwYWNrYWdlSWQYAiABKAkiQgoFU2NvcmUSEAoIcG9zaXRpb24YASABKAUS",
-            "EgoKdHdpdGNoTmFtZRgCIAEoCRITCgtsYXRlc3RTY29yZRgDIAEoBSIwCgtT",
-            "eW5jUmVxdWVzdBIKCgJpZBgBIAEoCRIVCg13YWl0Rm9yQ2hhbmdlGAIgASgI",
-            "IlsKDFN5bmNSZXNwb25zZRIZCgVzdGF0ZRgBIAEoCzIKLmFwaS5TdGF0ZRIf",
-            "CghzZXR0aW5ncxgCIAEoCzINLmFwaS5TZXR0aW5ncxIPCgdtZXNzYWdlGAMg",
-            "ASgJIqgBCgVTdGF0ZRIdCgRnYW1lGAEgASgOMg8uYXBpLlN0YXRlLkdhbWUS",
-            "GAoQcGxhbm5lZFN0YXJ0SG91chgCIAEoBRIaChJwbGFubmVkU3RhcnRNaW51",
-            "dGUYAyABKAUiSgoER2FtZRILCgdTVE9QUEVEEAASDAoIVFJBSU5JTkcQARIL",
-            "CgdQUkVQQVJFEAISCwoHU1RBUlRFRBADEg0KCUNPTVBMRVRFRBAEImkKCFNl",
-            "dHRpbmdzEhsKBnRyYWl0cxgBIAEoCzILLmFwaS5UcmFpdHMSGwoGcmlzaW5n",
-            "GAIgASgLMgsuYXBpLlJpc2luZxIjCgpwdW5pc2htZW50GAMgASgLMg8uYXBp",
-            "LlB1bmlzaG1lbnQiWAoGVHJhaXRzEhMKC3NjYWxlRmFjdG9yGAEgASgCEhwK",
-            "FGdvb2RUcmFpdFN1cHByZXNzaW9uGAIgASgCEhsKE2JhZFRyYWl0U3VwcHJl",
-            "c3Npb24YAyABKAIimQEKBlJpc2luZxIcChRtYXhGcmVlQ29sb25pc3RDb3Vu",
-            "dBgBIAEoBRIWCg5yaXNpbmdJbnRlcnZhbBgCIAEoBRIiChpyaXNpbmdSZWR1",
-            "Y3Rpb25QZXJDb2xvbmlzdBgDIAEoBRIdChVyaXNpbmdJbnRlcnZhbE1pbmlt",
-            "dW0YBCABKAUSFgoOcmlzaW5nQ29vbGRvd24YBSABKAUieAoKUHVuaXNobWVu",
-            "dBIaChJzdGFydFBhdXNlSW50ZXJ2YWwYASABKAUSGgoSZmluYWxQYXVzZUlu",
-            "dGVydmFsGAIgASgFEhgKEG1pblRob3VnaHRGYWN0b3IYAyABKAISGAoQbWF4",
-            "VGhvdWdodEZhY3RvchgEIAEoAiIaCgxTdGFydFJlcXVlc3QSCgoCaWQYASAB",
-            "KAkidgoNU3RhcnRSZXNwb25zZRIUCgxnYW1lRmlsZUhhc2gYASABKAkSEwoL",
-            "Z2FtZUZpbGVVcmwYAiABKAkSGQoRc3RhcnRpbmdQYXduQ291bnQYAyABKAUS",
-            "HwoIc2V0dGluZ3MYBCABKAsyDS5hcGkuU2V0dGluZ3Mi/QQKDFN0YXRzUmVx",
-            "dWVzdBIKCgJpZBgBIAEoCRIOCgZ3ZWFsdGgYAiABKAUSEAoIbWFwQ291bnQY",
-            "AyABKAUSEQoJY29sb25pc3RzGAQgASgFEhwKFGNvbG9uaXN0c05lZWRUZW5k",
-            "aW5nGAUgASgFEhkKEW1lZGljYWxDb25kaXRpb25zGAYgASgFEg8KB2VuZW1p",
-            "ZXMYByABKAUSEwoLd2lsZEFuaW1hbHMYCCABKAUSFAoMdGFtZWRBbmltYWxz",
-            "GAkgASgFEhAKCHZpc2l0b3JzGAogASgFEhEKCXByaXNvbmVycxgLIAEoBRIX",
-            "Cg9kb3duZWRDb2xvbmlzdHMYDCABKAUSFwoPbWVudGFsQ29sb25pc3RzGA0g",
-            "ASgFEg0KBXJvb21zGA4gASgFEhAKCGNhcmF2YW5zGA8gASgFEhEKCXdlYXBv",
-            "bkRwcxgQIAEoBRITCgtlbGVjdHJpY2l0eRgRIAEoBRIQCghtZWRpY2luZRgS",
-            "IAEoBRIMCgRmb29kGBMgASgFEgwKBGZpcmUYFCABKAUSEgoKY29uZGl0aW9u",
-            "cxgVIAEoBRITCgt0ZW1wZXJhdHVyZRgWIAEoBRIVCg1udW1SYWlkc0VuZW15",
-            "GBcgASgFEhUKDW51bVRocmVhdEJpZ3MYGCABKAUSFwoPY29sb25pc3RzS2ls",
-            "bGVkGBkgASgFEhoKEmdyZWF0ZXN0UG9wdWxhdGlvbhgaIAEoBRITCgtpbkdh",
-            "bWVIb3VycxgbIAEoBRIYChBkYW1hZ2VUYWtlblBhd25zGBwgASgCEhkKEWRh",
-            "bWFnZVRha2VuVGhpbmdzGB0gASgCEhMKC2RhbWFnZURlYWx0GB4gASgCIiEK",
-            "DVN0YXRzUmVzcG9uc2USEAoIaW50ZXJ2YWwYASABKAUiggEKC0Z1dHVyZUV2",
-            "ZW50Eg0KBXRpY2tzGAEgASgFEgwKBG5hbWUYAiABKAkSDQoFcXVlc3QYAyAB",
-            "KAkSDwoHZmFjdGlvbhgEIAEoCRIOCgZwb2ludHMYBSABKAISEAoIc3RyYXRl",
-            "Z3kYBiABKAkSFAoMYXJyaXZhbF9tb2RlGAcgASgJIkIKE0Z1dHVyZUV2ZW50",
-            "c1JlcXVlc3QSCgoCaWQYASABKAkSHwoFZXZlbnQYAiADKAsyEC5hcGkuRnV0",
-            "dXJlRXZlbnQiFgoURnV0dXJlRXZlbnRzUmVzcG9uc2UykQIKA0FQSRIwCgVI",
-            "ZWxsbxIRLmFwaS5IZWxsb1JlcXVlc3QaEi5hcGkuSGVsbG9SZXNwb25zZSIA",
-            "Ei0KBFN5bmMSEC5hcGkuU3luY1JlcXVlc3QaES5hcGkuU3luY1Jlc3BvbnNl",
-            "IgASMAoFU3RhcnQSES5hcGkuU3RhcnRSZXF1ZXN0GhIuYXBpLlN0YXJ0UmVz",
-            "cG9uc2UiABIwCgVTdGF0cxIRLmFwaS5TdGF0c1JlcXVlc3QaEi5hcGkuU3Rh",
-            "dHNSZXNwb25zZSIAEkUKDEZ1dHVyZUV2ZW50cxIYLmFwaS5GdXR1cmVFdmVu",
-            "dHNSZXF1ZXN0GhkuYXBpLkZ1dHVyZUV2ZW50c1Jlc3BvbnNlIgBiBnByb3Rv",
-            "Mw=="));
+            "aVZlcnNpb24YASABKAUSCgoCaWQYAiABKAkigwEKDUhlbGxvUmVzcG9uc2US",
+            "EgoKdXNlckV4aXN0cxgBIAEoCBIdCgthbGxvd2VkTW9kcxgCIAMoCzIILmFw",
+            "aS5Nb2QSEgoKdHdpdGNoTmFtZRgDIAEoCRIQCghwb3NpdGlvbhgEIAEoBRIZ",
+            "CgVzY29yZRgFIAMoCzIKLmFwaS5TY29yZSIpCgNNb2QSDwoHc3RlYW1JZBgB",
+            "IAEoBBIRCglwYWNrYWdlSWQYAiABKAkiQgoFU2NvcmUSEAoIcG9zaXRpb24Y",
+            "ASABKAUSEgoKdHdpdGNoTmFtZRgCIAEoCRITCgtsYXRlc3RTY29yZRgDIAEo",
+            "BSIaCgxMb2dpblJlcXVlc3QSCgoCaWQYASABKAkiNQoNTG9naW5SZXNwb25z",
+            "ZRIQCghsb2dpblVybBgBIAEoCRISCgpsb2dpblRva2VuGAIgASgJIjQKEkxp",
+            "bmtBY2NvdW50UmVxdWVzdBIKCgJpZBgBIAEoCRISCgpsb2dpblRva2VuGAIg",
+            "ASgJIj0KE0xpbmtBY2NvdW50UmVzcG9uc2USEgoKdXNlckV4aXN0cxgBIAEo",
+            "CBISCgp0d2l0Y2hOYW1lGAIgASgJIjAKC1N5bmNSZXF1ZXN0EgoKAmlkGAEg",
+            "ASgJEhUKDXdhaXRGb3JDaGFuZ2UYAiABKAgiWwoMU3luY1Jlc3BvbnNlEhkK",
+            "BXN0YXRlGAEgASgLMgouYXBpLlN0YXRlEh8KCHNldHRpbmdzGAIgASgLMg0u",
+            "YXBpLlNldHRpbmdzEg8KB21lc3NhZ2UYAyABKAkiqAEKBVN0YXRlEh0KBGdh",
+            "bWUYASABKA4yDy5hcGkuU3RhdGUuR2FtZRIYChBwbGFubmVkU3RhcnRIb3Vy",
+            "GAIgASgFEhoKEnBsYW5uZWRTdGFydE1pbnV0ZRgDIAEoBSJKCgRHYW1lEgsK",
+            "B1NUT1BQRUQQABIMCghUUkFJTklORxABEgsKB1BSRVBBUkUQAhILCgdTVEFS",
+            "VEVEEAMSDQoJQ09NUExFVEVEEAQiaQoIU2V0dGluZ3MSGwoGdHJhaXRzGAEg",
+            "ASgLMgsuYXBpLlRyYWl0cxIbCgZyaXNpbmcYAiABKAsyCy5hcGkuUmlzaW5n",
+            "EiMKCnB1bmlzaG1lbnQYAyABKAsyDy5hcGkuUHVuaXNobWVudCJYCgZUcmFp",
+            "dHMSEwoLc2NhbGVGYWN0b3IYASABKAISHAoUZ29vZFRyYWl0U3VwcHJlc3Np",
+            "b24YAiABKAISGwoTYmFkVHJhaXRTdXBwcmVzc2lvbhgDIAEoAiKZAQoGUmlz",
+            "aW5nEhwKFG1heEZyZWVDb2xvbmlzdENvdW50GAEgASgFEhYKDnJpc2luZ0lu",
+            "dGVydmFsGAIgASgFEiIKGnJpc2luZ1JlZHVjdGlvblBlckNvbG9uaXN0GAMg",
+            "ASgFEh0KFXJpc2luZ0ludGVydmFsTWluaW11bRgEIAEoBRIWCg5yaXNpbmdD",
+            "b29sZG93bhgFIAEoBSJ4CgpQdW5pc2htZW50EhoKEnN0YXJ0UGF1c2VJbnRl",
+            "cnZhbBgBIAEoBRIaChJmaW5hbFBhdXNlSW50ZXJ2YWwYAiABKAUSGAoQbWlu",
+            "VGhvdWdodEZhY3RvchgDIAEoAhIYChBtYXhUaG91Z2h0RmFjdG9yGAQgASgC",
+            "IhoKDFN0YXJ0UmVxdWVzdBIKCgJpZBgBIAEoCSJ2Cg1TdGFydFJlc3BvbnNl",
+            "EhQKDGdhbWVGaWxlSGFzaBgBIAEoCRITCgtnYW1lRmlsZVVybBgCIAEoCRIZ",
+            "ChFzdGFydGluZ1Bhd25Db3VudBgDIAEoBRIfCghzZXR0aW5ncxgEIAEoCzIN",
+            "LmFwaS5TZXR0aW5ncyL9BAoMU3RhdHNSZXF1ZXN0EgoKAmlkGAEgASgJEg4K",
+            "BndlYWx0aBgCIAEoBRIQCghtYXBDb3VudBgDIAEoBRIRCgljb2xvbmlzdHMY",
+            "BCABKAUSHAoUY29sb25pc3RzTmVlZFRlbmRpbmcYBSABKAUSGQoRbWVkaWNh",
+            "bENvbmRpdGlvbnMYBiABKAUSDwoHZW5lbWllcxgHIAEoBRITCgt3aWxkQW5p",
+            "bWFscxgIIAEoBRIUCgx0YW1lZEFuaW1hbHMYCSABKAUSEAoIdmlzaXRvcnMY",
+            "CiABKAUSEQoJcHJpc29uZXJzGAsgASgFEhcKD2Rvd25lZENvbG9uaXN0cxgM",
+            "IAEoBRIXCg9tZW50YWxDb2xvbmlzdHMYDSABKAUSDQoFcm9vbXMYDiABKAUS",
+            "EAoIY2FyYXZhbnMYDyABKAUSEQoJd2VhcG9uRHBzGBAgASgFEhMKC2VsZWN0",
+            "cmljaXR5GBEgASgFEhAKCG1lZGljaW5lGBIgASgFEgwKBGZvb2QYEyABKAUS",
+            "DAoEZmlyZRgUIAEoBRISCgpjb25kaXRpb25zGBUgASgFEhMKC3RlbXBlcmF0",
+            "dXJlGBYgASgFEhUKDW51bVJhaWRzRW5lbXkYFyABKAUSFQoNbnVtVGhyZWF0",
+            "QmlncxgYIAEoBRIXCg9jb2xvbmlzdHNLaWxsZWQYGSABKAUSGgoSZ3JlYXRl",
+            "c3RQb3B1bGF0aW9uGBogASgFEhMKC2luR2FtZUhvdXJzGBsgASgFEhgKEGRh",
+            "bWFnZVRha2VuUGF3bnMYHCABKAISGQoRZGFtYWdlVGFrZW5UaGluZ3MYHSAB",
+            "KAISEwoLZGFtYWdlRGVhbHQYHiABKAIiIQoNU3RhdHNSZXNwb25zZRIQCghp",
+            "bnRlcnZhbBgBIAEoBSKCAQoLRnV0dXJlRXZlbnQSDQoFdGlja3MYASABKAUS",
+            "DAoEbmFtZRgCIAEoCRINCgVxdWVzdBgDIAEoCRIPCgdmYWN0aW9uGAQgASgJ",
+            "Eg4KBnBvaW50cxgFIAEoAhIQCghzdHJhdGVneRgGIAEoCRIUCgxhcnJpdmFs",
+            "X21vZGUYByABKAkiQgoTRnV0dXJlRXZlbnRzUmVxdWVzdBIKCgJpZBgBIAEo",
+            "CRIfCgVldmVudBgCIAMoCzIQLmFwaS5GdXR1cmVFdmVudCIWChRGdXR1cmVF",
+            "dmVudHNSZXNwb25zZTKHAwoDQVBJEjAKBUhlbGxvEhEuYXBpLkhlbGxvUmVx",
+            "dWVzdBoSLmFwaS5IZWxsb1Jlc3BvbnNlIgASMAoFTG9naW4SES5hcGkuTG9n",
+            "aW5SZXF1ZXN0GhIuYXBpLkxvZ2luUmVzcG9uc2UiABJCCgtMaW5rQWNjb3Vu",
+            "dBIXLmFwaS5MaW5rQWNjb3VudFJlcXVlc3QaGC5hcGkuTGlua0FjY291bnRS",
+            "ZXNwb25zZSIAEi0KBFN5bmMSEC5hcGkuU3luY1JlcXVlc3QaES5hcGkuU3lu",
+            "Y1Jlc3BvbnNlIgASMAoFU3RhcnQSES5hcGkuU3RhcnRSZXF1ZXN0GhIuYXBp",
+            "LlN0YXJ0UmVzcG9uc2UiABIwCgVTdGF0cxIRLmFwaS5TdGF0c1JlcXVlc3Qa",
+            "Ei5hcGkuU3RhdHNSZXNwb25zZSIAEkUKDEZ1dHVyZUV2ZW50cxIYLmFwaS5G",
+            "dXR1cmVFdmVudHNSZXF1ZXN0GhkuYXBpLkZ1dHVyZUV2ZW50c1Jlc3BvbnNl",
+            "IgBCF6oCFFJpbWlvbnNoaXBTZXJ2ZXIuQVBJYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.HelloRequest), global::Api.HelloRequest.Parser, new[]{ "ApiVersion", "Id" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.HelloResponse), global::Api.HelloResponse.Parser, new[]{ "Found", "AllowedMods", "TwitchName", "Position", "Score" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.Mod), global::Api.Mod.Parser, new[]{ "SteamId", "PackageId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.Score), global::Api.Score.Parser, new[]{ "Position", "TwitchName", "LatestScore" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.SyncRequest), global::Api.SyncRequest.Parser, new[]{ "Id", "WaitForChange" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.SyncResponse), global::Api.SyncResponse.Parser, new[]{ "State", "Settings", "Message" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.State), global::Api.State.Parser, new[]{ "Game", "PlannedStartHour", "PlannedStartMinute" }, null, new[]{ typeof(global::Api.State.Types.Game) }, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.Settings), global::Api.Settings.Parser, new[]{ "Traits", "Rising", "Punishment" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.Traits), global::Api.Traits.Parser, new[]{ "ScaleFactor", "GoodTraitSuppression", "BadTraitSuppression" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.Rising), global::Api.Rising.Parser, new[]{ "MaxFreeColonistCount", "RisingInterval", "RisingReductionPerColonist", "RisingIntervalMinimum", "RisingCooldown" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.Punishment), global::Api.Punishment.Parser, new[]{ "StartPauseInterval", "FinalPauseInterval", "MinThoughtFactor", "MaxThoughtFactor" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.StartRequest), global::Api.StartRequest.Parser, new[]{ "Id" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.StartResponse), global::Api.StartResponse.Parser, new[]{ "GameFileHash", "GameFileUrl", "StartingPawnCount", "Settings" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.StatsRequest), global::Api.StatsRequest.Parser, new[]{ "Id", "Wealth", "MapCount", "Colonists", "ColonistsNeedTending", "MedicalConditions", "Enemies", "WildAnimals", "TamedAnimals", "Visitors", "Prisoners", "DownedColonists", "MentalColonists", "Rooms", "Caravans", "WeaponDps", "Electricity", "Medicine", "Food", "Fire", "Conditions", "Temperature", "NumRaidsEnemy", "NumThreatBigs", "ColonistsKilled", "GreatestPopulation", "InGameHours", "DamageTakenPawns", "DamageTakenThings", "DamageDealt" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.StatsResponse), global::Api.StatsResponse.Parser, new[]{ "Interval" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.FutureEvent), global::Api.FutureEvent.Parser, new[]{ "Ticks", "Name", "Quest", "Faction", "Points", "Strategy", "ArrivalMode" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.FutureEventsRequest), global::Api.FutureEventsRequest.Parser, new[]{ "Id", "Event" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Api.FutureEventsResponse), global::Api.FutureEventsResponse.Parser, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.HelloRequest), global::RimionshipServer.API.HelloRequest.Parser, new[]{ "ApiVersion", "Id" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.HelloResponse), global::RimionshipServer.API.HelloResponse.Parser, new[]{ "UserExists", "AllowedMods", "TwitchName", "Position", "Score" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.Mod), global::RimionshipServer.API.Mod.Parser, new[]{ "SteamId", "PackageId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.Score), global::RimionshipServer.API.Score.Parser, new[]{ "Position", "TwitchName", "LatestScore" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.LoginRequest), global::RimionshipServer.API.LoginRequest.Parser, new[]{ "Id" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.LoginResponse), global::RimionshipServer.API.LoginResponse.Parser, new[]{ "LoginUrl", "LoginToken" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.LinkAccountRequest), global::RimionshipServer.API.LinkAccountRequest.Parser, new[]{ "Id", "LoginToken" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.LinkAccountResponse), global::RimionshipServer.API.LinkAccountResponse.Parser, new[]{ "UserExists", "TwitchName" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.SyncRequest), global::RimionshipServer.API.SyncRequest.Parser, new[]{ "Id", "WaitForChange" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.SyncResponse), global::RimionshipServer.API.SyncResponse.Parser, new[]{ "State", "Settings", "Message" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.State), global::RimionshipServer.API.State.Parser, new[]{ "Game", "PlannedStartHour", "PlannedStartMinute" }, null, new[]{ typeof(global::RimionshipServer.API.State.Types.Game) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.Settings), global::RimionshipServer.API.Settings.Parser, new[]{ "Traits", "Rising", "Punishment" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.Traits), global::RimionshipServer.API.Traits.Parser, new[]{ "ScaleFactor", "GoodTraitSuppression", "BadTraitSuppression" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.Rising), global::RimionshipServer.API.Rising.Parser, new[]{ "MaxFreeColonistCount", "RisingInterval", "RisingReductionPerColonist", "RisingIntervalMinimum", "RisingCooldown" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.Punishment), global::RimionshipServer.API.Punishment.Parser, new[]{ "StartPauseInterval", "FinalPauseInterval", "MinThoughtFactor", "MaxThoughtFactor" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.StartRequest), global::RimionshipServer.API.StartRequest.Parser, new[]{ "Id" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.StartResponse), global::RimionshipServer.API.StartResponse.Parser, new[]{ "GameFileHash", "GameFileUrl", "StartingPawnCount", "Settings" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.StatsRequest), global::RimionshipServer.API.StatsRequest.Parser, new[]{ "Id", "Wealth", "MapCount", "Colonists", "ColonistsNeedTending", "MedicalConditions", "Enemies", "WildAnimals", "TamedAnimals", "Visitors", "Prisoners", "DownedColonists", "MentalColonists", "Rooms", "Caravans", "WeaponDps", "Electricity", "Medicine", "Food", "Fire", "Conditions", "Temperature", "NumRaidsEnemy", "NumThreatBigs", "ColonistsKilled", "GreatestPopulation", "InGameHours", "DamageTakenPawns", "DamageTakenThings", "DamageDealt" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.StatsResponse), global::RimionshipServer.API.StatsResponse.Parser, new[]{ "Interval" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.FutureEvent), global::RimionshipServer.API.FutureEvent.Parser, new[]{ "Ticks", "Name", "Quest", "Faction", "Points", "Strategy", "ArrivalMode" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.FutureEventsRequest), global::RimionshipServer.API.FutureEventsRequest.Parser, new[]{ "Id", "Event" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.FutureEventsResponse), global::RimionshipServer.API.FutureEventsResponse.Parser, null, null, null, null)
           }));
     }
     #endregion
@@ -114,7 +125,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Api.ApiReflection.Descriptor.MessageTypes[0]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -271,7 +282,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Api.ApiReflection.Descriptor.MessageTypes[1]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -288,7 +299,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public HelloResponse(HelloResponse other) : this() {
-      found_ = other.found_;
+      userExists_ = other.userExists_;
       allowedMods_ = other.allowedMods_.Clone();
       twitchName_ = other.twitchName_;
       position_ = other.position_;
@@ -301,24 +312,24 @@ namespace Api {
       return new HelloResponse(this);
     }
 
-    /// <summary>Field number for the "found" field.</summary>
-    public const int FoundFieldNumber = 1;
-    private bool found_;
+    /// <summary>Field number for the "userExists" field.</summary>
+    public const int UserExistsFieldNumber = 1;
+    private bool userExists_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Found {
-      get { return found_; }
+    public bool UserExists {
+      get { return userExists_; }
       set {
-        found_ = value;
+        userExists_ = value;
       }
     }
 
     /// <summary>Field number for the "allowedMods" field.</summary>
     public const int AllowedModsFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Api.Mod> _repeated_allowedMods_codec
-        = pb::FieldCodec.ForMessage(18, global::Api.Mod.Parser);
-    private readonly pbc::RepeatedField<global::Api.Mod> allowedMods_ = new pbc::RepeatedField<global::Api.Mod>();
+    private static readonly pb::FieldCodec<global::RimionshipServer.API.Mod> _repeated_allowedMods_codec
+        = pb::FieldCodec.ForMessage(18, global::RimionshipServer.API.Mod.Parser);
+    private readonly pbc::RepeatedField<global::RimionshipServer.API.Mod> allowedMods_ = new pbc::RepeatedField<global::RimionshipServer.API.Mod>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::Api.Mod> AllowedMods {
+    public pbc::RepeatedField<global::RimionshipServer.API.Mod> AllowedMods {
       get { return allowedMods_; }
     }
 
@@ -346,11 +357,11 @@ namespace Api {
 
     /// <summary>Field number for the "score" field.</summary>
     public const int ScoreFieldNumber = 5;
-    private static readonly pb::FieldCodec<global::Api.Score> _repeated_score_codec
-        = pb::FieldCodec.ForMessage(42, global::Api.Score.Parser);
-    private readonly pbc::RepeatedField<global::Api.Score> score_ = new pbc::RepeatedField<global::Api.Score>();
+    private static readonly pb::FieldCodec<global::RimionshipServer.API.Score> _repeated_score_codec
+        = pb::FieldCodec.ForMessage(42, global::RimionshipServer.API.Score.Parser);
+    private readonly pbc::RepeatedField<global::RimionshipServer.API.Score> score_ = new pbc::RepeatedField<global::RimionshipServer.API.Score>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::Api.Score> Score {
+    public pbc::RepeatedField<global::RimionshipServer.API.Score> Score {
       get { return score_; }
     }
 
@@ -367,7 +378,7 @@ namespace Api {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Found != other.Found) return false;
+      if (UserExists != other.UserExists) return false;
       if(!allowedMods_.Equals(other.allowedMods_)) return false;
       if (TwitchName != other.TwitchName) return false;
       if (Position != other.Position) return false;
@@ -378,7 +389,7 @@ namespace Api {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (Found != false) hash ^= Found.GetHashCode();
+      if (UserExists != false) hash ^= UserExists.GetHashCode();
       hash ^= allowedMods_.GetHashCode();
       if (TwitchName.Length != 0) hash ^= TwitchName.GetHashCode();
       if (Position != 0) hash ^= Position.GetHashCode();
@@ -396,9 +407,9 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (Found != false) {
+      if (UserExists != false) {
         output.WriteRawTag(8);
-        output.WriteBool(Found);
+        output.WriteBool(UserExists);
       }
       allowedMods_.WriteTo(output, _repeated_allowedMods_codec);
       if (TwitchName.Length != 0) {
@@ -418,7 +429,7 @@ namespace Api {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (Found != false) {
+      if (UserExists != false) {
         size += 1 + 1;
       }
       size += allowedMods_.CalculateSize(_repeated_allowedMods_codec);
@@ -440,8 +451,8 @@ namespace Api {
       if (other == null) {
         return;
       }
-      if (other.Found != false) {
-        Found = other.Found;
+      if (other.UserExists != false) {
+        UserExists = other.UserExists;
       }
       allowedMods_.Add(other.allowedMods_);
       if (other.TwitchName.Length != 0) {
@@ -463,7 +474,7 @@ namespace Api {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            Found = input.ReadBool();
+            UserExists = input.ReadBool();
             break;
           }
           case 18: {
@@ -496,7 +507,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Api.ApiReflection.Descriptor.MessageTypes[2]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -653,7 +664,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Api.ApiReflection.Descriptor.MessageTypes[3]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -830,6 +841,606 @@ namespace Api {
 
   }
 
+  public sealed partial class LoginRequest : pb::IMessage<LoginRequest> {
+    private static readonly pb::MessageParser<LoginRequest> _parser = new pb::MessageParser<LoginRequest>(() => new LoginRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<LoginRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[4]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public LoginRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public LoginRequest(LoginRequest other) : this() {
+      id_ = other.id_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public LoginRequest Clone() {
+      return new LoginRequest(this);
+    }
+
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private string id_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Id {
+      get { return id_; }
+      set {
+        id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as LoginRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(LoginRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Id != other.Id) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Id.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Id);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Id.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(LoginRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Id.Length != 0) {
+        Id = other.Id;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Id = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class LoginResponse : pb::IMessage<LoginResponse> {
+    private static readonly pb::MessageParser<LoginResponse> _parser = new pb::MessageParser<LoginResponse>(() => new LoginResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<LoginResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[5]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public LoginResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public LoginResponse(LoginResponse other) : this() {
+      loginUrl_ = other.loginUrl_;
+      loginToken_ = other.loginToken_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public LoginResponse Clone() {
+      return new LoginResponse(this);
+    }
+
+    /// <summary>Field number for the "loginUrl" field.</summary>
+    public const int LoginUrlFieldNumber = 1;
+    private string loginUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string LoginUrl {
+      get { return loginUrl_; }
+      set {
+        loginUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "loginToken" field.</summary>
+    public const int LoginTokenFieldNumber = 2;
+    private string loginToken_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string LoginToken {
+      get { return loginToken_; }
+      set {
+        loginToken_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as LoginResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(LoginResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (LoginUrl != other.LoginUrl) return false;
+      if (LoginToken != other.LoginToken) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (LoginUrl.Length != 0) hash ^= LoginUrl.GetHashCode();
+      if (LoginToken.Length != 0) hash ^= LoginToken.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (LoginUrl.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(LoginUrl);
+      }
+      if (LoginToken.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(LoginToken);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (LoginUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(LoginUrl);
+      }
+      if (LoginToken.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(LoginToken);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(LoginResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.LoginUrl.Length != 0) {
+        LoginUrl = other.LoginUrl;
+      }
+      if (other.LoginToken.Length != 0) {
+        LoginToken = other.LoginToken;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            LoginUrl = input.ReadString();
+            break;
+          }
+          case 18: {
+            LoginToken = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class LinkAccountRequest : pb::IMessage<LinkAccountRequest> {
+    private static readonly pb::MessageParser<LinkAccountRequest> _parser = new pb::MessageParser<LinkAccountRequest>(() => new LinkAccountRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<LinkAccountRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[6]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public LinkAccountRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public LinkAccountRequest(LinkAccountRequest other) : this() {
+      id_ = other.id_;
+      loginToken_ = other.loginToken_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public LinkAccountRequest Clone() {
+      return new LinkAccountRequest(this);
+    }
+
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private string id_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Id {
+      get { return id_; }
+      set {
+        id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "loginToken" field.</summary>
+    public const int LoginTokenFieldNumber = 2;
+    private string loginToken_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string LoginToken {
+      get { return loginToken_; }
+      set {
+        loginToken_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as LinkAccountRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(LinkAccountRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Id != other.Id) return false;
+      if (LoginToken != other.LoginToken) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (LoginToken.Length != 0) hash ^= LoginToken.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Id.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Id);
+      }
+      if (LoginToken.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(LoginToken);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Id.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      }
+      if (LoginToken.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(LoginToken);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(LinkAccountRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Id.Length != 0) {
+        Id = other.Id;
+      }
+      if (other.LoginToken.Length != 0) {
+        LoginToken = other.LoginToken;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Id = input.ReadString();
+            break;
+          }
+          case 18: {
+            LoginToken = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class LinkAccountResponse : pb::IMessage<LinkAccountResponse> {
+    private static readonly pb::MessageParser<LinkAccountResponse> _parser = new pb::MessageParser<LinkAccountResponse>(() => new LinkAccountResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<LinkAccountResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[7]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public LinkAccountResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public LinkAccountResponse(LinkAccountResponse other) : this() {
+      userExists_ = other.userExists_;
+      twitchName_ = other.twitchName_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public LinkAccountResponse Clone() {
+      return new LinkAccountResponse(this);
+    }
+
+    /// <summary>Field number for the "userExists" field.</summary>
+    public const int UserExistsFieldNumber = 1;
+    private bool userExists_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool UserExists {
+      get { return userExists_; }
+      set {
+        userExists_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "twitchName" field.</summary>
+    public const int TwitchNameFieldNumber = 2;
+    private string twitchName_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string TwitchName {
+      get { return twitchName_; }
+      set {
+        twitchName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as LinkAccountResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(LinkAccountResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (UserExists != other.UserExists) return false;
+      if (TwitchName != other.TwitchName) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (UserExists != false) hash ^= UserExists.GetHashCode();
+      if (TwitchName.Length != 0) hash ^= TwitchName.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (UserExists != false) {
+        output.WriteRawTag(8);
+        output.WriteBool(UserExists);
+      }
+      if (TwitchName.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(TwitchName);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (UserExists != false) {
+        size += 1 + 1;
+      }
+      if (TwitchName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(TwitchName);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(LinkAccountResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.UserExists != false) {
+        UserExists = other.UserExists;
+      }
+      if (other.TwitchName.Length != 0) {
+        TwitchName = other.TwitchName;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            UserExists = input.ReadBool();
+            break;
+          }
+          case 18: {
+            TwitchName = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class SyncRequest : pb::IMessage<SyncRequest> {
     private static readonly pb::MessageParser<SyncRequest> _parser = new pb::MessageParser<SyncRequest>(() => new SyncRequest());
     private pb::UnknownFieldSet _unknownFields;
@@ -838,7 +1449,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Api.ApiReflection.Descriptor.MessageTypes[4]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -995,7 +1606,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Api.ApiReflection.Descriptor.MessageTypes[5]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1025,9 +1636,9 @@ namespace Api {
 
     /// <summary>Field number for the "state" field.</summary>
     public const int StateFieldNumber = 1;
-    private global::Api.State state_;
+    private global::RimionshipServer.API.State state_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Api.State State {
+    public global::RimionshipServer.API.State State {
       get { return state_; }
       set {
         state_ = value;
@@ -1036,9 +1647,9 @@ namespace Api {
 
     /// <summary>Field number for the "settings" field.</summary>
     public const int SettingsFieldNumber = 2;
-    private global::Api.Settings settings_;
+    private global::RimionshipServer.API.Settings settings_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Api.Settings Settings {
+    public global::RimionshipServer.API.Settings Settings {
       get { return settings_; }
       set {
         settings_ = value;
@@ -1136,13 +1747,13 @@ namespace Api {
       }
       if (other.state_ != null) {
         if (state_ == null) {
-          state_ = new global::Api.State();
+          state_ = new global::RimionshipServer.API.State();
         }
         State.MergeFrom(other.State);
       }
       if (other.settings_ != null) {
         if (settings_ == null) {
-          settings_ = new global::Api.Settings();
+          settings_ = new global::RimionshipServer.API.Settings();
         }
         Settings.MergeFrom(other.Settings);
       }
@@ -1162,14 +1773,14 @@ namespace Api {
             break;
           case 10: {
             if (state_ == null) {
-              state_ = new global::Api.State();
+              state_ = new global::RimionshipServer.API.State();
             }
             input.ReadMessage(state_);
             break;
           }
           case 18: {
             if (settings_ == null) {
-              settings_ = new global::Api.Settings();
+              settings_ = new global::RimionshipServer.API.Settings();
             }
             input.ReadMessage(settings_);
             break;
@@ -1192,7 +1803,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Api.ApiReflection.Descriptor.MessageTypes[6]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[10]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1222,9 +1833,9 @@ namespace Api {
 
     /// <summary>Field number for the "game" field.</summary>
     public const int GameFieldNumber = 1;
-    private global::Api.State.Types.Game game_ = 0;
+    private global::RimionshipServer.API.State.Types.Game game_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Api.State.Types.Game Game {
+    public global::RimionshipServer.API.State.Types.Game Game {
       get { return game_; }
       set {
         game_ = value;
@@ -1352,7 +1963,7 @@ namespace Api {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            game_ = (global::Api.State.Types.Game) input.ReadEnum();
+            game_ = (global::RimionshipServer.API.State.Types.Game) input.ReadEnum();
             break;
           }
           case 16: {
@@ -1392,7 +2003,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Api.ApiReflection.Descriptor.MessageTypes[7]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[11]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1422,9 +2033,9 @@ namespace Api {
 
     /// <summary>Field number for the "traits" field.</summary>
     public const int TraitsFieldNumber = 1;
-    private global::Api.Traits traits_;
+    private global::RimionshipServer.API.Traits traits_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Api.Traits Traits {
+    public global::RimionshipServer.API.Traits Traits {
       get { return traits_; }
       set {
         traits_ = value;
@@ -1433,9 +2044,9 @@ namespace Api {
 
     /// <summary>Field number for the "rising" field.</summary>
     public const int RisingFieldNumber = 2;
-    private global::Api.Rising rising_;
+    private global::RimionshipServer.API.Rising rising_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Api.Rising Rising {
+    public global::RimionshipServer.API.Rising Rising {
       get { return rising_; }
       set {
         rising_ = value;
@@ -1444,9 +2055,9 @@ namespace Api {
 
     /// <summary>Field number for the "punishment" field.</summary>
     public const int PunishmentFieldNumber = 3;
-    private global::Api.Punishment punishment_;
+    private global::RimionshipServer.API.Punishment punishment_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Api.Punishment Punishment {
+    public global::RimionshipServer.API.Punishment Punishment {
       get { return punishment_; }
       set {
         punishment_ = value;
@@ -1533,19 +2144,19 @@ namespace Api {
       }
       if (other.traits_ != null) {
         if (traits_ == null) {
-          traits_ = new global::Api.Traits();
+          traits_ = new global::RimionshipServer.API.Traits();
         }
         Traits.MergeFrom(other.Traits);
       }
       if (other.rising_ != null) {
         if (rising_ == null) {
-          rising_ = new global::Api.Rising();
+          rising_ = new global::RimionshipServer.API.Rising();
         }
         Rising.MergeFrom(other.Rising);
       }
       if (other.punishment_ != null) {
         if (punishment_ == null) {
-          punishment_ = new global::Api.Punishment();
+          punishment_ = new global::RimionshipServer.API.Punishment();
         }
         Punishment.MergeFrom(other.Punishment);
       }
@@ -1562,21 +2173,21 @@ namespace Api {
             break;
           case 10: {
             if (traits_ == null) {
-              traits_ = new global::Api.Traits();
+              traits_ = new global::RimionshipServer.API.Traits();
             }
             input.ReadMessage(traits_);
             break;
           }
           case 18: {
             if (rising_ == null) {
-              rising_ = new global::Api.Rising();
+              rising_ = new global::RimionshipServer.API.Rising();
             }
             input.ReadMessage(rising_);
             break;
           }
           case 26: {
             if (punishment_ == null) {
-              punishment_ = new global::Api.Punishment();
+              punishment_ = new global::RimionshipServer.API.Punishment();
             }
             input.ReadMessage(punishment_);
             break;
@@ -1595,7 +2206,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Api.ApiReflection.Descriptor.MessageTypes[8]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[12]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1780,7 +2391,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Api.ApiReflection.Descriptor.MessageTypes[9]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[13]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2021,7 +2632,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Api.ApiReflection.Descriptor.MessageTypes[10]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[14]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2234,7 +2845,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Api.ApiReflection.Descriptor.MessageTypes[11]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[15]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2363,7 +2974,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Api.ApiReflection.Descriptor.MessageTypes[12]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[16]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2427,9 +3038,9 @@ namespace Api {
 
     /// <summary>Field number for the "settings" field.</summary>
     public const int SettingsFieldNumber = 4;
-    private global::Api.Settings settings_;
+    private global::RimionshipServer.API.Settings settings_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::Api.Settings Settings {
+    public global::RimionshipServer.API.Settings Settings {
       get { return settings_; }
       set {
         settings_ = value;
@@ -2534,7 +3145,7 @@ namespace Api {
       }
       if (other.settings_ != null) {
         if (settings_ == null) {
-          settings_ = new global::Api.Settings();
+          settings_ = new global::RimionshipServer.API.Settings();
         }
         Settings.MergeFrom(other.Settings);
       }
@@ -2563,7 +3174,7 @@ namespace Api {
           }
           case 34: {
             if (settings_ == null) {
-              settings_ = new global::Api.Settings();
+              settings_ = new global::RimionshipServer.API.Settings();
             }
             input.ReadMessage(settings_);
             break;
@@ -2582,7 +3193,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Api.ApiReflection.Descriptor.MessageTypes[13]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[17]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3523,7 +4134,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Api.ApiReflection.Descriptor.MessageTypes[14]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[18]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3652,7 +4263,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Api.ApiReflection.Descriptor.MessageTypes[15]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[19]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3949,7 +4560,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Api.ApiReflection.Descriptor.MessageTypes[16]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[20]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3989,11 +4600,11 @@ namespace Api {
 
     /// <summary>Field number for the "event" field.</summary>
     public const int EventFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Api.FutureEvent> _repeated_event_codec
-        = pb::FieldCodec.ForMessage(18, global::Api.FutureEvent.Parser);
-    private readonly pbc::RepeatedField<global::Api.FutureEvent> event_ = new pbc::RepeatedField<global::Api.FutureEvent>();
+    private static readonly pb::FieldCodec<global::RimionshipServer.API.FutureEvent> _repeated_event_codec
+        = pb::FieldCodec.ForMessage(18, global::RimionshipServer.API.FutureEvent.Parser);
+    private readonly pbc::RepeatedField<global::RimionshipServer.API.FutureEvent> event_ = new pbc::RepeatedField<global::RimionshipServer.API.FutureEvent>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::Api.FutureEvent> Event {
+    public pbc::RepeatedField<global::RimionshipServer.API.FutureEvent> Event {
       get { return event_; }
     }
 
@@ -4098,7 +4709,7 @@ namespace Api {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Api.ApiReflection.Descriptor.MessageTypes[17]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[21]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

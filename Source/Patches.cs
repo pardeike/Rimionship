@@ -96,7 +96,7 @@ namespace Rimionship
 					return;
 				}
 				MainMenuDrawer.CloseMainTab();
-				PlayState.LoadGame();
+				_ = Task.Run(PlayState.LoadGame);
 			};
 		}
 	}

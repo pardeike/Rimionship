@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -32,6 +33,8 @@ namespace Rimionship
 		{
 			return string.Concat(Enumerable.Range(0, digits).Select(_ => _RND.Next(16).ToString("x")));
 		}
+
+		public static WaitUntil ToWaitUntil(this Task task) => new WaitUntil(() => task.IsCompleted);
 
 		static string uniqueModID;
 		public static string UniqueModID
@@ -88,6 +91,7 @@ namespace Rimionship
 			var detail = exception.Status.Detail;
 			switch (exception.StatusCode)
 			{
+				case StatusCode.Cancelled:
 				case StatusCode.Unavailable:
 				case StatusCode.PermissionDenied:
 					return false;
