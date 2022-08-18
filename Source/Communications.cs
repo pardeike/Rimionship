@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Verse;
 using static RimionshipServer.API.API;
 
 namespace Rimionship
@@ -45,6 +46,9 @@ namespace Rimionship
 			var caRoots = File.ReadAllText(Path.Combine(rootDir, "Resources", "ca.pem"));
 			Channel = new Channel(EndpointUri, new SslCredentials(caRoots));
 			Client = new APIClient(Channel);
+
+			if (Tools.DevMode)
+				Log.Warning($"MOD ID: {Tools.UniqueModID}");
 			_ = Task.Run(ServerAPI.StartConnecting);
 			_ = Task.Run(ServerAPI.StartSyncing);
 		}

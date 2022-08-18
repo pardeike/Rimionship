@@ -34,7 +34,7 @@ namespace Rimionship
 			return string.Concat(Enumerable.Range(0, digits).Select(_ => _RND.Next(16).ToString("x")));
 		}
 
-		public static WaitUntil ToWaitUntil(this Task task) => new WaitUntil(() => task.IsCompleted);
+		public static WaitUntil ToWaitUntil(this Task task) => new(() => task.IsCompleted);
 
 		static string uniqueModID;
 		public static string UniqueModID
@@ -57,10 +57,10 @@ namespace Rimionship
 			return (Find.TickManager.TicksGame + offset) % ticks == 0;
 		}
 
-		public static string DotFormatted(this int nr)
+		public static string DotFormatted(this int nr, bool useSpace = false)
 		{
 			if (nr == 0)
-				return "";
+				return useSpace ? " " : "";
 			var parts = new List<string>();
 			while (nr > 0)
 			{

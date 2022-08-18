@@ -24,6 +24,8 @@ namespace Rimionship
 		public static UnityEngine.UI.Text infoName;
 		public static UnityEngine.UI.Text infoScore;
 
+		public static Vector3 arrowAnchoredPosition3D;
+
 		public static Animator statsAnimator;
 		public static Animator panelAnimator;
 		public static float infoWidth, infoHeight;
@@ -123,6 +125,8 @@ namespace Rimionship
 			placements = scorePanel.Find("names").GetComponent<UnityEngine.UI.Text>();
 			scores = scorePanel.Find("scores").GetComponent<UnityEngine.UI.Text>();
 
+			arrowAnchoredPosition3D = arrowTransform.anchoredPosition3D;
+
 			var _info = tr.Find("Info");
 			infoRectTransform = _info.GetComponent<RectTransform>();
 			var infoTop = 95 * Prefs.UIScale;
@@ -133,12 +137,12 @@ namespace Rimionship
 			infoName = _info.Find("name").GetComponent<UnityEngine.UI.Text>();
 			infoScore = _info.Find("score").GetComponent<UnityEngine.UI.Text>();
 
-			HUD.SetName("");
+			HUD.SetName(" ");
 			HUD.SetScore(0);
 
 			HUD.SetPlacement(0);
-			HUD.SetArrow(0);
-			HUD.SetPlacements("", "", "");
+			HUD.SetArrow(-99);
+			HUD.SetPlacements(" ", " ", " ");
 			HUD.SetScores(0, 0, 0);
 
 			HUD.SetPanelVisble(true);
