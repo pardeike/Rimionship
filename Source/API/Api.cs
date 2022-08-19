@@ -44,48 +44,51 @@ namespace RimionshipServer.API {
             "B1NUT1BQRUQQABIMCghUUkFJTklORxABEgsKB1BSRVBBUkUQAhILCgdTVEFS",
             "VEVEEAMSDQoJQ09NUExFVEVEEAQiaQoIU2V0dGluZ3MSGwoGdHJhaXRzGAEg",
             "ASgLMgsuYXBpLlRyYWl0cxIbCgZyaXNpbmcYAiABKAsyCy5hcGkuUmlzaW5n",
-            "EiMKCnB1bmlzaG1lbnQYAyABKAsyDy5hcGkuUHVuaXNobWVudCJYCgZUcmFp",
-            "dHMSEwoLc2NhbGVGYWN0b3IYASABKAISHAoUZ29vZFRyYWl0U3VwcHJlc3Np",
-            "b24YAiABKAISGwoTYmFkVHJhaXRTdXBwcmVzc2lvbhgDIAEoAiKZAQoGUmlz",
-            "aW5nEhwKFG1heEZyZWVDb2xvbmlzdENvdW50GAEgASgFEhYKDnJpc2luZ0lu",
-            "dGVydmFsGAIgASgFEiIKGnJpc2luZ1JlZHVjdGlvblBlckNvbG9uaXN0GAMg",
-            "ASgFEh0KFXJpc2luZ0ludGVydmFsTWluaW11bRgEIAEoBRIWCg5yaXNpbmdD",
-            "b29sZG93bhgFIAEoBSJ4CgpQdW5pc2htZW50EhoKEnN0YXJ0UGF1c2VJbnRl",
-            "cnZhbBgBIAEoBRIaChJmaW5hbFBhdXNlSW50ZXJ2YWwYAiABKAUSGAoQbWlu",
-            "VGhvdWdodEZhY3RvchgDIAEoAhIYChBtYXhUaG91Z2h0RmFjdG9yGAQgASgC",
-            "IhoKDFN0YXJ0UmVxdWVzdBIKCgJpZBgBIAEoCSJ2Cg1TdGFydFJlc3BvbnNl",
-            "EhQKDGdhbWVGaWxlSGFzaBgBIAEoCRITCgtnYW1lRmlsZVVybBgCIAEoCRIZ",
-            "ChFzdGFydGluZ1Bhd25Db3VudBgDIAEoBRIfCghzZXR0aW5ncxgEIAEoCzIN",
-            "LmFwaS5TZXR0aW5ncyL9BAoMU3RhdHNSZXF1ZXN0EgoKAmlkGAEgASgJEg4K",
-            "BndlYWx0aBgCIAEoBRIQCghtYXBDb3VudBgDIAEoBRIRCgljb2xvbmlzdHMY",
-            "BCABKAUSHAoUY29sb25pc3RzTmVlZFRlbmRpbmcYBSABKAUSGQoRbWVkaWNh",
-            "bENvbmRpdGlvbnMYBiABKAUSDwoHZW5lbWllcxgHIAEoBRITCgt3aWxkQW5p",
-            "bWFscxgIIAEoBRIUCgx0YW1lZEFuaW1hbHMYCSABKAUSEAoIdmlzaXRvcnMY",
-            "CiABKAUSEQoJcHJpc29uZXJzGAsgASgFEhcKD2Rvd25lZENvbG9uaXN0cxgM",
-            "IAEoBRIXCg9tZW50YWxDb2xvbmlzdHMYDSABKAUSDQoFcm9vbXMYDiABKAUS",
-            "EAoIY2FyYXZhbnMYDyABKAUSEQoJd2VhcG9uRHBzGBAgASgFEhMKC2VsZWN0",
-            "cmljaXR5GBEgASgFEhAKCG1lZGljaW5lGBIgASgFEgwKBGZvb2QYEyABKAUS",
-            "DAoEZmlyZRgUIAEoBRISCgpjb25kaXRpb25zGBUgASgFEhMKC3RlbXBlcmF0",
-            "dXJlGBYgASgFEhUKDW51bVJhaWRzRW5lbXkYFyABKAUSFQoNbnVtVGhyZWF0",
-            "QmlncxgYIAEoBRIXCg9jb2xvbmlzdHNLaWxsZWQYGSABKAUSGgoSZ3JlYXRl",
-            "c3RQb3B1bGF0aW9uGBogASgFEhMKC2luR2FtZUhvdXJzGBsgASgFEhgKEGRh",
-            "bWFnZVRha2VuUGF3bnMYHCABKAISGQoRZGFtYWdlVGFrZW5UaGluZ3MYHSAB",
-            "KAISEwoLZGFtYWdlRGVhbHQYHiABKAIiIQoNU3RhdHNSZXNwb25zZRIQCghp",
-            "bnRlcnZhbBgBIAEoBSKCAQoLRnV0dXJlRXZlbnQSDQoFdGlja3MYASABKAUS",
-            "DAoEbmFtZRgCIAEoCRINCgVxdWVzdBgDIAEoCRIPCgdmYWN0aW9uGAQgASgJ",
-            "Eg4KBnBvaW50cxgFIAEoAhIQCghzdHJhdGVneRgGIAEoCRIUCgxhcnJpdmFs",
-            "X21vZGUYByABKAkiQgoTRnV0dXJlRXZlbnRzUmVxdWVzdBIKCgJpZBgBIAEo",
-            "CRIfCgVldmVudBgCIAMoCzIQLmFwaS5GdXR1cmVFdmVudCIWChRGdXR1cmVF",
-            "dmVudHNSZXNwb25zZTKHAwoDQVBJEjAKBUhlbGxvEhEuYXBpLkhlbGxvUmVx",
-            "dWVzdBoSLmFwaS5IZWxsb1Jlc3BvbnNlIgASMAoFTG9naW4SES5hcGkuTG9n",
-            "aW5SZXF1ZXN0GhIuYXBpLkxvZ2luUmVzcG9uc2UiABJCCgtMaW5rQWNjb3Vu",
-            "dBIXLmFwaS5MaW5rQWNjb3VudFJlcXVlc3QaGC5hcGkuTGlua0FjY291bnRS",
-            "ZXNwb25zZSIAEi0KBFN5bmMSEC5hcGkuU3luY1JlcXVlc3QaES5hcGkuU3lu",
-            "Y1Jlc3BvbnNlIgASMAoFU3RhcnQSES5hcGkuU3RhcnRSZXF1ZXN0GhIuYXBp",
-            "LlN0YXJ0UmVzcG9uc2UiABIwCgVTdGF0cxIRLmFwaS5TdGF0c1JlcXVlc3Qa",
-            "Ei5hcGkuU3RhdHNSZXNwb25zZSIAEkUKDEZ1dHVyZUV2ZW50cxIYLmFwaS5G",
-            "dXR1cmVFdmVudHNSZXF1ZXN0GhkuYXBpLkZ1dHVyZUV2ZW50c1Jlc3BvbnNl",
-            "IgBCF6oCFFJpbWlvbnNoaXBTZXJ2ZXIuQVBJYgZwcm90bzM="));
+            "EiMKCnB1bmlzaG1lbnQYAyABKAsyDy5hcGkuUHVuaXNobWVudCK8AQoGVHJh",
+            "aXRzEhMKC3NjYWxlRmFjdG9yGAEgASgCEhwKFGdvb2RUcmFpdFN1cHByZXNz",
+            "aW9uGAIgASgCEhsKE2JhZFRyYWl0U3VwcHJlc3Npb24YAyABKAISFQoNbWF4",
+            "TWVsZWVTa2lsbBgEIAEoBRIWCg5tYXhNZWxlZUZsYW1lcxgFIAEoBRIYChBt",
+            "YXhTaG9vdGluZ1NraWxsGAYgASgFEhkKEW1heFNob290aW5nRmxhbWVzGAcg",
+            "ASgFIpkBCgZSaXNpbmcSHAoUbWF4RnJlZUNvbG9uaXN0Q291bnQYASABKAUS",
+            "FgoOcmlzaW5nSW50ZXJ2YWwYAiABKAUSIgoacmlzaW5nUmVkdWN0aW9uUGVy",
+            "Q29sb25pc3QYAyABKAUSHQoVcmlzaW5nSW50ZXJ2YWxNaW5pbXVtGAQgASgF",
+            "EhYKDnJpc2luZ0Nvb2xkb3duGAUgASgFIngKClB1bmlzaG1lbnQSGgoSc3Rh",
+            "cnRQYXVzZUludGVydmFsGAEgASgFEhoKEmZpbmFsUGF1c2VJbnRlcnZhbBgC",
+            "IAEoBRIYChBtaW5UaG91Z2h0RmFjdG9yGAMgASgCEhgKEG1heFRob3VnaHRG",
+            "YWN0b3IYBCABKAIiGgoMU3RhcnRSZXF1ZXN0EgoKAmlkGAEgASgJInYKDVN0",
+            "YXJ0UmVzcG9uc2USFAoMZ2FtZUZpbGVIYXNoGAEgASgJEhMKC2dhbWVGaWxl",
+            "VXJsGAIgASgJEhkKEXN0YXJ0aW5nUGF3bkNvdW50GAMgASgFEh8KCHNldHRp",
+            "bmdzGAQgASgLMg0uYXBpLlNldHRpbmdzIv0ECgxTdGF0c1JlcXVlc3QSCgoC",
+            "aWQYASABKAkSDgoGd2VhbHRoGAIgASgFEhAKCG1hcENvdW50GAMgASgFEhEK",
+            "CWNvbG9uaXN0cxgEIAEoBRIcChRjb2xvbmlzdHNOZWVkVGVuZGluZxgFIAEo",
+            "BRIZChFtZWRpY2FsQ29uZGl0aW9ucxgGIAEoBRIPCgdlbmVtaWVzGAcgASgF",
+            "EhMKC3dpbGRBbmltYWxzGAggASgFEhQKDHRhbWVkQW5pbWFscxgJIAEoBRIQ",
+            "Cgh2aXNpdG9ycxgKIAEoBRIRCglwcmlzb25lcnMYCyABKAUSFwoPZG93bmVk",
+            "Q29sb25pc3RzGAwgASgFEhcKD21lbnRhbENvbG9uaXN0cxgNIAEoBRINCgVy",
+            "b29tcxgOIAEoBRIQCghjYXJhdmFucxgPIAEoBRIRCgl3ZWFwb25EcHMYECAB",
+            "KAUSEwoLZWxlY3RyaWNpdHkYESABKAUSEAoIbWVkaWNpbmUYEiABKAUSDAoE",
+            "Zm9vZBgTIAEoBRIMCgRmaXJlGBQgASgFEhIKCmNvbmRpdGlvbnMYFSABKAUS",
+            "EwoLdGVtcGVyYXR1cmUYFiABKAUSFQoNbnVtUmFpZHNFbmVteRgXIAEoBRIV",
+            "Cg1udW1UaHJlYXRCaWdzGBggASgFEhcKD2NvbG9uaXN0c0tpbGxlZBgZIAEo",
+            "BRIaChJncmVhdGVzdFBvcHVsYXRpb24YGiABKAUSEwoLaW5HYW1lSG91cnMY",
+            "GyABKAUSGAoQZGFtYWdlVGFrZW5QYXducxgcIAEoAhIZChFkYW1hZ2VUYWtl",
+            "blRoaW5ncxgdIAEoAhITCgtkYW1hZ2VEZWFsdBgeIAEoAiIhCg1TdGF0c1Jl",
+            "c3BvbnNlEhAKCGludGVydmFsGAEgASgFIoIBCgtGdXR1cmVFdmVudBINCgV0",
+            "aWNrcxgBIAEoBRIMCgRuYW1lGAIgASgJEg0KBXF1ZXN0GAMgASgJEg8KB2Zh",
+            "Y3Rpb24YBCABKAkSDgoGcG9pbnRzGAUgASgCEhAKCHN0cmF0ZWd5GAYgASgJ",
+            "EhQKDGFycml2YWxfbW9kZRgHIAEoCSJCChNGdXR1cmVFdmVudHNSZXF1ZXN0",
+            "EgoKAmlkGAEgASgJEh8KBWV2ZW50GAIgAygLMhAuYXBpLkZ1dHVyZUV2ZW50",
+            "IhYKFEZ1dHVyZUV2ZW50c1Jlc3BvbnNlMocDCgNBUEkSMAoFSGVsbG8SES5h",
+            "cGkuSGVsbG9SZXF1ZXN0GhIuYXBpLkhlbGxvUmVzcG9uc2UiABIwCgVMb2dp",
+            "bhIRLmFwaS5Mb2dpblJlcXVlc3QaEi5hcGkuTG9naW5SZXNwb25zZSIAEkIK",
+            "C0xpbmtBY2NvdW50EhcuYXBpLkxpbmtBY2NvdW50UmVxdWVzdBoYLmFwaS5M",
+            "aW5rQWNjb3VudFJlc3BvbnNlIgASLQoEU3luYxIQLmFwaS5TeW5jUmVxdWVz",
+            "dBoRLmFwaS5TeW5jUmVzcG9uc2UiABIwCgVTdGFydBIRLmFwaS5TdGFydFJl",
+            "cXVlc3QaEi5hcGkuU3RhcnRSZXNwb25zZSIAEjAKBVN0YXRzEhEuYXBpLlN0",
+            "YXRzUmVxdWVzdBoSLmFwaS5TdGF0c1Jlc3BvbnNlIgASRQoMRnV0dXJlRXZl",
+            "bnRzEhguYXBpLkZ1dHVyZUV2ZW50c1JlcXVlc3QaGS5hcGkuRnV0dXJlRXZl",
+            "bnRzUmVzcG9uc2UiAEIXqgIUUmltaW9uc2hpcFNlcnZlci5BUEliBnByb3Rv",
+            "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -101,7 +104,7 @@ namespace RimionshipServer.API {
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.SyncResponse), global::RimionshipServer.API.SyncResponse.Parser, new[]{ "State", "Settings", "Message" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.State), global::RimionshipServer.API.State.Parser, new[]{ "Game", "PlannedStartHour", "PlannedStartMinute" }, null, new[]{ typeof(global::RimionshipServer.API.State.Types.Game) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.Settings), global::RimionshipServer.API.Settings.Parser, new[]{ "Traits", "Rising", "Punishment" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.Traits), global::RimionshipServer.API.Traits.Parser, new[]{ "ScaleFactor", "GoodTraitSuppression", "BadTraitSuppression" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.Traits), global::RimionshipServer.API.Traits.Parser, new[]{ "ScaleFactor", "GoodTraitSuppression", "BadTraitSuppression", "MaxMeleeSkill", "MaxMeleeFlames", "MaxShootingSkill", "MaxShootingFlames" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.Rising), global::RimionshipServer.API.Rising.Parser, new[]{ "MaxFreeColonistCount", "RisingInterval", "RisingReductionPerColonist", "RisingIntervalMinimum", "RisingCooldown" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.Punishment), global::RimionshipServer.API.Punishment.Parser, new[]{ "StartPauseInterval", "FinalPauseInterval", "MinThoughtFactor", "MaxThoughtFactor" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.StartRequest), global::RimionshipServer.API.StartRequest.Parser, new[]{ "Id" }, null, null, null),
@@ -2226,6 +2229,10 @@ namespace RimionshipServer.API {
       scaleFactor_ = other.scaleFactor_;
       goodTraitSuppression_ = other.goodTraitSuppression_;
       badTraitSuppression_ = other.badTraitSuppression_;
+      maxMeleeSkill_ = other.maxMeleeSkill_;
+      maxMeleeFlames_ = other.maxMeleeFlames_;
+      maxShootingSkill_ = other.maxShootingSkill_;
+      maxShootingFlames_ = other.maxShootingFlames_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -2267,6 +2274,50 @@ namespace RimionshipServer.API {
       }
     }
 
+    /// <summary>Field number for the "maxMeleeSkill" field.</summary>
+    public const int MaxMeleeSkillFieldNumber = 4;
+    private int maxMeleeSkill_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MaxMeleeSkill {
+      get { return maxMeleeSkill_; }
+      set {
+        maxMeleeSkill_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "maxMeleeFlames" field.</summary>
+    public const int MaxMeleeFlamesFieldNumber = 5;
+    private int maxMeleeFlames_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MaxMeleeFlames {
+      get { return maxMeleeFlames_; }
+      set {
+        maxMeleeFlames_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "maxShootingSkill" field.</summary>
+    public const int MaxShootingSkillFieldNumber = 6;
+    private int maxShootingSkill_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MaxShootingSkill {
+      get { return maxShootingSkill_; }
+      set {
+        maxShootingSkill_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "maxShootingFlames" field.</summary>
+    public const int MaxShootingFlamesFieldNumber = 7;
+    private int maxShootingFlames_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MaxShootingFlames {
+      get { return maxShootingFlames_; }
+      set {
+        maxShootingFlames_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as Traits);
@@ -2283,6 +2334,10 @@ namespace RimionshipServer.API {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(ScaleFactor, other.ScaleFactor)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(GoodTraitSuppression, other.GoodTraitSuppression)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(BadTraitSuppression, other.BadTraitSuppression)) return false;
+      if (MaxMeleeSkill != other.MaxMeleeSkill) return false;
+      if (MaxMeleeFlames != other.MaxMeleeFlames) return false;
+      if (MaxShootingSkill != other.MaxShootingSkill) return false;
+      if (MaxShootingFlames != other.MaxShootingFlames) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -2292,6 +2347,10 @@ namespace RimionshipServer.API {
       if (ScaleFactor != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(ScaleFactor);
       if (GoodTraitSuppression != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(GoodTraitSuppression);
       if (BadTraitSuppression != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(BadTraitSuppression);
+      if (MaxMeleeSkill != 0) hash ^= MaxMeleeSkill.GetHashCode();
+      if (MaxMeleeFlames != 0) hash ^= MaxMeleeFlames.GetHashCode();
+      if (MaxShootingSkill != 0) hash ^= MaxShootingSkill.GetHashCode();
+      if (MaxShootingFlames != 0) hash ^= MaxShootingFlames.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2317,6 +2376,22 @@ namespace RimionshipServer.API {
         output.WriteRawTag(29);
         output.WriteFloat(BadTraitSuppression);
       }
+      if (MaxMeleeSkill != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(MaxMeleeSkill);
+      }
+      if (MaxMeleeFlames != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(MaxMeleeFlames);
+      }
+      if (MaxShootingSkill != 0) {
+        output.WriteRawTag(48);
+        output.WriteInt32(MaxShootingSkill);
+      }
+      if (MaxShootingFlames != 0) {
+        output.WriteRawTag(56);
+        output.WriteInt32(MaxShootingFlames);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2333,6 +2408,18 @@ namespace RimionshipServer.API {
       }
       if (BadTraitSuppression != 0F) {
         size += 1 + 4;
+      }
+      if (MaxMeleeSkill != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MaxMeleeSkill);
+      }
+      if (MaxMeleeFlames != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MaxMeleeFlames);
+      }
+      if (MaxShootingSkill != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MaxShootingSkill);
+      }
+      if (MaxShootingFlames != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MaxShootingFlames);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2353,6 +2440,18 @@ namespace RimionshipServer.API {
       }
       if (other.BadTraitSuppression != 0F) {
         BadTraitSuppression = other.BadTraitSuppression;
+      }
+      if (other.MaxMeleeSkill != 0) {
+        MaxMeleeSkill = other.MaxMeleeSkill;
+      }
+      if (other.MaxMeleeFlames != 0) {
+        MaxMeleeFlames = other.MaxMeleeFlames;
+      }
+      if (other.MaxShootingSkill != 0) {
+        MaxShootingSkill = other.MaxShootingSkill;
+      }
+      if (other.MaxShootingFlames != 0) {
+        MaxShootingFlames = other.MaxShootingFlames;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -2375,6 +2474,22 @@ namespace RimionshipServer.API {
           }
           case 29: {
             BadTraitSuppression = input.ReadFloat();
+            break;
+          }
+          case 32: {
+            MaxMeleeSkill = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            MaxMeleeFlames = input.ReadInt32();
+            break;
+          }
+          case 48: {
+            MaxShootingSkill = input.ReadInt32();
+            break;
+          }
+          case 56: {
+            MaxShootingFlames = input.ReadInt32();
             break;
           }
         }

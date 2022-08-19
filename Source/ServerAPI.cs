@@ -207,6 +207,10 @@ namespace Rimionship
 				RimionshipMod.settings.scaleFactor = traits.ScaleFactor;
 				RimionshipMod.settings.goodTraitSuppression = traits.GoodTraitSuppression;
 				RimionshipMod.settings.badTraitSuppression = traits.BadTraitSuppression;
+				RimionshipMod.settings.maxMeleeSkill = traits.MaxMeleeSkill;
+				RimionshipMod.settings.maxMeleeFlames = traits.MaxMeleeFlames;
+				RimionshipMod.settings.maxShootingSkill = traits.MaxShootingSkill;
+				RimionshipMod.settings.maxShootingFlames = traits.MaxShootingFlames;
 			}
 			var rising = settings.Rising;
 			if (rising != null)

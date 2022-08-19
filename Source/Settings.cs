@@ -9,6 +9,11 @@ namespace Rimionship
 		public float goodTraitSuppression = 0.7f;
 		public float badTraitSuppression = 0.15f;
 
+		public int maxMeleeSkill = 6;
+		public int maxMeleeFlames = 1;
+		public int maxShootingSkill = 6;
+		public int maxShootingFlames = 1;
+
 		public int maxFreeColonistCount = 5;
 		public int risingInterval = 2400000; // 40 days
 		public int risingReductionPerColonist = 240000; // 4 days
@@ -27,6 +32,11 @@ namespace Rimionship
 			Scribe_Values.Look(ref scaleFactor, "scaleFactor", 0.2f);
 			Scribe_Values.Look(ref goodTraitSuppression, "goodTraitSuppression", 0.7f);
 			Scribe_Values.Look(ref badTraitSuppression, "badTraitSuppression", 0.15f);
+
+			Scribe_Values.Look(ref maxMeleeSkill, "maxMeleeSkill", 6);
+			Scribe_Values.Look(ref maxMeleeFlames, "maxMeleeFlames", 1);
+			Scribe_Values.Look(ref maxShootingSkill, "maxShootingSkill", 6);
+			Scribe_Values.Look(ref maxShootingFlames, "maxShootingFlames", 1);
 
 			Scribe_Values.Look(ref maxFreeColonistCount, "maxFreeColonistCount", 5);
 			Scribe_Values.Look(ref risingInterval, "risingInterval", 2400000);
@@ -67,6 +77,22 @@ namespace Rimionship
 
 			if (list.ButtonText("Help graph for trait values"))
 				Application.OpenURL("https://www.desmos.com/calculator/psoxn2lt1r");
+
+			_ = list.Label($"Max Melee Skill: {maxMeleeSkill}");
+			maxMeleeSkill = (int)list.Slider(maxMeleeSkill, 0, 20);
+			list.Gap(20f);
+
+			_ = list.Label($"Max Melee Flames: {maxMeleeFlames}");
+			maxMeleeFlames = (int)list.Slider(maxMeleeFlames, 0, 2);
+			list.Gap(20f);
+
+			_ = list.Label($"Max Shooting Skill: {maxShootingSkill}");
+			maxShootingSkill = (int)list.Slider(maxShootingSkill, 0, 20);
+			list.Gap(20f);
+
+			_ = list.Label($"Max Shooting Flames: {maxShootingFlames}");
+			maxShootingFlames = (int)list.Slider(maxShootingFlames, 0, 2);
+			list.Gap(20f);
 
 			list.NewColumn();
 

@@ -91,6 +91,10 @@ message Traits {
 	float scaleFactor = 1;
 	float goodTraitSuppression = 2;
 	float badTraitSuppression = 3;
+	int32 maxMeleeSkill = 4;
+	int32 maxMeleeFlames = 5;
+	int32 maxShootingSkill = 6;
+	int32 maxShootingFlames = 7;
 }
 
 message Rising {

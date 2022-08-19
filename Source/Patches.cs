@@ -408,6 +408,26 @@ namespace Rimionship
 		}
 	}
 
+	// reduce skill/passion for melee and shooting
+	//
+	[HarmonyPatch(typeof(PawnGenerator), nameof(PawnGenerator.GenerateSkills))]
+	class PawnGenerator_GenerateSkills_Patch
+	{
+		public static void Postfix(Pawn pawn)
+		{
+			static void Limit(SkillRecord record, int maxLevel, Passion maxPassion)
+			{
+				if (record.Level > maxLevel)
+					record.Level = maxLevel;
+				if (record.passion > maxPassion)
+					record.passion = maxPassion;
+			}
+
+			Limit(pawn.skills.GetSkill(SkillDefOf.Melee), RimionshipMod.settings.maxMeleeSkill, (Passion)RimionshipMod.settings.maxMeleeFlames);
+			Limit(pawn.skills.GetSkill(SkillDefOf.Shooting), RimionshipMod.settings.maxShootingSkill, (Passion)RimionshipMod.settings.maxShootingFlames);
+		}
+	}
+
 	// allow custom thoughts
 	//
 	[HarmonyPatch(typeof(ThoughtUtility), nameof(ThoughtUtility.CanGetThought))]

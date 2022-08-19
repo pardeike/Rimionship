@@ -18,7 +18,14 @@ namespace Rimionship
 			WealthWatcher.ResetStaticData();
 		}
 
-		static List<Map> PlayerMaps => Find.Maps.Where(m => m.IsPlayerHome).ToList();
+		static List<Map> PlayerMaps
+		{
+			get
+			{
+				var maps = Find.Maps ?? new List<Map>();
+				return maps.Where(m => m.IsPlayerHome).ToList();
+			}
+		}
 
 		public static int ColonyWealth(this Map map)
 		{
@@ -75,7 +82,7 @@ namespace Rimionship
 
 		public static int AllWildAnimals()
 		{
-			return Find.Maps
+			return PlayerMaps
 				.SelectMany(map => map.mapPawns.AllPawnsSpawned)
 				.Where(pawn => pawn.training == null)
 				.Select(pawn => pawn.RaceProps)
@@ -87,7 +94,7 @@ namespace Rimionship
 
 		public static int AllTamedAnimals()
 		{
-			return Find.Maps
+			return PlayerMaps
 				.SelectMany(map => map.mapPawns.AllPawnsSpawned)
 				.ToList()
 				.Where(pawn => pawn.training != null)
