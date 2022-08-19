@@ -77,22 +77,22 @@ namespace Rimionship
 
 			if (list.ButtonText("Help graph for trait values"))
 				Application.OpenURL("https://www.desmos.com/calculator/psoxn2lt1r");
+			list.Gap(20f);
 
 			_ = list.Label($"Max Melee Skill: {maxMeleeSkill}");
 			maxMeleeSkill = (int)list.Slider(maxMeleeSkill, 0, 20);
-			list.Gap(20f);
+			list.Gap(12f);
 
 			_ = list.Label($"Max Melee Flames: {maxMeleeFlames}");
 			maxMeleeFlames = (int)list.Slider(maxMeleeFlames, 0, 2);
-			list.Gap(20f);
+			list.Gap(12f);
 
 			_ = list.Label($"Max Shooting Skill: {maxShootingSkill}");
 			maxShootingSkill = (int)list.Slider(maxShootingSkill, 0, 20);
-			list.Gap(20f);
+			list.Gap(12f);
 
 			_ = list.Label($"Max Shooting Flames: {maxShootingFlames}");
 			maxShootingFlames = (int)list.Slider(maxShootingFlames, 0, 2);
-			list.Gap(20f);
 
 			list.NewColumn();
 

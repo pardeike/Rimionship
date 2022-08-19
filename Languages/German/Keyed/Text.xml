@@ -39,4 +39,5 @@
 	<Activate>Aktivieren</Activate>
 	<MainMapIsActive>Das ist die Hauptkarte. Nur sie bestimmt den gesamten Koloniewert.\n\nEine andere Karte kann aktiviert werden indem man dorthin wechselt und sie in diesem Tab aktiviert.</MainMapIsActive>
 	<MainMapIsInactive>Das ist nicht die Hauptkarte. Sie trägt nicht zum Koloniewert bei.\n\nUm diese Karte zur Hauptkarte zu machen, bitte auf {0} klicken:</MainMapIsInactive>
+	<DownloadingGame>Die Spieledatei wird geladen...</DownloadingGame>
 </LanguageData>

@@ -103,7 +103,6 @@ namespace Rimionship
 		public static async Task<bool> StartGame()
 		{
 			var id = Tools.UniqueModID;
-			var existingHash = Tools.FileHash(Assets.GameFilePath());
 			if (Tools.DevMode)
 				AsyncLogger.Warning($"-> Start");
 			var response = await Communications.Client.StartAsync(new StartRequest() { Id = Tools.UniqueModID }, null, DefaultDeadline, source.Token);
@@ -116,6 +115,8 @@ namespace Rimionship
 			var theirHash = response.GameFileHash;
 			if (ourHash == theirHash)
 				return true;
+
+			Find.WindowStack.Add(new Dialog_DownloadingGame());
 
 			var fileUrl = response.GameFileUrl;
 			var savedServerCertificateValidationCallback = ServicePointManager.ServerCertificateValidationCallback;
@@ -139,6 +140,7 @@ namespace Rimionship
 			finally
 			{
 				ServicePointManager.ServerCertificateValidationCallback = savedServerCertificateValidationCallback;
+				_ = Find.WindowStack.TryRemove(typeof(Dialog_DownloadingGame));
 			}
 		}
 

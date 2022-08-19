@@ -3,22 +3,20 @@ using Verse;
 
 namespace Rimionship
 {
-	public class Dialog_DownloadingMods : Window
+	public class Dialog_DownloadingGame : Window
 	{
-		TaggedString text;
+		public override Vector2 InitialSize => new(240f, 75f);
 
-		public override Vector2 InitialSize => new(320f, 180f);
-
-		public Dialog_DownloadingMods(TaggedString text)
+		public Dialog_DownloadingGame()
 		{
-			this.text = text;
 		}
 
 		public override void DoWindowContents(Rect inRect)
 		{
-			Text.Font = GameFont.Medium;
+			Text.Font = GameFont.Small;
 			Text.Anchor = TextAnchor.MiddleCenter;
-			Widgets.Label(inRect, text);
+			Widgets.Label(inRect, "DownloadingGame".Translate());
+			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
 		public override void OnCancelKeyPressed()
