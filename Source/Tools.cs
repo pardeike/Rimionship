@@ -109,6 +109,11 @@ namespace Rimionship
 			return true;
 		}
 
+		public static Rect OffsetBy(this Rect rect, float dx, float dy)
+		{
+			return new Rect(rect.position + new Vector2(dx, dy), rect.size);
+		}
+
 		public static GUIStyle GUIStyle(this Font font, Color color, RectOffset padding = null)
 		{
 			return new GUIStyle()

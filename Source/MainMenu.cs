@@ -9,7 +9,7 @@ namespace Rimionship
 	{
 		static GUIStyle[] labelStyles = null;
 
-		static readonly Func<(string, Texture2D, Action, Func<string>)>[] textFunctions = new Func<(string, Texture2D, Action, Func<string>)>[]
+		static readonly Func<(string, Texture2D, string, Action, Func<string>)>[] textFunctions = new Func<(string, Texture2D, string, Action, Func<string>)>[]
 		{
 			() =>
 			{
@@ -19,7 +19,8 @@ namespace Rimionship
 					state,
 					Communications.State == CommState.Ready ? Assets.StateOK : (ServerAPITools.modTooOld ? Assets.StateAction: Assets.StateError),
 					null,
-					() => "ModTooOld".Translate()
+					null,
+					() => ServerAPITools.modTooOld ? "ModTooOld".Translate() : null
 				);
 			},
 
@@ -36,6 +37,7 @@ namespace Rimionship
 						: Communications.State == CommState.Ready
 							? (DateTime.Now.Millisecond % 1500 < 750 ? null : Assets.StateAction)
 							: Assets.StateWait,
+					"RegisterMod".Translate(),
 					PlayState.modRegistered
 						? null
 						: Communications.State == CommState.Ready
@@ -52,6 +54,7 @@ namespace Rimionship
 				(
 					state,
 					PlayState.modlistStatus.ToAsset(),
+					null,
 					null,
 					() => PlayState.modlistStatus == ModListStatus.Invalid ? PlayState.InvalidModsTooltip() : (string)null
 				);
@@ -87,6 +90,7 @@ namespace Rimionship
 					state,
 					icon,
 					null,
+					null,
 					null
 				);
 			}
@@ -102,39 +106,20 @@ namespace Rimionship
 
 			var scale = UI.screenWidth * Prefs.UIScale < 1600 ? 2f : 1f;
 
-			Rect rect;
-
-			/*if (PlayState.modRegistered == false)
-			{
-				var w = Assets.MainMenuLogin.width / scale;
-				var h = Assets.MainMenuLogin.height / scale;
-				rect = new Rect(x - w, y - h / 2f, w, h);
-				var tex = Assets.MainMenuLogin;
-				if (Mouse.IsOver(rect))
-				{
-					tex = Assets.MainMenuLoginOver;
-					if (Widgets.ButtonInvisible(rect))
-						ServerAPI.SendHello();
-				}
-				GUI.DrawTextureWithTexCoords(rect, tex, Tools.Rect01);
-				return;
-			}
-			else
-			{*/
 			var w = Assets.MainMenuInfo.width / scale;
 			var h = Assets.MainMenuInfo.height / scale;
 			var oy = 48f / scale;
-			rect = new Rect(x - w, y - h / 2f + oy, w, h);
+			var rect = new Rect(x - w, y - h / 2f + oy, w, h);
 			GUI.DrawTextureWithTexCoords(rect, Assets.MainMenuInfo, Tools.Rect01);
-			//}
 
 			var field = new Rect(rect.x + 29 / scale, rect.y + 29 / scale, 180 / scale, 140 / scale);
 			for (var i = 0; i < 4; i++)
 			{
 				var text = textFunctions[i]().Item1;
 				var state = textFunctions[i]().Item2;
-				var action = textFunctions[i]().Item3;
-				var tooltip = textFunctions[i]().Item4;
+				var actionName = textFunctions[i]().Item3;
+				var action = textFunctions[i]().Item4;
+				var tooltip = textFunctions[i]().Item5;
 
 				if (state != null)
 				{
@@ -154,12 +139,17 @@ namespace Rimionship
 
 				if (action != null)
 				{
-					if (Mouse.IsOver(field))
+					var size = Text.CalcSize(actionName);
+					if (size.x > field.width * 1.5f)
 					{
-						Widgets.DrawHighlight(field);
-						if (Widgets.ButtonInvisible(field))
-							action();
+						size.x = field.width * 1.5f;
+						size.y = Text.CalcHeight(actionName, size.x);
 					}
+
+					var buttonRect = new Rect(Vector2.zero, size + new Vector2(40, 20)).CenteredOnXIn(field);
+					buttonRect.center = field.center + new Vector2(0, 40 / scale);
+					if (Widgets.ButtonText(buttonRect, actionName))
+						action();
 				}
 
 				field.x += 200 / scale;

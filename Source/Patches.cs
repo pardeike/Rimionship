@@ -80,24 +80,35 @@ namespace Rimionship
 	class OptionListingUtility_DrawOptionListing_Patch
 	{
 		static readonly string newColonyLabel = "NewColony".Translate();
+		static readonly string modsLabel = "Mods".Translate();
 
 		public static void Prefix(List<ListableOption> optList)
 		{
-			var option = optList.FirstOrDefault(opt => opt.label == newColonyLabel);
-			if (option == null)
-				return;
-			option.label = "Rimionship";
-			option.action = () =>
+			var option = optList.FirstOrDefault(opt => opt.label == modsLabel);
+			if (option != null)
 			{
-				if (PlayState.Valid == false)
+				var n1 = ModsConfig.data.activeMods.Count;
+				var n2 = PlayState.AllowedMods.Count;
+				if (n1 != n2)
+					option.label += $" ({n1} {"OfLower".Translate()} {n2})";
+			}
+
+			option = optList.FirstOrDefault(opt => opt.label == newColonyLabel);
+			if (option != null)
+			{
+				option.label = "Rimionship";
+				option.action = () =>
 				{
-					Defs.Nope.PlayOneShotOnCamera();
-					Find.WindowStack.Add(new Dialog_MessageBox("CannotStartTournament".Translate()));
-					return;
-				}
-				MainMenuDrawer.CloseMainTab();
-				_ = Task.Run(PlayState.LoadGame);
-			};
+					if (PlayState.Valid == false)
+					{
+						Defs.Nope.PlayOneShotOnCamera();
+						Find.WindowStack.Add(new Dialog_MessageBox("CannotStartTournament".Translate()));
+						return;
+					}
+					MainMenuDrawer.CloseMainTab();
+					_ = Task.Run(PlayState.LoadGame);
+				};
+			}
 		}
 	}
 
