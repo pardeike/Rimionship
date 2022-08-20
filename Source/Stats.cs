@@ -42,17 +42,23 @@ namespace Rimionship
 
 		public static int AllColonists()
 		{
+			if (Find.Maps == null)
+				return 0;
 			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoLodgers.Count;
 		}
 
 		public static int AllColonistsNeedTending()
 		{
+			if (Find.Maps == null)
+				return 0;
 			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoLodgers
 				.Count(pawn => pawn.health.HasHediffsNeedingTendByPlayer(true));
 		}
 
 		public static int AllMedicalConditions()
 		{
+			if (Find.Maps == null)
+				return 0;
 			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoLodgers
 				.Sum(pawn =>
 				{
@@ -107,6 +113,8 @@ namespace Rimionship
 
 		/*public static int AllSlaves()
 		{
+			if (Find.Maps == null)
+				return 0;
 			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_SlavesOfColony.Count;
 		}*/
 
@@ -125,17 +133,23 @@ namespace Rimionship
 
 		public static int AllPrisoners()
 		{
+			if (Find.Maps == null)
+				return 0;
 			return PawnsFinder.AllMaps_PrisonersOfColonySpawned.Count;
 		}
 
 		public static int AllDownedColonists()
 		{
+			if (Find.Maps == null)
+				return 0;
 			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoLodgers
 				.Count(pawn => pawn.Downed);
 		}
 
 		public static int AllMentalColonists()
 		{
+			if (Find.Maps == null)
+				return 0;
 			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoLodgers
 				.Count(pawn => pawn.InMentalState);
 		}
@@ -148,6 +162,8 @@ namespace Rimionship
 
 		public static int AllCaravans()
 		{
+			if (Find.Maps == null)
+				return 0;
 			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_Colonists.Count;
 		}
 
@@ -170,6 +186,8 @@ namespace Rimionship
 
 		public static float AllWeaponDps_2()
 		{
+			if (Find.Maps == null)
+				return 0;
 			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists
 				.Select(pawn => pawn.equipment.Primary)
 				.OfType<ThingWithComps>()
@@ -179,6 +197,8 @@ namespace Rimionship
 
 		public static float AllWeaponDps_3()
 		{
+			if (Find.Maps == null)
+				return 0;
 			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists
 				.Select(pawn => pawn.equipment.Primary)
 				.OfType<Thing>()
@@ -206,6 +226,8 @@ namespace Rimionship
 
 		public static float AllMedicine_2()
 		{
+			if (Find.Maps == null)
+				return 0;
 			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists
 				.SelectMany(pawn => pawn.inventory.innerContainer.InnerListForReading)
 				.Where(thing => thing.def.IsMedicine)
@@ -225,6 +247,8 @@ namespace Rimionship
 
 		public static float AllFood_2()
 		{
+			if (Find.Maps == null)
+				return 0;
 			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists
 				.SelectMany(pawn => pawn.inventory.innerContainer.InnerListForReading)
 				.Sum(food => food.GetStatValue(StatDefOf.Nutrition) * food.stackCount / 0.9f);
