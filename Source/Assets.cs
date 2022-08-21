@@ -46,12 +46,12 @@ namespace Rimionship
 		public static readonly Texture2D Insult = ContentFinder<Texture2D>.Get("Things/Mote/SpeechSymbols/Insult", true);
 		public static readonly Texture2D[] Pentas = new[]
 		{
-			ContentFinder<Texture2D>.Get("Penta0", true),
-			ContentFinder<Texture2D>.Get("Penta1", true),
-			ContentFinder<Texture2D>.Get("Penta2", true),
-			ContentFinder<Texture2D>.Get("Penta3", true),
-			ContentFinder<Texture2D>.Get("Penta4", true),
-			ContentFinder<Texture2D>.Get("Penta5", true)
+			Tools.LoadTexture("Penta0"),
+			Tools.LoadTexture("Penta1"),
+			Tools.LoadTexture("Penta2"),
+			Tools.LoadTexture("Penta3"),
+			Tools.LoadTexture("Penta4"),
+			Tools.LoadTexture("Penta5")
 		};
 
 		public static readonly Texture2D ButtonBGAtlas = ContentFinder<Texture2D>.Get("Button/ButtonBG", true);

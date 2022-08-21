@@ -29,6 +29,22 @@ namespace Rimionship
 				Log.Warning($"Rimionship runs in dev mode");
 		}
 
+		public static Texture2D LoadTexture(string path, bool makeReadonly = true)
+		{
+			var fullPath = Path.Combine(RimionshipMod.rootDir, "Textures", $"{path}.png");
+			var data = File.ReadAllBytes(fullPath);
+			if (data == null || data.Length == 0)
+				throw new Exception($"Cannot read texture {fullPath}");
+			var tex = new Texture2D(2, 2, TextureFormat.RGBA32, false, true);
+			if (tex.LoadImage(data) == false)
+				throw new Exception($"Cannot create texture {fullPath}");
+			tex.Compress(true);
+			tex.wrapMode = TextureWrapMode.Clamp;
+			tex.filterMode = FilterMode.Trilinear;
+			tex.Apply(true, makeReadonly);
+			return tex;
+		}
+
 		public static string GenerateHexString(int digits)
 		{
 			return string.Concat(Enumerable.Range(0, digits).Select(_ => _RND.Next(16).ToString("x")));

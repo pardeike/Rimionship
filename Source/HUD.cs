@@ -74,7 +74,6 @@ namespace Rimionship
 		{
 			var p = Assets.arrowAnchoredPosition3D;
 			Assets.arrowTransform.anchoredPosition3D = new Vector3(p.x, -16.5f * (n - 1), p.z);
-			Log.Warning($"[{n}] -> {p} -> {Assets.arrowTransform.anchoredPosition3D}");
 		}
 
 		public static void SetPlacements(params string[] placements)

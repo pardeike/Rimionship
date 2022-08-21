@@ -13,8 +13,9 @@ namespace Rimionship
 	{
 		public static BloodGod Instance => Current.Game.World.GetComponent<BloodGod>();
 
-		static readonly Color scaleBG = new(1, 1, 1, 0.25f);
-		static readonly Color scaleFG = new(227f / 255f, 38f / 255f, 38f / 255f);
+		static readonly Color scaleBG = new(1, 1, 1, 0.35f);
+		static readonly Color scaleFG = new(186f / 255f, 0f, 0f);
+		static readonly Color scaleCD = new(1f / 255f, 184f / 255f, 1f);
 		static readonly SoundInfo onCameraPerTick = SoundInfo.OnCamera(MaintenanceType.PerTick);
 
 		public enum State
@@ -29,6 +30,7 @@ namespace Rimionship
 
 		public State state;
 		public int startTicks;
+		public int pauseTicks;
 		public int cooldownTicks;
 		public int punishLevel;
 
@@ -43,6 +45,7 @@ namespace Rimionship
 			base.ExposeData();
 			Scribe_Values.Look(ref state, "state");
 			Scribe_Values.Look(ref startTicks, "startTicks");
+			Scribe_Values.Look(ref pauseTicks, "pauseTicks");
 			Scribe_Values.Look(ref cooldownTicks, "cooldownTicks");
 			Scribe_Values.Look(ref punishLevel, "punishLevel");
 		}
@@ -67,6 +70,14 @@ namespace Rimionship
 			return Mathf.Clamp01((currentTicks - startTicks) / (float)RimionshipMod.settings.risingInterval);
 		}
 
+		void AnnounceNextLevel()
+		{
+			Defs.Bloodgod.PlayWithCallback(0f, () => StartPhase(State.Punishing));
+			punishLevel = Math.Min(punishLevel + 1, 5);
+			AsyncLogger.Warning($"BLOOD GOD Level now #{punishLevel}");
+			StartPhase(State.Announcing);
+		}
+
 		public override void WorldComponentTick()
 		{
 			base.WorldComponentTick();
@@ -84,16 +95,15 @@ namespace Rimionship
 			{
 				case State.Idle:
 					if (allColonists > RimionshipMod.settings.maxFreeColonistCount)
+					{
+						punishLevel = 0;
 						StartPhase(State.Rising);
+					}
 					break;
 
 				case State.Rising:
 					if (currentTicks - startTicks > RimionshipMod.settings.risingInterval)
-					{
-						punishLevel = 1;
-						Defs.Bloodgod.PlayWithCallback(0f, () => StartPhase(State.Punishing));
-						StartPhase(State.Announcing);
-					}
+						AnnounceNextLevel();
 					break;
 
 				case State.Announcing:
@@ -104,25 +114,24 @@ namespace Rimionship
 					{
 						Find.LetterStack.ReceiveLetter("PunishmentLetterTitle".Translate(), "PunishmentLetterContent".Translate(punishLevel), LetterDefOf.NegativeEvent, null);
 						Defs.Thunder.PlayOneShotOnCamera();
+						var minInterval = RimionshipMod.settings.startPauseInterval;
+						var maxInterval = RimionshipMod.settings.finalPauseInterval;
+						pauseTicks = Find.TickManager.TicksGame + (int)GenMath.LerpDoubleClamped(1, 5, minInterval, maxInterval, punishLevel);
 						StartPhase(State.Pausing);
 					}
 					break;
 
 				case State.Pausing:
-					var minInterval = RimionshipMod.settings.startPauseInterval;
-					var maxInterval = RimionshipMod.settings.finalPauseInterval;
-					var interval = GenMath.LerpDoubleClamped(1, 5, minInterval, maxInterval, punishLevel);
-					if (currentTicks - startTicks > interval)
-					{
-						IncreasePunishmentLevel();
-						Defs.Bloodgod.PlayWithCallback(0f, () => StartPhase(State.Punishing));
-						StartPhase(State.Announcing);
-					}
+					if (currentTicks > pauseTicks)
+						AnnounceNextLevel();
 					break;
 
 				case State.Cooldown:
 					if (currentTicks > cooldownTicks)
+					{
+						punishLevel = 0;
 						StartPhase(State.Rising);
+					}
 					break;
 			}
 		}
@@ -271,12 +280,6 @@ namespace Rimionship
 			return Rand.RangeInclusive(1, max);
 		}
 
-		void IncreasePunishmentLevel()
-		{
-			punishLevel = Math.Min(punishLevel + 1, 5);
-			AsyncLogger.Warning($"BLOOD GOD Level now #{punishLevel}");
-		}
-
 		public bool CommencePunishment()
 		{
 			switch (punishLevel)
@@ -402,18 +405,19 @@ namespace Rimionship
 				return;
 
 			var f = Instance.RisingClamped01();
-			var n = Instance.state >= State.Rising ? (int)(1 + 4 * f) : 0;
-			if (f > 0.9f)
-				n = (int)GenMath.LerpDoubleClamped(-0.9f, 0.9f, 0, 5, Mathf.Sin(Time.realtimeSinceStartup * 5));
-
 			var left = leftX + 18;
 			var top = curBaseY - 7;
+			Widgets.DrawBoxSolid(new Rect(left + 22, top - 8, 103, 5), scaleBG);
+			Widgets.DrawBoxSolid(new Rect(left + 23, top - 9, f * 103, 5), scaleFG);
+			if (Instance.state == State.Pausing)
+			{
+				f = GenMath.LerpDoubleClamped(startTicks, pauseTicks, 1, 0, Find.TickManager.TicksGame);
+				Widgets.DrawBoxSolid(new Rect(left + 23, top - 11, f * 103, 3), scaleCD);
+			}
+			var i = Mathf.Clamp(Instance.punishLevel, 0, Assets.Pentas.Length - 1);
+			GUI.DrawTexture(new Rect(left, top - 24, 26, 24), Assets.Pentas[i]);
 
-			GUI.DrawTexture(new Rect(left, top - 24, 26, 24), Assets.Pentas[n]);
-			Widgets.DrawBoxSolid(new Rect(left + 22, top - 10, 103, 3), scaleBG);
-			Widgets.DrawBoxSolid(new Rect(left + 23, top - 11, f * 103, 3), scaleFG);
-
-			var mouseRect = new Rect(leftX, top - 24 + 3, 200, 24 - 6);
+			var mouseRect = new Rect(leftX, top - 24, 200, 24);
 			if (Mouse.IsOver(mouseRect))
 			{
 				Widgets.DrawHighlight(mouseRect);
