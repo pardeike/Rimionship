@@ -10,8 +10,6 @@ namespace Rimionship
 {
 	public static class HUD
 	{
-		static readonly Score EmptyScore = new() { Position = 0, TwitchName = " ", LatestScore = 0 };
-
 		public static void Update(HelloResponse response)
 		{
 			if (Current.ProgramState != ProgramState.Playing)
@@ -29,33 +27,6 @@ namespace Rimionship
 				SetScores(Array.Empty<int>());
 				SetArrow(-99);
 				return;
-			}
-
-			Log.Warning($"# {scores.Join(s => $"{s.Position}|{s.TwitchName}|{s.LatestScore}", " , ")}");
-
-			switch (scores.Count)
-			{
-				case 0:
-					scores.AddRange(new[] { EmptyScore, EmptyScore, EmptyScore });
-					break;
-				case 1:
-					scores.Insert(0, EmptyScore);
-					scores.Add(EmptyScore);
-					if (index >= 0)
-						index++;
-					break;
-				case 2:
-					if (index == 0)
-					{
-						scores.Insert(0, EmptyScore);
-						if (index >= 0)
-							index++;
-					}
-					else
-						scores.Add(EmptyScore);
-					break;
-				default:
-					break;
 			}
 
 			SetPlacement(response.Position);
