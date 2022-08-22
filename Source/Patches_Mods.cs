@@ -13,6 +13,14 @@ namespace Rimionship
 	{
 		public static void Patch(Harmony harmony)
 		{
+			/*void Prefix(MethodInfo original, MethodInfo patch)
+			{
+				if (original == null)
+					return;
+				Log.Warning($"Prefixing {original.FullDescription()}");
+				_ = harmony.Patch(original, prefix: new HarmonyMethod(patch));
+			}*/
+
 			void Transpiler(MethodInfo original, MethodInfo patch)
 			{
 				if (original == null)

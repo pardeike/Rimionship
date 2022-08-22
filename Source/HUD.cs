@@ -1,6 +1,7 @@
 ﻿using Api;
 using HarmonyLib;
 using RimionshipServer.API;
+using System;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -16,11 +17,21 @@ namespace Rimionship
 			if (Current.ProgramState != ProgramState.Playing)
 				return;
 
-			var scores = response.GetScores();
-			var emptyScores = scores.Count == 0;
+			SetName(response.TwitchName);
 
+			var scores = response.GetScores();
 			var index = scores.FindIndex(score => score.TwitchName == response.TwitchName);
-			var myScore = index < 0 ? 0 : scores[index].LatestScore;
+			if (scores.Count == 0 || index < 0)
+			{
+				SetPlacement(0);
+				SetScore(0);
+				SetPlacements(Array.Empty<string>());
+				SetScores(Array.Empty<int>());
+				SetArrow(-99);
+				return;
+			}
+
+			Log.Warning($"# {scores.Join(s => $"{s.Position}|{s.TwitchName}|{s.LatestScore}", " , ")}");
 
 			switch (scores.Count)
 			{
@@ -47,12 +58,11 @@ namespace Rimionship
 					break;
 			}
 
-			SetName(response.TwitchName);
-			SetPlacement(emptyScores ? 0 : response.Position);
-			SetScore(myScore);
+			SetPlacement(response.Position);
+			SetScore(scores[index].LatestScore);
 			SetPlacements(scores.Select(score => score.TwitchName).ToArray());
 			SetScores(scores.Select(score => score.LatestScore).ToArray());
-			SetArrow(emptyScores ? -99 : index);
+			SetArrow(index);
 		}
 
 		public static void SetName(string name)
