@@ -13,14 +13,6 @@ namespace Rimionship
 	{
 		public static void Patch(Harmony harmony)
 		{
-			/*void Prefix(MethodInfo original, MethodInfo patch)
-			{
-				if (original == null)
-					return;
-				Log.Warning($"Prefixing {original.FullDescription()}");
-				_ = harmony.Patch(original, prefix: new HarmonyMethod(patch));
-			}*/
-
 			void Transpiler(MethodInfo original, MethodInfo patch)
 			{
 				if (original == null)
@@ -34,6 +26,15 @@ namespace Rimionship
 			//
 			original = AccessTools.Method("HeatMap.Main:UpdateOutdoorThermometer");
 			patch = SymbolExtensions.GetMethodInfo(() => UpdateOutdoorThermometer_Transpiler(default));
+			Transpiler(original, patch);
+
+			// removes drawing artifact of more planning
+			//
+			original = AccessTools.Method("MorePlanning.Designators.AddDesignator:DrawMouseAttachments");
+			patch = SymbolExtensions.GetMethodInfo(() => DrawMouseAttachments_Transpiler(default));
+			Transpiler(original, patch);
+			original = AccessTools.Method("MorePlanning.Designators.RemoveDesignator:DrawMouseAttachments");
+			patch = SymbolExtensions.GetMethodInfo(() => DrawMouseAttachments_Transpiler(default));
 			Transpiler(original, patch);
 		}
 
@@ -67,6 +68,32 @@ namespace Rimionship
 					Rect r = default;
 					yield return CodeInstruction.Call(() => UpdateOutdoorThermometer_RectFixer(ref r));
 				}
+				yield return instr;
+			}
+		}
+
+		//
+
+		static void DrawTextureFixer(Rect screenRect, Texture texture, Rect sourceRect, int leftBorder, int rightBorder, int topBorder, int bottomBorder, Color color)
+		{
+			var savedColor = GUI.color;
+			GUI.color = color;
+			Widgets.DrawTextureFitted(screenRect, texture, 1, new Vector2(texture.width, texture.height), sourceRect);
+			_ = leftBorder;
+			_ = rightBorder;
+			_ = topBorder;
+			_ = bottomBorder;
+			GUI.color = savedColor;
+		}
+
+		static IEnumerable<CodeInstruction> DrawMouseAttachments_Transpiler(IEnumerable<CodeInstruction> instructions)
+		{
+			var replacement = SymbolExtensions.GetMethodInfo(() => DrawTextureFixer(default, (Texture)null, default, 0, 0, 0, 0, Color.white));
+			var m_Graphics_DrawTexture = AccessTools.Method(typeof(Graphics), nameof(Graphics.DrawTexture), replacement.GetParameters().Types());
+			foreach (var instr in instructions)
+			{
+				if (instr.Calls(m_Graphics_DrawTexture))
+					instr.operand = SymbolExtensions.GetMethodInfo(() => DrawTextureFixer(default, (Texture)null, default, 0, 0, 0, 0, Color.white));
 				yield return instr;
 			}
 		}
