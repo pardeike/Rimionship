@@ -26,6 +26,8 @@ namespace RimionshipServer.API {
     static readonly grpc::Marshaller<global::RimionshipServer.API.StatsResponse> __Marshaller_api_StatsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.StatsResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::RimionshipServer.API.FutureEventsRequest> __Marshaller_api_FutureEventsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.FutureEventsRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::RimionshipServer.API.FutureEventsResponse> __Marshaller_api_FutureEventsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.FutureEventsResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::RimionshipServer.API.AttentionRequest> __Marshaller_api_AttentionRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.AttentionRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::RimionshipServer.API.AttentionResponse> __Marshaller_api_AttentionResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.AttentionResponse.Parser.ParseFrom);
 
     static readonly grpc::Method<global::RimionshipServer.API.HelloRequest, global::RimionshipServer.API.HelloResponse> __Method_Hello = new grpc::Method<global::RimionshipServer.API.HelloRequest, global::RimionshipServer.API.HelloResponse>(
         grpc::MethodType.Unary,
@@ -76,6 +78,13 @@ namespace RimionshipServer.API {
         __Marshaller_api_FutureEventsRequest,
         __Marshaller_api_FutureEventsResponse);
 
+    static readonly grpc::Method<global::RimionshipServer.API.AttentionRequest, global::RimionshipServer.API.AttentionResponse> __Method_Attention = new grpc::Method<global::RimionshipServer.API.AttentionRequest, global::RimionshipServer.API.AttentionResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "Attention",
+        __Marshaller_api_AttentionRequest,
+        __Marshaller_api_AttentionResponse);
+
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
     {
@@ -116,6 +125,11 @@ namespace RimionshipServer.API {
       }
 
       public virtual global::System.Threading.Tasks.Task<global::RimionshipServer.API.FutureEventsResponse> FutureEvents(global::RimionshipServer.API.FutureEventsRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::RimionshipServer.API.AttentionResponse> Attention(global::RimionshipServer.API.AttentionRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -257,6 +271,22 @@ namespace RimionshipServer.API {
       {
         return CallInvoker.AsyncUnaryCall(__Method_FutureEvents, null, options, request);
       }
+      public virtual global::RimionshipServer.API.AttentionResponse Attention(global::RimionshipServer.API.AttentionRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return Attention(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::RimionshipServer.API.AttentionResponse Attention(global::RimionshipServer.API.AttentionRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_Attention, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::RimionshipServer.API.AttentionResponse> AttentionAsync(global::RimionshipServer.API.AttentionRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return AttentionAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::RimionshipServer.API.AttentionResponse> AttentionAsync(global::RimionshipServer.API.AttentionRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_Attention, null, options, request);
+      }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       protected override APIClient NewInstance(ClientBaseConfiguration configuration)
       {
@@ -275,7 +305,8 @@ namespace RimionshipServer.API {
           .AddMethod(__Method_Sync, serviceImpl.Sync)
           .AddMethod(__Method_Start, serviceImpl.Start)
           .AddMethod(__Method_Stats, serviceImpl.Stats)
-          .AddMethod(__Method_FutureEvents, serviceImpl.FutureEvents).Build();
+          .AddMethod(__Method_FutureEvents, serviceImpl.FutureEvents)
+          .AddMethod(__Method_Attention, serviceImpl.Attention).Build();
     }
 
     /// <summary>Register service method implementations with a service binder. Useful when customizing the service binding logic.
@@ -291,6 +322,7 @@ namespace RimionshipServer.API {
       serviceBinder.AddMethod(__Method_Start, serviceImpl.Start);
       serviceBinder.AddMethod(__Method_Stats, serviceImpl.Stats);
       serviceBinder.AddMethod(__Method_FutureEvents, serviceImpl.FutureEvents);
+      serviceBinder.AddMethod(__Method_Attention, serviceImpl.Attention);
     }
 
   }

@@ -261,5 +261,21 @@ namespace Rimionship
 					AsyncLogger.Warning("<- FutureEvents");
 			});
 		}
+
+		public static void TriggerAttention(int delta)
+		{
+			if (Tools.DevMode)
+				AsyncLogger.Warning($"Attention +{delta}"); // TODO remove later
+
+			_ = Task.Run(async () =>
+			{
+				var request = new AttentionRequest() { Id = Tools.UniqueModID, Delta = delta };
+				if (Tools.DevMode && LOGGING)
+					AsyncLogger.Warning("-> Attention");
+				_ = await Communications.Client.AttentionAsync(request, null, ShortDeadline, source.Token);
+				if (Tools.DevMode && LOGGING)
+					AsyncLogger.Warning("<- Attention");
+			});
+		}
 	}
 }

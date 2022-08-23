@@ -81,16 +81,19 @@ namespace RimionshipServer.API {
             "dHMYBSABKAISEAoIc3RyYXRlZ3kYBiABKAkSFAoMYXJyaXZhbF9tb2RlGAcg",
             "ASgJIkIKE0Z1dHVyZUV2ZW50c1JlcXVlc3QSCgoCaWQYASABKAkSHwoFZXZl",
             "bnQYAiADKAsyEC5hcGkuRnV0dXJlRXZlbnQiFgoURnV0dXJlRXZlbnRzUmVz",
-            "cG9uc2UyhwMKA0FQSRIwCgVIZWxsbxIRLmFwaS5IZWxsb1JlcXVlc3QaEi5h",
-            "cGkuSGVsbG9SZXNwb25zZSIAEjAKBUxvZ2luEhEuYXBpLkxvZ2luUmVxdWVz",
-            "dBoSLmFwaS5Mb2dpblJlc3BvbnNlIgASQgoLTGlua0FjY291bnQSFy5hcGku",
-            "TGlua0FjY291bnRSZXF1ZXN0GhguYXBpLkxpbmtBY2NvdW50UmVzcG9uc2Ui",
-            "ABItCgRTeW5jEhAuYXBpLlN5bmNSZXF1ZXN0GhEuYXBpLlN5bmNSZXNwb25z",
-            "ZSIAEjAKBVN0YXJ0EhEuYXBpLlN0YXJ0UmVxdWVzdBoSLmFwaS5TdGFydFJl",
-            "c3BvbnNlIgASMAoFU3RhdHMSES5hcGkuU3RhdHNSZXF1ZXN0GhIuYXBpLlN0",
-            "YXRzUmVzcG9uc2UiABJFCgxGdXR1cmVFdmVudHMSGC5hcGkuRnV0dXJlRXZl",
-            "bnRzUmVxdWVzdBoZLmFwaS5GdXR1cmVFdmVudHNSZXNwb25zZSIAQheqAhRS",
-            "aW1pb25zaGlwU2VydmVyLkFQSWIGcHJvdG8z"));
+            "cG9uc2UiLQoQQXR0ZW50aW9uUmVxdWVzdBIKCgJpZBgBIAEoCRINCgVkZWx0",
+            "YRgCIAEoBSITChFBdHRlbnRpb25SZXNwb25zZTLFAwoDQVBJEjAKBUhlbGxv",
+            "EhEuYXBpLkhlbGxvUmVxdWVzdBoSLmFwaS5IZWxsb1Jlc3BvbnNlIgASMAoF",
+            "TG9naW4SES5hcGkuTG9naW5SZXF1ZXN0GhIuYXBpLkxvZ2luUmVzcG9uc2Ui",
+            "ABJCCgtMaW5rQWNjb3VudBIXLmFwaS5MaW5rQWNjb3VudFJlcXVlc3QaGC5h",
+            "cGkuTGlua0FjY291bnRSZXNwb25zZSIAEi0KBFN5bmMSEC5hcGkuU3luY1Jl",
+            "cXVlc3QaES5hcGkuU3luY1Jlc3BvbnNlIgASMAoFU3RhcnQSES5hcGkuU3Rh",
+            "cnRSZXF1ZXN0GhIuYXBpLlN0YXJ0UmVzcG9uc2UiABIwCgVTdGF0cxIRLmFw",
+            "aS5TdGF0c1JlcXVlc3QaEi5hcGkuU3RhdHNSZXNwb25zZSIAEkUKDEZ1dHVy",
+            "ZUV2ZW50cxIYLmFwaS5GdXR1cmVFdmVudHNSZXF1ZXN0GhkuYXBpLkZ1dHVy",
+            "ZUV2ZW50c1Jlc3BvbnNlIgASPAoJQXR0ZW50aW9uEhUuYXBpLkF0dGVudGlv",
+            "blJlcXVlc3QaFi5hcGkuQXR0ZW50aW9uUmVzcG9uc2UiAEIXqgIUUmltaW9u",
+            "c2hpcFNlcnZlci5BUEliBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -115,7 +118,9 @@ namespace RimionshipServer.API {
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.StatsResponse), global::RimionshipServer.API.StatsResponse.Parser, new[]{ "Interval" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.FutureEvent), global::RimionshipServer.API.FutureEvent.Parser, new[]{ "Ticks", "Name", "Quest", "Faction", "Points", "Strategy", "ArrivalMode" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.FutureEventsRequest), global::RimionshipServer.API.FutureEventsRequest.Parser, new[]{ "Id", "Event" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.FutureEventsResponse), global::RimionshipServer.API.FutureEventsResponse.Parser, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.FutureEventsResponse), global::RimionshipServer.API.FutureEventsResponse.Parser, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.AttentionRequest), global::RimionshipServer.API.AttentionRequest.Parser, new[]{ "Id", "Delta" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.AttentionResponse), global::RimionshipServer.API.AttentionResponse.Parser, null, null, null, null)
           }));
     }
     #endregion
@@ -5011,6 +5016,264 @@ namespace RimionshipServer.API {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void MergeFrom(FutureEventsResponse other) {
+      if (other == null) {
+        return;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class AttentionRequest : pb::IMessage<AttentionRequest> {
+    private static readonly pb::MessageParser<AttentionRequest> _parser = new pb::MessageParser<AttentionRequest>(() => new AttentionRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<AttentionRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[22]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AttentionRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AttentionRequest(AttentionRequest other) : this() {
+      id_ = other.id_;
+      delta_ = other.delta_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AttentionRequest Clone() {
+      return new AttentionRequest(this);
+    }
+
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private string id_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Id {
+      get { return id_; }
+      set {
+        id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "delta" field.</summary>
+    public const int DeltaFieldNumber = 2;
+    private int delta_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Delta {
+      get { return delta_; }
+      set {
+        delta_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as AttentionRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(AttentionRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Id != other.Id) return false;
+      if (Delta != other.Delta) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (Delta != 0) hash ^= Delta.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Id.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Id);
+      }
+      if (Delta != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Delta);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Id.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      }
+      if (Delta != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Delta);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(AttentionRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Id.Length != 0) {
+        Id = other.Id;
+      }
+      if (other.Delta != 0) {
+        Delta = other.Delta;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Id = input.ReadString();
+            break;
+          }
+          case 16: {
+            Delta = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class AttentionResponse : pb::IMessage<AttentionResponse> {
+    private static readonly pb::MessageParser<AttentionResponse> _parser = new pb::MessageParser<AttentionResponse>(() => new AttentionResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<AttentionResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[23]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AttentionResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AttentionResponse(AttentionResponse other) : this() {
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public AttentionResponse Clone() {
+      return new AttentionResponse(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as AttentionResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(AttentionResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(AttentionResponse other) {
       if (other == null) {
         return;
       }

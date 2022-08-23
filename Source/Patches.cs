@@ -759,4 +759,76 @@ namespace Rimionship
 			return instructions.MethodReplacer(from, to);
 		}
 	}
+
+	// attention: colonist killed
+	//
+	[HarmonyPatch(typeof(StatsRecord), nameof(StatsRecord.Notify_ColonistKilled))]
+	class StatsRecord_Notify_ColonistKilled_Patch
+	{
+		public static void Postfix()
+		{
+			ServerAPI.TriggerAttention(Constants.Attention.colonistKilled);
+		}
+	}
+
+	// attention: incidents
+	//
+	[HarmonyPatch(typeof(StoryState), nameof(StoryState.Notify_IncidentFired))]
+	class StoryState_Notify_IncidentFired_Patch
+	{
+		static readonly Dictionary<IncidentCategoryDef, int> scores = new()
+		{
+			{ IncidentCategoryDefOf.Misc, Constants.Attention.incidentMisc },
+			{ IncidentCategoryDefOf.ThreatSmall, Constants.Attention.threatSmall },
+			{ IncidentCategoryDefOf.ThreatBig, Constants.Attention.threatBig },
+			{ IncidentCategoryDefOf.FactionArrival, Constants.Attention.factionArrival },
+			{ IncidentCategoryDefOf.OrbitalVisitor, Constants.Attention.orbitalVisitor },
+			{ IncidentCategoryDefOf.ShipChunkDrop, Constants.Attention.shipChunkDrop },
+			{ IncidentCategoryDefOf.DiseaseHuman, Constants.Attention.diseaseHuman },
+			{ IncidentCategoryDefOf.DiseaseAnimal, Constants.Attention.diseaseAnimal },
+			{ IncidentCategoryDefOf.AllyAssistance, Constants.Attention.allyAssistance },
+			{ IncidentCategoryDefOf.EndGame_ShipEscape, Constants.Attention.endGameShipEscape },
+			{ IncidentCategoryDefOf.GiveQuest, Constants.Attention.giveQuest },
+			{ IncidentCategoryDefOf.DeepDrillInfestation, Constants.Attention.deepDrillInfestation },
+		};
+
+		public static void Postfix(FiringIncident fi)
+		{
+			if (scores.TryGetValue(fi.def.category, out var score))
+				ServerAPI.TriggerAttention(score);
+		}
+	}
+
+	// attention: combat
+	//
+	[HarmonyPatch(typeof(Pawn_MindState), nameof(Pawn_MindState.Notify_AttackedTarget))]
+	class Pawn_MindState_Notify_AttackedTarget_Patch
+	{
+		public static void Postfix(Pawn ___pawn, LocalTargetInfo target)
+		{
+			if (___pawn.IsColonist == false)
+				return;
+			if (target.Thing is Pawn pawn && pawn.RaceProps.Humanlike)
+				ServerAPI.TriggerAttention(Constants.Attention.attackedHuman);
+			else
+				ServerAPI.TriggerAttention(Constants.Attention.attackedNonHuman);
+		}
+	}
+
+	// attention: general damage
+	//
+	[HarmonyPatch(typeof(ThingWithComps), nameof(ThingWithComps.PreApplyDamage))]
+	class ThingWithComps_PreApplyDamage_Patch
+	{
+		public static void Postfix(ThingWithComps __instance, ref DamageInfo dinfo)
+		{
+			if (dinfo.Instigator is Pawn)
+			{
+				var score = __instance.Faction.IsPlayer
+					? Constants.Attention.damagePlayerThing
+					: Constants.Attention.damageNonPlayerThing;
+				ServerAPI.TriggerAttention(score);
+			}
+		}
+	}
 }
