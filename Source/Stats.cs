@@ -47,6 +47,14 @@ namespace Rimionship
 			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoLodgers.Count;
 		}
 
+		public static int LowMoodColonists()
+		{
+			if (Find.Maps == null)
+				return 0;
+			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoLodgers
+				.Count(pawn => pawn.needs.mood.CurLevel < 0.1f);
+		}
+
 		public static int AllColonistsNeedTending()
 		{
 			if (Find.Maps == null)

@@ -35,6 +35,12 @@ namespace Rimionship
 		public float damageTakenThings;
 		public float damageDealt;
 
+		// side quests
+		public int animalMeatCreated;
+		public int amountBloodCleaned;
+		public int ticksLowColonistMood;
+		public int ticksIgnoringBloodGod;
+
 		public Model_Stat() { }
 
 		public void ExposeData()
@@ -67,6 +73,10 @@ namespace Rimionship
 			Scribe_Values.Look(ref damageTakenPawns, "damageTakenPawns");
 			Scribe_Values.Look(ref damageTakenThings, "damageTakenThings");
 			Scribe_Values.Look(ref damageDealt, "damageDealt");
+			Scribe_Values.Look(ref animalMeatCreated, "animalMeatCreated");
+			Scribe_Values.Look(ref amountBloodCleaned, "amountBloodCleaned");
+			Scribe_Values.Look(ref ticksLowColonistMood, "ticksLowColonistMood");
+			Scribe_Values.Look(ref ticksIgnoringBloodGod, "ticksIgnoringBloodGod");
 		}
 
 		public StatsRequest TransferModel(string id)
@@ -102,7 +112,11 @@ namespace Rimionship
 				InGameHours = inGameHours,
 				DamageTakenPawns = damageTakenPawns,
 				DamageTakenThings = damageTakenThings,
-				DamageDealt = damageDealt
+				DamageDealt = damageDealt,
+				AnimalMeatCreated = animalMeatCreated,
+				AmountBloodCleaned = amountBloodCleaned,
+				TicksLowColonistMood = ticksLowColonistMood,
+				TicksIgnoringBloodGod = ticksIgnoringBloodGod,
 			};
 		}
 	}

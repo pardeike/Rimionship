@@ -58,7 +58,7 @@ namespace RimionshipServer.API {
             "YWN0b3IYBCABKAIiGgoMU3RhcnRSZXF1ZXN0EgoKAmlkGAEgASgJInYKDVN0",
             "YXJ0UmVzcG9uc2USFAoMZ2FtZUZpbGVIYXNoGAEgASgJEhMKC2dhbWVGaWxl",
             "VXJsGAIgASgJEhkKEXN0YXJ0aW5nUGF3bkNvdW50GAMgASgFEh8KCHNldHRp",
-            "bmdzGAQgASgLMg0uYXBpLlNldHRpbmdzIv0ECgxTdGF0c1JlcXVlc3QSCgoC",
+            "bmdzGAQgASgLMg0uYXBpLlNldHRpbmdzIvEFCgxTdGF0c1JlcXVlc3QSCgoC",
             "aWQYASABKAkSDgoGd2VhbHRoGAIgASgFEhAKCG1hcENvdW50GAMgASgFEhEK",
             "CWNvbG9uaXN0cxgEIAEoBRIcChRjb2xvbmlzdHNOZWVkVGVuZGluZxgFIAEo",
             "BRIZChFtZWRpY2FsQ29uZGl0aW9ucxgGIAEoBRIPCgdlbmVtaWVzGAcgASgF",
@@ -72,23 +72,25 @@ namespace RimionshipServer.API {
             "Cg1udW1UaHJlYXRCaWdzGBggASgFEhcKD2NvbG9uaXN0c0tpbGxlZBgZIAEo",
             "BRIaChJncmVhdGVzdFBvcHVsYXRpb24YGiABKAUSEwoLaW5HYW1lSG91cnMY",
             "GyABKAUSGAoQZGFtYWdlVGFrZW5QYXducxgcIAEoAhIZChFkYW1hZ2VUYWtl",
-            "blRoaW5ncxgdIAEoAhITCgtkYW1hZ2VEZWFsdBgeIAEoAiIhCg1TdGF0c1Jl",
-            "c3BvbnNlEhAKCGludGVydmFsGAEgASgFIoIBCgtGdXR1cmVFdmVudBINCgV0",
-            "aWNrcxgBIAEoBRIMCgRuYW1lGAIgASgJEg0KBXF1ZXN0GAMgASgJEg8KB2Zh",
-            "Y3Rpb24YBCABKAkSDgoGcG9pbnRzGAUgASgCEhAKCHN0cmF0ZWd5GAYgASgJ",
-            "EhQKDGFycml2YWxfbW9kZRgHIAEoCSJCChNGdXR1cmVFdmVudHNSZXF1ZXN0",
-            "EgoKAmlkGAEgASgJEh8KBWV2ZW50GAIgAygLMhAuYXBpLkZ1dHVyZUV2ZW50",
-            "IhYKFEZ1dHVyZUV2ZW50c1Jlc3BvbnNlMocDCgNBUEkSMAoFSGVsbG8SES5h",
-            "cGkuSGVsbG9SZXF1ZXN0GhIuYXBpLkhlbGxvUmVzcG9uc2UiABIwCgVMb2dp",
-            "bhIRLmFwaS5Mb2dpblJlcXVlc3QaEi5hcGkuTG9naW5SZXNwb25zZSIAEkIK",
-            "C0xpbmtBY2NvdW50EhcuYXBpLkxpbmtBY2NvdW50UmVxdWVzdBoYLmFwaS5M",
-            "aW5rQWNjb3VudFJlc3BvbnNlIgASLQoEU3luYxIQLmFwaS5TeW5jUmVxdWVz",
-            "dBoRLmFwaS5TeW5jUmVzcG9uc2UiABIwCgVTdGFydBIRLmFwaS5TdGFydFJl",
-            "cXVlc3QaEi5hcGkuU3RhcnRSZXNwb25zZSIAEjAKBVN0YXRzEhEuYXBpLlN0",
-            "YXRzUmVxdWVzdBoSLmFwaS5TdGF0c1Jlc3BvbnNlIgASRQoMRnV0dXJlRXZl",
-            "bnRzEhguYXBpLkZ1dHVyZUV2ZW50c1JlcXVlc3QaGS5hcGkuRnV0dXJlRXZl",
-            "bnRzUmVzcG9uc2UiAEIXqgIUUmltaW9uc2hpcFNlcnZlci5BUEliBnByb3Rv",
-            "Mw=="));
+            "blRoaW5ncxgdIAEoAhITCgtkYW1hZ2VEZWFsdBgeIAEoAhIZChFhbmltYWxN",
+            "ZWF0Q3JlYXRlZBgfIAEoBRIaChJhbW91bnRCbG9vZENsZWFuZWQYICABKAUS",
+            "HAoUdGlja3NMb3dDb2xvbmlzdE1vb2QYISABKAUSHQoVdGlja3NJZ25vcmlu",
+            "Z0Jsb29kR29kGCIgASgFIiEKDVN0YXRzUmVzcG9uc2USEAoIaW50ZXJ2YWwY",
+            "ASABKAUiggEKC0Z1dHVyZUV2ZW50Eg0KBXRpY2tzGAEgASgFEgwKBG5hbWUY",
+            "AiABKAkSDQoFcXVlc3QYAyABKAkSDwoHZmFjdGlvbhgEIAEoCRIOCgZwb2lu",
+            "dHMYBSABKAISEAoIc3RyYXRlZ3kYBiABKAkSFAoMYXJyaXZhbF9tb2RlGAcg",
+            "ASgJIkIKE0Z1dHVyZUV2ZW50c1JlcXVlc3QSCgoCaWQYASABKAkSHwoFZXZl",
+            "bnQYAiADKAsyEC5hcGkuRnV0dXJlRXZlbnQiFgoURnV0dXJlRXZlbnRzUmVz",
+            "cG9uc2UyhwMKA0FQSRIwCgVIZWxsbxIRLmFwaS5IZWxsb1JlcXVlc3QaEi5h",
+            "cGkuSGVsbG9SZXNwb25zZSIAEjAKBUxvZ2luEhEuYXBpLkxvZ2luUmVxdWVz",
+            "dBoSLmFwaS5Mb2dpblJlc3BvbnNlIgASQgoLTGlua0FjY291bnQSFy5hcGku",
+            "TGlua0FjY291bnRSZXF1ZXN0GhguYXBpLkxpbmtBY2NvdW50UmVzcG9uc2Ui",
+            "ABItCgRTeW5jEhAuYXBpLlN5bmNSZXF1ZXN0GhEuYXBpLlN5bmNSZXNwb25z",
+            "ZSIAEjAKBVN0YXJ0EhEuYXBpLlN0YXJ0UmVxdWVzdBoSLmFwaS5TdGFydFJl",
+            "c3BvbnNlIgASMAoFU3RhdHMSES5hcGkuU3RhdHNSZXF1ZXN0GhIuYXBpLlN0",
+            "YXRzUmVzcG9uc2UiABJFCgxGdXR1cmVFdmVudHMSGC5hcGkuRnV0dXJlRXZl",
+            "bnRzUmVxdWVzdBoZLmFwaS5GdXR1cmVFdmVudHNSZXNwb25zZSIAQheqAhRS",
+            "aW1pb25zaGlwU2VydmVyLkFQSWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -109,7 +111,7 @@ namespace RimionshipServer.API {
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.Punishment), global::RimionshipServer.API.Punishment.Parser, new[]{ "StartPauseInterval", "FinalPauseInterval", "MinThoughtFactor", "MaxThoughtFactor" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.StartRequest), global::RimionshipServer.API.StartRequest.Parser, new[]{ "Id" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.StartResponse), global::RimionshipServer.API.StartResponse.Parser, new[]{ "GameFileHash", "GameFileUrl", "StartingPawnCount", "Settings" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.StatsRequest), global::RimionshipServer.API.StatsRequest.Parser, new[]{ "Id", "Wealth", "MapCount", "Colonists", "ColonistsNeedTending", "MedicalConditions", "Enemies", "WildAnimals", "TamedAnimals", "Visitors", "Prisoners", "DownedColonists", "MentalColonists", "Rooms", "Caravans", "WeaponDps", "Electricity", "Medicine", "Food", "Fire", "Conditions", "Temperature", "NumRaidsEnemy", "NumThreatBigs", "ColonistsKilled", "GreatestPopulation", "InGameHours", "DamageTakenPawns", "DamageTakenThings", "DamageDealt" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.StatsRequest), global::RimionshipServer.API.StatsRequest.Parser, new[]{ "Id", "Wealth", "MapCount", "Colonists", "ColonistsNeedTending", "MedicalConditions", "Enemies", "WildAnimals", "TamedAnimals", "Visitors", "Prisoners", "DownedColonists", "MentalColonists", "Rooms", "Caravans", "WeaponDps", "Electricity", "Medicine", "Food", "Fire", "Conditions", "Temperature", "NumRaidsEnemy", "NumThreatBigs", "ColonistsKilled", "GreatestPopulation", "InGameHours", "DamageTakenPawns", "DamageTakenThings", "DamageDealt", "AnimalMeatCreated", "AmountBloodCleaned", "TicksLowColonistMood", "TicksIgnoringBloodGod" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.StatsResponse), global::RimionshipServer.API.StatsResponse.Parser, new[]{ "Interval" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.FutureEvent), global::RimionshipServer.API.FutureEvent.Parser, new[]{ "Ticks", "Name", "Quest", "Faction", "Points", "Strategy", "ArrivalMode" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.FutureEventsRequest), global::RimionshipServer.API.FutureEventsRequest.Parser, new[]{ "Id", "Event" }, null, null, null),
@@ -3355,6 +3357,10 @@ namespace RimionshipServer.API {
       damageTakenPawns_ = other.damageTakenPawns_;
       damageTakenThings_ = other.damageTakenThings_;
       damageDealt_ = other.damageDealt_;
+      animalMeatCreated_ = other.animalMeatCreated_;
+      amountBloodCleaned_ = other.amountBloodCleaned_;
+      ticksLowColonistMood_ = other.ticksLowColonistMood_;
+      ticksIgnoringBloodGod_ = other.ticksIgnoringBloodGod_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -3693,6 +3699,50 @@ namespace RimionshipServer.API {
       }
     }
 
+    /// <summary>Field number for the "animalMeatCreated" field.</summary>
+    public const int AnimalMeatCreatedFieldNumber = 31;
+    private int animalMeatCreated_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int AnimalMeatCreated {
+      get { return animalMeatCreated_; }
+      set {
+        animalMeatCreated_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "amountBloodCleaned" field.</summary>
+    public const int AmountBloodCleanedFieldNumber = 32;
+    private int amountBloodCleaned_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int AmountBloodCleaned {
+      get { return amountBloodCleaned_; }
+      set {
+        amountBloodCleaned_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "ticksLowColonistMood" field.</summary>
+    public const int TicksLowColonistMoodFieldNumber = 33;
+    private int ticksLowColonistMood_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int TicksLowColonistMood {
+      get { return ticksLowColonistMood_; }
+      set {
+        ticksLowColonistMood_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "ticksIgnoringBloodGod" field.</summary>
+    public const int TicksIgnoringBloodGodFieldNumber = 34;
+    private int ticksIgnoringBloodGod_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int TicksIgnoringBloodGod {
+      get { return ticksIgnoringBloodGod_; }
+      set {
+        ticksIgnoringBloodGod_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as StatsRequest);
@@ -3736,6 +3786,10 @@ namespace RimionshipServer.API {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(DamageTakenPawns, other.DamageTakenPawns)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(DamageTakenThings, other.DamageTakenThings)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(DamageDealt, other.DamageDealt)) return false;
+      if (AnimalMeatCreated != other.AnimalMeatCreated) return false;
+      if (AmountBloodCleaned != other.AmountBloodCleaned) return false;
+      if (TicksLowColonistMood != other.TicksLowColonistMood) return false;
+      if (TicksIgnoringBloodGod != other.TicksIgnoringBloodGod) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -3772,6 +3826,10 @@ namespace RimionshipServer.API {
       if (DamageTakenPawns != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(DamageTakenPawns);
       if (DamageTakenThings != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(DamageTakenThings);
       if (DamageDealt != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(DamageDealt);
+      if (AnimalMeatCreated != 0) hash ^= AnimalMeatCreated.GetHashCode();
+      if (AmountBloodCleaned != 0) hash ^= AmountBloodCleaned.GetHashCode();
+      if (TicksLowColonistMood != 0) hash ^= TicksLowColonistMood.GetHashCode();
+      if (TicksIgnoringBloodGod != 0) hash ^= TicksIgnoringBloodGod.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3905,6 +3963,22 @@ namespace RimionshipServer.API {
         output.WriteRawTag(245, 1);
         output.WriteFloat(DamageDealt);
       }
+      if (AnimalMeatCreated != 0) {
+        output.WriteRawTag(248, 1);
+        output.WriteInt32(AnimalMeatCreated);
+      }
+      if (AmountBloodCleaned != 0) {
+        output.WriteRawTag(128, 2);
+        output.WriteInt32(AmountBloodCleaned);
+      }
+      if (TicksLowColonistMood != 0) {
+        output.WriteRawTag(136, 2);
+        output.WriteInt32(TicksLowColonistMood);
+      }
+      if (TicksIgnoringBloodGod != 0) {
+        output.WriteRawTag(144, 2);
+        output.WriteInt32(TicksIgnoringBloodGod);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -4002,6 +4076,18 @@ namespace RimionshipServer.API {
       }
       if (DamageDealt != 0F) {
         size += 2 + 4;
+      }
+      if (AnimalMeatCreated != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(AnimalMeatCreated);
+      }
+      if (AmountBloodCleaned != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(AmountBloodCleaned);
+      }
+      if (TicksLowColonistMood != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(TicksLowColonistMood);
+      }
+      if (TicksIgnoringBloodGod != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(TicksIgnoringBloodGod);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -4103,6 +4189,18 @@ namespace RimionshipServer.API {
       }
       if (other.DamageDealt != 0F) {
         DamageDealt = other.DamageDealt;
+      }
+      if (other.AnimalMeatCreated != 0) {
+        AnimalMeatCreated = other.AnimalMeatCreated;
+      }
+      if (other.AmountBloodCleaned != 0) {
+        AmountBloodCleaned = other.AmountBloodCleaned;
+      }
+      if (other.TicksLowColonistMood != 0) {
+        TicksLowColonistMood = other.TicksLowColonistMood;
+      }
+      if (other.TicksIgnoringBloodGod != 0) {
+        TicksIgnoringBloodGod = other.TicksIgnoringBloodGod;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -4233,6 +4331,22 @@ namespace RimionshipServer.API {
           }
           case 245: {
             DamageDealt = input.ReadFloat();
+            break;
+          }
+          case 248: {
+            AnimalMeatCreated = input.ReadInt32();
+            break;
+          }
+          case 256: {
+            AmountBloodCleaned = input.ReadInt32();
+            break;
+          }
+          case 264: {
+            TicksLowColonistMood = input.ReadInt32();
+            break;
+          }
+          case 272: {
+            TicksIgnoringBloodGod = input.ReadInt32();
             break;
           }
         }

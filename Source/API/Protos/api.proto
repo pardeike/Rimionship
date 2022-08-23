@@ -154,6 +154,10 @@ message StatsRequest {
 	float damageTakenPawns = 28;
 	float damageTakenThings = 29;
 	float damageDealt = 30;
+	int32 animalMeatCreated = 31;
+	int32 amountBloodCleaned = 32;
+	int32 ticksLowColonistMood = 33;
+	int32 ticksIgnoringBloodGod = 34;
 }
 
 message StatsResponse {

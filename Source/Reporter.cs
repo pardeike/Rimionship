@@ -9,6 +9,8 @@ namespace Rimionship
 {
 	public class Reporter : WorldComponent
 	{
+		public static Reporter Instance => Current.Game.World.GetComponent<Reporter>();
+
 		int _chosenMap = 0;
 		public Map ChosenMap
 		{
@@ -30,6 +32,9 @@ namespace Rimionship
 			stat.wealth = Stats.ColonyWealth(ChosenMap);
 		}
 
+		public void NewAnimalMeat(int n) => stat.animalMeatCreated += n;
+		public void NewBloodCleaned() => stat.amountBloodCleaned += 1;
+
 		public override void ExposeData()
 		{
 			Scribe_Values.Look(ref _chosenMap, "chosenMap");
@@ -40,6 +45,14 @@ namespace Rimionship
 		public override void FinalizeInit()
 		{
 			_ = Find.CameraDriver.StartCoroutine(Coroutine());
+		}
+
+		public override void WorldComponentTick()
+		{
+			stat.ticksLowColonistMood += Stats.LowMoodColonists();
+			var bloodGod = BloodGod.Instance;
+			if (bloodGod.state != BloodGod.State.Idle && bloodGod.punishLevel > 1)
+				stat.ticksIgnoringBloodGod += bloodGod.punishLevel - 1;
 		}
 
 		IEnumerator UpdateWeath()

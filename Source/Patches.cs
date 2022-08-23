@@ -569,15 +569,9 @@ namespace Rimionship
 			thing.PostApplyDamage(dinfo, amount);
 
 			if (dinfo.instigatorInt?.factionInt == Faction.OfPlayer)
-			{
-				var reporter = Current.Game.World.GetComponent<Reporter>();
-				reporter.HandleDamageDealt(amount);
-			}
+				Reporter.Instance.HandleDamageDealt(amount);
 			else if (thing?.factionInt == Faction.OfPlayer)
-			{
-				var reporter = Current.Game.World.GetComponent<Reporter>();
-				reporter.HandleDamageTaken(thing, amount);
-			}
+				Reporter.Instance.HandleDamageTaken(thing, amount);
 		}
 
 		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
@@ -703,9 +697,8 @@ namespace Rimionship
 			Widgets.DrawTextureFitted(list.GetRect(27), Assets.Rimionship, 1f);
 			list.Gap(12f);
 
-			var reporter = Current.Game.World.GetComponent<Reporter>();
 			var activateLabel = "Activate".Translate();
-			if (Find.CurrentMap == reporter.ChosenMap)
+			if (Find.CurrentMap == Reporter.Instance.ChosenMap)
 			{
 				Text.Font = GameFont.Small;
 				_ = list.Label("MainMapIsActive".Translate());
@@ -718,12 +711,52 @@ namespace Rimionship
 
 				if (list.ButtonText(activateLabel))
 				{
-					reporter.ChosenMap = Find.CurrentMap;
-					reporter.RefreshWealth();
+					Reporter.Instance.ChosenMap = Find.CurrentMap;
+					Reporter.Instance.RefreshWealth();
 				}
 			}
 
 			list.End();
+		}
+	}
+
+	// count animal meat produced
+	//
+	[HarmonyPatch(typeof(Pawn), nameof(Pawn.ButcherProducts))]
+	class Pawn_ButcherProducts_Patch
+	{
+		public static void Postfix(IEnumerable<Thing> __result)
+		{
+			var count = __result.Where(thing => thing.HasThingCategory(ThingCategoryDefOf.MeatRaw)).Sum(thing => thing.stackCount);
+			Reporter.Instance.NewAnimalMeat(count);
+		}
+	}
+
+	// count blood cleaned
+	//
+	[HarmonyPatch]
+	class ThinFilth_Patch
+	{
+		public static MethodInfo TargetMethod()
+		{
+			static MethodInfo OurMethod(Type type) => type == null ? null : AccessTools.GetDeclaredMethods(type)
+				.FirstOrDefault(method => method.Name.Contains("MakeNewToils") && method.Name.Contains("__1"));
+			var type = AccessTools.FirstInner(typeof(JobDriver_CleanFilth), type => OurMethod(type) != null);
+			return OurMethod(type);
+		}
+
+		static void ThinFilth(Filth instance)
+		{
+			if (instance.def == ThingDefOf.Filth_Blood || instance.def == ThingDefOf.Filth_DriedBlood)
+				Reporter.Instance.NewBloodCleaned();
+			instance.ThinFilth();
+		}
+
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+		{
+			var from = SymbolExtensions.GetMethodInfo(() => ((Filth)null).ThinFilth());
+			var to = SymbolExtensions.GetMethodInfo(() => ThinFilth(default));
+			return instructions.MethodReplacer(from, to);
 		}
 	}
 }

@@ -263,10 +263,9 @@ namespace Rimionship
 			var incidentDef = Tools.AllIncidentDefs()
 				.Where(def => def.category == category)
 				.RandomElement();
-			var reporter = Current.Game.World.GetComponent<Reporter>();
 			var parms = new IncidentParms
 			{
-				target = reporter.ChosenMap,
+				target = Reporter.Instance.ChosenMap,
 				// faction = Faction.OfPlayer,
 				forced = true
 			};
