@@ -262,10 +262,10 @@ namespace Rimionship
 			});
 		}
 
-		public static void TriggerAttention(int delta)
+		public static void TriggerAttention(string context, int delta)
 		{
 			if (Tools.DevMode)
-				AsyncLogger.Warning($"Attention +{delta}"); // TODO remove later
+				AsyncLogger.Warning($"Attention +{delta} [{context}]");
 
 			_ = Task.Run(async () =>
 			{
