@@ -382,7 +382,10 @@ namespace Rimionship
 
 		public static bool MakeStuffFromAbove()
 		{
-			var map = Tools.PlayerMaps.RandomElement();
+			var maps = Tools.PlayerMaps.Where(map => map.mapPawns.FreeColonists.Any()).ToList();
+			if (maps.Any() == false)
+				return false;
+			var map = maps.RandomElement();
 			var incidentDef = Defs.StuffFromAbove;
 			var parms = new IncidentParms { target = map, forced = true };
 			var result = incidentDef.Worker.TryExecute(parms);
