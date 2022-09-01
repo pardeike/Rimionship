@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<GettingSacrificed.reportString>wartet geopfert zu werden</GettingSacrificed.reportString>
+	<SacrificeColonist.reportString>opfert einen Kolonisten</SacrificeColonist.reportString>
+	<WatchSacrification.reportString>sieht der Opferung von TargetA zu</WatchSacrification.reportString>
+	<KillingSpree.label>Amoklauf</KillingSpree.label>
+	<KillingSpree.recoveryMessage>Der Amoklauf von {0} hat sich gelegt.</KillingSpree.recoveryMessage>
+	<KillingSpree.beginLetter>{0} ist Amok gelaufen.\n\n[PAWN_pronoun] wird alle Gefangenen töten, wenn [PAWN_objective] niemand aufhält.</KillingSpree.beginLetter>
+	<KillingSpree.baseInspectLine>Übergeschnappt: Amoklauf</KillingSpree.baseInspectLine>
+</LanguageData>

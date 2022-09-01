@@ -1,5 +1,4 @@
 ﻿using RimWorld;
-using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
@@ -18,15 +17,6 @@ namespace Rimionship
 			WealthWatcher.ResetStaticData();
 		}
 
-		static List<Map> PlayerMaps
-		{
-			get
-			{
-				var maps = Find.Maps ?? new List<Map>();
-				return maps.Where(m => m.IsPlayerHome).ToList();
-			}
-		}
-
 		public static int ColonyWealth(this Map map)
 		{
 			if (map == null)
@@ -37,7 +27,7 @@ namespace Rimionship
 
 		public static int AllMaps()
 		{
-			return PlayerMaps.Count;
+			return Tools.PlayerMaps.Count;
 		}
 
 		public static int AllColonists()
@@ -85,7 +75,7 @@ namespace Rimionship
 
 		public static int AllEnemies()
 		{
-			return PlayerMaps
+			return Tools.PlayerMaps
 				.Sum(map => map.attackTargetsCache
 					.TargetsHostileToFaction(Faction.OfPlayer)
 					.Select(target => target.Thing)
@@ -96,7 +86,7 @@ namespace Rimionship
 
 		public static int AllWildAnimals()
 		{
-			return PlayerMaps
+			return Tools.PlayerMaps
 				.SelectMany(map => map.mapPawns.AllPawnsSpawned)
 				.Where(pawn => pawn.training == null)
 				.Select(pawn => pawn.RaceProps)
@@ -108,7 +98,7 @@ namespace Rimionship
 
 		public static int AllTamedAnimals()
 		{
-			return PlayerMaps
+			return Tools.PlayerMaps
 				.SelectMany(map => map.mapPawns.AllPawnsSpawned)
 				.ToList()
 				.Where(pawn => pawn.training != null)
@@ -128,7 +118,7 @@ namespace Rimionship
 
 		public static int AllVisitors()
 		{
-			return PlayerMaps
+			return Tools.PlayerMaps
 				.Sum(map => map.mapPawns.AllPawnsSpawned
 					.Except(map.attackTargetsCache.TargetsHostileToFaction(Faction.OfPlayer))
 					.Except(PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists)
@@ -164,7 +154,7 @@ namespace Rimionship
 
 		public static int AllRooms()
 		{
-			return PlayerMaps
+			return Tools.PlayerMaps
 				.Sum(map => map.listerBuildings.allBuildingsColonist.Count);
 		}
 
@@ -177,7 +167,7 @@ namespace Rimionship
 
 		public static float AllWeaponDps_1()
 		{
-			return PlayerMaps
+			return Tools.PlayerMaps
 				.Sum(map =>
 					map.listerThings
 						.ThingsInGroup(ThingRequestGroup.Weapon)
@@ -216,14 +206,14 @@ namespace Rimionship
 
 		public static int AllElectricity()
 		{
-			return (int)PlayerMaps
+			return (int)Tools.PlayerMaps
 				.SelectMany(map => map.powerNetManager.AllNetsListForReading)
 				.Sum(net => net.CurrentEnergyGainRate() * 60000 + net.CurrentStoredEnergy());
 		}
 
 		public static float AllMedicine_1()
 		{
-			return PlayerMaps
+			return Tools.PlayerMaps
 				.Sum(map =>
 					map.listerThings.ThingsInGroup(ThingRequestGroup.Medicine)
 						.ToList()
@@ -244,7 +234,7 @@ namespace Rimionship
 
 		public static float AllFood_1()
 		{
-			return PlayerMaps
+			return Tools.PlayerMaps
 				.Sum(map =>
 					map.listerThings.ThingsInGroup(ThingRequestGroup.FoodSource)
 						.ToList()
@@ -264,7 +254,7 @@ namespace Rimionship
 
 		public static int AllFire()
 		{
-			return PlayerMaps
+			return Tools.PlayerMaps
 				.Sum(map =>
 				{
 					var home = map.areaManager.Home;
@@ -276,7 +266,7 @@ namespace Rimionship
 
 		public static int AllGameConditions()
 		{
-			return PlayerMaps
+			return Tools.PlayerMaps
 				.Sum(map => map.gameConditionManager.ActiveConditions.Count);
 		}
 

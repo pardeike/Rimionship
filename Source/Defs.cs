@@ -24,10 +24,11 @@ namespace Rimionship
 
 		public static MentalStateDef Slaughterer;
 		public static MentalStateDef InsultingSpree;
-		public static MentalStateDef SadisticRage;
 		public static MentalStateDef TargetedInsultingSpree;
 		public static MentalStateDef MurderousRage;
 		public static MentalStateDef GiveUpExit;
+		public static MentalStateDef Tantrum;
+		public static MentalStateDef KillingSpree; // ours
 
 		public static TraitDef FastLearner;
 		public static TraitDef Immunity;
@@ -38,5 +39,15 @@ namespace Rimionship
 		public static TraitDef Neurotic;
 		public static TraitDef Gourmand;
 		public static TraitDef SlowLearner;
+
+		public static HediffDef HearingLoss;
+
+		public static PawnKindDef Squirrel;
+		public static PawnKindDef GuineaPig;
+		public static PawnKindDef Chinchilla;
+		public static PawnKindDef Tortoise;
+		public static PawnKindDef Rat;
+
+		public static IncidentDef StuffFromAbove;
 	}
 }

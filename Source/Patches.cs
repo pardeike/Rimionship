@@ -611,10 +611,16 @@ namespace Rimionship
 	{
 		public static bool TryFire(Storyteller _, FiringIncident fi)
 		{
-			if (fi?.def?.Worker?.TryExecute(fi.parms) ?? false)
+			try
 			{
-				fi.parms?.target?.StoryState?.Notify_IncidentFired(fi);
-				return true;
+				if (fi.def.Worker.TryExecute(fi.parms))
+				{
+					fi.parms.target.StoryState.Notify_IncidentFired(fi);
+					return true;
+				}
+			}
+			catch
+			{
 			}
 			return false;
 		}
@@ -756,6 +762,39 @@ namespace Rimionship
 		{
 			var from = SymbolExtensions.GetMethodInfo(() => ((Filth)null).ThinFilth());
 			var to = SymbolExtensions.GetMethodInfo(() => ThinFilth(default));
+			return instructions.MethodReplacer(from, to);
+		}
+	}
+
+	// control boomalope manhunters
+	//
+	[HarmonyPatch(typeof(ManhunterPackIncidentUtility), nameof(ManhunterPackIncidentUtility.CanArriveManhunter))]
+	class ManhunterPackIncidentUtility_CanArriveManhunter_Patch
+	{
+		public static void Postfix(PawnKindDef kind, ref bool __result)
+		{
+			if (Tools.boomalopeManhunters == false && kind == PawnKindDefOf.Boomalope)
+				__result = false;
+		}
+	}
+
+	// boomalopes manhunters explode when they go to sleep
+	//
+	[HarmonyPatch(typeof(Need_Rest), nameof(Need_Rest.NeedInterval))]
+	class Need_Rest_NeedInterval_Patch
+	{
+		public static bool ShouldSendNotificationAbout(Pawn pawn)
+		{
+			var result = PawnUtility.ShouldSendNotificationAbout(pawn);
+			if (pawn.kindDef == PawnKindDefOf.Boomalope && pawn.health.hediffSet.HasHediff(HediffDefOf.Scaria, false))
+				pawn.Kill(null);
+			return result;
+		}
+
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+		{
+			var from = SymbolExtensions.GetMethodInfo(() => PawnUtility.ShouldSendNotificationAbout(null));
+			var to = SymbolExtensions.GetMethodInfo(() => ShouldSendNotificationAbout(default));
 			return instructions.MethodReplacer(from, to);
 		}
 	}

@@ -41,4 +41,7 @@
 	<MainMapIsInactive>Das ist nicht die Hauptkarte. Sie trägt nicht zum Koloniewert bei.\n\nUm diese Karte zur Hauptkarte zu machen, bitte auf {0} klicken:</MainMapIsInactive>
 	<DownloadingGame>Die Spieledatei wird geladen...</DownloadingGame>
 	<RegisterMod>Registrieren</RegisterMod>
+	<ColonistDiseaseTitle>Kolonist schwer erkrankt</ColonistDiseaseTitle>
+	<ColonistDiseaseContent>{0} ist unerwartet erkrankt: {1}</ColonistDiseaseContent>
+	<DeadlyBoomalopesArrive>Es sind tötliche, menschenjagende {0} in das Gebiet eingedrungen! Sie werden die Region durchstreifen und jeden Menschen in Sichtweite angreifen, um ihren Hunger nach menschlichem Fleisch zu stillen. Der Grund für ihren Wahnsinn ist eine Krankheit, die sich Skaria nennt.\n\nDie {0} werden keine Türen angreifen, es sei denn, sie sehen jemanden hindurchgehen. Solange du dich drinnen versteckst, solltest du sicher sein. Außerdem werden sie keine Geschütztürme angreifen, die vom Stromnetz getrennt sind.\n\nDie {0} werden die Gegend in ein oder zwei Tagen wieder verlassen. Du kannst dich verstecken und abwarten, oder gegen sie kämpfen.</DeadlyBoomalopesArrive>
 </LanguageData>

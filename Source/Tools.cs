@@ -21,6 +21,7 @@ namespace Rimionship
 		public static bool assetsInited = false;
 		public static readonly Rect Rect01 = new(0, 0, 1, 1);
 		public static readonly bool DevMode;
+		public static bool boomalopeManhunters = false;
 
 		static Tools()
 		{
@@ -97,6 +98,15 @@ namespace Rimionship
 			return BitConverter.ToString(checksum).Replace("-", "").ToLower();
 		}
 
+		public static List<Map> PlayerMaps
+		{
+			get
+			{
+				var maps = Find.Maps ?? new List<Map>();
+				return maps.Where(m => m.IsPlayerHome).ToList();
+			}
+		}
+
 		public static HashSet<string> InstalledMods()
 		{
 			return ModsConfig.data.activeMods.ToHashSet();
@@ -110,6 +120,7 @@ namespace Rimionship
 				case StatusCode.Cancelled:
 				case StatusCode.Unavailable:
 				case StatusCode.PermissionDenied:
+				case StatusCode.DeadlineExceeded:
 					return false;
 				case StatusCode.Unknown:
 					if (detail == "Stream removed")
@@ -178,6 +189,11 @@ namespace Rimionship
 				pawn.IsSlave == false &&
 				pawn.Downed == false &&
 				pawn.health.capacities.CapableOf(PawnCapacityDefOf.Moving);
+		}
+
+		public static bool HasSimpleWeapon(this Pawn pawn)
+		{
+			return WorkGiver_HunterHunt.HasHuntingWeapon(pawn);
 		}
 
 		public static void InterruptAllColonistsOnMap(this Map map, bool onlyOurJobs = false)
@@ -303,6 +319,28 @@ namespace Rimionship
 				ModListStatus.Valid => Assets.StateOK,
 				_ => throw new NotImplementedException()
 			};
+		}
+
+		public static List<Building_Battery> AllBatteries()
+		{
+			return PlayerMaps
+				.SelectMany(map => map.listerBuildings.AllBuildingsColonistOfDef(ThingDefOf.Battery).OfType<Building_Battery>())
+				.ToList();
+		}
+
+		public static List<PowerNet> AllPowerNets()
+		{
+			return PlayerMaps
+				.SelectMany(map => map.powerNetManager.AllNetsListForReading)
+				.ToList();
+		}
+
+		public static List<Pawn> Generate(this PawnKindDef pawnKindDef, int animalCount = 0)
+		{
+			var list = new List<Pawn>();
+			for (int i = 0; i < animalCount; i++)
+				list.Add(PawnGenerator.GeneratePawn(pawnKindDef));
+			return list;
 		}
 
 		public static IEnumerable<IncidentDef> AllIncidentDefs() => DefDatabase<IncidentDef>.AllDefsListForReading;

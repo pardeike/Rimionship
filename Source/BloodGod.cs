@@ -2,6 +2,7 @@
 using RimWorld;
 using RimWorld.Planet;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -72,6 +73,7 @@ namespace Rimionship
 
 		void AnnounceNextLevel()
 		{
+			// TODO make system to play specific list of sounds randomized per event type
 			Defs.Bloodgod.PlayWithCallback(0f, () => StartPhase(State.Punishing));
 			punishLevel = Math.Min(punishLevel + 1, 5);
 			AsyncLogger.Warning($"BLOOD GOD Level now #{punishLevel}");
@@ -179,7 +181,19 @@ namespace Rimionship
 			AsyncLogger.Warning($"BLOOD GOD #{punishLevel} phase => {state}");
 		}
 
-		public static Pawn NonMentalColonist(bool withViolence, Pawn exclude = null, Map map = null)
+		static bool RepeatWIthPercentageOfColonists(float percentage, Func<bool> action)
+		{
+			var count = Mathf.FloorToInt(Stats.AllColonists() * percentage) + 1;
+			var flag = false;
+			for (var i = 1; i <= count; i++)
+				if (action())
+					flag = true;
+				else
+					break;
+			return flag;
+		}
+
+		public static Pawn NonMentalColonist(bool withViolence, Func<Pawn, bool> validator = null, Map map = null)
 		{
 			static float SkillWeight(SkillRecord skill)
 				=> skill.levelInt * (
@@ -188,7 +202,7 @@ namespace Rimionship
 
 			var candidates = PawnsFinder
 				.AllMaps_FreeColonistsSpawned
-					.Where(pawn => pawn != exclude
+					.Where(pawn => validator == null || validator(pawn)
 						&& (map == null || pawn.Map == map)
 						&& pawn.InMentalState == false
 						&& pawn.Downed == false
@@ -216,31 +230,44 @@ namespace Rimionship
 			return true;
 		}
 
-		public static bool MakeMentalBreak(MentalStateDef def, bool isViolent)
+		public static Pawn allowedKillingSpree = null;
+		public static bool MakeMentalBreak(MentalStateDef def, float percentage, bool isViolent, Func<Pawn, bool> validator = null)
 		{
-			var pawn = NonMentalColonist(isViolent);
-			if (pawn == null)
+			return RepeatWIthPercentageOfColonists(percentage, () =>
 			{
-				AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeMentalBreak no colonist avail => false");
-				return false;
-			}
-			if (def == MentalStateDefOf.SocialFighting)
-			{
-				var otherPawn = NonMentalColonist(true, pawn, pawn.Map);
-				if (otherPawn == null)
+				var pawn = NonMentalColonist(isViolent, validator);
+				if (pawn == null)
 				{
-					AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeMentalBreak no other colonist avail => false");
+					AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeMentalBreak no colonist avail => false");
 					return false;
 				}
-				AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {pawn.LabelShortCap}-{otherPawn.LabelShortCap} {def.defName}");
-				pawn.interactions.StartSocialFight(otherPawn, "MessageSocialFight");
-				return true;
-			}
-			var result = pawn.mindState.mentalStateHandler.TryStartMentalState(def, null, true);
-			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {pawn.LabelShortCap} {def.defName} => {result}");
-			return result;
+				if (def == MentalStateDefOf.SocialFighting)
+				{
+					var otherPawn = NonMentalColonist(true, p => p != pawn, pawn.Map);
+					if (otherPawn == null)
+					{
+						AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeMentalBreak no other colonist avail => false");
+						return false;
+					}
+					AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {pawn.LabelShortCap}-{otherPawn.LabelShortCap} {def.defName}");
+					pawn.interactions.StartSocialFight(otherPawn, "MessageSocialFight");
+					return true;
+				}
+				allowedKillingSpree = pawn;
+				var result = pawn.mindState.mentalStateHandler.TryStartMentalState(def, null, true);
+				allowedKillingSpree = null;
+				AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {pawn.LabelShortCap} {def.defName} => {result}");
+				return result;
+			});
 		}
 
+		static readonly HashSet<HediffDef> excludedHediffs = new()
+		{
+			HediffDefOf.Heatstroke,
+			HediffDefOf.Hypothermia,
+			HediffDefOf.BloodLoss,
+			Defs.HearingLoss
+		};
 		public static bool MakeRandomHediffGiver()
 		{
 			var pawn = NonMentalColonist(false);
@@ -249,15 +276,20 @@ namespace Rimionship
 				AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomHediffGiver no colonist avail => false");
 				return false;
 			}
-			var hediffGiver = ThingDefOf.Human.race.hediffGiverSets
+
+			var hediffGivers = ThingDefOf.Human.race.hediffGiverSets
 				.SelectMany((HediffGiverSetDef set) => set.hediffGivers)
-				.RandomElement();
+				.Where(giver => excludedHediffs.Contains(giver.hediff) == false);
+			var hediffGiver = hediffGivers.RandomElement();
+			Log.Warning($"# {hediffGivers.Join(hg => hg.hediff.defName, " ")} => {hediffGiver.hediff.defName}");
 			var result = hediffGiver.TryApply(pawn, null);
-			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {hediffGiver} => {result}");
+			if (result)
+				Find.LetterStack.ReceiveLetter("ColonistDiseaseTitle".Translate(), "ColonistDiseaseContent".Translate(pawn.LabelShortCap, hediffGiver.hediff.description), LetterDefOf.NegativeEvent, pawn);
+			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {hediffGiver.hediff.description} => {result}");
 			return result;
 		}
 
-		public static bool MakeRandomDisease(bool isAnimal)
+		public static bool MakeRandomDisease(float percentage, bool isAnimal)
 		{
 			var category = isAnimal ? IncidentCategoryDefOf.DiseaseAnimal : IncidentCategoryDefOf.DiseaseHuman;
 			var incidentDef = Tools.AllIncidentDefs()
@@ -266,133 +298,277 @@ namespace Rimionship
 			var parms = new IncidentParms
 			{
 				target = Reporter.Instance.ChosenMap,
-				// faction = Faction.OfPlayer,
 				forced = true
 			};
+			incidentDef.diseaseVictimFractionRange = new FloatRange(percentage, percentage);
+			incidentDef.diseaseMaxVictims = 999;
 			var result = incidentDef.Worker.TryExecute(parms);
-			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {incidentDef.defName} [{isAnimal}] => {result}");
+			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {incidentDef.defName} {percentage:P0} [{isAnimal}] => {result}");
 			return result;
 		}
 
-		static int PunishmentChoice(int max)
+		public static bool MakeBzztOnAllBatteries()
 		{
-			return Rand.RangeInclusive(1, max);
+			var batteries = Tools.AllBatteries().Where(b => b.GetComp<CompPowerBattery>().StoredEnergy > 100f).ToList();
+			foreach (var battery in batteries)
+			{
+				battery.ticksToExplode = Rand.Range(70, 150);
+				battery.StartWickSustainer();
+			}
+			return batteries.Count > 0;
 		}
 
-		public bool CommencePunishment()
+		static readonly PawnKindDef[] pawnKinds = new[] { Defs.Squirrel, Defs.GuineaPig, Defs.Chinchilla, Defs.Tortoise, Defs.Rat };
+		public static bool MegaManhunters()
+		{
+			var counter = 0;
+			foreach (var map in Tools.PlayerMaps)
+			{
+				var amount = Mathf.Min(100, map.mapPawns.ColonistCount * 10);
+				for (var i = 1; i <= amount; i++)
+				{
+					if (RCellFinder.TryFindRandomPawnEntryCell(out var spawnCenter, map, CellFinder.EdgeRoadChance_Animal))
+					{
+						var pawn = PawnGenerator.GeneratePawn(pawnKinds[counter % pawnKinds.Length]);
+						var rot = Rot4.FromAngleFlat((map.Center - spawnCenter).AngleFlat);
+						var loc = CellFinder.RandomClosewalkCellNear(spawnCenter, map, 10, null);
+						_ = GenSpawn.Spawn(pawn, loc, map, rot, WipeMode.Vanish, false);
+						_ = pawn.health.AddHediff(HediffDefOf.Scaria);
+						_ = pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.ManhunterPermanent);
+						pawn.mindState.exitMapAfterTick = Find.TickManager.TicksGame + Rand.Range(60000, 90000);
+						counter++;
+					}
+				}
+			}
+			if (counter > 0)
+			{
+				Find.TickManager.slower.SignalForceNormalSpeedShort();
+				Find.LetterStack.ReceiveLetter("LetterLabelManhunterPackArrived".Translate(), "AnimalsLower".Translate(), LetterDefOf.ThreatBig, null);
+				return true;
+			}
+			return false;
+		}
+
+		public static bool MakeExplodingBoomalopes()
+		{
+			var boomalopes = new List<Pawn>();
+			foreach (var map in Tools.PlayerMaps)
+			{
+				if (RCellFinder.TryFindRandomPawnEntryCell(out var spawnCenter, map, CellFinder.EdgeRoadChance_Animal))
+				{
+					var amount = Mathf.Min(50, map.mapPawns.ColonistCount * 5);
+					for (var i = 1; i <= amount; i++)
+					{
+						var pawn = PawnGenerator.GeneratePawn(PawnKindDefOf.Boomalope);
+						var rot = Rot4.FromAngleFlat((map.Center - spawnCenter).AngleFlat);
+						var loc = CellFinder.RandomClosewalkCellNear(spawnCenter, map, 10, null);
+						_ = GenSpawn.Spawn(pawn, loc, map, rot, WipeMode.Vanish, false);
+						_ = pawn.health.AddHediff(HediffDefOf.Scaria);
+						_ = pawn.needs.rest.CurLevel = Rand.Range(0.25f, 0.27f);
+						_ = pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.ManhunterPermanent);
+						pawn.mindState.exitMapAfterTick = Find.TickManager.TicksGame + Rand.Range(60000, 90000);
+						boomalopes.Add(pawn);
+					}
+				}
+			}
+			if (boomalopes.Any())
+			{
+				Find.TickManager.slower.SignalForceNormalSpeedShort();
+				Find.LetterStack.ReceiveLetter("LetterLabelManhunterPackArrived".Translate(), "DeadlyBoomalopesArrive".Translate(PawnKindDefOf.Boomalope.GetLabelPlural(-1)), LetterDefOf.ThreatBig, boomalopes);
+				return true;
+			}
+			return false;
+		}
+
+		public static bool MakeStuffFromAbove()
+		{
+			var map = Tools.PlayerMaps.RandomElement();
+			var incidentDef = Defs.StuffFromAbove;
+			var parms = new IncidentParms { target = map, forced = true };
+			var result = incidentDef.Worker.TryExecute(parms);
+			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {incidentDef.defName} => {result}");
+			return result;
+		}
+
+		static bool PunishmentChoice(int choice, params Func<bool>[] choices)
+		{
+			var idx = choice != -1 ? choice : Rand.RangeInclusive(0, choices.Length);
+			return choices[idx]();
+		}
+
+		// TODO nach erstem event: mood -2 "Angst vor Blutgott" / "Fear of the blood god" 
+
+		public bool CommencePunishment(int choice = -1)
 		{
 			switch (punishLevel)
 			{
 				case 1:
-					switch (PunishmentChoice(4))
-					{
-						case 1:
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Flashstorm");
-							if (MakeGameCondition(GameConditionDefOf.Flashstorm, GenDate.TicksPerDay))
-								return true;
-							break;
-						case 2:
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} PsychicDrone");
-							if (MakeGameCondition(GameConditionDefOf.PsychicDrone, GenDate.TicksPerDay))
-								return true;
-							break;
-						case 3:
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} SolarFlare");
-							if (MakeGameCondition(GameConditionDefOf.SolarFlare, GenDate.TicksPerDay))
-								return true;
-							break;
-						case 4:
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} ToxicFallout");
-							if (MakeGameCondition(GameConditionDefOf.ToxicFallout, GenDate.TicksPerDay))
-								return true;
-							break;
-					}
+					if (PunishmentChoice
+					(
+						choice,
+						() =>
+						{
+							var ok = MakeGameCondition(GameConditionDefOf.Flashstorm, GenDate.TicksPerDay);
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Flashstorm => {ok}");
+							return ok;
+						},
+						() =>
+						{
+							var ok = MakeGameCondition(GameConditionDefOf.PsychicDrone, GenDate.TicksPerDay);
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} PsychicDrone => {ok}");
+							return ok;
+						},
+						() =>
+						{
+							var ok = MakeGameCondition(GameConditionDefOf.SolarFlare, GenDate.TicksPerDay);
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} SolarFlare => {ok}");
+							return ok;
+						},
+						() =>
+						{
+							var ok = MakeGameCondition(GameConditionDefOf.ToxicFallout, GenDate.TicksPerDay);
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} ToxicFallout => {ok}");
+							return ok;
+						}
+					))
+						return true;
 					break;
 				case 2:
-					switch (PunishmentChoice(3))
-					{
-						case 1:
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Slaughterer");
-							if (MakeMentalBreak(Defs.Slaughterer, true))
-								return true;
-							break;
-						case 2:
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} SocialFighting");
-							if (MakeMentalBreak(MentalStateDefOf.SocialFighting, true))
-								return true;
-							break;
-						case 3:
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomDisease-Animal");
-							if (MakeRandomDisease(true))
-								return true;
-							break;
-					}
+					if (PunishmentChoice
+					(
+						choice,
+						() =>
+						{
+							var ok = MakeMentalBreak(Defs.Slaughterer, 0f, true);
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Slaughterer => {ok}");
+							return ok;
+						},
+						() =>
+						{
+							var ok = MakeMentalBreak(MentalStateDefOf.SocialFighting, 0.25f, true); // careful, it involves 2 colonists at once
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} SocialFighting => {ok}");
+							return ok;
+						},
+						() =>
+						{
+							var ok = MakeRandomDisease(0.25f, true);
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomDisease-Animal => {ok}");
+							return ok;
+						},
+						() =>
+						{
+							var ok = MakeMentalBreak(Defs.Tantrum, 0.2f, true);
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Tantrum => {ok}");
+							return ok;
+						},
+						() =>
+						{
+							var ok = MakeBzztOnAllBatteries(); // TODO Alternative die mehr "blutgott" ist???
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Bzzt On All Batteries => {ok}");
+							return ok;
+						}
+					))
+						return true;
 					break;
 				case 3:
-					switch (PunishmentChoice(3))
-					{
-						case 1:
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Berserk");
-							if (MakeMentalBreak(MentalStateDefOf.Berserk, true))
-								return true;
-							break;
-						case 2:
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomDisease-Human");
-							if (MakeRandomDisease(false))
-								return true;
-							break;
-						case 3:
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} InsultingSpree");
-							if (MakeMentalBreak(Defs.InsultingSpree, false))
-								return true;
-							break;
-					}
+					if (PunishmentChoice
+					(
+						choice,
+						() =>
+						{
+							var ok = MakeMentalBreak(MentalStateDefOf.Berserk, 0.4f, true);
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Berserk => {ok}");
+							return ok;
+						},
+						() =>
+						{
+							var ok = MakeRandomDisease(0.4f, false);
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomDisease-Human => {ok}");
+							return ok;
+						},
+						() =>
+						{
+							var ok = MakeMentalBreak(Defs.InsultingSpree, 0.25f, false);
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} InsultingSpree => {ok}");
+							return ok;
+						},
+						() =>
+						{
+							var ok = MegaManhunters();
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} AngryAnimals => {ok}");
+							return ok;
+						}
+					))
+						return true;
 					break;
 				case 4:
-					switch (PunishmentChoice(3))
-					{
-						case 1:
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} SadisticRage");
-							if (MakeMentalBreak(Defs.SadisticRage, true))
-								return true;
-							break;
-						case 2:
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} TargetedInsultingSpree");
-							if (MakeMentalBreak(Defs.TargetedInsultingSpree, false))
-								return true;
-							break;
-						case 3:
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomHediffGiver");
-							if (MakeRandomHediffGiver())
-								return true;
-							break;
-					}
+					if (PunishmentChoice
+					(
+						choice,
+						() =>
+						{
+							var ok = MakeMentalBreak(Defs.KillingSpree, 0f, true, Tools.HasSimpleWeapon);
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} KillingSpree => {ok}");
+							return ok;
+						},
+						() =>
+						{
+							var ok = MakeMentalBreak(Defs.TargetedInsultingSpree, 0.25f, false);
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} TargetedInsultingSpree => {ok}");
+							return ok;
+						},
+						() =>
+						{
+							var ok = MakeRandomHediffGiver();
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomHediffGiver => {ok}");
+							return ok;
+						},
+						() =>
+						{
+							var ok = MakeExplodingBoomalopes();
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} ExplodingBoomalopes => {ok}");
+							return ok;
+						}
+					))
+						return true;
 					break;
 				case 5:
-					switch (PunishmentChoice(3))
-					{
-						case 1:
+					if (PunishmentChoice
+					(
+						choice,
+						() =>
+						{
+							var ok = false;
 							var looser = NonMentalColonist(false);
-							AsyncLogger.Warning($"BLOOD GOD #{punishLevel} ColonistBecomesDumber => {looser != null}");
 							if (looser != null)
 							{
 								looser.skills.skills.Do(skill => skill.levelInt /= 2);
-								var letter = LetterMaker.MakeLetter("ColonistBecomesDumberTitle".Translate(looser.LabelShortCap), "ColonistBecomesDumberText".Translate(looser.LabelShortCap), LetterDefOf.NegativeEvent, looser);
-								Find.LetterStack.ReceiveLetter(letter, null);
-								return true;
+								Find.LetterStack.ReceiveLetter("ColonistBecomesDumberTitle".Translate(looser.LabelShortCap), "ColonistBecomesDumberText".Translate(looser.LabelShortCap), LetterDefOf.NegativeEvent, looser, null);
+								ok = true;
 							}
-							break;
-						case 2:
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MurderousRage");
-							if (MakeMentalBreak(Defs.MurderousRage, true))
-								return true;
-							break;
-						case 3:
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} GiveUpExit");
-							if (MakeMentalBreak(Defs.GiveUpExit, false))
-								return true;
-							break;
-					}
+							AsyncLogger.Warning($"BLOOD GOD #{punishLevel} ColonistBecomesDumber => {ok}");
+							return ok;
+						},
+						() =>
+						{
+							var ok = MakeMentalBreak(Defs.MurderousRage, 0.25f, true);
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MurderousRage => {ok}");
+							return ok;
+						},
+						() =>
+						{
+							var ok = MakeMentalBreak(Defs.GiveUpExit, 0f, false);
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} GiveUpExit => {ok}");
+							return ok;
+						},
+						() =>
+						{
+							var ok = MakeStuffFromAbove();
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} StuffFromAbove => {ok}");
+							return ok;
+						}
+					))
+						return true;
 					break;
 			}
 			return false;

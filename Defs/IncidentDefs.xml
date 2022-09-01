@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<IncidentDef>
+		<defName>StuffFromAbove</defName>
+		<label>meteorite impact</label>
+		<category>ThreatBig</category>
+		<targetTags>
+			<li>Map_PlayerHome</li>
+		</targetTags>
+		<workerClass>Rimionship.IncidentWorker_StuffFromAbove</workerClass>
+		<baseChance>0</baseChance>
+		<letterLabel>Meteorite</letterLabel>
+		<letterText>A dangerous meteorite is about to struck ground in the area.</letterText>
+		<tale>MeteoriteImpact</tale>
+	</IncidentDef>
+
+</Defs>
