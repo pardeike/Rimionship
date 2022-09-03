@@ -230,6 +230,8 @@ namespace Rimionship
 	{
 		public static void Postfix()
 		{
+			Assets.SetActive(PlayState.tournamentState != TournamentState.Training);
+
 			if (Find.TickManager.TicksGame == 0)
 			{
 				Find.GameEnder.gameEnding = false;

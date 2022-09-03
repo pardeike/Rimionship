@@ -150,6 +150,11 @@ namespace Rimionship
 			Tools.assetsInited = true;
 		}
 
+		public static void SetActive(bool active)
+		{
+			scorePanel.gameObject.SetActive(active);
+		}
+
 		public static void SetInfoAlpha(float alpha)
 		{
 			Color c;
