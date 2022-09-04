@@ -34,6 +34,7 @@ namespace Rimionship
 		public int pauseTicks;
 		public int cooldownTicks;
 		public int punishLevel;
+		public bool firstTime;
 
 		Sustainer ambience;
 
@@ -49,6 +50,7 @@ namespace Rimionship
 			Scribe_Values.Look(ref pauseTicks, "pauseTicks");
 			Scribe_Values.Look(ref cooldownTicks, "cooldownTicks");
 			Scribe_Values.Look(ref punishLevel, "punishLevel");
+			Scribe_Values.Look(ref firstTime, "firstTime", true);
 		}
 
 		public bool IsInactive => state == State.Idle || state == State.Cooldown;
@@ -112,6 +114,12 @@ namespace Rimionship
 					break;
 
 				case State.Punishing:
+					if (firstTime)
+					{
+						firstTime = false;
+						Find.TickManager.Pause();
+						Find.WindowStack.Add(new Dialog_Information("BloodGodInfoTitle", "BloodGodInfoBody", null));
+					}
 					if (CommencePunishment())
 					{
 						Find.LetterStack.ReceiveLetter("PunishmentLetterTitle".Translate(), "PunishmentLetterContent".Translate(punishLevel), LetterDefOf.NegativeEvent, null);

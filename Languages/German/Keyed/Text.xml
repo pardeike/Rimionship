@@ -46,5 +46,7 @@
 	<DeadlyBoomalopesArrive>Es sind tötliche, menschenjagende {0} in das Gebiet eingedrungen! Sie werden die Region durchstreifen und jeden Menschen in Sichtweite angreifen, um ihren Hunger nach menschlichem Fleisch zu stillen. Der Grund für ihren Wahnsinn ist eine Krankheit, die sich Skaria nennt.\n\nDie {0} werden keine Türen angreifen, es sei denn, sie sehen jemanden hindurchgehen. Solange du dich drinnen versteckst, solltest du sicher sein. Außerdem werden sie keine Geschütztürme angreifen, die vom Stromnetz getrennt sind.\n\nDie {0} werden die Gegend in ein oder zwei Tagen wieder verlassen. Du kannst dich verstecken und abwarten, oder gegen sie kämpfen.</DeadlyBoomalopesArrive>
 	<TrainingWarningTitle>Privater Trainingsmodus</TrainingWarningTitle>
 	<TrainingWarningBody>Der Trainingsmodus ist nur für Streamer gedacht. Um Spoiler zu vermeiden, bitte keine Details über das Spiel veröffentlichen (Konzepte, Bilder, Video, Streams etc)</TrainingWarningBody>
+	<BloodGodInfoTitle>Blutgott</BloodGodInfoTitle>
+	<BloodGodInfoBody>Eure wachsende Kolonie erregt nunmehr die Aufmerksamkeit des Blutgotts und sein Zorn wird langsam stärker.\n\nWählt den Zeitpunkt einer Opferung mit Bedacht um ihn für eine Weile zu beruhigen. Denn je länger ihr ihm die Stirn bietet, umso größer wird die Erleichterung eurer Kolonisten bei einem Opfer sein. Doch auch die Strafen des Blutgotts werden zunehmend schlimmer.\n\nGenauere Infos findet ihr im Infotext des Opferplatzes.</BloodGodInfoBody>
 	<Understand>Ich verstehe</Understand>
 </LanguageData>
