@@ -105,8 +105,19 @@ namespace Rimionship
 						Find.WindowStack.Add(new Dialog_MessageBox("CannotStartTournament".Translate()));
 						return;
 					}
-					MainMenuDrawer.CloseMainTab();
-					_ = Task.Run(PlayState.LoadGame);
+					if (PlayState.tournamentState == TournamentState.Training)
+					{
+						Find.WindowStack.Add(new Dialog_Information("TrainingWarningTitle", "TrainingWarningBody", () =>
+						{
+							MainMenuDrawer.CloseMainTab();
+							_ = Task.Run(PlayState.LoadGame);
+						}));
+					}
+					else
+					{
+						MainMenuDrawer.CloseMainTab();
+						_ = Task.Run(PlayState.LoadGame);
+					}
 				};
 			}
 		}

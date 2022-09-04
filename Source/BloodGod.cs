@@ -464,7 +464,7 @@ namespace Rimionship
 						},
 						() =>
 						{
-							var ok = MakeBzztOnAllBatteries(); // TODO Alternative die mehr "blutgott" ist???
+							var ok = MakeBzztOnAllBatteries();
 							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Bzzt On All Batteries => {ok}");
 							return ok;
 						}
