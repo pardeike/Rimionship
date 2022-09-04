@@ -679,6 +679,20 @@ namespace Rimionship
 		}
 	}
 
+	// offset mood when blood god is active
+	//
+	[HarmonyPatch(typeof(SituationalThoughtHandler), nameof(SituationalThoughtHandler.AppendMoodThoughts))]
+	class SituationalThoughtHandler_AppendMoodThoughts_Patch
+	{
+		public static void Postfix(List<Thought> outThoughts)
+		{
+			if (BloodGod.Instance.punishLevel == 0)
+				return;
+			var thought = ThoughtMaker.MakeThought(Defs.FearOfBloodGod, 0);
+			outThoughts.Add(thought);
+		}
+	}
+
 	// show extra UX on architect popup
 	//
 	[HarmonyPatch]

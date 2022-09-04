@@ -399,8 +399,6 @@ namespace Rimionship
 			return choices[idx]();
 		}
 
-		// TODO nach erstem event: mood -2 "Angst vor Blutgott" / "Fear of the blood god" 
-
 		public bool CommencePunishment(int choice = -1)
 		{
 			switch (punishLevel)

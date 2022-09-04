@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThoughtDef>
+		<defName>FearOfBloodGod</defName>
+		<thoughtClass>Rimionship.Thought_MemoryFear</thoughtClass>
+		<stages>
+			<li>
+				<label>fear of the blood god</label>
+				<description>I hope I'm not going to be sacrificed next.</description>
+				<baseMoodEffect>-2</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+
+</Defs>

@@ -49,5 +49,7 @@ namespace Rimionship
 		public static PawnKindDef Rat;
 
 		public static IncidentDef StuffFromAbove;
+
+		public static ThoughtDef FearOfBloodGod;
 	}
 }
