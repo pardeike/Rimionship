@@ -3,8 +3,8 @@
 
 	<ThingDef ParentName="BuildingBase">
 		<defName>SacrificationSpot</defName>
-		<label>scarification spot</label>
-		<description>You can sacrifice colonists here.</description>
+		<label>sacrification spot</label>
+		<description>You can sacrifice colonists here</description>
 		<thingClass>Rimionship.SacrificationSpot</thingClass>
 		<graphicData>
 			<texPath>SacrificationSpot</texPath>

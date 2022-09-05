@@ -32,9 +32,13 @@ namespace Rimionship
 		public State state;
 		public int startTicks;
 		public int pauseTicks;
+		public int pauseLength;
 		public int cooldownTicks;
 		public int punishLevel;
-		public bool firstTime;
+		public bool helpShown;
+		public bool hadLevel3;
+		public long primeTimerStart;
+		public long primeTimerTotal;
 
 		Sustainer ambience;
 
@@ -48,9 +52,13 @@ namespace Rimionship
 			Scribe_Values.Look(ref state, "state");
 			Scribe_Values.Look(ref startTicks, "startTicks");
 			Scribe_Values.Look(ref pauseTicks, "pauseTicks");
+			Scribe_Values.Look(ref pauseLength, "pauseLength");
 			Scribe_Values.Look(ref cooldownTicks, "cooldownTicks");
 			Scribe_Values.Look(ref punishLevel, "punishLevel");
-			Scribe_Values.Look(ref firstTime, "firstTime", true);
+			Scribe_Values.Look(ref helpShown, "helpShown");
+			Scribe_Values.Look(ref hadLevel3, "hadLevel3");
+			Scribe_Values.Look(ref primeTimerStart, "primeTimerStart");
+			Scribe_Values.Look(ref primeTimerTotal, "primeTimerTotal");
 		}
 
 		public bool IsInactive => state == State.Idle || state == State.Cooldown;
@@ -78,23 +86,57 @@ namespace Rimionship
 			// TODO make system to play specific list of sounds randomized per event type
 			Defs.Bloodgod.PlayWithCallback(0f, () => StartPhase(State.Punishing));
 			punishLevel = Math.Min(punishLevel + 1, 5);
+			hadLevel3 |= punishLevel == 3;
 			AsyncLogger.Warning($"BLOOD GOD Level now #{punishLevel}");
 			StartPhase(State.Announcing);
+		}
+
+		void UpdatePrimeTime(int currentTicks)
+		{
+			var safetyMarginTicks = 4 * 60 * 60; // 4 game minutes
+			var primeIntervalMinutes = TimeSpan.TicksPerMinute * 30; // 30 real world minutes
+			var dateTicks = DateTime.Now.Ticks;
+
+			if (hadLevel3
+				&& (state != State.Rising || currentTicks - startTicks < RimionshipMod.settings.risingInterval - safetyMarginTicks)
+				&& (state != State.Pausing || currentTicks.Between(pauseTicks - pauseLength + safetyMarginTicks, pauseTicks - safetyMarginTicks))
+				&& state != State.Announcing && state != State.Punishing)
+			{
+				if (primeTimerStart == 0)
+					primeTimerStart = dateTicks;
+			}
+			else
+			{
+				if (primeTimerStart > 0)
+					primeTimerTotal += dateTicks - primeTimerStart;
+				primeTimerStart = 0;
+			}
+
+			var pt = primeTimerTotal + (primeTimerStart == 0 ? 0 : dateTicks - primeTimerStart);
+			//Log.Warning($"# {pt * 1f / TimeSpan.TicksPerMinute:F2}");
+			if (pt >= primeIntervalMinutes)
+			{
+				primeTimerTotal = 0;
+				if (primeTimerStart > 0)
+					primeTimerStart = dateTicks;
+				Defs.Prime.PlayOneShotOnCamera();
+			}
 		}
 
 		public override void WorldComponentTick()
 		{
 			base.WorldComponentTick();
 			TickAmbience();
-
 			if (60.EveryNTick() == false)
 				return;
-			var allColonists = Stats.AllColonists();
 
+			var currentTicks = Find.TickManager.TicksGame;
+			UpdatePrimeTime(currentTicks);
+
+			var allColonists = Stats.AllColonists();
 			if (allColonists <= RimionshipMod.settings.maxFreeColonistCount)
 				StartPhase(State.Idle);
 
-			var currentTicks = Find.TickManager.TicksGame;
 			switch (state)
 			{
 				case State.Idle:
@@ -114,21 +156,27 @@ namespace Rimionship
 					break;
 
 				case State.Punishing:
-					if (firstTime)
+					void Action()
 					{
-						firstTime = false;
+						if (CommencePunishment())
+						{
+							Find.LetterStack.ReceiveLetter("PunishmentLetterTitle".Translate(), "PunishmentLetterContent".Translate(punishLevel), LetterDefOf.NegativeEvent, null);
+							Defs.Thunder.PlayOneShotOnCamera();
+							var minInterval = RimionshipMod.settings.startPauseInterval;
+							var maxInterval = RimionshipMod.settings.finalPauseInterval;
+							pauseLength = (int)GenMath.LerpDoubleClamped(1, 5, minInterval, maxInterval, punishLevel);
+							pauseTicks = currentTicks + pauseLength;
+							StartPhase(State.Pausing);
+						}
+					}
+					if (helpShown == false)
+					{
+						helpShown = true;
 						Find.TickManager.Pause();
-						Find.WindowStack.Add(new Dialog_Information("BloodGodInfoTitle", "BloodGodInfoBody", "OK", null));
+						Find.WindowStack.Add(new Dialog_Information("BloodGodInfoTitle", "BloodGodInfoBody", "OK", Action));
 					}
-					if (CommencePunishment())
-					{
-						Find.LetterStack.ReceiveLetter("PunishmentLetterTitle".Translate(), "PunishmentLetterContent".Translate(punishLevel), LetterDefOf.NegativeEvent, null);
-						Defs.Thunder.PlayOneShotOnCamera();
-						var minInterval = RimionshipMod.settings.startPauseInterval;
-						var maxInterval = RimionshipMod.settings.finalPauseInterval;
-						pauseTicks = Find.TickManager.TicksGame + (int)GenMath.LerpDoubleClamped(1, 5, minInterval, maxInterval, punishLevel);
-						StartPhase(State.Pausing);
-					}
+					else
+						Action();
 					break;
 
 				case State.Pausing:
@@ -289,7 +337,7 @@ namespace Rimionship
 				.SelectMany((HediffGiverSetDef set) => set.hediffGivers)
 				.Where(giver => excludedHediffs.Contains(giver.hediff) == false);
 			var hediffGiver = hediffGivers.RandomElement();
-			Log.Warning($"# {hediffGivers.Join(hg => hg.hediff.defName, " ")} => {hediffGiver.hediff.defName}");
+			//Log.Warning($"# {hediffGivers.Join(hg => hg.hediff.defName, " ")} => {hediffGiver.hediff.defName}");
 			var result = hediffGiver.TryApply(pawn, null);
 			if (result)
 				Find.LetterStack.ReceiveLetter("ColonistDiseaseTitle".Translate(), "ColonistDiseaseContent".Translate(pawn.LabelShortCap, hediffGiver.hediff.description), LetterDefOf.NegativeEvent, pawn);

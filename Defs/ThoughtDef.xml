@@ -7,7 +7,7 @@
 		<stages>
 			<li>
 				<label>fear of the blood god</label>
-				<description>I hope I'm not going to be sacrificed next.</description>
+				<description>I hope I'm not going to be sacrificed next</description>
 				<baseMoodEffect>-2</baseMoodEffect>
 			</li>
 		</stages>

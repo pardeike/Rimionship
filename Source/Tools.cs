@@ -74,6 +74,11 @@ namespace Rimionship
 			return (Find.TickManager.TicksGame + offset) % ticks == 0;
 		}
 
+		public static bool Between<T>(this T val, T lower, T upper) where T : IComparable
+		{
+			return val.CompareTo(lower) >= 0 && val.CompareTo(upper) <= 0;
+		}
+
 		public static string DotFormatted(this int nr, bool useSpace = false)
 		{
 			if (nr == 0)

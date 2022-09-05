@@ -11,7 +11,7 @@
 		<workerClass>Rimionship.IncidentWorker_StuffFromAbove</workerClass>
 		<baseChance>0</baseChance>
 		<letterLabel>Meteorite</letterLabel>
-		<letterText>A dangerous meteorite is about to struck ground in the area.</letterText>
+		<letterText>A dangerous meteorite is about to struck ground in the area</letterText>
 		<tale>MeteoriteImpact</tale>
 	</IncidentDef>
 

@@ -4,7 +4,7 @@
 	<SacrificeColonist.reportString>opfert einen Kolonisten</SacrificeColonist.reportString>
 	<WatchSacrification.reportString>sieht der Opferung von TargetA zu</WatchSacrification.reportString>
 	<KillingSpree.label>Amoklauf</KillingSpree.label>
-	<KillingSpree.recoveryMessage>Der Amoklauf von {0} hat sich gelegt.</KillingSpree.recoveryMessage>
-	<KillingSpree.beginLetter>{0} ist Amok gelaufen.\n\n[PAWN_pronoun] wird alle Gefangenen töten, wenn [PAWN_objective] niemand aufhält.</KillingSpree.beginLetter>
+	<KillingSpree.recoveryMessage>Der Amoklauf von {0} hat sich gelegt</KillingSpree.recoveryMessage>
+	<KillingSpree.beginLetter>{0} ist Amok gelaufen.\n\n[PAWN_pronoun] wird alle Gefangenen töten, wenn [PAWN_objective] niemand aufhält</KillingSpree.beginLetter>
 	<KillingSpree.baseInspectLine>Übergeschnappt: Amoklauf</KillingSpree.baseInspectLine>
 </LanguageData>

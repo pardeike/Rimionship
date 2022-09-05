@@ -19,6 +19,7 @@ namespace Rimionship
 		public static SoundDef Thunder;
 		public static SoundDef Bloodgod;
 		public static SoundDef Nope;
+		public static SoundDef Prime;
 
 		// vanilla defs that are not exposed by code
 

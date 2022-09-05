@@ -6,9 +6,9 @@
 		<stateClass>Rimionship.MentalState_KillingSpree</stateClass>
 		<workerClass>Rimionship.MentalState_KillingSpreeWorker</workerClass>
 		<label>killing prisoners</label>
-		<recoveryMessage>{0} is no longer killing prisoners.</recoveryMessage>
+		<recoveryMessage>{0} is no longer killing prisoners</recoveryMessage>
 		<beginLetterDef>ThreatBig</beginLetterDef>
-		<beginLetter>{0} is on a killing spree.\n\n[PAWN_pronoun] has decided to kill all prisoners.</beginLetter>
+		<beginLetter>{0} is on a killing spree.\n\n[PAWN_pronoun] has decided to kill all prisoners</beginLetter>
 		<baseInspectLine>Mental state: Killing spree</baseInspectLine>
 	</MentalStateDef>
 

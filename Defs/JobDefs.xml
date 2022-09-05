@@ -4,7 +4,7 @@
 	<JobDef>
 		<defName>GettingSacrificed</defName>
 		<driverClass>Rimionship.JobDriver_GettingSacrificed</driverClass>
-		<reportString>waiting to get sacrificed.</reportString>
+		<reportString>waiting to get sacrificed</reportString>
 		<casualInterruptible>false</casualInterruptible>
 		<suspendable>false</suspendable>
 	</JobDef>
@@ -12,7 +12,7 @@
 	<JobDef>
 		<defName>SacrificeColonist</defName>
 		<driverClass>Rimionship.JobDriver_SacrificeColonist</driverClass>
-		<reportString>sacrificing TargetA.</reportString>
+		<reportString>sacrificing TargetA</reportString>
 		<casualInterruptible>false</casualInterruptible>
 		<suspendable>false</suspendable>
 	</JobDef>
@@ -20,7 +20,7 @@
 	<JobDef>
 		<defName>WatchSacrification</defName>
 		<driverClass>Rimionship.JobDriver_WatchSacrification</driverClass>
-		<reportString>Watching sacrification of TargetA.</reportString>
+		<reportString>Watching sacrification of TargetA</reportString>
 		<casualInterruptible>false</casualInterruptible>
 		<suspendable>false</suspendable>
 	</JobDef>
