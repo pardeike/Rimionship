@@ -13,7 +13,7 @@ namespace Rimionship
 		readonly string body;
 		readonly Action action;
 
-		public override Vector2 InitialSize => new(480f, 240f);
+		public override Vector2 InitialSize => new(640f, 380f);
 
 		public Dialog_Information(string headline, string body, Action action)
 		{
@@ -33,7 +33,7 @@ namespace Rimionship
 			Widgets.Label(rect, body.Translate());
 
 			var x = inRect.width / 3f;
-			if (Widgets.ButtonText(new Rect(x, inRect.height - buttonSize, x - 10f, buttonSize), "Understand".Translate()))
+			if (Widgets.ButtonText(new Rect(x, inRect.height - buttonSize, x - 10f, buttonSize), "Agree".Translate()))
 				Close(true);
 		}
 

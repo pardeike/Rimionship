@@ -124,7 +124,7 @@
 		<subSounds>
 			<li>
 				<onCamera>True</onCamera>
-				<volumeRange>100~100</volumeRange>
+				<volumeRange>80~80</volumeRange>
 				<sustainLoop>False</sustainLoop>
 				<grains>
 					<li Class="AudioGrain_Folder">
