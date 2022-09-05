@@ -57,12 +57,6 @@ namespace Rimionship
 			list.Begin(inRect);
 			list.Gap(12f);
 
-			if (Tools.DevMode)
-			{
-				_ = list.Label("DEV MODE ON - Server does not control settings");
-				list.Gap(12f);
-			}
-
 			_ = list.Label($"Traits Scale: {scaleFactor:P0}");
 			scaleFactor = list.Slider(scaleFactor, 0, 1);
 			list.Gap(12f);
