@@ -60,6 +60,8 @@ namespace Rimionship
 		public static readonly Texture2D ButtonPattern = ContentFinder<Texture2D>.Get("Button/Pattern", true);
 		public static readonly Texture2D Note = ContentFinder<Texture2D>.Get("Note", true);
 
+		public static readonly Texture2D Credits = Tools.LoadTexture("Credits");
+
 		public static bool catchMouseEvents = false;
 
 		public class StatsScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler

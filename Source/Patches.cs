@@ -74,6 +74,29 @@ namespace Rimionship
 		}
 	}
 
+	[HarmonyPatch(typeof(MainMenuDrawer), nameof(MainMenuDrawer.DoTranslationInfoRect))]
+	class MainMenuDrawer_DoTranslationInfoRect_Patch
+	{
+		public static bool Prefix() => false;
+	}
+
+	[HarmonyPatch(typeof(MainMenuDrawer), nameof(MainMenuDrawer.DoExpansionIcons))]
+	class MainMenuDrawer_DoExpansionIcons_Patch
+	{
+		public static bool Prefix()
+		{
+			const float space = 20f;
+			var height = UI.screenHeight - 2f * space;
+			var width = height / 2160f * 502f;
+
+			var rect = new Rect(space, space, width, height);
+			Widgets.DrawTextureFitted(rect, Assets.Credits, 1f);
+			Widgets.DrawShadowAround(rect);
+
+			return false;
+		}
+	}
+
 	// replace New Game with Rimionship button in the main menu
 	//
 	[HarmonyPatch(typeof(OptionListingUtility), nameof(OptionListingUtility.DrawOptionListing))]

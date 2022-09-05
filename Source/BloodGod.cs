@@ -83,7 +83,6 @@ namespace Rimionship
 
 		void AnnounceNextLevel()
 		{
-			// TODO make system to play specific list of sounds randomized per event type
 			Defs.Bloodgod.PlayWithCallback(0f, () => StartPhase(State.Punishing));
 			punishLevel = Math.Min(punishLevel + 1, 5);
 			hadLevel3 |= punishLevel == 3;
