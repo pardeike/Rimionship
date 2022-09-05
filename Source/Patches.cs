@@ -107,7 +107,7 @@ namespace Rimionship
 					}
 					if (PlayState.tournamentState == TournamentState.Training)
 					{
-						Find.WindowStack.Add(new Dialog_Information("TrainingWarningTitle", "TrainingWarningBody", () =>
+						Find.WindowStack.Add(new Dialog_Information("TrainingWarningTitle", "TrainingWarningBody", "Agree", () =>
 						{
 							MainMenuDrawer.CloseMainTab();
 							_ = Task.Run(PlayState.LoadGame);

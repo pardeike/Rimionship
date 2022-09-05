@@ -118,7 +118,7 @@ namespace Rimionship
 					{
 						firstTime = false;
 						Find.TickManager.Pause();
-						Find.WindowStack.Add(new Dialog_Information("BloodGodInfoTitle", "BloodGodInfoBody", null));
+						Find.WindowStack.Add(new Dialog_Information("BloodGodInfoTitle", "BloodGodInfoBody", "OK", null));
 					}
 					if (CommencePunishment())
 					{
@@ -303,14 +303,19 @@ namespace Rimionship
 			var incidentDef = Tools.AllIncidentDefs()
 				.Where(def => def.category == category)
 				.RandomElement();
-			var parms = new IncidentParms
+			var map = Reporter.Instance.ChosenMap;
+			var result = false;
+			if (map != null)
 			{
-				target = Reporter.Instance.ChosenMap,
-				forced = true
-			};
-			incidentDef.diseaseVictimFractionRange = new FloatRange(percentage, percentage);
-			incidentDef.diseaseMaxVictims = 999;
-			var result = incidentDef.Worker.TryExecute(parms);
+				var parms = new IncidentParms
+				{
+					target = map,
+					forced = true
+				};
+				incidentDef.diseaseVictimFractionRange = new FloatRange(percentage, percentage);
+				incidentDef.diseaseMaxVictims = 999;
+				result = incidentDef.Worker.TryExecute(parms);
+			}
 			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {incidentDef.defName} {percentage:P0} [{isAnimal}] => {result}");
 			return result;
 		}

@@ -2,6 +2,7 @@
 using RimWorld.Planet;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
@@ -29,7 +30,9 @@ namespace Rimionship
 
 		public void RefreshWealth()
 		{
-			stat.wealth = Stats.ColonyWealth(ChosenMap);
+			var map = ChosenMap;
+			if (map != null)
+				stat.wealth = Stats.ColonyWealth(map);
 		}
 
 		public void NewAnimalMeat(int n) => stat.animalMeatCreated += n;
@@ -60,7 +63,11 @@ namespace Rimionship
 			try
 			{
 				if (Current.ProgramState == ProgramState.Playing)
-					stat.wealth = Stats.ColonyWealth(ChosenMap);
+				{
+					var map = ChosenMap;
+					if (map != null)
+						stat.wealth = Stats.ColonyWealth(map);
+				}
 			}
 			catch (Exception ex)
 			{
@@ -366,7 +373,9 @@ namespace Rimionship
 		{
 			try
 			{
-				stat.temperature = Stats.Temperature(ChosenMap);
+				var map = ChosenMap;
+				if (map != null)
+					stat.temperature = Stats.Temperature(map);
 			}
 			catch (Exception ex)
 			{
@@ -413,37 +422,61 @@ namespace Rimionship
 			while (Current.ProgramState != ProgramState.Playing || PlayState.Valid == false)
 				yield return null;
 
+			static bool HasMap() => Current.Game != null && Find.Maps != null;
+
 			while (Current.Game != null && Find.Maps != null)
 			{
-				yield return UpdateWeath();
-				yield return UpdateMaps();
-				yield return UpdateColonists();
-				yield return UpdateColonistsNeedTending();
-				yield return UpdateMedicalConditions();
-				yield return UpdateEnemies();
-				yield return UpdateWildAnimals();
-				yield return UpdateTamedAnimals();
-				yield return UpdateVisitors();
-				yield return UpdatePrisoners();
-				yield return UpdateDownedColonists();
-				yield return UpdateMentalColonists();
-				yield return UpdateRooms();
-				yield return UpdateCaravans();
-				yield return UpdateWeaponDps();
-				yield return UpdateElectricity();
-				yield return UpdateMedicine();
-				yield return UpdateFood();
-				yield return UpdateFire();
-				yield return UpdateConditions();
-				yield return UpdateTemperature();
-				yield return UpdateStoryWatcherInfos();
+				if (HasMap())
+					yield return UpdateWeath();
+				if (HasMap())
+					yield return UpdateMaps();
+				if (HasMap())
+					yield return UpdateColonists();
+				if (HasMap())
+					yield return UpdateColonistsNeedTending();
+				if (HasMap())
+					yield return UpdateMedicalConditions();
+				if (HasMap())
+					yield return UpdateEnemies();
+				if (HasMap())
+					yield return UpdateWildAnimals();
+				if (HasMap())
+					yield return UpdateTamedAnimals();
+				if (HasMap())
+					yield return UpdateVisitors();
+				if (HasMap())
+					yield return UpdatePrisoners();
+				if (HasMap())
+					yield return UpdateDownedColonists();
+				if (HasMap())
+					yield return UpdateMentalColonists();
+				if (HasMap())
+					yield return UpdateRooms();
+				if (HasMap())
+					yield return UpdateCaravans();
+				if (HasMap())
+					yield return UpdateWeaponDps();
+				if (HasMap())
+					yield return UpdateElectricity();
+				if (HasMap())
+					yield return UpdateMedicine();
+				if (HasMap())
+					yield return UpdateFood();
+				if (HasMap())
+					yield return UpdateFire();
+				if (HasMap())
+					yield return UpdateConditions();
+				if (HasMap())
+					yield return UpdateTemperature();
+				if (HasMap())
+					yield return UpdateStoryWatcherInfos();
 
 				yield return ServerAPI.SendStat(stat).ToWaitUntil();
 
 				while (ServerAPI.WaitUntilNextStatSend())
 					yield return null;
 
-				var incidents = Find.Storyteller.incidentQueue.queuedIncidents;
+				var incidents = Find.Storyteller?.incidentQueue.queuedIncidents ?? new List<RimWorld.QueuedIncident>();
 				if (incidents.Any())
 				{
 					var events = incidents

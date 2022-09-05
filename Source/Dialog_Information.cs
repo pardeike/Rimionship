@@ -11,15 +11,17 @@ namespace Rimionship
 
 		readonly string headline;
 		readonly string body;
+		readonly string button;
 		readonly Action action;
 
 		public override Vector2 InitialSize => new(640f, 380f);
 
-		public Dialog_Information(string headline, string body, Action action)
+		public Dialog_Information(string headline, string body, string button, Action action = null)
 		{
 			this.headline = headline;
 			this.body = body;
 			this.action = action;
+			this.button = button;
 		}
 
 		public override void DoWindowContents(Rect inRect)
@@ -33,7 +35,7 @@ namespace Rimionship
 			Widgets.Label(rect, body.Translate());
 
 			var x = inRect.width / 3f;
-			if (Widgets.ButtonText(new Rect(x, inRect.height - buttonSize, x - 10f, buttonSize), "Agree".Translate()))
+			if (Widgets.ButtonText(new Rect(x, inRect.height - buttonSize, x - 10f, buttonSize), button.Translate()))
 				Close(true);
 		}
 
