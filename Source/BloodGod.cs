@@ -403,7 +403,7 @@ namespace Rimionship
 
 		static bool PunishmentChoice(int choice, params Func<bool>[] choices)
 		{
-			var idx = choice != -1 ? choice : Rand.RangeInclusive(0, choices.Length);
+			var idx = choice != -1 ? choice : Rand.RangeInclusive(0, choices.Length - 1);
 			return choices[idx]();
 		}
 
