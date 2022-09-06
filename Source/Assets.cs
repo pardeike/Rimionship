@@ -104,6 +104,10 @@ namespace Rimionship
 
 		static Assets()
 		{
+			Credits.filterMode = FilterMode.Trilinear;
+			Credits.anisoLevel = 16;
+			Credits.mipMapBias = -0.5f;
+
 			runtimeHUD = Object.Instantiate(hud);
 			Object.DontDestroyOnLoad(runtimeHUD);
 

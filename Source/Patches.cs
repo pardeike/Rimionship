@@ -87,7 +87,7 @@ namespace Rimionship
 		{
 			const float space = 20f;
 			var height = UI.screenHeight - 2f * space;
-			var width = height / 2160f * 502f;
+			var width = height / 4320f * 1004f;
 
 			var rect = new Rect(space, space, width, height);
 			Widgets.DrawTextureFitted(rect, Assets.Credits, 1f);
