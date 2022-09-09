@@ -78,7 +78,7 @@ namespace Rimionship
 				RimionshipMod.settings.risingInterval - RimionshipMod.settings.risingReductionPerColonist * n
 			);
 
-			return Mathf.Clamp01((currentTicks - startTicks) / (float)RimionshipMod.settings.risingInterval);
+			return Mathf.Clamp01((currentTicks - startTicks) / (float)interval);
 		}
 
 		void AnnounceNextLevel()
