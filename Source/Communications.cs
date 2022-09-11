@@ -43,8 +43,18 @@ namespace Rimionship
 
 		public static void Start(string rootDir)
 		{
-			var caRoots = File.ReadAllText(Path.Combine(rootDir, "Resources", "ca.pem"));
-			Channel = new Channel(EndpointUri, new SslCredentials(caRoots));
+			var host = EndpointUri;
+			if (host.Contains("localhost"))
+			{
+				Log.Warning($"Server: {host} (insecure)");
+				Channel = new Channel(host, ChannelCredentials.Insecure);
+			}
+			else
+			{
+				Log.Warning($"Server: {host}");
+				var caRoots = File.ReadAllText(Path.Combine(rootDir, "Resources", "ca.pem"));
+				Channel = new Channel(host, new SslCredentials(caRoots));
+			}
 			Client = new APIClient(Channel);
 
 			if (Tools.DevMode)
