@@ -145,6 +145,16 @@ namespace Rimionship
 			}
 		}
 
+		public static async Task StopGame()
+		{
+			var id = Tools.UniqueModID;
+			if (Tools.DevMode && LOGGING)
+				AsyncLogger.Warning($"-> Stop");
+			_ = await Communications.Client.StopAsync(new StopRequest() { Id = Tools.UniqueModID }, null, DefaultDeadline, source.Token);
+			if (Tools.DevMode && LOGGING)
+				AsyncLogger.Warning($"<- Stop");
+		}
+
 		public static async Task StartSyncing()
 		{
 			var WaitForChange = false;

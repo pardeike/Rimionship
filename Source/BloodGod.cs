@@ -84,7 +84,8 @@ namespace Rimionship
 		void AnnounceNextLevel()
 		{
 			Defs.Bloodgod.PlayWithCallback(0f, () => StartPhase(State.Punishing));
-			punishLevel = Math.Min(punishLevel + 1, 5);
+			var maxLevel = PlayState.tournamentState == TournamentState.Training ? 2 : 5;
+			punishLevel = Math.Min(punishLevel + 1, maxLevel);
 			hadLevel3 |= punishLevel == 3;
 			AsyncLogger.Warning($"BLOOD GOD Level now #{punishLevel}");
 			StartPhase(State.Announcing);

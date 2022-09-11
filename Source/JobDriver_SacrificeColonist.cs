@@ -20,6 +20,7 @@ namespace Rimionship
 
 		void ExecuteByRemovingHead(Pawn victim)
 		{
+			StatsRecord_Notify_ColonistKilled_Patch.IgnoreKills = true;
 			var num = Mathf.Max(GenMath.RoundRandom(victim.BodySize * 8f), 1);
 			for (int i = 0; i < num; i++)
 				victim.health.DropBloodFilth();
@@ -37,9 +38,12 @@ namespace Rimionship
 			victim.health.AddHediff(hediff_MissingPart, head, damageInfo, null);
 
 			if (!victim.Dead)
+			{
 				victim.Kill(new DamageInfo?(damageInfo), null);
+			}
 
 			// SoundDefOf.Execute_Cut.PlayOneShot(victim);
+			StatsRecord_Notify_ColonistKilled_Patch.IgnoreKills = false;
 		}
 
 		public override IEnumerable<Toil> MakeNewToils()

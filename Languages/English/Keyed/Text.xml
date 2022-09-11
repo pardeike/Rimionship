@@ -37,6 +37,9 @@
 	<AllowedModsNotAvailable>You need a server connection to set the mod list</AllowedModsNotAvailable>
 	<ModLoading>Remaining: {count}</ModLoading>
 	<Activate>Activate</Activate>
+	<EndTournament>Submit Final Score</EndTournament>
+	<EndTournamentTitle>Quit the tournament early and hand in the score?</EndTournamentTitle>
+	<EndTournamentConfirmation>By clicking on "Yes" all colony values are finally submitted for the tournament. You can then continue to play the game, but no further scoring takes place in the main or side quests.\nThis decision is irrevocable and cannot be withdrawn by a restart.\n\nAre you sure you want to submit your final Rimionship state now?</EndTournamentConfirmation>
 	<MainMapIsActive>This is your main map. Only it will count towards your total wealth.\n\nYou can make another map your main map by going there and activating it here in this tab</MainMapIsActive>
 	<MainMapIsInactive>This is not your main map. It will not count towards your total wealth.\n\nIf you want to activate it press {0} below:</MainMapIsInactive>
 	<DownloadingGame>Loading game file...</DownloadingGame>
@@ -44,7 +47,7 @@
 	<ColonistDiseaseTitle>Sudden severe Illness</ColonistDiseaseTitle>
 	<ColonistDiseaseContent>{0} fell unexpected ill: {1}</ColonistDiseaseContent>
 	<DeadlyBoomalopesArrive>A pack of deadly man-hunting {0} have entered the area! Driven insane by the disease known as scaria, they will roam the region, hunting for humanoid flesh.\n\nThey won't attack doors unless they see someone go through the door. Hide inside and you'll be safe. They also won't attack powered-off turrets, so turn your turrets off to save them.\n\nThe {0} will leave the area in one or two days. You can hide and wait them out, or fight them</DeadlyBoomalopesArrive>
-	<TrainingWarningTitle>Private Training</TrainingWarningTitle>
+	<TrainingWarningTitle>Private Demo Version</TrainingWarningTitle>
 	<TrainingWarningBody>The Rimionship mod has been made available to you for personal testing and practice purposes before the event.\n\nIn order to keep the event exciting for all viewers, publication of in-game content and information about it (verbally, by screenshots or other ways) is prohibited.\n\nPlease remember that the event will be more exciting and fun for everyone if there are no leaks in advance and you rediscover the mod together with your viewers over the course of the Rimionship event.\n\ nWe would like to accommodate you with this prerelease and ask that you not spoil the excitement and fun of discovery during the official Rimionship event.\n\nYou might be disqualified in case you violate these principles</TrainingWarningBody>
 	<BloodGodInfoTitle>Blood God</BloodGodInfoTitle>
 	<BloodGodInfoBody>Your growing colony is now attracting the Blood God's attention and his anger is slowly growing.\n\nTime your sacrifice wisely to appease the blood god for a while. The longer you stand up to him, the greater the relief your colonists will have after a sacrifice. Unfortunately, the punishments will get worse and worse over time.\n\nMore details can be found in the info text of the sacrification spot</BloodGodInfoBody>

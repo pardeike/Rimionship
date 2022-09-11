@@ -58,37 +58,39 @@ namespace RimionshipServer.API {
             "YWN0b3IYBCABKAIiGgoMU3RhcnRSZXF1ZXN0EgoKAmlkGAEgASgJInYKDVN0",
             "YXJ0UmVzcG9uc2USFAoMZ2FtZUZpbGVIYXNoGAEgASgJEhMKC2dhbWVGaWxl",
             "VXJsGAIgASgJEhkKEXN0YXJ0aW5nUGF3bkNvdW50GAMgASgFEh8KCHNldHRp",
-            "bmdzGAQgASgLMg0uYXBpLlNldHRpbmdzIvEFCgxTdGF0c1JlcXVlc3QSCgoC",
-            "aWQYASABKAkSDgoGd2VhbHRoGAIgASgFEhAKCG1hcENvdW50GAMgASgFEhEK",
-            "CWNvbG9uaXN0cxgEIAEoBRIcChRjb2xvbmlzdHNOZWVkVGVuZGluZxgFIAEo",
-            "BRIZChFtZWRpY2FsQ29uZGl0aW9ucxgGIAEoBRIPCgdlbmVtaWVzGAcgASgF",
-            "EhMKC3dpbGRBbmltYWxzGAggASgFEhQKDHRhbWVkQW5pbWFscxgJIAEoBRIQ",
-            "Cgh2aXNpdG9ycxgKIAEoBRIRCglwcmlzb25lcnMYCyABKAUSFwoPZG93bmVk",
-            "Q29sb25pc3RzGAwgASgFEhcKD21lbnRhbENvbG9uaXN0cxgNIAEoBRINCgVy",
-            "b29tcxgOIAEoBRIQCghjYXJhdmFucxgPIAEoBRIRCgl3ZWFwb25EcHMYECAB",
-            "KAUSEwoLZWxlY3RyaWNpdHkYESABKAUSEAoIbWVkaWNpbmUYEiABKAUSDAoE",
-            "Zm9vZBgTIAEoBRIMCgRmaXJlGBQgASgFEhIKCmNvbmRpdGlvbnMYFSABKAUS",
-            "EwoLdGVtcGVyYXR1cmUYFiABKAUSFQoNbnVtUmFpZHNFbmVteRgXIAEoBRIV",
-            "Cg1udW1UaHJlYXRCaWdzGBggASgFEhcKD2NvbG9uaXN0c0tpbGxlZBgZIAEo",
-            "BRIaChJncmVhdGVzdFBvcHVsYXRpb24YGiABKAUSEwoLaW5HYW1lSG91cnMY",
-            "GyABKAUSGAoQZGFtYWdlVGFrZW5QYXducxgcIAEoAhIZChFkYW1hZ2VUYWtl",
-            "blRoaW5ncxgdIAEoAhITCgtkYW1hZ2VEZWFsdBgeIAEoAhIZChFhbmltYWxN",
-            "ZWF0Q3JlYXRlZBgfIAEoBRIaChJhbW91bnRCbG9vZENsZWFuZWQYICABKAUS",
-            "HAoUdGlja3NMb3dDb2xvbmlzdE1vb2QYISABKAUSHQoVdGlja3NJZ25vcmlu",
-            "Z0Jsb29kR29kGCIgASgFIiEKDVN0YXRzUmVzcG9uc2USEAoIaW50ZXJ2YWwY",
-            "ASABKAUiggEKC0Z1dHVyZUV2ZW50Eg0KBXRpY2tzGAEgASgFEgwKBG5hbWUY",
-            "AiABKAkSDQoFcXVlc3QYAyABKAkSDwoHZmFjdGlvbhgEIAEoCRIOCgZwb2lu",
-            "dHMYBSABKAISEAoIc3RyYXRlZ3kYBiABKAkSFAoMYXJyaXZhbF9tb2RlGAcg",
-            "ASgJIkIKE0Z1dHVyZUV2ZW50c1JlcXVlc3QSCgoCaWQYASABKAkSHwoFZXZl",
-            "bnQYAiADKAsyEC5hcGkuRnV0dXJlRXZlbnQiFgoURnV0dXJlRXZlbnRzUmVz",
-            "cG9uc2UiLQoQQXR0ZW50aW9uUmVxdWVzdBIKCgJpZBgBIAEoCRINCgVkZWx0",
-            "YRgCIAEoBSITChFBdHRlbnRpb25SZXNwb25zZTLFAwoDQVBJEjAKBUhlbGxv",
-            "EhEuYXBpLkhlbGxvUmVxdWVzdBoSLmFwaS5IZWxsb1Jlc3BvbnNlIgASMAoF",
-            "TG9naW4SES5hcGkuTG9naW5SZXF1ZXN0GhIuYXBpLkxvZ2luUmVzcG9uc2Ui",
-            "ABJCCgtMaW5rQWNjb3VudBIXLmFwaS5MaW5rQWNjb3VudFJlcXVlc3QaGC5h",
-            "cGkuTGlua0FjY291bnRSZXNwb25zZSIAEi0KBFN5bmMSEC5hcGkuU3luY1Jl",
-            "cXVlc3QaES5hcGkuU3luY1Jlc3BvbnNlIgASMAoFU3RhcnQSES5hcGkuU3Rh",
-            "cnRSZXF1ZXN0GhIuYXBpLlN0YXJ0UmVzcG9uc2UiABIwCgVTdGF0cxIRLmFw",
+            "bmdzGAQgASgLMg0uYXBpLlNldHRpbmdzIhkKC1N0b3BSZXF1ZXN0EgoKAmlk",
+            "GAEgASgJIg4KDFN0b3BSZXNwb25zZSLxBQoMU3RhdHNSZXF1ZXN0EgoKAmlk",
+            "GAEgASgJEg4KBndlYWx0aBgCIAEoBRIQCghtYXBDb3VudBgDIAEoBRIRCglj",
+            "b2xvbmlzdHMYBCABKAUSHAoUY29sb25pc3RzTmVlZFRlbmRpbmcYBSABKAUS",
+            "GQoRbWVkaWNhbENvbmRpdGlvbnMYBiABKAUSDwoHZW5lbWllcxgHIAEoBRIT",
+            "Cgt3aWxkQW5pbWFscxgIIAEoBRIUCgx0YW1lZEFuaW1hbHMYCSABKAUSEAoI",
+            "dmlzaXRvcnMYCiABKAUSEQoJcHJpc29uZXJzGAsgASgFEhcKD2Rvd25lZENv",
+            "bG9uaXN0cxgMIAEoBRIXCg9tZW50YWxDb2xvbmlzdHMYDSABKAUSDQoFcm9v",
+            "bXMYDiABKAUSEAoIY2FyYXZhbnMYDyABKAUSEQoJd2VhcG9uRHBzGBAgASgF",
+            "EhMKC2VsZWN0cmljaXR5GBEgASgFEhAKCG1lZGljaW5lGBIgASgFEgwKBGZv",
+            "b2QYEyABKAUSDAoEZmlyZRgUIAEoBRISCgpjb25kaXRpb25zGBUgASgFEhMK",
+            "C3RlbXBlcmF0dXJlGBYgASgFEhUKDW51bVJhaWRzRW5lbXkYFyABKAUSFQoN",
+            "bnVtVGhyZWF0QmlncxgYIAEoBRIXCg9jb2xvbmlzdHNLaWxsZWQYGSABKAUS",
+            "GgoSZ3JlYXRlc3RQb3B1bGF0aW9uGBogASgFEhMKC2luR2FtZUhvdXJzGBsg",
+            "ASgFEhgKEGRhbWFnZVRha2VuUGF3bnMYHCABKAISGQoRZGFtYWdlVGFrZW5U",
+            "aGluZ3MYHSABKAISEwoLZGFtYWdlRGVhbHQYHiABKAISGQoRYW5pbWFsTWVh",
+            "dENyZWF0ZWQYHyABKAUSGgoSYW1vdW50Qmxvb2RDbGVhbmVkGCAgASgFEhwK",
+            "FHRpY2tzTG93Q29sb25pc3RNb29kGCEgASgFEh0KFXRpY2tzSWdub3JpbmdC",
+            "bG9vZEdvZBgiIAEoBSIhCg1TdGF0c1Jlc3BvbnNlEhAKCGludGVydmFsGAEg",
+            "ASgFIoIBCgtGdXR1cmVFdmVudBINCgV0aWNrcxgBIAEoBRIMCgRuYW1lGAIg",
+            "ASgJEg0KBXF1ZXN0GAMgASgJEg8KB2ZhY3Rpb24YBCABKAkSDgoGcG9pbnRz",
+            "GAUgASgCEhAKCHN0cmF0ZWd5GAYgASgJEhQKDGFycml2YWxfbW9kZRgHIAEo",
+            "CSJCChNGdXR1cmVFdmVudHNSZXF1ZXN0EgoKAmlkGAEgASgJEh8KBWV2ZW50",
+            "GAIgAygLMhAuYXBpLkZ1dHVyZUV2ZW50IhYKFEZ1dHVyZUV2ZW50c1Jlc3Bv",
+            "bnNlIi0KEEF0dGVudGlvblJlcXVlc3QSCgoCaWQYASABKAkSDQoFZGVsdGEY",
+            "AiABKAUiEwoRQXR0ZW50aW9uUmVzcG9uc2Uy9AMKA0FQSRIwCgVIZWxsbxIR",
+            "LmFwaS5IZWxsb1JlcXVlc3QaEi5hcGkuSGVsbG9SZXNwb25zZSIAEjAKBUxv",
+            "Z2luEhEuYXBpLkxvZ2luUmVxdWVzdBoSLmFwaS5Mb2dpblJlc3BvbnNlIgAS",
+            "QgoLTGlua0FjY291bnQSFy5hcGkuTGlua0FjY291bnRSZXF1ZXN0GhguYXBp",
+            "LkxpbmtBY2NvdW50UmVzcG9uc2UiABItCgRTeW5jEhAuYXBpLlN5bmNSZXF1",
+            "ZXN0GhEuYXBpLlN5bmNSZXNwb25zZSIAEjAKBVN0YXJ0EhEuYXBpLlN0YXJ0",
+            "UmVxdWVzdBoSLmFwaS5TdGFydFJlc3BvbnNlIgASLQoEU3RvcBIQLmFwaS5T",
+            "dG9wUmVxdWVzdBoRLmFwaS5TdG9wUmVzcG9uc2UiABIwCgVTdGF0cxIRLmFw",
             "aS5TdGF0c1JlcXVlc3QaEi5hcGkuU3RhdHNSZXNwb25zZSIAEkUKDEZ1dHVy",
             "ZUV2ZW50cxIYLmFwaS5GdXR1cmVFdmVudHNSZXF1ZXN0GhkuYXBpLkZ1dHVy",
             "ZUV2ZW50c1Jlc3BvbnNlIgASPAoJQXR0ZW50aW9uEhUuYXBpLkF0dGVudGlv",
@@ -114,6 +116,8 @@ namespace RimionshipServer.API {
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.Punishment), global::RimionshipServer.API.Punishment.Parser, new[]{ "StartPauseInterval", "FinalPauseInterval", "MinThoughtFactor", "MaxThoughtFactor" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.StartRequest), global::RimionshipServer.API.StartRequest.Parser, new[]{ "Id" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.StartResponse), global::RimionshipServer.API.StartResponse.Parser, new[]{ "GameFileHash", "GameFileUrl", "StartingPawnCount", "Settings" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.StopRequest), global::RimionshipServer.API.StopRequest.Parser, new[]{ "Id" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.StopResponse), global::RimionshipServer.API.StopResponse.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.StatsRequest), global::RimionshipServer.API.StatsRequest.Parser, new[]{ "Id", "Wealth", "MapCount", "Colonists", "ColonistsNeedTending", "MedicalConditions", "Enemies", "WildAnimals", "TamedAnimals", "Visitors", "Prisoners", "DownedColonists", "MentalColonists", "Rooms", "Caravans", "WeaponDps", "Electricity", "Medicine", "Food", "Fire", "Conditions", "Temperature", "NumRaidsEnemy", "NumThreatBigs", "ColonistsKilled", "GreatestPopulation", "InGameHours", "DamageTakenPawns", "DamageTakenThings", "DamageDealt", "AnimalMeatCreated", "AmountBloodCleaned", "TicksLowColonistMood", "TicksIgnoringBloodGod" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.StatsResponse), global::RimionshipServer.API.StatsResponse.Parser, new[]{ "Interval" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.FutureEvent), global::RimionshipServer.API.FutureEvent.Parser, new[]{ "Ticks", "Name", "Quest", "Faction", "Points", "Strategy", "ArrivalMode" }, null, null, null),
@@ -3307,6 +3311,236 @@ namespace RimionshipServer.API {
 
   }
 
+  public sealed partial class StopRequest : pb::IMessage<StopRequest> {
+    private static readonly pb::MessageParser<StopRequest> _parser = new pb::MessageParser<StopRequest>(() => new StopRequest());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<StopRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[17]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StopRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StopRequest(StopRequest other) : this() {
+      id_ = other.id_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StopRequest Clone() {
+      return new StopRequest(this);
+    }
+
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private string id_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Id {
+      get { return id_; }
+      set {
+        id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as StopRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(StopRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Id != other.Id) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Id.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Id);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Id.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(StopRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Id.Length != 0) {
+        Id = other.Id;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Id = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class StopResponse : pb::IMessage<StopResponse> {
+    private static readonly pb::MessageParser<StopResponse> _parser = new pb::MessageParser<StopResponse>(() => new StopResponse());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<StopResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[18]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StopResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StopResponse(StopResponse other) : this() {
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public StopResponse Clone() {
+      return new StopResponse(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as StopResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(StopResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(StopResponse other) {
+      if (other == null) {
+        return;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+        }
+      }
+    }
+
+  }
+
   public sealed partial class StatsRequest : pb::IMessage<StatsRequest> {
     private static readonly pb::MessageParser<StatsRequest> _parser = new pb::MessageParser<StatsRequest>(() => new StatsRequest());
     private pb::UnknownFieldSet _unknownFields;
@@ -3315,7 +3549,7 @@ namespace RimionshipServer.API {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[17]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[19]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4368,7 +4602,7 @@ namespace RimionshipServer.API {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[18]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[20]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4497,7 +4731,7 @@ namespace RimionshipServer.API {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[19]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[21]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4794,7 +5028,7 @@ namespace RimionshipServer.API {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[20]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[22]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4943,7 +5177,7 @@ namespace RimionshipServer.API {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[21]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[23]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5044,7 +5278,7 @@ namespace RimionshipServer.API {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[22]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[24]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5201,7 +5435,7 @@ namespace RimionshipServer.API {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[23]; }
+      get { return global::RimionshipServer.API.ApiReflection.Descriptor.MessageTypes[25]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

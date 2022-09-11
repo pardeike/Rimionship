@@ -225,7 +225,7 @@ namespace Rimionship
 
 		static void DrawAtlas(Rect rect, Texture2D atlas, string label)
 		{
-			var flag = label.Contains("Rimionship");
+			var flag = label.Contains("Rimionship") || label.Contains("Spielstand") || label.Contains("Score");
 			if (flag)
 			{
 				atlas = Assets.ButtonBGAtlas;
@@ -772,6 +772,14 @@ namespace Rimionship
 				}
 			}
 
+			list.curY = rect.height - 30f;
+			if (list.ButtonText("EndTournament".Translate()))
+			{
+				var title = "EndTournamentTitle".Translate();
+				var body = "EndTournamentConfirmation".Translate();
+				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(body, PlayState.StopGame, true, title));
+			}
+
 			list.End();
 		}
 	}
@@ -865,10 +873,14 @@ namespace Rimionship
 	// attention: colonist killed
 	//
 	[HarmonyPatch(typeof(StatsRecord), nameof(StatsRecord.Notify_ColonistKilled))]
-	class StatsRecord_Notify_ColonistKilled_Patch
+	public class StatsRecord_Notify_ColonistKilled_Patch
 	{
+		public static bool IgnoreKills = false;
+
 		public static void Postfix()
 		{
+			if (IgnoreKills)
+				return;
 			ServerAPI.TriggerAttention("killed", Constants.Attention.colonistKilled);
 		}
 	}

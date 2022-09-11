@@ -1,4 +1,5 @@
 ﻿using RimWorld;
+using RimWorld.Planet;
 using System.Linq;
 using Verse;
 
@@ -162,7 +163,8 @@ namespace Rimionship
 		{
 			if (Find.Maps == null)
 				return 0;
-			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_Colonists.Count;
+			return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_Colonists
+				.Count(pawn => pawn.GetCaravan() != null);
 		}
 
 		public static float AllWeaponDps_1()

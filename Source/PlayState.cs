@@ -97,5 +97,10 @@ namespace Rimionship
 				true
 			);
 		}
+
+		public static void StopGame()
+		{
+			_ = Task.Run(ServerAPI.StopGame);
+		}
 	}
 }

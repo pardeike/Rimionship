@@ -10,6 +10,7 @@ service API {
 	rpc LinkAccount (LinkAccountRequest) returns (LinkAccountResponse) {}
 	rpc Sync (SyncRequest) returns (SyncResponse) {}
 	rpc Start (StartRequest) returns (StartResponse) {}
+	rpc Stop (StopRequest) returns (StopResponse) {}
 	rpc Stats (StatsRequest) returns (StatsResponse) {}
 	rpc FutureEvents (FutureEventsRequest) returns (FutureEventsResponse) {}
 	rpc Attention (AttentionRequest) returns (AttentionResponse) {}
@@ -122,6 +123,13 @@ message StartResponse {
 	string gameFileUrl = 2;
 	int32 startingPawnCount = 3;
 	Settings settings = 4;
+}
+
+message StopRequest {
+	string id = 1;
+}
+
+message StopResponse {
 }
 
 message StatsRequest {

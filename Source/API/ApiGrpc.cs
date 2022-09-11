@@ -22,6 +22,8 @@ namespace RimionshipServer.API {
     static readonly grpc::Marshaller<global::RimionshipServer.API.SyncResponse> __Marshaller_api_SyncResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.SyncResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::RimionshipServer.API.StartRequest> __Marshaller_api_StartRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.StartRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::RimionshipServer.API.StartResponse> __Marshaller_api_StartResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.StartResponse.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::RimionshipServer.API.StopRequest> __Marshaller_api_StopRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.StopRequest.Parser.ParseFrom);
+    static readonly grpc::Marshaller<global::RimionshipServer.API.StopResponse> __Marshaller_api_StopResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.StopResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::RimionshipServer.API.StatsRequest> __Marshaller_api_StatsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.StatsRequest.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::RimionshipServer.API.StatsResponse> __Marshaller_api_StatsResponse = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.StatsResponse.Parser.ParseFrom);
     static readonly grpc::Marshaller<global::RimionshipServer.API.FutureEventsRequest> __Marshaller_api_FutureEventsRequest = grpc::Marshallers.Create((arg) => global::Google.Protobuf.MessageExtensions.ToByteArray(arg), global::RimionshipServer.API.FutureEventsRequest.Parser.ParseFrom);
@@ -63,6 +65,13 @@ namespace RimionshipServer.API {
         "Start",
         __Marshaller_api_StartRequest,
         __Marshaller_api_StartResponse);
+
+    static readonly grpc::Method<global::RimionshipServer.API.StopRequest, global::RimionshipServer.API.StopResponse> __Method_Stop = new grpc::Method<global::RimionshipServer.API.StopRequest, global::RimionshipServer.API.StopResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "Stop",
+        __Marshaller_api_StopRequest,
+        __Marshaller_api_StopResponse);
 
     static readonly grpc::Method<global::RimionshipServer.API.StatsRequest, global::RimionshipServer.API.StatsResponse> __Method_Stats = new grpc::Method<global::RimionshipServer.API.StatsRequest, global::RimionshipServer.API.StatsResponse>(
         grpc::MethodType.Unary,
@@ -115,6 +124,11 @@ namespace RimionshipServer.API {
       }
 
       public virtual global::System.Threading.Tasks.Task<global::RimionshipServer.API.StartResponse> Start(global::RimionshipServer.API.StartRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
+      public virtual global::System.Threading.Tasks.Task<global::RimionshipServer.API.StopResponse> Stop(global::RimionshipServer.API.StopRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -239,6 +253,22 @@ namespace RimionshipServer.API {
       {
         return CallInvoker.AsyncUnaryCall(__Method_Start, null, options, request);
       }
+      public virtual global::RimionshipServer.API.StopResponse Stop(global::RimionshipServer.API.StopRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return Stop(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::RimionshipServer.API.StopResponse Stop(global::RimionshipServer.API.StopRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_Stop, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::RimionshipServer.API.StopResponse> StopAsync(global::RimionshipServer.API.StopRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return StopAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::RimionshipServer.API.StopResponse> StopAsync(global::RimionshipServer.API.StopRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_Stop, null, options, request);
+      }
       public virtual global::RimionshipServer.API.StatsResponse Stats(global::RimionshipServer.API.StatsRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return Stats(request, new grpc::CallOptions(headers, deadline, cancellationToken));
@@ -304,6 +334,7 @@ namespace RimionshipServer.API {
           .AddMethod(__Method_LinkAccount, serviceImpl.LinkAccount)
           .AddMethod(__Method_Sync, serviceImpl.Sync)
           .AddMethod(__Method_Start, serviceImpl.Start)
+          .AddMethod(__Method_Stop, serviceImpl.Stop)
           .AddMethod(__Method_Stats, serviceImpl.Stats)
           .AddMethod(__Method_FutureEvents, serviceImpl.FutureEvents)
           .AddMethod(__Method_Attention, serviceImpl.Attention).Build();
@@ -320,6 +351,7 @@ namespace RimionshipServer.API {
       serviceBinder.AddMethod(__Method_LinkAccount, serviceImpl.LinkAccount);
       serviceBinder.AddMethod(__Method_Sync, serviceImpl.Sync);
       serviceBinder.AddMethod(__Method_Start, serviceImpl.Start);
+      serviceBinder.AddMethod(__Method_Stop, serviceImpl.Stop);
       serviceBinder.AddMethod(__Method_Stats, serviceImpl.Stats);
       serviceBinder.AddMethod(__Method_FutureEvents, serviceImpl.FutureEvents);
       serviceBinder.AddMethod(__Method_Attention, serviceImpl.Attention);
