@@ -80,20 +80,19 @@ namespace Rimionship
 		public static bool Prefix() => false;
 	}
 
-	[HarmonyPatch(typeof(MainMenuDrawer), nameof(MainMenuDrawer.DoExpansionIcons))]
-	class MainMenuDrawer_DoExpansionIcons_Patch
+	[HarmonyPatch(typeof(MainMenuDrawer), nameof(MainMenuDrawer.MainMenuOnGUI))]
+	class MainMenuDrawer_MainMenuOnGUI_Patch
 	{
-		public static bool Prefix()
+		public static void Postfix()
 		{
 			const float space = 20f;
 			var height = UI.screenHeight - 2f * space;
 			var width = height / 4320f * 1004f;
 
+			GUI.color = Color.white;
 			var rect = new Rect(space, space, width, height);
-			Widgets.DrawTextureFitted(rect, Assets.Credits, 1f);
 			Widgets.DrawShadowAround(rect);
-
-			return false;
+			Widgets.DrawTextureFitted(rect, Assets.Credits, 1f);
 		}
 	}
 
@@ -772,12 +771,15 @@ namespace Rimionship
 				}
 			}
 
-			list.curY = rect.height - 30f;
-			if (list.ButtonText("EndTournament".Translate()))
+			if (PlayState.tournamentState != TournamentState.Training)
 			{
-				var title = "EndTournamentTitle".Translate();
-				var body = "EndTournamentConfirmation".Translate();
-				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(body, PlayState.StopGame, true, title));
+				list.curY = rect.height - 30f;
+				if (list.ButtonText("EndTournament".Translate()))
+				{
+					var title = "EndTournamentTitle".Translate();
+					var body = "EndTournamentConfirmation".Translate();
+					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(body, PlayState.StopGame, true, title));
+				}
 			}
 
 			list.End();

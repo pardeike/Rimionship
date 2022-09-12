@@ -5,6 +5,7 @@ using RimionshipServer.API;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -112,10 +113,21 @@ namespace Rimionship
 			PlayState.startingPawnCount = response.StartingPawnCount;
 			ApplySettings(response.Settings);
 
-			var ourHash = Tools.FileHash(Assets.GameFilePath());
-			var theirHash = response.GameFileHash;
-			if (ourHash == theirHash)
-				return true;
+			try
+			{
+				var ourHash = Tools.FileHash(Assets.GameFilePath());
+				var theirHashUrl = response.GameFileHash;
+				using var httpClient = new WebClient();
+				var theirHash = httpClient.DownloadString(theirHashUrl);
+				if (ourHash == theirHash)
+					return true;
+			}
+			catch (Exception ex)
+			{
+				Log.Error($"Exception while getting info for {response.GameFileHash}: {ex}");
+				Find.WindowStack.Add(new Dialog_Information("Download Error", ex.Message, "Oh"));
+				return false;
+			}
 
 			Find.WindowStack.Add(new Dialog_DownloadingGame());
 
@@ -124,18 +136,19 @@ namespace Rimionship
 			ServicePointManager.ServerCertificateValidationCallback = (obj, certificate, chain, errors) => true;
 			try
 			{
-				using var client = new WebClient();
-				client.Headers.Add("Accept", "application/binary");
-				client.Headers.Add("X-ModID", Tools.UniqueModID);
-				using var stream = client.OpenRead(fileUrl);
+				using var client = new GZipWebClient();
+				client.Headers.Add(HttpRequestHeader.Accept, "application/gzip");
+				client.Headers.Add(HttpRequestHeader.AcceptEncoding, "gzip");
+				using var stream = new GZipStream(client.OpenRead(fileUrl), CompressionMode.Decompress);
 				using var file = File.Create(Assets.GameFilePath());
-				stream.CopyTo(file);
+				await stream.CopyToAsync(file);
 				var info = new FileInfo(Assets.GameFilePath());
 				return info.Length > 0;
 			}
 			catch (Exception ex)
 			{
 				Log.Error($"Exception while downloading {fileUrl}: {ex}");
+				Find.WindowStack.Add(new Dialog_Information("Download Error", ex.Message, "Oh"));
 				return false;
 			}
 			finally

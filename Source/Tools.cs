@@ -5,6 +5,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -349,5 +350,15 @@ namespace Rimionship
 		}
 
 		public static IEnumerable<IncidentDef> AllIncidentDefs() => DefDatabase<IncidentDef>.AllDefsListForReading;
+	}
+
+	public class GZipWebClient : WebClient
+	{
+		protected override WebRequest GetWebRequest(Uri address)
+		{
+			var request = (HttpWebRequest)base.GetWebRequest(address);
+			request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+			return request;
+		}
 	}
 }
