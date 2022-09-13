@@ -36,6 +36,14 @@ namespace Rimionship
 			original = AccessTools.Method("MorePlanning.Designators.RemoveDesignator:DrawMouseAttachments");
 			patch = SymbolExtensions.GetMethodInfo(() => DrawMouseAttachments_Transpiler(default));
 			Transpiler(original, patch);
+
+			// remove minimap sneaky finder
+			//
+			Harmony.DEBUG = true;
+			original = AccessTools.Method("DubsMintMinimap.MainTabWindow_MiniMap:DoWindowContents");
+			patch = SymbolExtensions.GetMethodInfo(() => MainTabWindow_MiniMap_Transpiler(default));
+			Transpiler(original, patch);
+			Harmony.DEBUG = false;
 		}
 
 		static void UpdateOutdoorThermometer_RectFixer(ref Rect rect)
@@ -96,6 +104,32 @@ namespace Rimionship
 					instr.operand = SymbolExtensions.GetMethodInfo(() => DrawTextureFixer(default, (Texture)null, default, 0, 0, 0, 0, Color.white));
 				yield return instr;
 			}
+		}
+
+		//
+
+		static IEnumerable<CodeInstruction> MainTabWindow_MiniMap_Transpiler(IEnumerable<CodeInstruction> instructions)
+		{
+			var f_SneakyFinder = AccessTools.Field("DubsMintMinimap.GraphicsCache:SneakyFinder");
+
+			var matcher = new CodeMatcher(instructions)
+				.MatchStartForward
+				(
+					new CodeMatch(OpCodes.Ldloc_0, name: "start"),
+					new CodeMatch(OpCodes.Ldsfld, f_SneakyFinder)
+				);
+			var start = matcher.Pos;
+
+			_ = matcher.MatchEndForward
+				(
+					new CodeMatch(OpCodes.Ldstr, "SneakyFinderTip"),
+					new CodeMatch(OpCodes.Call),
+					new CodeMatch(OpCodes.Call),
+					new CodeMatch(OpCodes.Call, name: "end")
+				);
+			var end = matcher.Pos;
+
+			return matcher.RemoveInstructionsInRange(start, end).InstructionEnumeration();
 		}
 	}
 }
