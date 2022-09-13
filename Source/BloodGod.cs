@@ -286,6 +286,15 @@ namespace Rimionship
 			}
 			var gameCondition = GameConditionMaker.MakeCondition(def, -1);
 			gameCondition.Duration = duration;
+			if (gameCondition is GameCondition_PsychicEmanation condition)
+			{
+				var pawn = NonMentalColonist(false, null);
+				if (pawn == null)
+					return false;
+
+				condition.gender = pawn.gender;
+				condition.level = (PsychicDroneLevel)Mathf.Clamp(PawnsFinder.AllMaps_FreeColonistsSpawned.Count / 2 - 1, 2, 5);
+			}
 			Find.CurrentMap.GameConditionManager.RegisterCondition(gameCondition);
 			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {def.defName} => true");
 			return true;
