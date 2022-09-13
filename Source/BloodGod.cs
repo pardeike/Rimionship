@@ -64,6 +64,18 @@ namespace Rimionship
 		public bool IsInactive => state == State.Idle || state == State.Cooldown;
 		public bool IsPunishing => state == State.Punishing || state == State.Pausing;
 
+		public static float RisingInterval
+		{
+			get
+			{
+				var n = Math.Max(0, Stats.AllColonists() - RimionshipMod.settings.maxFreeColonistCount);
+				return (float)Mathf.Max(
+					RimionshipMod.settings.risingIntervalMinimum,
+					RimionshipMod.settings.risingInterval - RimionshipMod.settings.risingReductionPerColonist * n
+				);
+			}
+		}
+
 		public float RisingClamped01()
 		{
 			var currentTicks = Find.TickManager.TicksGame;
@@ -71,14 +83,7 @@ namespace Rimionship
 				return 0f;
 			if (state > State.Rising)
 				return 1f;
-
-			var n = Math.Max(0, Stats.AllColonists() - RimionshipMod.settings.maxFreeColonistCount);
-			var interval = Mathf.Max(
-				RimionshipMod.settings.risingIntervalMinimum,
-				RimionshipMod.settings.risingInterval - RimionshipMod.settings.risingReductionPerColonist * n
-			);
-
-			return Mathf.Clamp01((currentTicks - startTicks) / (float)interval);
+			return Mathf.Clamp01((currentTicks - startTicks) / RisingInterval);
 		}
 
 		void AnnounceNextLevel()
@@ -98,7 +103,7 @@ namespace Rimionship
 			var dateTicks = DateTime.Now.Ticks;
 
 			if (hadLevel3
-				&& (state != State.Rising || currentTicks - startTicks < RimionshipMod.settings.risingInterval - safetyMarginTicks)
+				&& (state != State.Rising || currentTicks - startTicks < RisingInterval - safetyMarginTicks)
 				&& (state != State.Pausing || currentTicks.Between(pauseTicks - pauseLength + safetyMarginTicks, pauseTicks - safetyMarginTicks))
 				&& state != State.Announcing && state != State.Punishing)
 			{
@@ -148,7 +153,7 @@ namespace Rimionship
 					break;
 
 				case State.Rising:
-					if (currentTicks - startTicks > RimionshipMod.settings.risingInterval)
+					if (currentTicks > startTicks + RisingInterval)
 						AnnounceNextLevel();
 					break;
 
