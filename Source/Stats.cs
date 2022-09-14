@@ -102,7 +102,7 @@ namespace Rimionship
 			return Tools.PlayerMaps
 				.SelectMany(map => map.mapPawns.AllPawnsSpawned)
 				.ToList()
-				.Where(pawn => pawn.training != null)
+				.Where(pawn => pawn.training != null && pawn.Faction == Faction.OfPlayer)
 				.Select(pawn => pawn.RaceProps)
 				.Count(raceProp =>
 					raceProp.intelligence == Intelligence.Animal &&
