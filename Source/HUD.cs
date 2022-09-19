@@ -16,6 +16,15 @@ namespace Rimionship
 				return;
 
 			SetName(response.TwitchName);
+			if (response.Position <= 0)
+			{
+				var map = Reporter.Instance.ChosenMap;
+				SetScore(Stats.ColonyWealth(map));
+				Assets.SetScorePanelActive(false);
+				return;
+			}
+
+			Assets.SetScorePanelActive(PlayState.tournamentState != TournamentState.Training);
 
 			var scores = response.GetScores();
 			var index = scores.FindIndex(score => score.TwitchName == response.TwitchName);

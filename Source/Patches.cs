@@ -263,7 +263,7 @@ namespace Rimionship
 	{
 		public static void Postfix()
 		{
-			Assets.SetActive(PlayState.tournamentState != TournamentState.Training);
+			Assets.SetScorePanelActive(PlayState.tournamentState != TournamentState.Training);
 
 			if (Find.TickManager.TicksGame == 0)
 			{

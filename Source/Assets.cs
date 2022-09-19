@@ -156,9 +156,10 @@ namespace Rimionship
 			Tools.assetsInited = true;
 		}
 
-		public static void SetActive(bool active)
+		public static void SetScorePanelActive(bool active)
 		{
-			scorePanel.gameObject.SetActive(active);
+			if (scorePanel.gameObject.activeSelf != active)
+				scorePanel.gameObject.SetActive(active);
 		}
 
 		public static void SetInfoAlpha(float alpha)

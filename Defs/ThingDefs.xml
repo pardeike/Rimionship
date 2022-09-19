@@ -4,7 +4,7 @@
 	<ThingDef ParentName="BuildingBase">
 		<defName>SacrificationSpot</defName>
 		<label>sacrification spot</label>
-		<description>You can sacrifice colonists here</description>
+		<description>At this sacrification spot you can sacrifice colonists to calm down the blood god. This action will please the rest of the colonists. The longer the Blood God is resisted beforehand, the more relieved the colonists will be.\n\nAfter a while, however, the Blood God will ask for a sacrifice again, so choose the timing of the sacrifice wisely.\n\nIgnore the Blood God too long and he will start punishing the colony. At first, these penalties are quite harmless. However, ignoring it will only make the penalties worse.\n\nTo sacrifice a colonist, first select the colonist that should perform the sacrifice. Then click with the right mouse button on the colonist who is to be sacrificed and select the corresponding command in the context menu. A colonist can also sacrifice themselves.\n\nThe sacrification spot will then be visited by your colonists, but with low priority. If there are other things to do, such as eating or sleeping, your colonists will be more likely to do those things before participating in the sacrifice. This also applies to all spectators who are attendending the ritual. You can give colonists other tasks at any time, or put them into combat mode if the situation requires it.\n\nAn already started sacrifice can be canceled here at the sacrification spot.</description>
 		<thingClass>Rimionship.SacrificationSpot</thingClass>
 		<graphicData>
 			<texPath>SacrificationSpot</texPath>
