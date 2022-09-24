@@ -26,6 +26,9 @@
 	<ModlistUnknown>Unbekannt</ModlistUnknown>
 	<ModlistValid>Erlaubt</ModlistValid>
 	<ModlistInvalid>Unerlaubt</ModlistInvalid>
+	<WrongLoad>Rimionship Ladefehler</WrongLoad>
+	<NonRimionshipLoad>Diese Datei ist wurde nicht mit Rimionship gespeichert</NonRimionshipLoad>
+	<WrongRimionshipLoad>Diese Datei entspricth nicht der aktuellen Spielphase</WrongRimionshipLoad>
 	<TournamentUnknown>Unbekannt</TournamentUnknown>
 	<TournamentStopped>Gestoppt</TournamentStopped>
 	<TournamentTraining>Training</TournamentTraining>
@@ -34,12 +37,14 @@
 	<TournamentCompleted>Abgeschlossen</TournamentCompleted>
 	<InvalidModsTooltip>Bitte folgende Mods deaktivieren: {list}</InvalidModsTooltip>
 	<CannotStartTournament>Das Turnier kann noch nicht gestartet werden</CannotStartTournament>
+	<CannotRestartTournament>Das Turnier wurde beendet und kann nicht mehr gestartet werden</CannotRestartTournament>
 	<AllowedModsNotAvailable>Sie benötigen eine Serververbindung um die Modliste festzulegen</AllowedModsNotAvailable>
 	<ModLoading>Noch zu laden: {count}</ModLoading>
 	<Activate>Aktivieren</Activate>
 	<EndTournament>Spielstand Einreichen</EndTournament>
 	<EndTournamentTitle>Turnier vorzeitig beenden und Punktestand abgeben?</EndTournamentTitle>
 	<EndTournamentConfirmation>Mit Klick auf "Bestätigen" werden alle Koloniewerte endgültig für das Turnier abgegeben. Das Spiel kann danach weiter gespielt werden, allerdings findet keine weitere Wertung in der Haupt- oder den Nebenquests statt.\nDiese Entscheidung ist unwiderruflich und auch nicht durch einen Neustart zurückzuziehen.\n\nWillst du sicher deine Endwertung der Rimionship jetzt einreichen?</EndTournamentConfirmation>
+	<TournamentEnded>Koloniewerte abgegeben!</TournamentEnded>
 	<MainMapIsActive>Das ist die Hauptkarte. Nur sie bestimmt den gesamten Koloniewert.\n\nEine andere Karte kann aktiviert werden indem man dorthin wechselt und sie in diesem Tab aktiviert</MainMapIsActive>
 	<MainMapIsInactive>Das ist nicht die Hauptkarte. Sie trägt nicht zum Koloniewert bei.\n\nUm diese Karte zur Hauptkarte zu machen, bitte auf {0} klicken:</MainMapIsInactive>
 	<DownloadingGame>Die Spieledatei wird geladen...</DownloadingGame>

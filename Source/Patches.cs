@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.Profile;
 using Verse.Sound;
 using Verse.Steam;
 using static HarmonyLib.Code;
@@ -21,9 +22,18 @@ namespace Rimionship
 	[HarmonyPatch(typeof(Current), nameof(Current.Notify_LoadedSceneChanged))]
 	static class Current_Notify_LoadedSceneChanged_Patch
 	{
+		public static string notificationText = null;
+
 		public static void Postfix()
 		{
 			AsyncLogger.StartCoroutine();
+
+			if (notificationText != null)
+			{
+				var infoText = notificationText;
+				notificationText = null;
+				LongEventHandler.ExecuteWhenFinished(() => Find.WindowStack.Add(new Dialog_Information("WrongLoad", infoText, "OK", () => { })));
+			}
 		}
 	}
 
@@ -124,7 +134,7 @@ namespace Rimionship
 					if (PlayState.Valid == false)
 					{
 						Defs.Nope.PlayOneShotOnCamera();
-						Find.WindowStack.Add(new Dialog_MessageBox("CannotStartTournament".Translate()));
+						Find.WindowStack.Add(new Dialog_MessageBox((PlayState.hasQuit ? "CannotRestartTournament" : "CannotStartTournament").Translate()));
 						return;
 					}
 					if (PlayState.tournamentState == TournamentState.Training)
@@ -253,6 +263,45 @@ namespace Rimionship
 					Call[SymbolExtensions.GetMethodInfo(() => DrawAtlas(default, default, default))]
 				)
 				.InstructionEnumeration();
+		}
+	}
+
+	// prevent loading wrong save files
+	//
+	[HarmonyPatch(typeof(ScribeLoader), nameof(ScribeLoader.FinalizeLoading))]
+	class ScribeLoader_FinalizeLoading_Patch
+	{
+		static void GoToMainMenu()
+		{
+			LongEventHandler.ClearQueuedEvents();
+			LongEventHandler.QueueLongEvent(delegate ()
+			{
+				MemoryUtility.ClearAllMapsAndWorld();
+				Current.Game = null;
+			}, "Entry", "LoadingLongEvent", true, null, false);
+		}
+
+		public static void Postfix()
+		{
+			if (Current.Game == null || Find.TickManager == null)
+				return;
+
+			if (Find.TickManager.TicksGame == 0)
+				return;
+
+			var state = Find.World.GetComponent<CurrentTournamentState>();
+			if (state == null || (int)state.state == -1)
+			{
+				Current_Notify_LoadedSceneChanged_Patch.notificationText = "NonRimionshipLoad";
+				GoToMainMenu();
+				return;
+			}
+
+			if (state.state == PlayState.tournamentState)
+				return;
+
+			Current_Notify_LoadedSceneChanged_Patch.notificationText = "WrongRimionshipLoad";
+			GoToMainMenu();
 		}
 	}
 
@@ -774,11 +823,16 @@ namespace Rimionship
 			if (PlayState.tournamentState != TournamentState.Training)
 			{
 				list.curY = rect.height - 30f;
-				if (list.ButtonText("EndTournament".Translate()))
+				if (PlayState.hasQuit)
+					_ = list.Label("TournamentEnded".Translate());
+				else
 				{
-					var title = "EndTournamentTitle".Translate();
-					var body = "EndTournamentConfirmation".Translate();
-					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(body, PlayState.StopGame, true, title));
+					if (list.ButtonText("EndTournament".Translate()))
+					{
+						var title = "EndTournamentTitle".Translate();
+						var body = "EndTournamentConfirmation".Translate();
+						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(body, PlayState.StopGame, true, title));
+					}
 				}
 			}
 

@@ -26,6 +26,9 @@
 	<ModlistUnknown>Unknown</ModlistUnknown>
 	<ModlistValid>Valid</ModlistValid>
 	<ModlistInvalid>Invalid</ModlistInvalid>
+	<WrongLoad>Rimionship Loading Error</WrongLoad>
+	<NonRimionshipLoad>This save file is not a Rimionship save</NonRimionshipLoad>
+	<WrongRimionshipLoad>This save file does not match the current tournament state</WrongRimionshipLoad>
 	<TournamentUnknown>Unknown</TournamentUnknown>
 	<TournamentStopped>Stopped</TournamentStopped>
 	<TournamentTraining>Training</TournamentTraining>
@@ -34,12 +37,14 @@
 	<TournamentCompleted>Completed</TournamentCompleted>
 	<InvalidModsTooltip>Please disable the following mods: {list}</InvalidModsTooltip>
 	<CannotStartTournament>You cannot start the tournament yet</CannotStartTournament>
+	<CannotRestartTournament>You have completed the tournament and cannot start it again</CannotRestartTournament>
 	<AllowedModsNotAvailable>You need a server connection to set the mod list</AllowedModsNotAvailable>
 	<ModLoading>Remaining: {count}</ModLoading>
 	<Activate>Activate</Activate>
 	<EndTournament>Submit Final Score</EndTournament>
 	<EndTournamentTitle>Quit the tournament early and hand in the score?</EndTournamentTitle>
 	<EndTournamentConfirmation>By clicking on "Yes" all colony values are finally submitted for the tournament. You can then continue to play the game, but no further scoring takes place in the main or side quests.\nThis decision is irrevocable and cannot be withdrawn by a restart.\n\nAre you sure you want to submit your final Rimionship state now?</EndTournamentConfirmation>
+	<TournamentEnded>Final result submitted!</TournamentEnded>
 	<MainMapIsActive>This is your main map. Only it will count towards your total wealth.\n\nYou can make another map your main map by going there and activating it here in this tab</MainMapIsActive>
 	<MainMapIsInactive>This is not your main map. It will not count towards your total wealth.\n\nIf you want to activate it press {0} below:</MainMapIsInactive>
 	<DownloadingGame>Loading game file...</DownloadingGame>

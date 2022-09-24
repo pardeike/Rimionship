@@ -27,6 +27,7 @@ message HelloResponse {
 	string twitchName = 3;
 	int32 position = 4;
 	repeated Score score = 5;
+	bool hasQuit = 6;
 }
 
 message Mod {

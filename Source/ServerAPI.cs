@@ -54,6 +54,7 @@ namespace Rimionship
 					AsyncLogger.Warning($"exists={response.UserExists} ({response.TwitchName}) #{response.Position} in [{scores}] <- Hello");
 				}
 				PlayState.modRegistered = response.UserExists;
+				PlayState.hasQuit = response.HasQuit;
 				PlayState.AllowedMods = response.GetAllowedMods();
 				HUD.Update(response);
 			});

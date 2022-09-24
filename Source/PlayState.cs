@@ -37,6 +37,7 @@ namespace Rimionship
 		public static int errorCount = 0;
 
 		public static bool modRegistered = false;
+		public static bool hasQuit = false;
 
 		static List<KeyValuePair<string, ulong>> _allowedMods = new();
 		public static List<KeyValuePair<string, ulong>> AllowedMods
@@ -67,6 +68,7 @@ namespace Rimionship
 		public static int startingPawnCount = 0;
 
 		public static bool Valid => (tournamentState == TournamentState.Started || tournamentState == TournamentState.Training)
+			&& hasQuit == false
 			&& modRegistered
 			&& modlistStatus == ModListStatus.Valid
 			&& Communications.State == CommState.Ready;
