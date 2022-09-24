@@ -288,8 +288,9 @@ namespace Rimionship
 
 		public static void TriggerAttention(string context, int delta)
 		{
-			if (Tools.DevMode)
-				AsyncLogger.Warning($"Attention +{delta} [{context}]");
+			// TODO
+			// if (Tools.DevMode)
+			AsyncLogger.Warning($"Attention +{delta} [{context}]");
 
 			_ = Task.Run(async () =>
 			{

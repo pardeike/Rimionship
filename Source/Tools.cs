@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -29,6 +30,19 @@ namespace Rimionship
 			DevMode = Environment.GetEnvironmentVariable("RIMIONSHIP-DEV") != null;
 			if (DevMode)
 				Log.Warning($"Rimionship runs in dev mode");
+		}
+
+		public static string GetModVersionString()
+		{
+			var assembly = Assembly.GetAssembly(typeof(RimionshipMod));
+			var t_attribute = typeof(AssemblyFileVersionAttribute);
+			var attribute = (AssemblyFileVersionAttribute)Attribute.GetCustomAttribute(assembly, t_attribute, false);
+			var str = attribute.Version;
+			if (str.EndsWith(".0"))
+				str = str.Substring(0, str.Length - 2);
+			if (str.EndsWith(".0"))
+				str = str.Substring(0, str.Length - 2);
+			return str;
 		}
 
 		public static Texture2D LoadTexture(string path, bool makeReadonly = true)
