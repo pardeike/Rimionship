@@ -297,15 +297,12 @@ namespace Rimionship
 			if (fromLoadGame == false)
 				return;
 
-			Log.Warning($"#1 {Current.Game} {Find.TickManager}");
 			if (Current.Game == null || Find.TickManager == null)
 				return;
 
-			Log.Warning($"#2 {Find.TickManager.TicksGame}");
 			if (Find.TickManager.TicksGame == 0)
 				return;
 
-			Log.Warning($"#3 {Find.World.GetComponent<CurrentTournamentState>()}");
 			var state = Find.World.GetComponent<CurrentTournamentState>();
 			if (state == null || (int)state.state == -1)
 			{

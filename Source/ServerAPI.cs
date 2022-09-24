@@ -18,7 +18,7 @@ namespace Rimionship
 	public static class ServerAPI
 	{
 		const int API_VERSION = 1;
-		const bool LOGGING = false;
+		const bool LOGGING = true;
 
 		static readonly CancellationTokenSource source = new();
 		static float _nextStatsUpdate;
