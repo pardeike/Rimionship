@@ -477,9 +477,7 @@ namespace Rimionship
 					yield return null;
 
 				var incidents = Find.Storyteller?.incidentQueue.queuedIncidents ?? new List<RimWorld.QueuedIncident>();
-				if (incidents.Any())
-				{
-					var events = incidents
+				var events = incidents
 						.Select(q => new FutureEvent()
 						{
 							Ticks = q.fireTick - Find.TickManager.TicksGame,
@@ -490,8 +488,7 @@ namespace Rimionship
 							Strategy = q.firingInc.parms.raidStrategy?.defName ?? "",
 							ArrivalMode = q.firingInc.parms.raidArrivalMode?.defName ?? ""
 						});
-					yield return ServerAPI.SendFutureEvents(events).ToWaitUntil();
-				}
+				yield return ServerAPI.SendFutureEvents(events).ToWaitUntil();
 			}
 		}
 	}
