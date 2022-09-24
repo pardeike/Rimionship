@@ -164,7 +164,14 @@ namespace Rimionship
 			var id = Tools.UniqueModID;
 			if (Tools.DevMode && LOGGING)
 				AsyncLogger.Warning($"-> Stop");
-			_ = await Communications.Client.StopAsync(new StopRequest() { Id = Tools.UniqueModID }, null, DefaultDeadline, source.Token);
+			try
+			{
+				_ = await Communications.Client.StopAsync(new StopRequest() { Id = Tools.UniqueModID }, null, deadline: DefaultDeadline, source.Token);
+			}
+			catch (Exception ex)
+			{
+				AsyncLogger.Warning($"Stop EX:{ex}");
+			}
 			if (Tools.DevMode && LOGGING)
 				AsyncLogger.Warning($"<- Stop");
 		}
