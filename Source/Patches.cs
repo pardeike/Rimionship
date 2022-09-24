@@ -3,6 +3,7 @@ using RimWorld;
 using Steamworks;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -290,6 +291,12 @@ namespace Rimionship
 
 		public static void Postfix()
 		{
+			var st = new StackTrace();
+			var m_LoadGame = SymbolExtensions.GetMethodInfo(() => ((Game)null).LoadGame());
+			var fromLoadGame = st.GetFrames().Any(frame => frame.GetMethod() == m_LoadGame);
+			if (fromLoadGame == false)
+				return;
+
 			Log.Warning($"#1 {Current.Game} {Find.TickManager}");
 			if (Current.Game == null || Find.TickManager == null)
 				return;
