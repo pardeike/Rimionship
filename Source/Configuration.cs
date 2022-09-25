@@ -17,6 +17,6 @@ namespace Rimionship
 		public static bool CustomSettings => Environment.GetEnvironmentVariable(customSettings) == "1";
 		public static string CustomEndpoint => Environment.GetEnvironmentVariable(endpoint);
 		public static string LocalHostEndpoint => "localhost:5062";
-		public static string ProductionEndpoint => "registration.rimionship.com";
+		public static string ProductionEndpoint => "mod.rimionship.com";
 	}
 }
