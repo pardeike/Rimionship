@@ -18,7 +18,7 @@ namespace Rimionship
 	public static class ServerAPI
 	{
 		const int API_VERSION = 1;
-		const bool LOGGING = true;
+		const bool LOGGING = false;
 
 		static readonly CancellationTokenSource source = new();
 		static float _nextStatsUpdate;
@@ -51,7 +51,7 @@ namespace Rimionship
 				if (Tools.DevMode && LOGGING)
 				{
 					var scores = response.GetScores().Join(score => $"{score.Position}|{score.TwitchName}|{score.LatestScore}", ",");
-					AsyncLogger.Warning($"exists={response.UserExists} ({response.TwitchName}) #{response.Position} in [{scores}] <- Hello");
+					AsyncLogger.Warning($"exists={response.UserExists} quit={response.HasQuit} ({response.TwitchName}) #{response.Position} in [{scores}] <- Hello");
 				}
 				PlayState.modRegistered = response.UserExists;
 				PlayState.hasQuit = response.HasQuit;

@@ -26,9 +26,9 @@ namespace RimionshipServer.API {
           string.Concat(
             "ChBQcm90b3MvYXBpLnByb3RvEgNhcGkiLgoMSGVsbG9SZXF1ZXN0EhIKCmFw",
             "aVZlcnNpb24YASABKAUSCgoCaWQYAiABKAkilAEKDUhlbGxvUmVzcG9uc2US",
-            "EgoKdXNlckV4aXN0cxgBIAEoCBIdCgthbGxvd2VkTW9kcxgCIAMoCzIILmFw",
-            "aS5Nb2QSEgoKdHdpdGNoTmFtZRgDIAEoCRIQCghwb3NpdGlvbhgEIAEoBRIZ",
-            "CgVzY29yZRgFIAMoCzIKLmFwaS5TY29yZRIPCgdoYXNRdWl0GAYgASgIIikK",
+            "EgoKdXNlckV4aXN0cxgBIAEoCBIPCgdoYXNRdWl0GAIgASgIEh0KC2FsbG93",
+            "ZWRNb2RzGAMgAygLMgguYXBpLk1vZBISCgp0d2l0Y2hOYW1lGAQgASgJEhAK",
+            "CHBvc2l0aW9uGAUgASgFEhkKBXNjb3JlGAYgAygLMgouYXBpLlNjb3JlIikK",
             "A01vZBIPCgdzdGVhbUlkGAEgASgEEhEKCXBhY2thZ2VJZBgCIAEoCSJCCgVT",
             "Y29yZRIQCghwb3NpdGlvbhgBIAEoBRISCgp0d2l0Y2hOYW1lGAIgASgJEhMK",
             "C2xhdGVzdFNjb3JlGAMgASgFIhoKDExvZ2luUmVxdWVzdBIKCgJpZBgBIAEo",
@@ -100,7 +100,7 @@ namespace RimionshipServer.API {
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.HelloRequest), global::RimionshipServer.API.HelloRequest.Parser, new[]{ "ApiVersion", "Id" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.HelloResponse), global::RimionshipServer.API.HelloResponse.Parser, new[]{ "UserExists", "AllowedMods", "TwitchName", "Position", "Score", "HasQuit" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.HelloResponse), global::RimionshipServer.API.HelloResponse.Parser, new[]{ "UserExists", "HasQuit", "AllowedMods", "TwitchName", "Position", "Score" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.Mod), global::RimionshipServer.API.Mod.Parser, new[]{ "SteamId", "PackageId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.Score), global::RimionshipServer.API.Score.Parser, new[]{ "Position", "TwitchName", "LatestScore" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RimionshipServer.API.LoginRequest), global::RimionshipServer.API.LoginRequest.Parser, new[]{ "Id" }, null, null, null),
@@ -314,11 +314,11 @@ namespace RimionshipServer.API {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public HelloResponse(HelloResponse other) : this() {
       userExists_ = other.userExists_;
+      hasQuit_ = other.hasQuit_;
       allowedMods_ = other.allowedMods_.Clone();
       twitchName_ = other.twitchName_;
       position_ = other.position_;
       score_ = other.score_.Clone();
-      hasQuit_ = other.hasQuit_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -338,10 +338,21 @@ namespace RimionshipServer.API {
       }
     }
 
+    /// <summary>Field number for the "hasQuit" field.</summary>
+    public const int HasQuitFieldNumber = 2;
+    private bool hasQuit_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool HasQuit {
+      get { return hasQuit_; }
+      set {
+        hasQuit_ = value;
+      }
+    }
+
     /// <summary>Field number for the "allowedMods" field.</summary>
-    public const int AllowedModsFieldNumber = 2;
+    public const int AllowedModsFieldNumber = 3;
     private static readonly pb::FieldCodec<global::RimionshipServer.API.Mod> _repeated_allowedMods_codec
-        = pb::FieldCodec.ForMessage(18, global::RimionshipServer.API.Mod.Parser);
+        = pb::FieldCodec.ForMessage(26, global::RimionshipServer.API.Mod.Parser);
     private readonly pbc::RepeatedField<global::RimionshipServer.API.Mod> allowedMods_ = new pbc::RepeatedField<global::RimionshipServer.API.Mod>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::RimionshipServer.API.Mod> AllowedMods {
@@ -349,7 +360,7 @@ namespace RimionshipServer.API {
     }
 
     /// <summary>Field number for the "twitchName" field.</summary>
-    public const int TwitchNameFieldNumber = 3;
+    public const int TwitchNameFieldNumber = 4;
     private string twitchName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string TwitchName {
@@ -360,7 +371,7 @@ namespace RimionshipServer.API {
     }
 
     /// <summary>Field number for the "position" field.</summary>
-    public const int PositionFieldNumber = 4;
+    public const int PositionFieldNumber = 5;
     private int position_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int Position {
@@ -371,24 +382,13 @@ namespace RimionshipServer.API {
     }
 
     /// <summary>Field number for the "score" field.</summary>
-    public const int ScoreFieldNumber = 5;
+    public const int ScoreFieldNumber = 6;
     private static readonly pb::FieldCodec<global::RimionshipServer.API.Score> _repeated_score_codec
-        = pb::FieldCodec.ForMessage(42, global::RimionshipServer.API.Score.Parser);
+        = pb::FieldCodec.ForMessage(50, global::RimionshipServer.API.Score.Parser);
     private readonly pbc::RepeatedField<global::RimionshipServer.API.Score> score_ = new pbc::RepeatedField<global::RimionshipServer.API.Score>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::RimionshipServer.API.Score> Score {
       get { return score_; }
-    }
-
-    /// <summary>Field number for the "hasQuit" field.</summary>
-    public const int HasQuitFieldNumber = 6;
-    private bool hasQuit_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool HasQuit {
-      get { return hasQuit_; }
-      set {
-        hasQuit_ = value;
-      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -405,11 +405,11 @@ namespace RimionshipServer.API {
         return true;
       }
       if (UserExists != other.UserExists) return false;
+      if (HasQuit != other.HasQuit) return false;
       if(!allowedMods_.Equals(other.allowedMods_)) return false;
       if (TwitchName != other.TwitchName) return false;
       if (Position != other.Position) return false;
       if(!score_.Equals(other.score_)) return false;
-      if (HasQuit != other.HasQuit) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -417,11 +417,11 @@ namespace RimionshipServer.API {
     public override int GetHashCode() {
       int hash = 1;
       if (UserExists != false) hash ^= UserExists.GetHashCode();
+      if (HasQuit != false) hash ^= HasQuit.GetHashCode();
       hash ^= allowedMods_.GetHashCode();
       if (TwitchName.Length != 0) hash ^= TwitchName.GetHashCode();
       if (Position != 0) hash ^= Position.GetHashCode();
       hash ^= score_.GetHashCode();
-      if (HasQuit != false) hash ^= HasQuit.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -439,20 +439,20 @@ namespace RimionshipServer.API {
         output.WriteRawTag(8);
         output.WriteBool(UserExists);
       }
+      if (HasQuit != false) {
+        output.WriteRawTag(16);
+        output.WriteBool(HasQuit);
+      }
       allowedMods_.WriteTo(output, _repeated_allowedMods_codec);
       if (TwitchName.Length != 0) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(34);
         output.WriteString(TwitchName);
       }
       if (Position != 0) {
-        output.WriteRawTag(32);
+        output.WriteRawTag(40);
         output.WriteInt32(Position);
       }
       score_.WriteTo(output, _repeated_score_codec);
-      if (HasQuit != false) {
-        output.WriteRawTag(48);
-        output.WriteBool(HasQuit);
-      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -464,6 +464,9 @@ namespace RimionshipServer.API {
       if (UserExists != false) {
         size += 1 + 1;
       }
+      if (HasQuit != false) {
+        size += 1 + 1;
+      }
       size += allowedMods_.CalculateSize(_repeated_allowedMods_codec);
       if (TwitchName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(TwitchName);
@@ -472,9 +475,6 @@ namespace RimionshipServer.API {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Position);
       }
       size += score_.CalculateSize(_repeated_score_codec);
-      if (HasQuit != false) {
-        size += 1 + 1;
-      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -489,6 +489,9 @@ namespace RimionshipServer.API {
       if (other.UserExists != false) {
         UserExists = other.UserExists;
       }
+      if (other.HasQuit != false) {
+        HasQuit = other.HasQuit;
+      }
       allowedMods_.Add(other.allowedMods_);
       if (other.TwitchName.Length != 0) {
         TwitchName = other.TwitchName;
@@ -497,9 +500,6 @@ namespace RimionshipServer.API {
         Position = other.Position;
       }
       score_.Add(other.score_);
-      if (other.HasQuit != false) {
-        HasQuit = other.HasQuit;
-      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -515,24 +515,24 @@ namespace RimionshipServer.API {
             UserExists = input.ReadBool();
             break;
           }
-          case 18: {
-            allowedMods_.AddEntriesFrom(input, _repeated_allowedMods_codec);
+          case 16: {
+            HasQuit = input.ReadBool();
             break;
           }
           case 26: {
+            allowedMods_.AddEntriesFrom(input, _repeated_allowedMods_codec);
+            break;
+          }
+          case 34: {
             TwitchName = input.ReadString();
             break;
           }
-          case 32: {
+          case 40: {
             Position = input.ReadInt32();
             break;
           }
-          case 42: {
+          case 50: {
             score_.AddEntriesFrom(input, _repeated_score_codec);
-            break;
-          }
-          case 48: {
-            HasQuit = input.ReadBool();
             break;
           }
         }

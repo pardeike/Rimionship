@@ -23,11 +23,11 @@ message HelloRequest {
 
 message HelloResponse {
 	bool userExists = 1;
-	repeated Mod allowedMods = 2;
-	string twitchName = 3;
-	int32 position = 4;
-	repeated Score score = 5;
-	bool hasQuit = 6;
+	bool hasQuit = 2;
+	repeated Mod allowedMods = 3;
+	string twitchName = 4;
+	int32 position = 5;
+	repeated Score score = 6;
 }
 
 message Mod {
