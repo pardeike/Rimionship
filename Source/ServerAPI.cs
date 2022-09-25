@@ -18,7 +18,7 @@ namespace Rimionship
 	public static class ServerAPI
 	{
 		const int API_VERSION = 1;
-		const bool LOGGING = false;
+		static readonly bool LOGGING = Configuration.UseApiLogging;
 
 		static readonly CancellationTokenSource source = new();
 		static float _nextStatsUpdate;
@@ -45,10 +45,10 @@ namespace Rimionship
 			{
 				var id = Tools.UniqueModID;
 				var request = new HelloRequest() { ApiVersion = API_VERSION, Id = id };
-				if (Tools.DevMode && LOGGING)
+				if (LOGGING)
 					AsyncLogger.Warning($"-> Hello");
 				var response = await Communications.Client.HelloAsync(request, null, DefaultDeadline, source.Token);
-				if (Tools.DevMode && LOGGING)
+				if (LOGGING)
 				{
 					var scores = response.GetScores().Join(score => $"{score.Position}|{score.TwitchName}|{score.LatestScore}", ",");
 					AsyncLogger.Warning($"exists={response.UserExists} quit={response.HasQuit} ({response.TwitchName}) #{response.Position} in [{scores}] <- Hello");
@@ -65,7 +65,7 @@ namespace Rimionship
 			await ServerAPITools.WrapCall(async () =>
 			{
 				var loginRequest = new LoginRequest() { Id = Tools.UniqueModID };
-				if (Tools.DevMode && LOGGING)
+				if (LOGGING)
 					AsyncLogger.Warning($"-> Login");
 				var loginResponse = await Communications.Client.LoginAsync(loginRequest, null, DefaultDeadline, source.Token);
 				var loginToken = loginResponse.LoginToken;
@@ -76,10 +76,10 @@ namespace Rimionship
 				while (DateTime.Now < timeout)
 				{
 					var linkAccountRequest = new LinkAccountRequest() { Id = Tools.UniqueModID, LoginToken = loginResponse.LoginToken };
-					if (Tools.DevMode && LOGGING)
+					if (LOGGING)
 						AsyncLogger.Warning($"-> LinkAccount");
 					var linkAccountResponse = await Communications.Client.LinkAccountAsync(linkAccountRequest, null, DefaultDeadline, source.Token);
-					if (Tools.DevMode && LOGGING)
+					if (LOGGING)
 						AsyncLogger.Warning($"exists={linkAccountResponse.UserExists} ({linkAccountResponse.TwitchName}) <- LinkAccount");
 					if (linkAccountResponse.UserExists)
 					{
@@ -106,10 +106,10 @@ namespace Rimionship
 		public static async Task<bool> StartGame()
 		{
 			var id = Tools.UniqueModID;
-			if (Tools.DevMode && LOGGING)
+			if (LOGGING)
 				AsyncLogger.Warning($"-> Start");
 			var response = await Communications.Client.StartAsync(new StartRequest() { Id = Tools.UniqueModID }, null, DefaultDeadline, source.Token);
-			if (Tools.DevMode && LOGGING)
+			if (LOGGING)
 				AsyncLogger.Warning($"pawns={response.StartingPawnCount} <- Start");
 			PlayState.startingPawnCount = response.StartingPawnCount;
 			ApplySettings(response.Settings);
@@ -162,7 +162,7 @@ namespace Rimionship
 		public static async Task StopGame()
 		{
 			var id = Tools.UniqueModID;
-			if (Tools.DevMode && LOGGING)
+			if (LOGGING)
 				AsyncLogger.Warning($"-> Stop");
 			try
 			{
@@ -172,7 +172,7 @@ namespace Rimionship
 			{
 				AsyncLogger.Warning($"Stop EX:{ex}");
 			}
-			if (Tools.DevMode && LOGGING)
+			if (LOGGING)
 				AsyncLogger.Warning($"<- Stop");
 		}
 
@@ -186,16 +186,16 @@ namespace Rimionship
 					var id = Tools.UniqueModID;
 					var request = new SyncRequest() { Id = id, WaitForChange = WaitForChange };
 					WaitForChange = true;
-					if (Tools.DevMode && LOGGING)
+					if (LOGGING)
 						AsyncLogger.Warning($"-> Sync");
 					var response = await Communications.Client.SyncAsync(request, null, deadline: DefaultDeadline, source.Token);
-					if (Tools.DevMode && LOGGING)
+					if (LOGGING)
 						AsyncLogger.Warning($"{response.State} <- Sync");
 					HandleSyncResponse(response);
 				}
 				catch (RpcException e)
 				{
-					if (Tools.DevMode && LOGGING)
+					if (LOGGING)
 						AsyncLogger.Warning($"{e.Status.StatusCode} <- Sync");
 
 					if (e.ShouldReport())
@@ -231,7 +231,7 @@ namespace Rimionship
 
 		static void ApplySettings(RimionshipServer.API.Settings settings)
 		{
-			if (Tools.DevMode)
+			if (Configuration.CustomSettings)
 				return;
 
 			settings ??= new RimionshipServer.API.Settings();
@@ -270,10 +270,10 @@ namespace Rimionship
 			await ServerAPITools.WrapCall(async () =>
 			{
 				var request = stat.TransferModel(Tools.UniqueModID);
-				if (Tools.DevMode && LOGGING)
+				if (LOGGING)
 					AsyncLogger.Warning("-> Stats");
 				var response = await Communications.Client.StatsAsync(request, null, ShortDeadline, source.Token);
-				if (Tools.DevMode && LOGGING)
+				if (LOGGING)
 					AsyncLogger.Warning($"{response.Interval} <- Stats");
 				PlayState.currentStatsSendingInterval = response.Interval;
 			});
@@ -285,27 +285,26 @@ namespace Rimionship
 			{
 				var request = new FutureEventsRequest() { Id = Tools.UniqueModID };
 				request.AddEvents(events);
-				if (Tools.DevMode && LOGGING)
+				if (LOGGING)
 					AsyncLogger.Warning("-> FutureEvents");
 				_ = await Communications.Client.FutureEventsAsync(request, null, ShortDeadline, source.Token);
-				if (Tools.DevMode && LOGGING)
+				if (LOGGING)
 					AsyncLogger.Warning("<- FutureEvents");
 			});
 		}
 
 		public static void TriggerAttention(string context, int delta)
 		{
-			// TODO
-			// if (Tools.DevMode)
-			AsyncLogger.Warning($"Attention +{delta} [{context}]");
+			if (LOGGING)
+				AsyncLogger.Warning($"Attention +{delta} [{context}]");
 
 			_ = Task.Run(async () =>
 			{
 				var request = new AttentionRequest() { Id = Tools.UniqueModID, Delta = delta };
-				if (Tools.DevMode && LOGGING)
+				if (LOGGING)
 					AsyncLogger.Warning("-> Attention");
 				_ = await Communications.Client.AttentionAsync(request, null, ShortDeadline, source.Token);
-				if (Tools.DevMode && LOGGING)
+				if (LOGGING)
 					AsyncLogger.Warning("<- Attention");
 			});
 		}

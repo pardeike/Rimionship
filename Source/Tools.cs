@@ -22,12 +22,11 @@ namespace Rimionship
 
 		public static bool assetsInited = false;
 		public static readonly Rect Rect01 = new(0, 0, 1, 1);
-		public static readonly bool DevMode;
+		public static readonly bool DevMode = Configuration.UseDevMode;
 		public static bool boomalopeManhunters = false;
 
 		static Tools()
 		{
-			DevMode = Environment.GetEnvironmentVariable("RIMIONSHIP-DEV") != null;
 			if (DevMode)
 				Log.Warning($"Rimionship runs in dev mode");
 		}

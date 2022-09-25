@@ -40,7 +40,7 @@ namespace Rimionship
 		}
 
 		public override void DoSettingsWindowContents(Rect inRect) => settings.DoWindowContents(inRect);
-		public override string SettingsCategory() => Tools.DevMode ? "Rimionship" : "";
+		public override string SettingsCategory() => Configuration.CustomSettings ? "Rimionship" : "";
 
 		public static void LoadAPI()
 		{

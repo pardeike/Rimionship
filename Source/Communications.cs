@@ -1,7 +1,5 @@
 ﻿using Grpc.Core;
-using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Verse;
 using static RimionshipServer.API.API;
@@ -14,16 +12,14 @@ namespace Rimionship
 		{
 			get
 			{
-				var prefix = "-rimionship-host=";
-				var endpoint = Environment.GetCommandLineArgs().FirstOrDefault(f => f.StartsWith(prefix));
-				if (!string.IsNullOrEmpty(endpoint))
-					return endpoint.Substring(prefix.Length);
+				if (Configuration.UseLocalHost)
+					return Configuration.LocalHostEndpoint;
 
-				endpoint = Environment.GetEnvironmentVariable("RIMIONSHIP-ENDPOINT");
+				var endpoint = Configuration.CustomEndpoint;
 				if (!string.IsNullOrEmpty(endpoint))
 					return endpoint;
 
-				return "mod-test.rimionship.com";
+				return Configuration.ProductionEndpoint;
 			}
 		}
 
@@ -45,20 +41,20 @@ namespace Rimionship
 		{
 			var host = EndpointUri;
 			if (host.Contains("localhost"))
-			{
-				Log.Warning($"Server: {host} (insecure)");
 				Channel = new Channel(host, ChannelCredentials.Insecure);
-			}
 			else
 			{
-				Log.Warning($"Server: {host}");
 				var caRoots = File.ReadAllText(Path.Combine(rootDir, "Resources", "ca.pem"));
 				Channel = new Channel(host, new SslCredentials(caRoots));
 			}
 			Client = new APIClient(Channel);
 
 			if (Tools.DevMode)
+			{
+				Log.Warning($"SERVER: {host}");
 				Log.Warning($"MOD ID: {Tools.UniqueModID}");
+			}
+
 			_ = Task.Run(ServerAPI.StartConnecting);
 			_ = Task.Run(ServerAPI.StartSyncing);
 		}
