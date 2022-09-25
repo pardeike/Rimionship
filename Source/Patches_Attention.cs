@@ -176,9 +176,9 @@ namespace Rimionship
 	[HarmonyPatch(typeof(GenExplosion), nameof(GenExplosion.DoExplosion))]
 	class GenExplosion_DoExplosion_Patch
 	{
-		public static void Postfix(Map map, DamageDef damType, int damAmount)
+		public static void Postfix(Map map, DamageDef damType, Thing instigator, int damAmount)
 		{
-			if (map == null || damType.harmsHealth == false)
+			if (instigator == null || map == null /* || damType.harmsHealth == false */)
 				return;
 			var amount = Mathf.Max(damAmount, damType.defaultDamage);
 			if (amount <= 0)
