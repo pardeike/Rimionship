@@ -295,6 +295,9 @@ namespace Rimionship
 
 		public static void TriggerAttention(string context, int delta)
 		{
+			if (Find.TickManager.TicksGame < 2)
+				return;
+
 			if (LOGGING)
 				AsyncLogger.Warning($"Attention +{delta} [{context}]");
 

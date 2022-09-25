@@ -300,7 +300,7 @@ namespace Rimionship
 			if (Current.Game == null || Find.TickManager == null)
 				return;
 
-			if (Find.TickManager.TicksGame == 0)
+			if (Find.TickManager.TicksGame < 2)
 				return;
 
 			var state = Find.World.GetComponent<CurrentTournamentState>();
@@ -328,7 +328,7 @@ namespace Rimionship
 		{
 			Assets.SetScorePanelActive(PlayState.tournamentState != TournamentState.Training);
 
-			if (Find.TickManager.TicksGame == 0)
+			if (Find.TickManager.TicksGame < 2)
 			{
 				Find.GameEnder.gameEnding = false;
 				Find.GameEnder.ticksToGameOver = -1;

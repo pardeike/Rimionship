@@ -178,7 +178,7 @@ namespace Rimionship
 	{
 		public static void Postfix(Map map, DamageDef damType, int damAmount)
 		{
-			if (map == null/* || damType.harmsHealth == false*/)
+			if (map == null || damType.harmsHealth == false)
 				return;
 			var amount = Mathf.Max(damAmount, damType.defaultDamage);
 			if (amount <= 0)
