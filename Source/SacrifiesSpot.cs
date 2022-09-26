@@ -62,7 +62,7 @@ namespace Rimionship
 			}
 		}
 
-		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
+		public void Destroy()
 		{
 			Object.Destroy(effect);
 			effect = null;
@@ -71,7 +71,11 @@ namespace Rimionship
 			spotlightObject = null;
 			spotlightLight = null;
 			lights = System.Array.Empty<Light>();
+		}
 
+		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
+		{
+			Destroy();
 			base.DeSpawn(mode);
 		}
 
@@ -119,7 +123,7 @@ namespace Rimionship
 			if (this.CanBeSacrificed(selPawn) == false)
 				yield break;
 
-			yield return new FloatMenuOption("SacrificeMyself".Translate(), () =>
+			void action()
 			{
 				var availableSacrifice = map.mapPawns.AllPawnsSpawned
 					.Where(pawn => pawn != selPawn && this.CanSacrifice(pawn))
@@ -132,8 +136,14 @@ namespace Rimionship
 					Messages.Message("NobodyCanSacrifice".Translate(), MessageTypeDefOf.RejectInput, false);
 				else
 					sacrification.Start();
-			},
-			MenuOptionPriority.VeryLow);
+			}
+
+			var disabled = BloodGod.Instance.IsInactive;
+			yield return new FloatMenuOption(
+				(disabled ? "CannotSacrificeMyself" : "SacrificeMyself").Translate(),
+				disabled ? null : action,
+				MenuOptionPriority.VeryLow
+			);
 		}
 
 		void StartEvilChoir()

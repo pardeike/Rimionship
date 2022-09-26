@@ -10,7 +10,7 @@
 		<OutputPath>bin</OutputPath>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<Version>1.0.3.0</Version>
+		<Version>1.0.4.0</Version>
 		<Copyright>Copyright Andreas Pardeike</Copyright>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>

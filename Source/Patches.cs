@@ -274,6 +274,24 @@ namespace Rimionship
 		}
 	}
 
+	// do not send data during loading files
+	//
+	[HarmonyPatch(typeof(Game), nameof(Game.LoadGame))]
+	class Game_LoadGame_Patch
+	{
+		public static void Prefix()
+		{
+			// TODO stop sending
+		}
+
+		public static void Finalizer()
+		{
+			// TODO start sending again
+			// better yet: move this to a call that will
+			// definitely execute, even will load errors
+		}
+	}
+
 	// prevent loading wrong save files
 	//
 	[HarmonyPatch(typeof(ScribeLoader), nameof(ScribeLoader.FinalizeLoading))]
@@ -561,8 +579,6 @@ namespace Rimionship
 		public static void Postfix(Vector3 clickPos, Pawn pawn, List<FloatMenuOption> opts)
 		{
 			var map = pawn.Map;
-			if (BloodGod.Instance.IsInactive)
-				return;
 			if (map.ReadyForSacrification(out var spot, out var sacrification) == false)
 				return;
 			if (spot.CanSacrifice(pawn) == false)
@@ -576,13 +592,22 @@ namespace Rimionship
 				if (spot.CanBeSacrificed(clickedPawn) == false)
 					continue;
 
-				opts.Add(new FloatMenuOption("SacrificeColonist".Translate(clickedPawn.LabelShortCap), () =>
+				void action()
 				{
 					sacrification.sacrificer = pawn;
 					sacrification.sacrifice = clickedPawn;
 					sacrification.Start();
-				},
-				MenuOptionPriority.Low));
+				}
+
+				var disabled = BloodGod.Instance.IsInactive;
+				opts.Add(
+					new FloatMenuOption
+					(
+						(disabled ? "CannotSacrificeColonist" : "SacrificeColonist").Translate(clickedPawn.LabelShortCap),
+						disabled ? null : action,
+						MenuOptionPriority.Low
+					)
+				);
 			}
 		}
 	}
@@ -761,6 +786,17 @@ namespace Rimionship
 			var currentMap = Find.CurrentMap;
 			foreach (var map in Current.Game.Maps)
 				SacrificationSpot.ForMap(map)?.SetVisible(map == currentMap);
+		}
+	}
+
+	// remove sacrification spot when map is removed
+	//
+	[HarmonyPatch(typeof(MapComponentUtility), nameof(MapComponentUtility.MapRemoved))]
+	class MapComponentUtility_MapRemoved_Patch
+	{
+		public static void Postfix(Map map)
+		{
+			SacrificationSpot.ForMap(map)?.Destroy();
 		}
 	}
 

@@ -7,7 +7,9 @@
 	<RemoveDesc>Entfernt den Opferplatz damit er woanders wieder aufgebaut werden kann</RemoveDesc>
 	<CancelDesc>Ritual abbrechen</CancelDesc>
 	<SacrificeMyself>Opfere mich selbst für den Blutgott</SacrificeMyself>
+	<CannotSacrificeMyself>Werde mich nicht ohne Blutgott opfern</CannotSacrificeMyself>
 	<SacrificeColonist>Opfere {0} für den Blutgott</SacrificeColonist>
+	<CannotSacrificeColonist>Werde nicht {0} ohne Blutgott opfern</CannotSacrificeColonist>
 	<NobodyCanSacrifice>Niemand hat die Möglichkeit das Ritual durchzuführen</NobodyCanSacrifice>
 	<BloodGodScaleHelp>Unzufriedenheit des Blutgottes. Bei 100% passieren den Kolonisten schlimme Dinge. Opfere einen Kolonisten am Opferplatz um den Blutgott zufrieden zu stellen</BloodGodScaleHelp>
 	<PunishmentLetterTitle>Blutgottbestrafung</PunishmentLetterTitle>

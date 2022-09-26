@@ -7,8 +7,10 @@
 	<RemoveDesc>Removes the sacrification spot so it can be placed somewhere else</RemoveDesc>
 	<CancelDesc>Stop the ritual</CancelDesc>
 	<SacrificeMyself>Sacrifice myself to the blood god</SacrificeMyself>
+	<CannotSacrificeMyself>Won't sacrifice myself without blood god</CannotSacrificeMyself>
 	<SacrificeColonist>Sacrifice {0} to the blood god</SacrificeColonist>
-	<NobodyCanSacrifice>Cannot find someone that is capable holding the ritual</NobodyCanSacrifice>
+	<CannotSacrificeColonist>Won't sacrifice {0} without blood god</CannotSacrificeColonist>
+	<NobodyCanSacrifice>Cannot find someone that is capable of holding the ritual</NobodyCanSacrifice>
 	<BloodGodScaleHelp>Blood god dissatisfaction level. Once it reaches 100% bad things will happen to your colonists. Sacrifice a colonist at the sacrification spot to satisfy the blood god</BloodGodScaleHelp>
 	<PunishmentLetterTitle>Blood god punishment</PunishmentLetterTitle>
 	<PunishmentLetterContent>The blood god is punishing your colonists (level {0}). Increasingly bad things will happen to your colonists until you sacrifice a colonist at the sacrification spot</PunishmentLetterContent>
