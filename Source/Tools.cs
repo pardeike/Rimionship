@@ -60,6 +60,54 @@ namespace Rimionship
 			return tex;
 		}
 
+		public static bool BloodGodButton(Rect rect, string label)
+		{
+			var anchor = Text.Anchor;
+			var color = GUI.color;
+			var atlas = Assets.ButtonBGAtlas;
+			if (Mouse.IsOver(rect))
+			{
+				atlas = Assets.ButtonBGAtlasOver;
+				if (Input.GetMouseButton(0))
+					atlas = Assets.ButtonBGAtlasClick;
+			}
+			Widgets.DrawAtlas(rect, atlas);
+			var r = rect.ExpandedBy(-1);
+			var s = rect.size;
+			var f = r.size.x / r.size.y;
+			if (s.x / s.y < f)
+				s.x = s.y * f;
+			Widgets.DrawTextureFitted(r, Assets.ButtonPattern, 1f, s, new Rect(0f, 0f, 1f, 1f));
+			MouseoverSounds.DoRegion(rect);
+			Text.Anchor = TextAnchor.MiddleCenter;
+			var wordWrap = Text.WordWrap;
+			if (rect.height < Text.LineHeight * 2f)
+				Text.WordWrap = false;
+			Widgets.Label(rect, label);
+			Text.Anchor = anchor;
+			GUI.color = color;
+			Text.WordWrap = wordWrap;
+			return Widgets.ButtonInvisible(rect, false);
+		}
+
+		static readonly Color disabledButtonLabelColor = Color.white.ToTransparent(0.35f);
+		public static void DisabledButton(Rect rect, string label)
+		{
+			Widgets.DrawAtlas(rect, Widgets.ButtonBGAtlas);
+			Widgets.DrawBoxSolid(rect, Color.black.ToTransparent(0.25f));
+			var r = rect.ExpandedBy(-1);
+			var s = rect.size;
+			var f = r.size.x / r.size.y;
+			if (s.x / s.y < f)
+				s.x = s.y * f;
+			GUI.color = disabledButtonLabelColor;
+			var anchor = Text.Anchor;
+			Text.Anchor = TextAnchor.MiddleCenter;
+			Widgets.Label(rect, label);
+			Text.Anchor = anchor;
+			GUI.color = Color.white;
+		}
+
 		public static string GenerateHexString(int digits)
 		{
 			return string.Concat(Enumerable.Range(0, digits).Select(_ => _RND.Next(16).ToString("x")));

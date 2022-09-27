@@ -11,6 +11,8 @@ namespace Rimionship
 {
 	public static class Patches_Mods
 	{
+		public static Traverse DubsMintMinimapSettingsShowFog;
+
 		public static void Patch(Harmony harmony)
 		{
 			void Transpiler(MethodInfo original, MethodInfo patch)
@@ -18,6 +20,13 @@ namespace Rimionship
 				if (original == null)
 					return;
 				_ = harmony.Patch(original, transpiler: new HarmonyMethod(patch));
+			}
+
+			void Postfix(MethodInfo original, MethodInfo patch)
+			{
+				if (original == null)
+					return;
+				_ = harmony.Patch(original, postfix: new HarmonyMethod(patch));
 			}
 
 			MethodInfo original, patch;
@@ -39,11 +48,31 @@ namespace Rimionship
 
 			// remove minimap sneaky finder
 			//
-			Harmony.DEBUG = true;
 			original = AccessTools.Method("DubsMintMinimap.MainTabWindow_MiniMap:DoWindowContents");
-			patch = SymbolExtensions.GetMethodInfo(() => MainTabWindow_MiniMap_Transpiler(default));
+			patch = SymbolExtensions.GetMethodInfo(() => MainTabWindow_MiniMap_DoWindowContents_Transpiler(default));
 			Transpiler(original, patch);
-			Harmony.DEBUG = false;
+
+			// block fog settings in minimap
+			//
+			var t_DubsMintMinimapMod = AccessTools.TypeByName("DubsMintMinimap.DubsMintMinimapMod");
+			if (t_DubsMintMinimapMod != null)
+			{
+				DubsMintMinimapSettingsShowFog = Traverse.Create(t_DubsMintMinimapMod).Field("Settings").Field("ShowFog");
+
+				original = AccessTools.Method("DubsMintMinimap.MainTabWindow_MiniMapSetting:DoSettings");
+				patch = SymbolExtensions.GetMethodInfo(() => MainTabWindow_MiniMap_DoWindowContents_Postfix());
+				Postfix(original, patch);
+				foreach (var method in new MethodInfo[]
+				{
+				AccessTools.Method("DubsMintMinimap.MainTabWindow_MiniMap:DrawAllPawns"),
+				AccessTools.Method("DubsMintMinimap.MainTabWindow_MiniMap:DrawThingLocators"),
+				AccessTools.Method("DubsMintMinimap.MainTabWindow_MiniMap:procCell")
+				})
+				{
+					patch = SymbolExtensions.GetMethodInfo(() => MainTabWindow_MiniMap_ShowFog_Transpiler(default));
+					Transpiler(method, patch);
+				}
+			}
 		}
 
 		static void UpdateOutdoorThermometer_RectFixer(ref Rect rect)
@@ -108,7 +137,7 @@ namespace Rimionship
 
 		//
 
-		static IEnumerable<CodeInstruction> MainTabWindow_MiniMap_Transpiler(IEnumerable<CodeInstruction> instructions)
+		static IEnumerable<CodeInstruction> MainTabWindow_MiniMap_DoWindowContents_Transpiler(IEnumerable<CodeInstruction> instructions)
 		{
 			var f_SneakyFinder = AccessTools.Field("DubsMintMinimap.GraphicsCache:SneakyFinder");
 
@@ -130,6 +159,30 @@ namespace Rimionship
 			var end = matcher.Pos;
 
 			return matcher.RemoveInstructionsInRange(start, end).InstructionEnumeration();
+		}
+
+
+		static void MainTabWindow_MiniMap_DoWindowContents_Postfix()
+		{
+
+			_ = DubsMintMinimapSettingsShowFog.SetValue(true);
+		}
+
+		static bool ShowNoFog(object _) => true;
+		static IEnumerable<CodeInstruction> MainTabWindow_MiniMap_ShowFog_Transpiler(IEnumerable<CodeInstruction> instructions)
+		{
+			var f_ShowFog = AccessTools.Field("DubsMintMinimap.Settings:ShowFog");
+			var m_ShowNoFog = SymbolExtensions.GetMethodInfo(() => ShowNoFog(default));
+
+			foreach (var instruction in instructions)
+			{
+				if (instruction.LoadsField(f_ShowFog))
+				{
+					instruction.opcode = OpCodes.Call;
+					instruction.operand = m_ShowNoFog;
+				}
+				yield return instruction;
+			}
 		}
 	}
 }

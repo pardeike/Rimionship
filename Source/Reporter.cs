@@ -471,7 +471,8 @@ namespace Rimionship
 				if (HasMap())
 					yield return UpdateStoryWatcherInfos();
 
-				yield return ServerAPI.SendStat(stat).ToWaitUntil();
+				if (Scribe.mode == LoadSaveMode.Inactive && Current.ProgramState == ProgramState.Playing && Current_Notify_LoadedSceneChanged_Patch.notificationText == null)
+					yield return ServerAPI.SendStat(stat).ToWaitUntil();
 
 				while (ServerAPI.WaitUntilNextStatSend())
 					yield return null;

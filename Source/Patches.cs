@@ -2,8 +2,9 @@
 using RimWorld;
 using Steamworks;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -11,7 +12,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 using Verse.AI;
-using Verse.Profile;
 using Verse.Sound;
 using Verse.Steam;
 using static HarmonyLib.Code;
@@ -32,8 +32,7 @@ namespace Rimionship
 			if (notificationText != null)
 			{
 				var infoText = notificationText;
-				notificationText = null;
-				LongEventHandler.ExecuteWhenFinished(() => Find.WindowStack.Add(new Dialog_Information("WrongLoad", infoText, "OK", () => { })));
+				LongEventHandler.ExecuteWhenFinished(() => Find.WindowStack.Add(new Dialog_Information("WrongLoad", infoText, "OK", () => notificationText = null)));
 			}
 		}
 	}
@@ -274,85 +273,127 @@ namespace Rimionship
 		}
 	}
 
-	// do not send data during loading files
+	// mark save games with our current tournament state
 	//
-	[HarmonyPatch(typeof(Game), nameof(Game.LoadGame))]
-	class Game_LoadGame_Patch
+	// '<?xml version="1.0" encoding="utf-8"?>
+	// '<savegame>
+	//	'	<!--Rimionship=Started-->
+	//
+	[HarmonyPatch(typeof(SafeSaver), nameof(SafeSaver.DoSave))]
+	class SafeSaver_DoSave_Patch
 	{
+		public static void Prefix(ref Action saveAction)
+		{
+			var oldSaveAction = saveAction;
+			saveAction = () =>
+			{
+				Scribe.saver.writer.WriteComment($"Rimionship={PlayState.tournamentState}");
+				oldSaveAction();
+			};
+		}
+	}
+
+	[HarmonyPatch]
+	class Dialog_ReloadFiles_Patch
+	{
+		static Task loadRimionshipTask;
+		public static readonly ConcurrentDictionary<string, TournamentState> rimionShipInfo = new();
+
+		public static IEnumerable<MethodBase> TargetMethods()
+		{
+			yield return AccessTools.DeclaredMethod(typeof(Dialog_ScenarioList), nameof(Dialog_FileList.ReloadFiles));
+			yield return AccessTools.DeclaredMethod(typeof(Dialog_SaveFileList), nameof(Dialog_FileList.ReloadFiles));
+		}
+
+		static TournamentState? GetState(string path)
+		{
+			try
+			{
+				var line = File.ReadLines(path).Skip(2).First().Trim('<', '!', '-', '>', ' ', '\t');
+				var prefix = "Rimionship=";
+				if (line.StartsWith(prefix))
+				{
+					var value = line.Substring(prefix.Length);
+					var e = Enum.Parse(typeof(TournamentState), value);
+					return (TournamentState)e;
+				}
+			}
+			catch
+			{
+			}
+			return null;
+		}
+
 		public static void Prefix()
 		{
-			// TODO stop sending
+			if (loadRimionshipTask != null && loadRimionshipTask.Status != TaskStatus.RanToCompletion)
+				loadRimionshipTask.Wait();
+			rimionShipInfo.Clear();
 		}
 
-		public static void Finalizer()
+		public static void Postfix(Dialog_SaveFileList __instance)
 		{
-			// TODO start sending again
-			// better yet: move this to a call that will
-			// definitely execute, even will load errors
+			loadRimionshipTask = Task.Run(() =>
+			{
+				_ = Parallel.ForEach(__instance.files, file =>
+				{
+					var state = GetState(file.FileInfo.FullName);
+					if (state.HasValue)
+						_ = rimionShipInfo.TryAdd(file.FileInfo.FullName, state.Value);
+				});
+			});
 		}
 	}
 
-	// prevent loading wrong save files
-	//
-	[HarmonyPatch(typeof(ScribeLoader), nameof(ScribeLoader.FinalizeLoading))]
-	class ScribeLoader_FinalizeLoading_Patch
+	[HarmonyPatch(typeof(Dialog_FileList), nameof(Dialog_FileList.DoWindowContents))]
+	class Dialog_FileList_DoWindowContents_Patch
 	{
-		static void GoToMainMenu()
+		static readonly Color bloodRed = new(0.9f, 0, 0);
+		static readonly Color defaultColor = Dialog_FileList.DefaultFileTextColor.ToTransparent(0.35f);
+
+		static Color FileNameColor(Dialog_FileList _, SaveFileInfo sfi)
 		{
-			LongEventHandler.ClearQueuedEvents();
-			LongEventHandler.QueueLongEvent(delegate ()
-			{
-				MemoryUtility.ClearAllMapsAndWorld();
-				Current.Game = null;
-			}, "Entry", "LoadingLongEvent", true, null, false);
+			if (Dialog_ReloadFiles_Patch.rimionShipInfo.TryGetValue(sfi.FileInfo.FullName, out var state) && state == PlayState.tournamentState)
+				return bloodRed;
+			return defaultColor;
 		}
 
-		public static void Postfix()
+		static bool ButtonText(Rect rect, string label, bool _1, bool _2, bool _3, SaveFileInfo sfi)
 		{
-			var st = new StackTrace();
-			var m_LoadGame = SymbolExtensions.GetMethodInfo(() => ((Game)null).LoadGame());
-			var fromLoadGame = st.GetFrames().Any(frame => frame.GetMethod() == m_LoadGame);
-			if (fromLoadGame == false)
-				return;
+			if (Dialog_ReloadFiles_Patch.rimionShipInfo.TryGetValue(sfi.FileInfo.FullName, out var state) && state == PlayState.tournamentState)
+				return Tools.BloodGodButton(rect, label);
 
-			if (Current.Game == null || Find.TickManager == null)
-				return;
-
-			if (Find.TickManager.TicksGame < 2)
-				return;
-
-			var state = Find.World.GetComponent<CurrentTournamentState>();
-			if (state == null || (int)state.state == -1)
-			{
-				Current_Notify_LoadedSceneChanged_Patch.notificationText = "NonRimionshipLoad";
-				GoToMainMenu();
-				return;
-			}
-
-			if (state.state == PlayState.tournamentState)
-				return;
-
-			Current_Notify_LoadedSceneChanged_Patch.notificationText = "WrongRimionshipLoad";
-			GoToMainMenu();
+			Tools.DisabledButton(rect, label);
+			return false;
 		}
-	}
 
-	// open colonist configuration page after map is loaded
-	//
-	[HarmonyPatch(typeof(Game), nameof(Game.FinalizeInit))]
-	class Game_FinalizeInit_Patch
-	{
-		public static void Postfix()
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 		{
-			Assets.SetScorePanelActive(PlayState.tournamentState != TournamentState.Training);
+			var m_ButtonText = SymbolExtensions.GetMethodInfo(() => Widgets.ButtonText(Rect.zero, "", false, false, false));
+			var m_ButtonTextReplacement = SymbolExtensions.GetMethodInfo(() => ButtonText(Rect.zero, "", false, false, false, null));
 
-			if (Find.TickManager.TicksGame < 2)
-			{
-				Find.GameEnder.gameEnding = false;
-				Find.GameEnder.ticksToGameOver = -1;
-				Stats.ResetAll();
-				Find.WindowStack.Add(new Page_ConfigurePawns());
-			}
+			var m_FileNameColor = SymbolExtensions.GetMethodInfo(() => ((Dialog_FileList)null).FileNameColor(default));
+			var m_FileNameColorReplacement = SymbolExtensions.GetMethodInfo(() => FileNameColor(default, default));
+
+			var matcher = new CodeMatcher(instructions.MethodReplacer(m_FileNameColor, m_FileNameColorReplacement))
+				.MatchStartForward(
+					new CodeMatch(OpCodes.Br),
+					new CodeMatch(OpCodes.Ldloca_S),
+					new CodeMatch(OpCodes.Call),
+					new CodeMatch(OpCodes.Stloc_S, name: "saveFileInfo")
+				);
+			var saveFileInfoOperand = matcher.NamedMatch("saveFileInfo").operand;
+			return matcher
+				.MatchStartForward(
+					new CodeMatch(OpCodes.Call, m_ButtonText),
+					new CodeMatch(name: "saveFileInfo")
+				)
+				.RemoveInstruction()
+				.InsertAndAdvance(
+					new CodeInstruction(OpCodes.Ldloc_S, saveFileInfoOperand),
+					new CodeInstruction(OpCodes.Call, m_ButtonTextReplacement)
+				)
+				.InstructionEnumeration();
 		}
 	}
 
