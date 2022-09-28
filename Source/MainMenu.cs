@@ -98,6 +98,9 @@ namespace Rimionship
 
 		public static void OnGUI(float x, float y)
 		{
+			if (Assets.MainMenuInfo == null) // changing language breaks graphics
+				return;
+
 			labelStyles ??= new[]
 			{
 				Assets.menuFontSmall.GUIStyle(Color.white),
