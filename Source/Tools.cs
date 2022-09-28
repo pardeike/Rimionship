@@ -71,6 +71,46 @@ namespace Rimionship
 			return tex;
 		}
 
+		static readonly DateTime beginningOfDemo = new(2022, 9, 25, 0, 0, 0);
+		public static TournamentState? GetSaveFileState(string path)
+		{
+			string line;
+			try
+			{
+				line = File.ReadLines(path).Skip(2).First().Trim('<', '!', '-', '>', ' ', '\t');
+				var prefix = "Rimionship=";
+				if (line.StartsWith(prefix))
+				{
+					var value = line.Substring(prefix.Length);
+					var e = Enum.Parse(typeof(TournamentState), value);
+					return (TournamentState)e;
+				}
+
+				var lastModified = File.GetLastWriteTime(path);
+				if (lastModified >= beginningOfDemo)
+				{
+					using var reader = new StreamReader(path);
+					var useNextLine = false;
+					while (reader.Peek() >= 0)
+					{
+						line = reader.ReadLine();
+						if (useNextLine)
+						{
+							var value = line.Replace("<state>", "").Replace("</state>", "").Trim();
+							var e = Enum.Parse(typeof(TournamentState), value);
+							return (TournamentState)e;
+						}
+						if (line.Contains("<li Class=\"Rimionship.CurrentTournamentState\">"))
+							useNextLine = true;
+					}
+				}
+			}
+			catch
+			{
+			}
+			return null;
+		}
+
 		public static bool BloodGodButton(Rect rect, string label)
 		{
 			var anchor = Text.Anchor;

@@ -12,6 +12,8 @@ namespace Rimionship
 {
 	public class BloodGod : WorldComponent
 	{
+		static bool LOGGING => Tools.DevMode;
+
 		public static BloodGod Instance => Current.Game.World.GetComponent<BloodGod>();
 
 		static readonly Color scaleBG = new(1, 1, 1, 0.35f);
@@ -69,7 +71,7 @@ namespace Rimionship
 			get
 			{
 				var n = Math.Max(0, Stats.AllColonists() - RimionshipMod.settings.maxFreeColonistCount);
-				return (float)Mathf.Max(
+				return Mathf.Max(
 					RimionshipMod.settings.risingIntervalMinimum,
 					RimionshipMod.settings.risingInterval - RimionshipMod.settings.risingReductionPerColonist * n
 				);
@@ -92,7 +94,8 @@ namespace Rimionship
 			var maxLevel = PlayState.tournamentState == TournamentState.Training ? 2 : 5;
 			punishLevel = Math.Min(punishLevel + 1, maxLevel);
 			hadLevel3 |= punishLevel == 3;
-			AsyncLogger.Warning($"BLOOD GOD Level now #{punishLevel}");
+			if (LOGGING)
+				AsyncLogger.Warning($"BLOOD GOD Level now #{punishLevel}");
 			StartPhase(State.Announcing);
 		}
 
@@ -222,7 +225,8 @@ namespace Rimionship
 		public void Satisfy(SacrificationSpot spot, Sacrification sacrification)
 		{
 			var factor = GenMath.LerpDouble(1, 5, RimionshipMod.settings.minThoughtFactor, RimionshipMod.settings.maxThoughtFactor, punishLevel);
-			AsyncLogger.Warning($"BLOOD GOD #{punishLevel} SATISFIED (factor {factor})");
+			if (LOGGING)
+				AsyncLogger.Warning($"BLOOD GOD #{punishLevel} SATISFIED (factor {factor})");
 
 			sacrification.sacrificer.GiveThought(sacrification.sacrificer, ThoughtDefOf.EncouragingSpeech, factor);
 			sacrification.sacrificer.GiveThought(sacrification.sacrificer, ThoughtDefOf.KilledHumanlikeBloodlust, factor);
@@ -239,7 +243,8 @@ namespace Rimionship
 			if (setStartTicks)
 				startTicks = Find.TickManager.TicksGame;
 			this.state = state;
-			AsyncLogger.Warning($"BLOOD GOD #{punishLevel} phase => {state}");
+			if (LOGGING)
+				AsyncLogger.Warning($"BLOOD GOD #{punishLevel} phase => {state}");
 		}
 
 		static bool RepeatWIthPercentageOfColonists(float percentage, Func<bool> action)
@@ -281,10 +286,15 @@ namespace Rimionship
 		{
 			if (Find.CurrentMap.GameConditionManager.ConditionIsActive(def))
 			{
-				AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {def.defName} => false");
+				if (LOGGING)
+					AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {def.defName} => false");
 				return false;
 			}
+
 			var gameCondition = GameConditionMaker.MakeCondition(def, -1);
+			if (Find.CurrentMap.gameConditionManager.ActiveConditions.Any(cond => gameCondition.def == cond.def))
+				return false;
+
 			gameCondition.Duration = duration;
 			if (gameCondition is GameCondition_PsychicEmanation condition)
 			{
@@ -296,7 +306,8 @@ namespace Rimionship
 				condition.level = (PsychicDroneLevel)Mathf.Clamp(PawnsFinder.AllMaps_FreeColonistsSpawned.Count / 2 - 1, 2, 5);
 			}
 			Find.CurrentMap.GameConditionManager.RegisterCondition(gameCondition);
-			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {def.defName} => true");
+			if (LOGGING)
+				AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {def.defName} => true");
 			return true;
 		}
 
@@ -308,7 +319,8 @@ namespace Rimionship
 				var pawn = NonMentalColonist(isViolent, validator);
 				if (pawn == null)
 				{
-					AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeMentalBreak no colonist avail => false");
+					if (LOGGING)
+						AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeMentalBreak no colonist avail => false");
 					return false;
 				}
 				if (def == MentalStateDefOf.SocialFighting)
@@ -316,17 +328,20 @@ namespace Rimionship
 					var otherPawn = NonMentalColonist(true, p => p != pawn, pawn.Map);
 					if (otherPawn == null)
 					{
-						AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeMentalBreak no other colonist avail => false");
+						if (LOGGING)
+							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeMentalBreak no other colonist avail => false");
 						return false;
 					}
-					AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {pawn.LabelShortCap}-{otherPawn.LabelShortCap} {def.defName}");
+					if (LOGGING)
+						AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {pawn.LabelShortCap}-{otherPawn.LabelShortCap} {def.defName}");
 					pawn.interactions.StartSocialFight(otherPawn, "MessageSocialFight");
 					return true;
 				}
 				allowedKillingSpree = pawn;
 				var result = pawn.mindState.mentalStateHandler.TryStartMentalState(def, null, true);
 				allowedKillingSpree = null;
-				AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {pawn.LabelShortCap} {def.defName} => {result}");
+				if (LOGGING)
+					AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {pawn.LabelShortCap} {def.defName} => {result}");
 				return result;
 			});
 		}
@@ -343,7 +358,8 @@ namespace Rimionship
 			var pawn = NonMentalColonist(false);
 			if (pawn == null)
 			{
-				AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomHediffGiver no colonist avail => false");
+				if (LOGGING)
+					AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomHediffGiver no colonist avail => false");
 				return false;
 			}
 
@@ -351,11 +367,11 @@ namespace Rimionship
 				.SelectMany((HediffGiverSetDef set) => set.hediffGivers)
 				.Where(giver => excludedHediffs.Contains(giver.hediff) == false);
 			var hediffGiver = hediffGivers.RandomElement();
-			//Log.Warning($"# {hediffGivers.Join(hg => hg.hediff.defName, " ")} => {hediffGiver.hediff.defName}");
 			var result = hediffGiver.TryApply(pawn, null);
 			if (result)
 				Find.LetterStack.ReceiveLetter("ColonistDiseaseTitle".Translate(), "ColonistDiseaseContent".Translate(pawn.LabelShortCap, hediffGiver.hediff.description), LetterDefOf.NegativeEvent, pawn);
-			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {hediffGiver.hediff.description} => {result}");
+			if (LOGGING)
+				AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {hediffGiver.hediff.description} => {result}");
 			return result;
 		}
 
@@ -378,7 +394,8 @@ namespace Rimionship
 				incidentDef.diseaseMaxVictims = 999;
 				result = incidentDef.Worker.TryExecute(parms);
 			}
-			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {incidentDef.defName} {percentage:P0} [{isAnimal}] => {result}");
+			if (LOGGING)
+				AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {incidentDef.defName} {percentage:P0} [{isAnimal}] => {result}");
 			return result;
 		}
 
@@ -464,7 +481,8 @@ namespace Rimionship
 			var incidentDef = Defs.StuffFromAbove;
 			var parms = new IncidentParms { target = map, forced = true };
 			var result = incidentDef.Worker.TryExecute(parms);
-			AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {incidentDef.defName} => {result}");
+			if (LOGGING)
+				AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {incidentDef.defName} => {result}");
 			return result;
 		}
 
@@ -485,25 +503,29 @@ namespace Rimionship
 						() =>
 						{
 							var ok = MakeGameCondition(GameConditionDefOf.Flashstorm, GenDate.TicksPerDay);
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Flashstorm => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Flashstorm => {ok}");
 							return ok;
 						},
 						() =>
 						{
 							var ok = MakeGameCondition(GameConditionDefOf.PsychicDrone, GenDate.TicksPerDay);
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} PsychicDrone => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} PsychicDrone => {ok}");
 							return ok;
 						},
 						() =>
 						{
 							var ok = MakeGameCondition(GameConditionDefOf.SolarFlare, GenDate.TicksPerDay);
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} SolarFlare => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} SolarFlare => {ok}");
 							return ok;
 						},
 						() =>
 						{
 							var ok = MakeGameCondition(GameConditionDefOf.ToxicFallout, GenDate.TicksPerDay);
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} ToxicFallout => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} ToxicFallout => {ok}");
 							return ok;
 						}
 					))
@@ -516,31 +538,36 @@ namespace Rimionship
 						() =>
 						{
 							var ok = MakeMentalBreak(Defs.Slaughterer, 0f, true);
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Slaughterer => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Slaughterer => {ok}");
 							return ok;
 						},
 						() =>
 						{
 							var ok = MakeMentalBreak(MentalStateDefOf.SocialFighting, 0.25f, true); // careful, it involves 2 colonists at once
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} SocialFighting => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} SocialFighting => {ok}");
 							return ok;
 						},
 						() =>
 						{
 							var ok = MakeRandomDisease(0.25f, true);
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomDisease-Animal => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomDisease-Animal => {ok}");
 							return ok;
 						},
 						() =>
 						{
 							var ok = MakeMentalBreak(Defs.Tantrum, 0.2f, true);
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Tantrum => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Tantrum => {ok}");
 							return ok;
 						},
 						() =>
 						{
 							var ok = MakeBzztOnAllBatteries();
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Bzzt On All Batteries => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Bzzt On All Batteries => {ok}");
 							return ok;
 						}
 					))
@@ -553,25 +580,29 @@ namespace Rimionship
 						() =>
 						{
 							var ok = MakeMentalBreak(MentalStateDefOf.Berserk, 0.4f, true);
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Berserk => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} Berserk => {ok}");
 							return ok;
 						},
 						() =>
 						{
 							var ok = MakeRandomDisease(0.4f, false);
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomDisease-Human => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomDisease-Human => {ok}");
 							return ok;
 						},
 						() =>
 						{
 							var ok = MakeMentalBreak(Defs.InsultingSpree, 0.25f, false);
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} InsultingSpree => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} InsultingSpree => {ok}");
 							return ok;
 						},
 						() =>
 						{
 							var ok = MegaManhunters();
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} AngryAnimals => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} AngryAnimals => {ok}");
 							return ok;
 						}
 					))
@@ -584,25 +615,29 @@ namespace Rimionship
 						() =>
 						{
 							var ok = MakeMentalBreak(Defs.KillingSpree, 0f, true, Tools.HasSimpleWeapon);
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} KillingSpree => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} KillingSpree => {ok}");
 							return ok;
 						},
 						() =>
 						{
 							var ok = MakeMentalBreak(Defs.TargetedInsultingSpree, 0.25f, false);
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} TargetedInsultingSpree => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} TargetedInsultingSpree => {ok}");
 							return ok;
 						},
 						() =>
 						{
 							var ok = MakeRandomHediffGiver();
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomHediffGiver => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MakeRandomHediffGiver => {ok}");
 							return ok;
 						},
 						() =>
 						{
 							var ok = MakeExplodingBoomalopes();
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} ExplodingBoomalopes => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} ExplodingBoomalopes => {ok}");
 							return ok;
 						}
 					))
@@ -622,25 +657,29 @@ namespace Rimionship
 								Find.LetterStack.ReceiveLetter("ColonistBecomesDumberTitle".Translate(looser.LabelShortCap), "ColonistBecomesDumberText".Translate(looser.LabelShortCap), LetterDefOf.NegativeEvent, looser, null);
 								ok = true;
 							}
-							AsyncLogger.Warning($"BLOOD GOD #{punishLevel} ColonistBecomesDumber => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{punishLevel} ColonistBecomesDumber => {ok}");
 							return ok;
 						},
 						() =>
 						{
 							var ok = MakeMentalBreak(Defs.MurderousRage, 0.25f, true);
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MurderousRage => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} MurderousRage => {ok}");
 							return ok;
 						},
 						() =>
 						{
 							var ok = MakeMentalBreak(Defs.GiveUpExit, 0f, false);
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} GiveUpExit => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} GiveUpExit => {ok}");
 							return ok;
 						},
 						() =>
 						{
 							var ok = MakeStuffFromAbove();
-							AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} StuffFromAbove => {ok}");
+							if (LOGGING)
+								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} StuffFromAbove => {ok}");
 							return ok;
 						}
 					))

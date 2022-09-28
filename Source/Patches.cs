@@ -4,7 +4,6 @@ using Steamworks;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -305,25 +304,6 @@ namespace Rimionship
 			yield return AccessTools.DeclaredMethod(typeof(Dialog_SaveFileList), nameof(Dialog_FileList.ReloadFiles));
 		}
 
-		static TournamentState? GetState(string path)
-		{
-			try
-			{
-				var line = File.ReadLines(path).Skip(2).First().Trim('<', '!', '-', '>', ' ', '\t');
-				var prefix = "Rimionship=";
-				if (line.StartsWith(prefix))
-				{
-					var value = line.Substring(prefix.Length);
-					var e = Enum.Parse(typeof(TournamentState), value);
-					return (TournamentState)e;
-				}
-			}
-			catch
-			{
-			}
-			return null;
-		}
-
 		public static void Prefix()
 		{
 			if (loadRimionshipTask != null && loadRimionshipTask.Status != TaskStatus.RanToCompletion)
@@ -337,7 +317,7 @@ namespace Rimionship
 			{
 				_ = Parallel.ForEach(__instance.files, file =>
 				{
-					var state = GetState(file.FileInfo.FullName);
+					var state = Tools.GetSaveFileState(file.FileInfo.FullName);
 					if (state.HasValue)
 						_ = rimionShipInfo.TryAdd(file.FileInfo.FullName, state.Value);
 				});
