@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Verse;
 
 namespace Rimionship
@@ -48,6 +49,7 @@ namespace Rimionship
 		public override void FinalizeInit()
 		{
 			_ = Find.CameraDriver.StartCoroutine(Coroutine());
+			_ = Task.Run(ServerAPI.LoadGame);
 		}
 
 		public override void WorldComponentTick()

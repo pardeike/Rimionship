@@ -176,6 +176,13 @@ namespace Rimionship
 				AsyncLogger.Warning($"<- Stop");
 		}
 
+		public static async Task LoadGame()
+		{
+			var id = Tools.UniqueModID;
+			var response = await Communications.Client.StartAsync(new StartRequest() { Id = Tools.UniqueModID }, null, DefaultDeadline, source.Token);
+			ApplySettings(response.Settings);
+		}
+
 		public static async Task StartSyncing()
 		{
 			var WaitForChange = false;
