@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using RimWorld;
+using Steamworks;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using UnityEngine;
 using Verse;
 using Verse.AI;
 using Verse.Sound;
+using Verse.Steam;
 
 namespace Rimionship
 {
@@ -42,6 +44,15 @@ namespace Rimionship
 			if (str.EndsWith(".0"))
 				str = str.Substring(0, str.Length - 2);
 			return str;
+		}
+
+		public static int ModsStillDownloading()
+		{
+			var rimionshipMods = PlayState.AllowedMods.Select(mod => new PublishedFileId_t(mod.Value)).ToHashSet();
+			return WorkshopItems.subbedItems
+				.OfType<WorkshopItem_NotInstalled>()
+				.Where(item => rimionshipMods.Contains(item.PublishedFileId))
+				.Count();
 		}
 
 		public static Texture2D LoadTexture(string path, bool makeReadonly = true)

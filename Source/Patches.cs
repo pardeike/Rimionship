@@ -454,7 +454,7 @@ namespace Rimionship
 		[HarmonyPrefix]
 		public static void Downloader(Page_ModsConfig __instance)
 		{
-			var count = WorkshopItems.DownloadingItemsCount;
+			var count = Tools.ModsStillDownloading();
 			if (count > 0)
 			{
 				var winRect = new Rect((UI.screenWidth - 320f) / 2f, (UI.screenHeight - 180f) / 2f, 320f, 180f);
