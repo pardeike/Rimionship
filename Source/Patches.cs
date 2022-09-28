@@ -377,6 +377,25 @@ namespace Rimionship
 		}
 	}
 
+	// open colonist configuration page after map is loaded
+	//
+	[HarmonyPatch(typeof(Game), nameof(Game.FinalizeInit))]
+	class Game_FinalizeInit_Patch
+	{
+		public static void Postfix()
+		{
+			Assets.SetScorePanelActive(PlayState.tournamentState != TournamentState.Training);
+
+			if (Find.TickManager.TicksGame < 2)
+			{
+				Find.GameEnder.gameEnding = false;
+				Find.GameEnder.ticksToGameOver = -1;
+				Stats.ResetAll();
+				Find.WindowStack.Add(new Page_ConfigurePawns());
+			}
+		}
+	}
+
 	// update stuff when ui scale changes
 	//
 	[HarmonyPatch(typeof(Prefs), nameof(Prefs.UIScale), MethodType.Setter)]
