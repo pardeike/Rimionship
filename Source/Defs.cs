@@ -8,6 +8,7 @@ namespace Rimionship
 	public static class Defs
 	{
 		public static ThingDef SacrificationSpot;
+		public static ThingDef Filth_BloodHuman;
 
 		public static JobDef GettingSacrificed;
 		public static JobDef SacrificeColonist;
@@ -20,6 +21,7 @@ namespace Rimionship
 		public static SoundDef Bloodgod;
 		public static SoundDef Nope;
 		public static SoundDef Prime;
+		public static SoundDef BingBong;
 
 		// vanilla defs that are not exposed by code
 

@@ -167,4 +167,21 @@
 		</subSounds>
 	</SoundDef>
 
+	<SoundDef>
+		<defName>BingBong</defName>
+		<context>Any</context>
+		<maxSimultaneous>1</maxSimultaneous>
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>
+				<volumeRange>100~100</volumeRange>
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>BingBong</clipPath>
+					</li>
+				</grains>
+			</li>
+		</subSounds>
+	</SoundDef>
+
 </Defs>

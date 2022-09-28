@@ -36,12 +36,28 @@ namespace Rimionship
 		}
 	}
 
+	// show our main menu background
+	//
+	[HarmonyPatch(typeof(ExpansionDef), nameof(ExpansionDef.BackgroundImage), MethodType.Getter)]
+	public class MainMenuDrawer_Init_Patch
+	{
+		public static bool Prefix(ref Texture2D __result)
+		{
+			if (PlayState.tournamentState != TournamentState.Started)
+				return true;
+
+			__result = Assets.Background;
+			return false;
+		}
+	}
+
 	// show server messages
 	//
 	[HarmonyPatch(typeof(Root), nameof(Root.OnGUI))]
 	class Root_OnGUI_Patch
 	{
 		public static bool inited = false;
+		public static bool lastVisible = false;
 		static GUIStyle style;
 
 		public static void Postfix(Root __instance)
@@ -50,7 +66,11 @@ namespace Rimionship
 				return;
 			try
 			{
-				if (PlayState.serverMessage.NullOrEmpty() == false)
+				var msg = PlayState.serverMessage;
+				var hasSomeTwitchName = msg.Contains("@");
+				var hasOurTwitchName = PlayState.twitchName.NullOrEmpty() == false && msg.ToLower().Contains($"@{PlayState.twitchName.ToLower()}");
+				var skipMessage = hasSomeTwitchName && hasOurTwitchName == false;
+				if (msg.NullOrEmpty() == false && skipMessage == false)
 				{
 					var x = (UI.screenWidth - Assets.Note.width) / 2f;
 					var y = UI.screenHeight * 240f / 1080f;
@@ -60,7 +80,15 @@ namespace Rimionship
 					r.yMin += 38;
 					style ??= Assets.menuFontLarge.GUIStyle(Color.white).Alignment(TextAnchor.UpperLeft).Wrapping();
 					GUI.Label(r, PlayState.serverMessage, style);
+
+					if (lastVisible == false)
+					{
+						lastVisible = true;
+						Defs.BingBong.PlayOneShotOnCamera();
+					}
 				}
+				else
+					lastVisible = false;
 			}
 			finally
 			{
@@ -942,7 +970,32 @@ namespace Rimionship
 		}
 	}
 
-	// count blood cleaned
+	// let living humans drop "human blood"
+	//
+	[HarmonyPatch(typeof(Pawn_HealthTracker), nameof(Pawn_HealthTracker.DropBloodFilth))]
+	class RaceProperties_BloodDef_Patch
+	{
+		static bool TryMakeFilth(IntVec3 c, Map map, ThingDef filthDef, string source, int count, FilthSourceFlags additionalFlags, Pawn pawn)
+		{
+			Log.Warning($"# drop {filthDef} on {c} with {pawn}");
+			return FilthMaker.TryMakeFilth(c, map, pawn.RaceProps.Humanlike ? Defs.Filth_BloodHuman : filthDef, source, count, additionalFlags);
+		}
+
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+		{
+			var f_Pawn = AccessTools.Field(typeof(Pawn_HealthTracker), nameof(Pawn_HealthTracker.pawn));
+			return new CodeMatcher(instructions)
+				.MatchStartForward(new CodeMatch(operand: SymbolExtensions.GetMethodInfo(() => FilthMaker.TryMakeFilth(IntVec3.Zero, null, null, "", 0, FilthSourceFlags.None))))
+				.InsertAndAdvance(
+					Ldarg_0,
+					Ldfld[f_Pawn]
+				)
+				.SetOperandAndAdvance(SymbolExtensions.GetMethodInfo(() => TryMakeFilth(IntVec3.Zero, null, null, "", 0, FilthSourceFlags.None, null)))
+				.InstructionEnumeration();
+		}
+	}
+
+	// count fresh blood cleaned
 	//
 	[HarmonyPatch]
 	class ThinFilth_Patch
@@ -957,7 +1010,7 @@ namespace Rimionship
 
 		static void ThinFilth(Filth instance)
 		{
-			if (instance.def == ThingDefOf.Filth_Blood || instance.def == ThingDefOf.Filth_DriedBlood)
+			if (instance.def == Defs.Filth_BloodHuman)
 				Reporter.Instance.NewBloodCleaned();
 			instance.ThinFilth();
 		}

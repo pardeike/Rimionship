@@ -36,6 +36,7 @@ namespace Rimionship
 		public static int currentStatsSendingInterval = 10;
 		public static int errorCount = 0;
 
+		public static string twitchName;
 		public static bool modRegistered = false;
 		public static bool hasQuit = false;
 
