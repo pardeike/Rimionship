@@ -338,10 +338,11 @@ namespace Rimionship
 		}
 
 		public static bool AllowOverride = false;
-		public static void GiveThought(this Pawn pawn, Pawn otherPawn, ThoughtDef thoughtDef, float powerFactor = 1f)
+		public static void GiveThought(this Pawn pawn, Pawn otherPawn, ThoughtDef thoughtDef, int duration, float powerFactor = 1f)
 		{
 			var thought = ThoughtMaker.MakeThought(thoughtDef, null);
 			thought.SetForcedStage(0);
+			thought.durationTicksOverride = duration;
 			thought.moodPowerFactor = powerFactor;
 			AllowOverride = true;
 			pawn.needs.mood.thoughts.memories.TryGainMemory(thought, otherPawn);

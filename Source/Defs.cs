@@ -22,6 +22,7 @@ namespace Rimionship
 		public static SoundDef Nope;
 		public static SoundDef Prime;
 		public static SoundDef BingBong;
+		public static SoundDef Death;
 
 		// vanilla defs that are not exposed by code
 

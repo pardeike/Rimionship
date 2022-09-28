@@ -184,4 +184,21 @@
 		</subSounds>
 	</SoundDef>
 
+	<SoundDef>
+		<defName>Death</defName>
+		<context>Any</context>
+		<maxSimultaneous>1</maxSimultaneous>
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>
+				<volumeRange>80~80</volumeRange>
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>Death</clipPath>
+					</li>
+				</grains>
+			</li>
+		</subSounds>
+	</SoundDef>
+
 </Defs>

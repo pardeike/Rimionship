@@ -267,8 +267,8 @@ namespace Rimionship
 			var punishment = settings.Punishment;
 			if (punishment != null)
 			{
-				RimionshipMod.settings.startPauseInterval = punishment.StartPauseInterval;
-				RimionshipMod.settings.finalPauseInterval = punishment.FinalPauseInterval;
+				RimionshipMod.settings.maxCooldownFactor = punishment.StartPauseInterval;
+				RimionshipMod.settings.cooldownPawnCap = punishment.FinalPauseInterval;
 				RimionshipMod.settings.minThoughtFactor = punishment.MinThoughtFactor;
 				RimionshipMod.settings.maxThoughtFactor = punishment.MaxThoughtFactor;
 			}

@@ -780,9 +780,13 @@ namespace Rimionship
 	{
 		public static bool TryFire(Storyteller __instance, FiringIncident fi)
 		{
-			if (fi.def.Worker.CanFireNow(fi.parms))
+			var incidentDef = fi.def;
+			if (incidentDef.targetTags.Contains(IncidentTargetTagDefOf.Caravan))
+				return __instance.TryFire(fi);
+
+			if (incidentDef.Worker.CanFireNow(fi.parms))
 			{
-				var qi = new QueuedIncident(new FiringIncident(fi.def, fi.source, fi.parms), Find.TickManager.TicksGame + GenDate.TicksPerDay, 0);
+				var qi = new QueuedIncident(new FiringIncident(incidentDef, fi.source, fi.parms), Find.TickManager.TicksGame + GenDate.TicksPerDay, 0);
 				_ = __instance.incidentQueue.Add(qi);
 				return true;
 			}

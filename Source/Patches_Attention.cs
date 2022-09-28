@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.Sound;
 
 namespace Rimionship
 {
@@ -32,6 +33,8 @@ namespace Rimionship
 			if (IgnoreKills)
 				return;
 			ServerAPI.TriggerAttention("killed", Constants.Attention.colonistKilled);
+			if (PlayState.tournamentState == TournamentState.Started)
+				Defs.Death.PlayOneShotOnCamera();
 		}
 	}
 

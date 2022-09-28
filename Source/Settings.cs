@@ -5,9 +5,9 @@ namespace Rimionship
 {
 	public class Settings : ModSettings
 	{
-		public float scaleFactor = 0.2f;
-		public float goodTraitSuppression = 0.7f;
-		public float badTraitSuppression = 0.15f;
+		public float scaleFactor = 0.35f;
+		public float goodTraitSuppression = 1f;
+		public float badTraitSuppression = 0.25f;
 
 		public int maxMeleeSkill = 6;
 		public int maxMeleeFlames = 1;
@@ -15,23 +15,23 @@ namespace Rimionship
 		public int maxShootingFlames = 1;
 
 		public int maxFreeColonistCount = 5;
-		public int risingInterval = 2400000; // 40 days
-		public int risingReductionPerColonist = 240000; // 4 days
-		public int risingIntervalMinimum = 120000; // 2 days
-		public int risingCooldown = 120000; // 2 day
+		public int risingInterval = 1980000;
+		public int risingReductionPerColonist = 480000;
+		public int risingIntervalMinimum = 30000;
+		public int risingCooldown = 0;
 
-		public int startPauseInterval = 120000; // 2 days
-		public int finalPauseInterval = 120000; // 2 days
+		public float maxCooldownFactor = 2f;
+		public int cooldownPawnCap = 10;
 
-		public float minThoughtFactor = 1f;
-		public float maxThoughtFactor = 3f;
+		public float minThoughtFactor = 1;
+		public float maxThoughtFactor = 2;
 
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Values.Look(ref scaleFactor, "scaleFactor", 0.2f);
-			Scribe_Values.Look(ref goodTraitSuppression, "goodTraitSuppression", 0.7f);
-			Scribe_Values.Look(ref badTraitSuppression, "badTraitSuppression", 0.15f);
+			Scribe_Values.Look(ref scaleFactor, "scaleFactor", 0.35f);
+			Scribe_Values.Look(ref goodTraitSuppression, "goodTraitSuppression", 1f);
+			Scribe_Values.Look(ref badTraitSuppression, "badTraitSuppression", 0.25f);
 
 			Scribe_Values.Look(ref maxMeleeSkill, "maxMeleeSkill", 6);
 			Scribe_Values.Look(ref maxMeleeFlames, "maxMeleeFlames", 1);
@@ -39,16 +39,16 @@ namespace Rimionship
 			Scribe_Values.Look(ref maxShootingFlames, "maxShootingFlames", 1);
 
 			Scribe_Values.Look(ref maxFreeColonistCount, "maxFreeColonistCount", 5);
-			Scribe_Values.Look(ref risingInterval, "risingInterval", 2400000);
-			Scribe_Values.Look(ref risingReductionPerColonist, "risingReductionPerColonist", 240000);
-			Scribe_Values.Look(ref risingIntervalMinimum, "risingIntervalMinimum", 120000);
-			Scribe_Values.Look(ref risingCooldown, "risingCooldown", 120000);
+			Scribe_Values.Look(ref risingInterval, "risingInterval", 1980000);
+			Scribe_Values.Look(ref risingReductionPerColonist, "risingReductionPerColonist", 480000);
+			Scribe_Values.Look(ref risingIntervalMinimum, "risingIntervalMinimum", 30000);
+			Scribe_Values.Look(ref risingCooldown, "risingCooldown", 0);
 
-			Scribe_Values.Look(ref startPauseInterval, "startPauseInterval", 30000);
-			Scribe_Values.Look(ref finalPauseInterval, "finalPauseInterval", 5000);
+			Scribe_Values.Look(ref maxCooldownFactor, "startPauseInterval", 2f);
+			Scribe_Values.Look(ref cooldownPawnCap, "finalPauseInterval", 10);
 
 			Scribe_Values.Look(ref minThoughtFactor, "minThoughtFactor", 1f);
-			Scribe_Values.Look(ref maxThoughtFactor, "maxThoughtFactor", 3f);
+			Scribe_Values.Look(ref maxThoughtFactor, "maxThoughtFactor", 2f);
 		}
 
 		public void DoWindowContents(Rect inRect)
@@ -106,10 +106,12 @@ namespace Rimionship
 			list.TimeEditor("Rising Cooldown", risingCooldown, 1, Days.Instance, n => { risingCooldown = n; });
 			list.Gap(32f);
 
-			list.TimeEditor("Punishment Interval Tier 1", startPauseInterval, 1, Hours.Instance, n => { startPauseInterval = n; });
+			_ = list.Label("Max Cooldown Factor");
+			maxCooldownFactor = list.Slider(maxCooldownFactor, 1f, 5f);
 			list.Gap(12f);
 
-			list.TimeEditor("Punishment Interval Tier 5", finalPauseInterval, 1, Hours.Instance, n => { finalPauseInterval = n; });
+			_ = list.Label("Cooldown Pawn Cap");
+			cooldownPawnCap = (int)list.Slider(cooldownPawnCap, 1, 20);
 			list.Gap(32f);
 
 			_ = list.Label($"Sacrification Thought Factor Range: {minThoughtFactor:F2} - {maxThoughtFactor:F2}");

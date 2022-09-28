@@ -170,9 +170,10 @@ namespace Rimionship
 						{
 							Find.LetterStack.ReceiveLetter("PunishmentLetterTitle".Translate(), "PunishmentLetterContent".Translate(punishLevel), LetterDefOf.NegativeEvent, null);
 							Defs.Thunder.PlayOneShotOnCamera();
-							var minInterval = RimionshipMod.settings.startPauseInterval;
-							var maxInterval = RimionshipMod.settings.finalPauseInterval;
-							pauseLength = (int)GenMath.LerpDoubleClamped(1, 5, minInterval, maxInterval, punishLevel);
+
+							var cooldownFactor = GenMath.LerpDoubleClamped(RimionshipMod.settings.maxFreeColonistCount + 1, RimionshipMod.settings.cooldownPawnCap, RimionshipMod.settings.maxCooldownFactor, 1, allColonists);
+							var cooldownValues = new[] { 30000, 30000, 90000, 90000, 90000 };
+							pauseLength = cooldownValues[punishLevel];
 							pauseTicks = currentTicks + pauseLength;
 							StartPhase(State.Pausing);
 						}
@@ -228,11 +229,11 @@ namespace Rimionship
 			if (LOGGING)
 				AsyncLogger.Warning($"BLOOD GOD #{punishLevel} SATISFIED (factor {factor})");
 
-			sacrification.sacrificer.GiveThought(sacrification.sacrificer, ThoughtDefOf.EncouragingSpeech, factor);
-			sacrification.sacrificer.GiveThought(sacrification.sacrificer, ThoughtDefOf.KilledHumanlikeBloodlust, factor);
+			sacrification.sacrificer.GiveThought(sacrification.sacrificer, ThoughtDefOf.EncouragingSpeech, 30000, factor);
+			sacrification.sacrificer.GiveThought(sacrification.sacrificer, ThoughtDefOf.KilledHumanlikeBloodlust, 150000, factor);
 
 			spot.Map.mapPawns.FreeColonistsAndPrisoners.HasLineOfSightTo(spot.Position, spot.Map)
-				.Do(pawn => pawn.GiveThought(sacrification.sacrificer, ThoughtDefOf.WitnessedDeathBloodlust, factor));
+				.Do(pawn => pawn.GiveThought(sacrification.sacrificer, ThoughtDefOf.WitnessedDeathBloodlust, 150000, factor));
 
 			cooldownTicks = Find.TickManager.TicksGame + RimionshipMod.settings.risingCooldown;
 			StartPhase(State.Cooldown);
