@@ -4,6 +4,7 @@ using Steamworks;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -1068,6 +1069,55 @@ namespace Rimionship
 		public static void Postfix()
 		{
 			ServerAPI.TriggerAttention("quit game", Constants.Attention.quitGame);
+		}
+	}
+
+	// bios
+	//
+	[HarmonyPatch(typeof(SolidBioDatabase), nameof(SolidBioDatabase.LoadAllBios))]
+	class SolidBioDatabase_LoadAllBios_Patch
+	{
+		static void RegisterBios(List<PawnBio> pawnBios)
+		{
+			foreach (var pawnBio in pawnBios)
+			{
+				pawnBio.name.ResolveMissingPieces(null);
+				if (pawnBio.childhood == null || pawnBio.adulthood == null)
+					PawnNameDatabaseSolid.AddPlayerContentName(pawnBio.name, pawnBio.gender);
+				else
+				{
+					pawnBio.PostLoad();
+					pawnBio.ResolveReferences();
+					foreach (string text in pawnBio.ConfigErrors())
+						Log.Error(text);
+					SolidBioDatabase.allBios.Add(pawnBio);
+					pawnBio.childhood.shuffleable = false;
+					pawnBio.childhood.slot = BackstorySlot.Childhood;
+					pawnBio.adulthood.shuffleable = false;
+					pawnBio.adulthood.slot = BackstorySlot.Adulthood;
+					BackstoryDatabase.AddBackstory(pawnBio.childhood);
+					BackstoryDatabase.AddBackstory(pawnBio.adulthood);
+				}
+			}
+		}
+
+		public static void Postfix()
+		{
+			try
+			{
+				var path = Path.Combine(RimionshipMod.rootDir, "Resources", "bios.txt");
+				var fileInfo = new FileInfo(path);
+				var loadableXmlAsset = new LoadableXmlAsset(fileInfo.Name, fileInfo.Directory.FullName, File.ReadAllText(fileInfo.FullName));
+				XmlInheritance.TryRegisterAllFrom(loadableXmlAsset, null);
+				XmlInheritance.Resolve();
+				var pawnBios = DirectXmlLoader.AllGameItemsFromAsset<PawnBio>(loadableXmlAsset).ToList();
+				XmlInheritance.Clear();
+				RegisterBios(pawnBios);
+			}
+			catch (Exception ex)
+			{
+				Log.Error($"EX: {ex}");
+			}
 		}
 	}
 }

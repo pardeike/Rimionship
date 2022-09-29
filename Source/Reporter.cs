@@ -54,6 +54,7 @@ namespace Rimionship
 
 		public override void WorldComponentTick()
 		{
+			base.WorldComponentTick();
 			stat.ticksLowColonistMood += Stats.LowMoodColonists();
 			var bloodGod = BloodGod.Instance;
 			if (bloodGod.state != BloodGod.State.Idle && bloodGod.punishLevel > 1)

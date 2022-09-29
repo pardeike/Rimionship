@@ -180,14 +180,28 @@ namespace Rimionship
 
 		public static async Task LoadGame()
 		{
-			var id = Tools.UniqueModID;
-			if (LOGGING)
-				AsyncLogger.Warning($"-> Start");
-			var response = await Communications.Client.StartAsync(new StartRequest() { Id = Tools.UniqueModID }, null, DefaultDeadline, source.Token);
-			if (LOGGING)
-				AsyncLogger.Warning($"pawns={response.StartingPawnCount} <- Start");
-			PlayState.startingPawnCount = response.StartingPawnCount;
-			ApplySettings(response.Settings);
+			Exception lastException = null;
+			for (var i = 1; i <= 5; i++)
+			{
+				try
+				{
+					var id = Tools.UniqueModID;
+					if (LOGGING)
+						AsyncLogger.Warning($"-> Start");
+					var response = await Communications.Client.StartAsync(new StartRequest() { Id = Tools.UniqueModID }, null, DefaultDeadline, source.Token);
+					if (LOGGING)
+						AsyncLogger.Warning($"pawns={response.StartingPawnCount} <- Start");
+					PlayState.startingPawnCount = response.StartingPawnCount;
+					ApplySettings(response.Settings);
+					return;
+				}
+				catch (Exception ex)
+				{
+					lastException = ex;
+					await Task.Delay(1000);
+				}
+			}
+			Log.Error($"Cannot send Start to server: {lastException}");
 		}
 
 		public static async Task StartSyncing()

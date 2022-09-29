@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<PlayerCreatedBios>
+	<PawnBio>
+		<Name>
+			<First>Andreas</First>
+			<Last>Brrainz</Last>
+			<Nick>Pardeike</Nick>
+		</Name>
+		<Gender>Male</Gender>
+		<Childhood>
+			<Title>Smart kid on the block</Title>
+			<titleShort>Nerdy kid</titleShort>
+			<BaseDesc>NAME grew up with a curiosity for technical things which quickly developed into programming as soon as computer became a thing.</BaseDesc>
+			<WorkDisables>
+			</WorkDisables>
+			<SkillGains>
+				<li>
+					<key>Intellectual</key>
+					<value>2</value>
+				</li>
+				<li>
+					<key>Melee</key>
+					<value>-4</value>
+				</li>
+			</SkillGains>
+		</Childhood>
+		<Adulthood>
+			<Title>Senior Software Developer</Title>
+			<TitleShort>Programmer</TitleShort>
+			<BaseDesc>Like a man on a mission, NAME never stopped learning and developed his technical and social skills to become a successful software architect.\n\nHe eventually invented Harmony and changed how games are modded.\n\nKnown for mods like Zombieland, Achtung and Camera+.</BaseDesc>
+			<WorkDisables>
+				<li>ManualDumb</li>
+			</WorkDisables>
+			<SkillGains>
+				<li>
+					<key>Intellectual</key>
+					<value>4</value>
+				</li>
+				<li>
+					<key>Construction</key>
+					<value>2</value>
+				</li>
+				<li>
+					<key>Melee</key>
+					<value>-3</value>
+				</li>
+			</SkillGains>
+			<SpawnCategories>
+				<li>Civil</li>
+				<li>Raider</li>
+				<li>Slave</li>
+				<li>Traveler</li>
+				<li>Trader</li>
+			</SpawnCategories>
+			<BodyNameGlobal>Male</BodyNameGlobal>
+			<forcedTraits>
+				<Industriousness>2</Industriousness>
+				<NaturalMood>1</NaturalMood>
+				<TooSmart/>
+				<FastLearner/>
+				<GreatMemory/>
+				<Gourmand/>
+				<QuickSleeper/>
+			</forcedTraits>
+		</Adulthood>
+	</PawnBio>
+</PlayerCreatedBios>

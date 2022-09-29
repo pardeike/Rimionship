@@ -33,6 +33,7 @@ namespace Rimionship
 
 		public State state;
 		public int startTicks;
+		public int risingTicks;
 		public int pauseTicks;
 		public int pauseLength;
 		public int cooldownTicks;
@@ -85,7 +86,7 @@ namespace Rimionship
 				return 0f;
 			if (state > State.Rising)
 				return 1f;
-			return Mathf.Clamp01((currentTicks - startTicks) / RisingInterval);
+			return Mathf.Clamp01(risingTicks / RisingInterval);
 		}
 
 		void AnnounceNextLevel()
@@ -106,7 +107,7 @@ namespace Rimionship
 			var dateTicks = DateTime.Now.Ticks;
 
 			if (hadLevel3
-				&& (state != State.Rising || currentTicks - startTicks < RisingInterval - safetyMarginTicks)
+				&& (state != State.Rising || risingTicks < RisingInterval - safetyMarginTicks)
 				&& (state != State.Pausing || currentTicks.Between(pauseTicks - pauseLength + safetyMarginTicks, pauseTicks - safetyMarginTicks))
 				&& state != State.Announcing && state != State.Punishing)
 			{
@@ -135,8 +136,14 @@ namespace Rimionship
 		{
 			base.WorldComponentTick();
 			TickAmbience();
+
+			if (state == State.Rising)
+				risingTicks++;
+
 			if (60.EveryNTick() == false)
 				return;
+
+			HUD.SetInfoPanelSize();
 
 			var currentTicks = Find.TickManager.TicksGame;
 			UpdatePrimeTime(currentTicks);
@@ -156,7 +163,7 @@ namespace Rimionship
 					break;
 
 				case State.Rising:
-					if (currentTicks > startTicks + RisingInterval)
+					if (risingTicks > RisingInterval)
 						AnnounceNextLevel();
 					break;
 
@@ -168,12 +175,14 @@ namespace Rimionship
 					{
 						if (CommencePunishment())
 						{
+							risingTicks = 0;
+
 							Find.LetterStack.ReceiveLetter("PunishmentLetterTitle".Translate(), "PunishmentLetterContent".Translate(punishLevel), LetterDefOf.NegativeEvent, null);
 							Defs.Thunder.PlayOneShotOnCamera();
 
 							var cooldownFactor = GenMath.LerpDoubleClamped(RimionshipMod.settings.maxFreeColonistCount + 1, RimionshipMod.settings.cooldownPawnCap, RimionshipMod.settings.maxCooldownFactor, 1, allColonists);
 							var cooldownValues = new[] { 30000, 30000, 90000, 90000, 90000 };
-							pauseLength = cooldownValues[punishLevel];
+							pauseLength = (int)(cooldownValues[punishLevel - 1] * cooldownFactor);
 							pauseTicks = currentTicks + pauseLength;
 							StartPhase(State.Pausing);
 						}
@@ -519,7 +528,7 @@ namespace Rimionship
 						},
 						() =>
 						{
-							var ok = MakeGameCondition(GameConditionDefOf.PsychicDrone, GenDate.TicksPerDay);
+							var ok = MakeGameCondition(GameConditionDefOf.PsychicDrone, GenDate.TicksPerDay / 2);
 							if (LOGGING)
 								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} PsychicDrone => {ok}");
 							return ok;
@@ -533,7 +542,7 @@ namespace Rimionship
 						},
 						() =>
 						{
-							var ok = MakeGameCondition(GameConditionDefOf.ToxicFallout, GenDate.TicksPerDay);
+							var ok = MakeGameCondition(GameConditionDefOf.ToxicFallout, GenDate.TicksPerDay * 5);
 							if (LOGGING)
 								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} ToxicFallout => {ok}");
 							return ok;

@@ -45,6 +45,12 @@ namespace Rimionship
 			SetArrow(index);
 		}
 
+		public static void SetInfoPanelSize()
+		{
+			var f = 1.5f * UI.screenWidth / 1920f;
+			Assets.infoPanel.localScale = Vector3.one * f;
+		}
+
 		public static void SetName(string name)
 		{
 			Assets.infoName.text = name.ToUpper();
