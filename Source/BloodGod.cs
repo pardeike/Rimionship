@@ -312,6 +312,12 @@ namespace Rimionship
 			return true;
 		}
 
+		public static void WakeUp(Pawn pawn)
+		{
+			if (pawn.CurJob != null && pawn.jobs.curDriver != null && pawn.jobs.curDriver.asleep)
+				RestUtility.WakeUp(pawn);
+		}
+
 		public static Pawn allowedKillingSpree = null;
 		public static bool MakeMentalBreak(MentalStateDef def, float percentage, bool isViolent, Func<Pawn, bool> validator = null)
 		{
@@ -335,10 +341,13 @@ namespace Rimionship
 					}
 					if (LOGGING)
 						AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} {pawn.LabelShortCap}-{otherPawn.LabelShortCap} {def.defName}");
+					WakeUp(pawn);
+					WakeUp(otherPawn);
 					pawn.interactions.StartSocialFight(otherPawn, "MessageSocialFight");
 					return true;
 				}
 				allowedKillingSpree = pawn;
+				WakeUp(pawn);
 				var result = pawn.mindState.mentalStateHandler.TryStartMentalState(def, null, true);
 				allowedKillingSpree = null;
 				if (LOGGING)

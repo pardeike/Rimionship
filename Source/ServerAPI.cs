@@ -181,7 +181,12 @@ namespace Rimionship
 		public static async Task LoadGame()
 		{
 			var id = Tools.UniqueModID;
+			if (LOGGING)
+				AsyncLogger.Warning($"-> Start");
 			var response = await Communications.Client.StartAsync(new StartRequest() { Id = Tools.UniqueModID }, null, DefaultDeadline, source.Token);
+			if (LOGGING)
+				AsyncLogger.Warning($"pawns={response.StartingPawnCount} <- Start");
+			PlayState.startingPawnCount = response.StartingPawnCount;
 			ApplySettings(response.Settings);
 		}
 
@@ -272,6 +277,8 @@ namespace Rimionship
 				RimionshipMod.settings.minThoughtFactor = punishment.MinThoughtFactor;
 				RimionshipMod.settings.maxThoughtFactor = punishment.MaxThoughtFactor;
 			}
+			if (LOGGING)
+				AsyncLogger.Warning($"Stats: {JsonUtility.ToJson(RimionshipMod.settings)}");
 		}
 
 		public static async Task SendStat(Model_Stat stat)
