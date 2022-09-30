@@ -176,6 +176,7 @@ namespace Rimionship
 						if (CommencePunishment())
 						{
 							risingTicks = 0;
+							ServerAPI.TriggerAttention("punished", punishLevel * Constants.Attention.bloodGodPunished);
 
 							Find.LetterStack.ReceiveLetter("PunishmentLetterTitle".Translate(), "PunishmentLetterContent".Translate(punishLevel), LetterDefOf.NegativeEvent, null);
 							Defs.Thunder.PlayOneShotOnCamera();
