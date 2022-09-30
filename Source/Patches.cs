@@ -4,7 +4,6 @@ using Steamworks;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -982,7 +981,6 @@ namespace Rimionship
 	{
 		static bool TryMakeFilth(IntVec3 c, Map map, ThingDef filthDef, string source, int count, FilthSourceFlags additionalFlags, Pawn pawn)
 		{
-			Log.Warning($"# drop {filthDef} on {c} with {pawn}");
 			return FilthMaker.TryMakeFilth(c, map, pawn.RaceProps.Humanlike ? Defs.Filth_BloodHuman : filthDef, source, count, additionalFlags);
 		}
 
@@ -1073,7 +1071,7 @@ namespace Rimionship
 	}
 
 	// bios
-	//
+	/*
 	[HarmonyPatch(typeof(SolidBioDatabase), nameof(SolidBioDatabase.LoadAllBios))]
 	class SolidBioDatabase_LoadAllBios_Patch
 	{
@@ -1097,6 +1095,10 @@ namespace Rimionship
 					pawnBio.adulthood.slot = BackstorySlot.Adulthood;
 					BackstoryDatabase.AddBackstory(pawnBio.childhood);
 					BackstoryDatabase.AddBackstory(pawnBio.adulthood);
+
+					var name = pawnBio.name.ToString();
+					if (Prefs.data.preferredNames.Contains(name) == false)
+						Prefs.data.preferredNames.Add(name);
 				}
 			}
 		}
@@ -1119,5 +1121,5 @@ namespace Rimionship
 				Log.Error($"EX: {ex}");
 			}
 		}
-	}
+	}*/
 }

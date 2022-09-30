@@ -10,7 +10,7 @@
 		<OutputPath>bin</OutputPath>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<Version>1.0.8.0</Version>
+		<Version>1.0.9.0</Version>
 		<Copyright>Copyright Andreas Pardeike</Copyright>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
@@ -60,6 +60,9 @@
 		</Content>
 		<Content Include="..\Textures\**\*.*">
 			<Link>Files\Textures\%(RecursiveDir)%(FileName)%(Extension)</Link>
+		</Content>
+		<Content Include="..\Resources\*.txt">
+			<Link>Files\Resources\%(RecursiveDir)%(FileName)%(Extension)</Link>
 		</Content>
 	</ItemGroup>
 
