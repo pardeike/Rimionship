@@ -19,8 +19,10 @@ namespace Rimionship
 				return false;
 			if (pawn.CanReserveAndReach(TargetLocA, PathEndMode.OnCell, Danger.Deadly) == false)
 				return false;
+			if (TargetLocA.InAllowedArea(pawn) == false)
+				return false;
 
-			_ = map.reservationManager.Reserve(pawn, job, TargetLocA);
+			//_ = map.reservationManager.Reserve(pawn, job, TargetLocA);
 
 			return true;
 		}

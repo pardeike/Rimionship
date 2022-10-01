@@ -337,6 +337,30 @@ namespace Rimionship
 			return spot != null;
 		}
 
+		public static IntVec3 FindValidWatchPosition(Pawn pawn, IntVec3 center)
+		{
+			var map = pawn.Map;
+			for (var i = 0; i < 3; i++)
+			{
+				var spot = watchPositions[i].Select(c => c + center)
+					.Where(cell => cell.Standable(map)
+						&& cell.IsForbidden(pawn) == false
+						&& map.pawnDestinationReservationManager.IsReserved(cell) == false
+						&& pawn.CanReserveAndReach(cell, PathEndMode.OnCell, Danger.Deadly)
+						&& cell.InAllowedArea(pawn)
+						&& GenSight.LineOfSight(cell, center, map, true)
+					)
+					.RandomElementWithFallback(IntVec3.Invalid);
+
+				if (spot.IsValid)
+				{
+					//_ = map.reservationManager.Reserve(pawn, job, spot);
+					return spot;
+				}
+			}
+			return IntVec3.Invalid;
+		}
+
 		public static bool AllowOverride = false;
 		public static void GiveThought(this Pawn pawn, Pawn otherPawn, ThoughtDef thoughtDef, int duration, float powerFactor = 1f)
 		{
@@ -463,6 +487,67 @@ namespace Rimionship
 		}
 
 		public static IEnumerable<IncidentDef> AllIncidentDefs() => DefDatabase<IncidentDef>.AllDefsListForReading;
+
+		static readonly IntVec3[][] watchPositions =
+		{
+			new []
+			{
+				new IntVec3(-2, 0, -1),
+				new IntVec3(-2, 0, 0),
+				new IntVec3(-2, 0, 1),
+				new IntVec3(2, 0, -1),
+				new IntVec3(2, 0, 0),
+				new IntVec3(2, 0, 1),
+				new IntVec3(-1, 0, -2),
+				new IntVec3(0, 0, -2),
+				new IntVec3(1, 0, -2),
+				new IntVec3(-1, 0, 2),
+				new IntVec3(0, 0, 2),
+				new IntVec3(1, 0, 2),
+			},
+			new []
+			{
+				new IntVec3(-3, 0, -1),
+				new IntVec3(-3, 0, 0),
+				new IntVec3(-3, 0, 1),
+				new IntVec3(3, 0, -1),
+				new IntVec3(3, 0, 0),
+				new IntVec3(3, 0, 1),
+				new IntVec3(-1, 0, -3),
+				new IntVec3(0, 0, -3),
+				new IntVec3(1, 0, -3),
+				new IntVec3(-1, 0, 3),
+				new IntVec3(0, 0, 3),
+				new IntVec3(1, 0, 3),
+				new IntVec3(-2, 0, -2),
+				new IntVec3(2, 0, -2),
+				new IntVec3(-2, 0, 2),
+				new IntVec3(2, 0, 2),
+			},
+			new []
+			{
+				new IntVec3(-4, 0, -1),
+				new IntVec3(-4, 0, 0),
+				new IntVec3(-4, 0, 1),
+				new IntVec3(4, 0, -1),
+				new IntVec3(4, 0, 0),
+				new IntVec3(4, 0, 1),
+				new IntVec3(-1, 0, -4),
+				new IntVec3(0, 0, -4),
+				new IntVec3(1, 0, -4),
+				new IntVec3(-1, 0, 4),
+				new IntVec3(0, 0, 4),
+				new IntVec3(1, 0, 4),
+				new IntVec3(-3, 0, -2),
+				new IntVec3(-2, 0, -3),
+				new IntVec3(3, 0, 2),
+				new IntVec3(2, 0, 3),
+				new IntVec3(-3, 0, 2),
+				new IntVec3(-2, 0, 3),
+				new IntVec3(3, 0, -2),
+				new IntVec3(2, 0, -3),
+			}
+		};
 	}
 
 	public class GZipWebClient : WebClient

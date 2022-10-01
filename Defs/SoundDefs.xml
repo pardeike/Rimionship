@@ -201,4 +201,38 @@
 		</subSounds>
 	</SoundDef>
 
+	<SoundDef>
+		<defName>Willkommen</defName>
+		<context>Any</context>
+		<maxSimultaneous>1</maxSimultaneous>
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>
+				<volumeRange>100~100</volumeRange>
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>Willkommen</clipPath>
+					</li>
+				</grains>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>Welcome</defName>
+		<context>Any</context>
+		<maxSimultaneous>1</maxSimultaneous>
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>
+				<volumeRange>100~100</volumeRange>
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>Welcome</clipPath>
+					</li>
+				</grains>
+			</li>
+		</subSounds>
+	</SoundDef>
+
 </Defs>

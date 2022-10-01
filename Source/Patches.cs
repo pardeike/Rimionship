@@ -651,6 +651,10 @@ namespace Rimionship
 				return;
 			if (spot.CanSacrifice(pawn) == false)
 				return;
+			if (pawn.CanReserveAndReach(spot.Position, PathEndMode.OnCell, Danger.Deadly) == false)
+				return;
+			if (spot.Position.InAllowedArea(pawn) == false)
+				return;
 
 			using List<Thing>.Enumerator enumerator = IntVec3.FromVector3(clickPos).GetThingList(map).GetEnumerator();
 			while (enumerator.MoveNext())
@@ -658,6 +662,10 @@ namespace Rimionship
 				if (enumerator.Current is not Pawn clickedPawn)
 					continue;
 				if (spot.CanBeSacrificed(clickedPawn) == false)
+					continue;
+				if (clickedPawn.CanReserveAndReach(spot.Position, PathEndMode.OnCell, Danger.Deadly) == false)
+					continue;
+				if (spot.Position.InAllowedArea(clickedPawn) == false)
 					continue;
 
 				void action()
@@ -715,10 +723,16 @@ namespace Rimionship
 				return false;
 			}
 
-			var job = JobMaker.MakeJob(Defs.WatchSacrification, sacrification.sacrifice, spot, sacrification.sacrificer);
-			___pawn.drafter.Drafted = false;
-			__instance.StartJob(job);
-			return false;
+			var validSpot = Tools.FindValidWatchPosition(___pawn, spot.Position).IsValid;
+			if (validSpot)
+			{
+				var job = JobMaker.MakeJob(Defs.WatchSacrification, sacrification.sacrifice, spot, sacrification.sacrificer);
+				___pawn.drafter.Drafted = false;
+				__instance.StartJob(job);
+				return false;
+			}
+
+			return true;
 		}
 	}
 	//

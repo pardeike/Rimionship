@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 using Verse.Sound;
 
 namespace Rimionship
@@ -122,11 +123,15 @@ namespace Rimionship
 				yield break;
 			if (this.CanBeSacrificed(selPawn) == false)
 				yield break;
+			if (selPawn.CanReserveAndReach(Position, PathEndMode.OnCell, Danger.Deadly) == false)
+				yield break;
+			if (Position.InAllowedArea(selPawn) == false)
+				yield break;
 
 			void action()
 			{
 				var availableSacrifice = map.mapPawns.AllPawnsSpawned
-					.Where(pawn => pawn != selPawn && this.CanSacrifice(pawn))
+					.Where(pawn => pawn != selPawn && this.CanSacrifice(pawn) && pawn.CanReserveAndReach(Position, PathEndMode.OnCell, Danger.Deadly))
 					.ToList();
 
 				sacrification.sacrificer = availableSacrifice.Any() ? availableSacrifice.RandomElement() : null;

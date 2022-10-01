@@ -15,6 +15,20 @@ namespace Rimionship
 
 		public override bool TryMakePreToilReservations(bool errorOnFailed)
 		{
+			var map = Map;
+			var startPosition = TargetThingB.Position;
+
+			if (startPosition.Standable(map) == false)
+				return false;
+			if (startPosition.IsForbidden(pawn))
+				return false;
+			if (map.pawnDestinationReservationManager.IsReserved(startPosition))
+				return false;
+			if (pawn.CanReserveAndReach(startPosition, PathEndMode.OnCell, Danger.Deadly) == false)
+				return false;
+			if (startPosition.InAllowedArea(pawn) == false)
+				return false;
+
 			return true;
 		}
 

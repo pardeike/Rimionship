@@ -22,15 +22,15 @@ namespace Rimionship
 			{
 				if (e.Status.StatusCode == StatusCode.Aborted)
 				{
-					AsyncLogger.Error($"Aborted gRPC call: {e.Status.Detail}");
 					var match = apiTooOldDetails.Match(e.Status.Detail);
 					if (match.Success)
 					{
 						modTooOld = true;
-						ServerAPI.CancelAll();
-						Communications.Stop();
+						//ServerAPI.CancelAll();
+						//Communications.Stop();
 						return;
 					}
+					AsyncLogger.Error($"Aborted gRPC call: {e.Status.Detail}");
 				}
 
 				if (e.ShouldReport())

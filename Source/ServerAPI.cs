@@ -17,7 +17,7 @@ namespace Rimionship
 {
 	public static class ServerAPI
 	{
-		const int API_VERSION = 1;
+		const int API_VERSION = 2;
 		static readonly bool LOGGING = Configuration.UseApiLogging;
 
 		static readonly CancellationTokenSource source = new();

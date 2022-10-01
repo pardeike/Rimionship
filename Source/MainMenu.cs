@@ -17,7 +17,7 @@ namespace Rimionship
 				return
 				(
 					state,
-					Communications.State == CommState.Ready ? Assets.StateOK : (ServerAPITools.modTooOld ? Assets.StateAction: Assets.StateError),
+					ServerAPITools.modTooOld ? Assets.StateAction : (Communications.State == CommState.Ready ? Assets.StateOK: Assets.StateError),
 					null,
 					null,
 					() => ServerAPITools.modTooOld ? "ModTooOld".Translate() : null
