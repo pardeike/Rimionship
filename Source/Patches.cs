@@ -84,13 +84,10 @@ namespace Rimionship
 					if (lastVisible == false)
 					{
 						lastVisible = true;
-						Defs.BingBong.PlayOneShotOnCamera();
 						if (msg.Contains("Jammerlappen"))
-							_ = Task.Run(async () =>
-							{
-								await Task.Delay(2700);
-								Defs.Willkommen.PlayOneShotOnCamera();
-							});
+							Defs.Willkommen.PlayOneShotOnCamera();
+						else
+							Defs.BingBong.PlayOneShotOnCamera();
 					}
 				}
 				else
