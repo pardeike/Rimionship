@@ -543,7 +543,7 @@ namespace Rimionship
 						},
 						() =>
 						{
-							var ok = MakeGameCondition(GameConditionDefOf.ToxicFallout, GenDate.TicksPerDay * 5);
+							var ok = MakeGameCondition(GameConditionDefOf.ToxicFallout, GenDate.TicksPerDay * 3);
 							if (LOGGING)
 								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} ToxicFallout => {ok}");
 							return ok;
@@ -613,7 +613,7 @@ namespace Rimionship
 						},
 						() =>
 						{
-							var ok = MakeMentalBreak(Defs.InsultingSpree, 0.25f, false);
+							var ok = MakeMentalBreak(Defs.InsultingSpree, 0.20f, false);
 							if (LOGGING)
 								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} InsultingSpree => {ok}");
 							return ok;
@@ -641,7 +641,7 @@ namespace Rimionship
 						},
 						() =>
 						{
-							var ok = MakeMentalBreak(Defs.TargetedInsultingSpree, 0.25f, false);
+							var ok = MakeMentalBreak(Defs.TargetedInsultingSpree, 0.20f, false);
 							if (LOGGING)
 								AsyncLogger.Warning($"BLOOD GOD #{Instance.punishLevel} TargetedInsultingSpree => {ok}");
 							return ok;
