@@ -24,7 +24,6 @@ namespace Rimionship
 		public static SoundDef BingBong;
 		public static SoundDef Death;
 		public static SoundDef Willkommen;
-		public static SoundDef Welcome;
 
 		// vanilla defs that are not exposed by code
 

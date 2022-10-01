@@ -24,6 +24,7 @@ namespace Rimionship
 		}
 
 		Model_Stat stat = new();
+		public bool wandererJoined = false;
 
 		public Reporter(World world) : base(world)
 		{
@@ -43,6 +44,7 @@ namespace Rimionship
 		{
 			Scribe_Values.Look(ref _chosenMap, "chosenMap");
 			Scribe_Deep.Look(ref stat, "stat");
+			Scribe_Values.Look(ref wandererJoined, "wandererJoined");
 			stat ??= new();
 		}
 

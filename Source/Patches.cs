@@ -85,6 +85,12 @@ namespace Rimionship
 					{
 						lastVisible = true;
 						Defs.BingBong.PlayOneShotOnCamera();
+						if (msg.Contains("Jammerlappen"))
+							_ = Task.Run(async () =>
+							{
+								await Task.Delay(2700);
+								Defs.Willkommen.PlayOneShotOnCamera();
+							});
 					}
 				}
 				else
@@ -111,12 +117,16 @@ namespace Rimionship
 		}
 	}
 
+	// don't show translation info box
+	//
 	[HarmonyPatch(typeof(MainMenuDrawer), nameof(MainMenuDrawer.DoTranslationInfoRect))]
 	class MainMenuDrawer_DoTranslationInfoRect_Patch
 	{
 		public static bool Prefix() => false;
 	}
 
+	// put our stuff on the main menu
+	//
 	[HarmonyPatch(typeof(MainMenuDrawer), nameof(MainMenuDrawer.MainMenuOnGUI))]
 	class MainMenuDrawer_MainMenuOnGUI_Patch
 	{
@@ -202,6 +212,31 @@ namespace Rimionship
 				return false;
 			}
 			return true;
+		}
+	}
+
+	// remove several man in black
+	//
+	[HarmonyPatch(typeof(IncidentWorker_WandererJoin), nameof(IncidentWorker_WandererJoin.TryExecuteWorker))]
+	static class IncidentWorker_CanFireNowSub_Patch
+	{
+		public static int wandererJoinedCount = 0;
+
+		public static bool Prefix(ref bool __result)
+		{
+			Log.Warning($"Wanderer joins allowed: {Reporter.Instance.wandererJoined == false}");
+			if (Reporter.Instance.wandererJoined)
+			{
+				__result = false;
+				return false;
+			}
+			return true;
+		}
+
+		public static void Postfix(bool __result)
+		{
+			if (__result)
+				Reporter.Instance.wandererJoined = true;
 		}
 	}
 
