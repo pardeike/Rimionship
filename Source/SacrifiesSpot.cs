@@ -101,6 +101,7 @@ namespace Rimionship
 					var saved = allowDestroyNonDestroyable;
 					allowDestroyNonDestroyable = true;
 					Destroy();
+					Destroy(DestroyMode.Vanish);
 					allowDestroyNonDestroyable = saved;
 				}
 			};
