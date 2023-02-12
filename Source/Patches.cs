@@ -62,7 +62,7 @@ namespace Rimionship
 
 		public static void Postfix(Root __instance)
 		{
-			if (inited == false || __instance.destroyed)
+			if (inited == false || __instance == null || __instance.destroyed)
 				return;
 			try
 			{
@@ -93,7 +93,7 @@ namespace Rimionship
 				else
 					lastVisible = false;
 			}
-			finally
+			catch
 			{
 			}
 		}
@@ -385,6 +385,9 @@ namespace Rimionship
 		}
 	}
 
+	/*
+	 * needs update to 1.4
+	 * 
 	[HarmonyPatch(typeof(Dialog_FileList), nameof(Dialog_FileList.DoWindowContents))]
 	class Dialog_FileList_DoWindowContents_Patch
 	{
@@ -409,7 +412,7 @@ namespace Rimionship
 
 		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 		{
-			var m_ButtonText = SymbolExtensions.GetMethodInfo(() => Widgets.ButtonText(Rect.zero, "", false, false, false));
+			var m_ButtonText = SymbolExtensions.GetMethodInfo(() => Widgets.ButtonText(Rect.zero, "", false, false, false, null));
 			var m_ButtonTextReplacement = SymbolExtensions.GetMethodInfo(() => ButtonText(Rect.zero, "", false, false, false, null));
 
 			var m_FileNameColor = SymbolExtensions.GetMethodInfo(() => ((Dialog_FileList)null).FileNameColor(default));
@@ -436,6 +439,7 @@ namespace Rimionship
 				.InstructionEnumeration();
 		}
 	}
+	*/
 
 	// open colonist configuration page after map is loaded
 	//
@@ -533,7 +537,7 @@ namespace Rimionship
 					}
 				}, true, true, 1f, null);
 
-				__instance.selectedMod = null;
+				__instance.selectedMods.Clear();
 			}
 
 			if (lastDownloadingItemsCount != count)
@@ -547,8 +551,9 @@ namespace Rimionship
 				}
 
 				ModLister.RebuildModList();
-				__instance.modsInListOrderDirty = true;
-				__instance.selectedMod = __instance.ModsInListOrder().FirstOrDefault<ModMetaData>();
+				__instance.modListsDirty = true;
+				__instance.selectedMods.Clear();
+				__instance.selectedMods.Add(__instance.ModListsInOrder().Item1.FirstOrDefault());
 
 				if (count == 0)
 				{
@@ -572,7 +577,9 @@ namespace Rimionship
 	}
 
 	// add fully custom weighted traits to new pawns
-	//
+	/*
+	 * needs update to 1.4
+	 * 
 	[HarmonyPatch(typeof(PawnGenerator), nameof(PawnGenerator.GenerateTraits))]
 	class PawnGenerator_GenerateTraits_Patch
 	{
@@ -634,6 +641,7 @@ namespace Rimionship
 				.InstructionEnumeration();
 		}
 	}
+	*/
 
 	// reduce skill/passion for melee and shooting
 	//

@@ -28,6 +28,7 @@ namespace Rimionship
 
 			CrossPromotion.Install(76561197973010050);
 
+			CopyMonoDependencies();
 			LoadAPI();
 			Communications.Start(rootDir);
 
@@ -41,6 +42,18 @@ namespace Rimionship
 
 		public override void DoSettingsWindowContents(Rect inRect) => settings.DoWindowContents(inRect);
 		public override string SettingsCategory() => Configuration.CustomSettings ? "Rimionship" : "";
+
+		public static void CopyMonoDependencies()
+		{
+			var monoDir = Path.Combine(UnityData.dataPath, "Mono");
+			_ = Directory.CreateDirectory(monoDir);
+			var path = Path.Combine(rootDir, "Libs");
+			foreach (var file in Directory.GetFiles(path))
+			{
+				var dest = Path.Combine(monoDir, Path.GetFileName(file));
+				File.Copy(file, dest, true);
+			}
+		}
 
 		public static void LoadAPI()
 		{
